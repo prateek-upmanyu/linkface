@@ -129,21 +129,21 @@ export default function LandingPage() {
           {/* Right Hero Demo Column */}
           <div className="lg:col-span-5 flex flex-col items-center">
             {/* Theme switcher */}
-            <div className="mb-4 flex flex-wrap items-center justify-center gap-1.5 p-2 mc-panel">
-              <span className="text-[10px] uppercase text-[#7d798a] px-1 tracking-wider">
+            <div className="mb-4 flex flex-wrap items-center justify-center gap-1.5 p-2 mc-panel max-w-full">
+              <span className="text-[10px] uppercase text-[#7d798a] px-1 tracking-wider shrink-0 font-pixel">
                 Theme:
               </span>
               {THEME_LIST.slice(0, 4).map((th) => (
                 <button
                   key={th.id}
                   onClick={() => setDemoTheme(th.id)}
-                  className={`px-2.5 py-1 text-[10px] uppercase tracking-wider transition-colors ${
+                  className={`px-2.5 py-1 text-[10px] uppercase tracking-wider transition-colors shrink-0 whitespace-nowrap ${
                     demoTheme === th.id
                       ? "mc-btn-gold text-black font-bold"
                       : "mc-btn text-white"
                   }`}
                 >
-                  {th.name.split(" ")[0]}
+                  {th.shortName}
                 </button>
               ))}
             </div>

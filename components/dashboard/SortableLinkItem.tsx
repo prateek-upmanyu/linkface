@@ -129,7 +129,6 @@ export function SortableLinkItem({
               style={{
                 backgroundColor: iconStyle.bgColor,
                 color: iconStyle.color,
-                borderColor: iconStyle.borderColor,
               }}
             >
               <PlatformIcon

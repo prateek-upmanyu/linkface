@@ -128,15 +128,14 @@ export function PhonePreview({
                     isVoxel ? "rounded-none" : "rounded-xl"
                   } flex items-center justify-between text-left transition-all duration-150 group ${currentTheme.card} ${currentTheme.cardHover} ${currentTheme.buttonShadow}`}
                 >
-                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1 mr-1.5">
+                  <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
                     <div
                       className={`w-7 h-7 sm:w-8 sm:h-8 ${
                         isVoxel ? "rounded-none" : "rounded-lg"
-                      } border flex items-center justify-center shrink-0`}
+                      } flex items-center justify-center shrink-0`}
                       style={{
                         backgroundColor: iconStyle.bgColor,
                         color: iconStyle.color,
-                        borderColor: iconStyle.borderColor,
                       }}
                     >
                       <PlatformIcon
@@ -148,11 +147,11 @@ export function PhonePreview({
                         size={17}
                       />
                     </div>
-                    <span className="font-medium text-[11px] sm:text-xs leading-snug line-clamp-2 break-words flex-1">
+                    <span className="font-mono text-xs sm:text-[13px] font-medium leading-tight truncate flex-1">
                       {link.title || "Untitled Link"}
                     </span>
                   </div>
-                  <ExternalLink className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition-opacity shrink-0" />
+                  <ExternalLink className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />
                 </button>
               );
             })
@@ -162,11 +161,11 @@ export function PhonePreview({
         {/* Footer Brand Tag - Responsive voxel/pill styling */}
         <div className="shrink-0 text-center pt-2 pb-1">
           <span
-            className={`inline-block text-[9px] sm:text-[10px] font-mono tracking-wider uppercase px-2.5 py-0.5 ${
+            className={`inline-block text-[9px] font-mono tracking-widest uppercase px-3 py-1 ${
               isVoxel ? "rounded-none" : "rounded-full"
-            } ${currentTheme.badge} opacity-70`}
+            } ${currentTheme.badge} opacity-75`}
           >
-            LinkinBio
+            CraftLink
           </span>
         </div>
       </div>

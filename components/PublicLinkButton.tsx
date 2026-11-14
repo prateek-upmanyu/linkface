@@ -63,11 +63,10 @@ export function PublicLinkButton({
         <div
           className={`w-9 h-9 sm:w-10 sm:h-10 ${
             isVoxel ? "rounded-none" : "rounded-xl"
-          } border flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-150`}
+          } flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-150`}
           style={{
             backgroundColor: iconStyle.bgColor,
             color: iconStyle.color,
-            borderColor: iconStyle.borderColor,
           }}
         >
           <PlatformIcon
@@ -80,7 +79,7 @@ export function PublicLinkButton({
           />
         </div>
 
-        <span className="font-semibold text-sm sm:text-base tracking-tight leading-snug line-clamp-2 break-words flex-1">
+        <span className="font-mono font-medium text-xs sm:text-sm tracking-tight leading-tight truncate flex-1">
           {link.title}
         </span>
       </div>

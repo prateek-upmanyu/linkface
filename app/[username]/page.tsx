@@ -188,10 +188,10 @@ export default async function PublicProfilePage({ params }: PageProps) {
             <Link
               href="/"
               className={`inline-flex items-center gap-2 px-3.5 py-1.5 ${
-                isVoxel ? "rounded-none border-2" : "rounded-full border"
+                isVoxel ? "rounded-none" : "rounded-full"
               } text-xs font-mono tracking-wide transition-all duration-150 hover:opacity-100 ${theme.badge} opacity-75 shadow-xs`}
             >
-              <span>LinkinBio</span>
+              <span>CraftLink</span>
               <span className="opacity-40 text-[10px]">&bull;</span>
               <span className="opacity-70 text-[11px]">Create your own</span>
             </Link>

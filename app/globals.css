@@ -10,15 +10,20 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'Silkscreen', var(--font-geist-mono), monospace;
-  --font-mono: 'Silkscreen', monospace;
+  --font-pixel: 'Silkscreen', monospace;
+  --font-sans: var(--font-geist-mono), ui-monospace, monospace;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 body {
   background: #141218;
   color: #f4f4f5;
-  font-family: 'Silkscreen', monospace;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
   image-rendering: pixelated;
+}
+
+.font-pixel {
+  font-family: 'Silkscreen', monospace;
 }
 
 /* Authentic Minecraft Stone UI Button */

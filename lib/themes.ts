@@ -3,6 +3,7 @@ import { ThemeId } from "@/types";
 export interface ThemeConfig {
   id: ThemeId;
   name: string;
+  shortName: string;
   description: string;
   previewBg: string;
   previewCard: string;
@@ -21,6 +22,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
   "luxury-craft": {
     id: "luxury-craft",
     name: "Luxury Voxel (Gold & Obsidian)",
+    shortName: "Obsidian",
     description: "Deep obsidian black with Minecraft beveled 3D gold buttons and tactile pixel response.",
     previewBg: "linear-gradient(135deg, #0a0a0c 0%, #171510 100%)",
     previewCard: "#221c12",
@@ -32,11 +34,12 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     textSecondary: "text-amber-300/70 font-mono text-xs",
     avatarRing: "ring-4 ring-amber-500/80 shadow-[0_0_25px_rgba(245,215,127,0.35)] rounded-none",
     buttonShadow: "",
-    badge: "bg-[#1f1a12] border-2 border-amber-500/50 text-amber-300 font-mono text-[10px] shadow-[1px_1px_0_#000]",
+    badge: "bg-[#1f1a12] border border-amber-500/40 text-amber-300 font-mono text-[9px]",
   },
   luxury: {
     id: "luxury",
     name: "Luxury Noir (Gold Edition)",
+    shortName: "Noir Gold",
     description: "Refined midnight velvet with brushed champagne gold borders and subtle gold glow.",
     previewBg: "linear-gradient(180deg, #11100e 0%, #000000 100%)",
     previewCard: "rgba(35, 30, 22, 0.9)",
@@ -53,6 +56,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
   minecraft: {
     id: "minecraft",
     name: "Minecraft Stone GUI",
+    shortName: "Stone",
     description: "Authentic Minecraft stone-textured beveled pixel buttons with stepped voxel press.",
     previewBg: "#222020",
     previewCard: "#706f6f",
@@ -64,11 +68,12 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     textSecondary: "text-stone-300 font-mono text-xs",
     avatarRing: "border-4 border-black shadow-[3px_3px_0px_#000000] rounded-none",
     buttonShadow: "",
-    badge: "bg-stone-800 border-2 border-black text-emerald-400 font-mono text-[10px]",
+    badge: "bg-stone-800 border-2 border-black text-emerald-400 font-mono text-[9px]",
   },
   light: {
     id: "light",
     name: "Clean Light",
+    shortName: "Classic",
     description: "Crisp white slate with modern subtle shadows and deep slate accents.",
     previewBg: "#f8fafc",
     previewCard: "#ffffff",
@@ -85,6 +90,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
   dark: {
     id: "dark",
     name: "Onyx Dark",
+    shortName: "Dark",
     description: "Deep obsidian dark mode with subtle zinc borders and sleek contrast.",
     previewBg: "#09090b",
     previewCard: "#18181b",
@@ -101,6 +107,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
   gradient: {
     id: "gradient",
     name: "Cosmic Sunset",
+    shortName: "Cosmic",
     description: "Rich violet-to-indigo gradient background with frosted glass buttons.",
     previewBg: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%)",
     previewCard: "rgba(255, 255, 255, 0.15)",
@@ -117,6 +124,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
   minimal: {
     id: "minimal",
     name: "Monochrome Outline",
+    shortName: "Minimal",
     description: "Brutalist clean monochrome design with sharp borders and zero distractions.",
     previewBg: "#ffffff",
     previewCard: "#ffffff",
@@ -133,6 +141,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
   colorful: {
     id: "colorful",
     name: "Vibrant Pop",
+    shortName: "Pop",
     description: "Energetic pastel aura with warm candy highlights and cheerful gradients.",
     previewBg: "linear-gradient(135deg, #fbcfe8 0%, #fed7aa 50%, #fef08a 100%)",
     previewCard: "#ffffff",
