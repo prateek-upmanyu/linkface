@@ -116,6 +116,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
   const { profile, links } = data;
   const theme = THEMES[profile.theme] || THEMES.light;
+  const isDark = theme.isDark;
 
   return (
     <div
@@ -135,6 +136,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
         <SpeechBubble
           message={profile.status_message}
           styleType={profile.status_style}
+          isDark={isDark}
         />
 
         {/* Avatar */}
@@ -151,7 +153,9 @@ export default async function PublicProfilePage({ params }: PageProps) {
             <div
               className={`w-24 h-24 sm:w-28 sm:h-28 ${
                 theme.avatarRing.includes("rounded-none") ? "rounded-none" : "rounded-full"
-              } bg-neutral-800 text-white flex items-center justify-center text-3xl font-bold uppercase ${theme.avatarRing}`}
+              } flex items-center justify-center text-3xl font-bold uppercase ${
+                isDark ? "bg-neutral-800 text-white" : "bg-[#f8cb46]/20 text-neutral-900"
+              } ${theme.avatarRing}`}
             >
               {profile.display_name?.charAt(0) || profile.username.charAt(0)}
             </div>
@@ -163,7 +167,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
           {profile.display_name || `@${profile.username}`}
         </h1>
         {profile.display_name && (
-          <p className="text-xs mt-1 tracking-wider text-slate-300 font-sans">
+          <p className={`text-xs mt-1 tracking-wider font-sans ${theme.textSecondary}`}>
             @{profile.username}
           </p>
         )}
@@ -171,7 +175,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
         {/* Bio */}
         {profile.bio && (
           <p
-            className="text-xs sm:text-sm text-center max-w-sm mt-3 leading-relaxed text-slate-300 font-sans"
+            className={`text-xs sm:text-sm text-center max-w-sm mt-3 leading-relaxed font-sans ${theme.textSecondary}`}
           >
             {profile.bio}
           </p>
@@ -180,8 +184,12 @@ export default async function PublicProfilePage({ params }: PageProps) {
         {/* Links Stack */}
         <div className="w-full space-y-3.5 mt-8">
           {links.length === 0 ? (
-            <div className="py-12 text-center opacity-60">
-              <p className="text-sm font-medium text-white">No public links shared yet.</p>
+            <div className={`py-12 text-center opacity-60 rounded-2xl border border-dashed ${
+              isDark ? "border-[#f8cb46]/25" : "border-neutral-300"
+            }`}>
+              <p className={`text-sm font-medium ${isDark ? "text-white" : "text-neutral-900"}`}>
+                No public links shared yet.
+              </p>
             </div>
           ) : (
             links.map((link) => (
@@ -191,6 +199,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
                 themeCardClass={theme.card}
                 themeCardHoverClass={theme.cardHover}
                 themeButtonShadow={theme.buttonShadow}
+                isDark={isDark}
               />
             ))
           )}
@@ -201,6 +210,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
           <FeaturedCreators
             creators={profile.featured_creators}
             className="mt-8"
+            isDark={isDark}
           />
         )}
       </main>
@@ -209,14 +219,20 @@ export default async function PublicProfilePage({ params }: PageProps) {
       <footer className="mt-16 text-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wide transition-all duration-200 hover:scale-105 border border-[#d97706]/35 bg-[#1c060d]/90 text-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md group hover:border-[#d97706]"
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wide transition-all duration-200 hover:scale-105 backdrop-blur-md group ${
+            isDark
+              ? "border border-[#f8cb46]/35 bg-[#1c060d]/90 text-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.6)] hover:border-[#f8cb46]"
+              : "border border-neutral-200 bg-white/95 text-neutral-800 shadow-sm hover:border-neutral-300"
+          }`}
         >
           <BrandLogo className="w-4 h-4" />
-          <span className="font-serif font-bold tracking-wider text-white text-xs">
+          <span className={`font-serif font-bold tracking-wider text-xs ${isDark ? "text-white" : "text-neutral-900"}`}>
             Linklet
           </span>
-          <span className="text-slate-500 text-[10px]">&bull;</span>
-          <span className="text-slate-300 text-xs font-sans group-hover:text-white transition-colors">
+          <span className={`${isDark ? "text-slate-500" : "text-neutral-400"} text-[10px]`}>&bull;</span>
+          <span className={`text-xs font-sans transition-colors ${
+            isDark ? "text-slate-300 group-hover:text-white" : "text-neutral-600 group-hover:text-black"
+          }`}>
             Create yours free
           </span>
         </Link>

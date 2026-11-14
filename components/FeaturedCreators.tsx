@@ -8,31 +8,47 @@ interface FeaturedCreatorsProps {
   creators?: FeaturedCreator[] | null;
   className?: string;
   isInteractive?: boolean;
+  isDark?: boolean;
 }
 
 export function FeaturedCreators({
   creators,
   className = "",
   isInteractive = true,
+  isDark = true,
 }: FeaturedCreatorsProps) {
   if (!creators || creators.length === 0) return null;
 
   const activeCreators = creators.slice(0, 3);
 
   return (
-    <div className={`w-full mt-7 pt-4 border-t border-[#d97706]/20 ${className}`}>
-      {/* Refined Header */}
+    <div
+      className={`w-full mt-7 pt-4 border-t ${
+        isDark ? "border-[#f8cb46]/20" : "border-neutral-200"
+      } ${className}`}
+    >
+      {/* Header */}
       <div className="flex items-center justify-between mb-3 px-1">
-        <span className="text-xs font-serif uppercase tracking-wider text-white flex items-center gap-1.5 font-medium">
-          <Sparkles className="w-3.5 h-3.5 text-[#d97706]" />
+        <span
+          className={`text-xs font-serif uppercase tracking-wider flex items-center gap-1.5 font-medium ${
+            isDark ? "text-white" : "text-neutral-900"
+          }`}
+        >
+          <Sparkles
+            className={`w-3.5 h-3.5 ${isDark ? "text-[#f8cb46]" : "text-[#0c831f]"}`}
+          />
           Featured Trio
         </span>
-        <span className="text-[10px] font-sans uppercase tracking-wider text-slate-400">
+        <span
+          className={`text-[10px] font-sans uppercase tracking-wider ${
+            isDark ? "text-slate-400" : "text-neutral-500"
+          }`}
+        >
           Spotlight
         </span>
       </div>
 
-      {/* 3-Column Luxury Creator Grid */}
+      {/* 3-Column Creator Grid */}
       <div className="grid grid-cols-3 gap-2.5">
         {activeCreators.map((creator) => (
           <a
@@ -45,43 +61,77 @@ export function FeaturedCreators({
                 e.preventDefault();
               }
             }}
-            className="p-3 flex flex-col items-center text-center transition-all duration-200 group select-none relative bg-gradient-to-b from-[#1c060d]/95 to-[#120307]/95 backdrop-blur-md rounded-2xl border border-[#d97706]/25 hover:border-[#d97706]/60 hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
+            className={`p-3 flex flex-col items-center text-center transition-all duration-200 group select-none relative rounded-2xl ${
+              isDark
+                ? "bg-[#1c060d]/95 text-white border border-[#f8cb46]/25 hover:border-[#f8cb46]/60 hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
+                : "bg-white text-neutral-900 border border-neutral-200/90 hover:border-[#f8cb46] hover:-translate-y-1 shadow-xs hover:shadow-md"
+            }`}
           >
-            {/* Creator Avatar with dark amber ring */}
+            {/* Creator Avatar */}
             <div className="relative mb-2 shrink-0">
               {creator.avatar_url ? (
                 <img
                   src={creator.avatar_url}
                   alt={creator.name}
-                  className="w-11 h-11 object-cover rounded-full ring-1 ring-[#d97706]/60 group-hover:ring-[#d97706] shadow-sm group-hover:scale-105 transition-all"
+                  className={`w-11 h-11 object-cover rounded-full shadow-sm group-hover:scale-105 transition-all ${
+                    isDark
+                      ? "ring-1 ring-[#f8cb46]/60 group-hover:ring-[#f8cb46]"
+                      : "ring-1 ring-neutral-200 group-hover:ring-[#f8cb46]"
+                  }`}
                   onError={(e) => {
                     (e.target as HTMLElement).style.display = "none";
                   }}
                 />
               ) : (
-                <div className="w-11 h-11 bg-gradient-to-br from-[#380812] to-[#1a050b] text-white flex items-center justify-center font-serif text-sm font-semibold rounded-full ring-1 ring-[#d97706]/60">
+                <div
+                  className={`w-11 h-11 flex items-center justify-center font-serif text-sm font-semibold rounded-full ${
+                    isDark
+                      ? "bg-gradient-to-br from-[#380812] to-[#1a050b] text-white ring-1 ring-[#f8cb46]/60"
+                      : "bg-[#f8cb46]/20 text-neutral-900 ring-1 ring-[#f8cb46]"
+                  }`}
+                >
                   {creator.name.charAt(0) || "U"}
                 </div>
               )}
 
               {/* Tiny external link badge */}
-              <div className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#140307] text-[#d97706] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity border border-[#d97706]/40 shadow-xs">
+              <div
+                className={`absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-xs ${
+                  isDark
+                    ? "bg-[#140307] text-[#f8cb46] border border-[#f8cb46]/40"
+                    : "bg-white text-neutral-800 border border-neutral-300"
+                }`}
+              >
                 <ExternalLink className="w-2.5 h-2.5" />
               </div>
             </div>
 
-            {/* Creator Name: Clean readable white */}
-            <span className="font-serif text-xs font-semibold leading-tight truncate w-full text-white group-hover:text-amber-200 transition-colors">
+            {/* Creator Name: High Contrast */}
+            <span
+              className={`font-serif text-xs font-semibold leading-tight truncate w-full transition-colors ${
+                isDark
+                  ? "text-white group-hover:text-amber-200"
+                  : "text-neutral-900 group-hover:text-black"
+              }`}
+            >
               {creator.name}
             </span>
 
-            {/* Tagline / Role: Clean readable soft slate */}
+            {/* Tagline / Role */}
             {creator.tagline ? (
-              <span className="text-[10px] font-sans text-slate-300 truncate w-full mt-0.5">
+              <span
+                className={`text-[10px] font-sans truncate w-full mt-0.5 ${
+                  isDark ? "text-slate-300" : "text-neutral-500"
+                }`}
+              >
                 {creator.tagline}
               </span>
             ) : (
-              <span className="text-[10px] font-sans text-slate-400 truncate w-full mt-0.5">
+              <span
+                className={`text-[10px] font-sans truncate w-full mt-0.5 ${
+                  isDark ? "text-slate-400" : "text-neutral-400"
+                }`}
+              >
                 Visit &rarr;
               </span>
             )}

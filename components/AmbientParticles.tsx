@@ -21,10 +21,10 @@ export function AmbientParticles({ themeId = "luxury-craft", className = "" }: A
     let width = (canvas.width = canvas.offsetWidth);
     let height = (canvas.height = canvas.offsetHeight);
 
-    const isLight = themeId === "light";
+    const isLight = themeId === "light" || themeId === "minimal";
     const particleColors = isLight
-      ? ["#c59e2b", "#d4af37", "#9b1932", "#8a6a1c"]
-      : ["#faedd0", "#f7e7b4", "#d4af37", "#e6c86e", "#c59e2b"];
+      ? ["#f8cb46", "#eab308", "#0c831f", "#16a34a", "#ca8a04"]
+      : ["#faedd0", "#f7e7b4", "#f8cb46", "#e6c86e", "#d97706"];
 
     interface Particle {
       x: number;

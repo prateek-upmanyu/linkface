@@ -49,12 +49,14 @@ export function PhonePreview({
         <AmbientParticles themeId={currentTheme.id} />
 
         {/* Status Bar */}
-        <div className="flex items-center justify-between px-2 text-[11px] font-sans font-medium text-slate-300 mb-4 shrink-0 relative z-10">
+        <div className={`flex items-center justify-between px-2 text-[11px] font-sans font-medium mb-4 shrink-0 relative z-10 ${
+          isDark ? "text-slate-300" : "text-neutral-500"
+        }`}>
           <span>9:41</span>
           <div className="flex items-center gap-2">
             <SoundToggle />
-            <Wifi className="w-3 h-3 text-slate-300" />
-            <Battery className="w-3.5 h-3.5 text-slate-300" />
+            <Wifi className={`w-3 h-3 ${isDark ? "text-slate-300" : "text-neutral-500"}`} />
+            <Battery className={`w-3.5 h-3.5 ${isDark ? "text-slate-300" : "text-neutral-500"}`} />
           </div>
         </div>
 
@@ -64,9 +66,10 @@ export function PhonePreview({
           <SpeechBubble
             message={profile.status_message}
             styleType={profile.status_style}
+            isDark={isDark}
           />
 
-          {/* Avatar with Dark Amber Radiance Ring */}
+          {/* Avatar with Radiance Ring */}
           <div className="relative mb-3.5">
             {profile.avatar_url ? (
               <img
@@ -79,26 +82,34 @@ export function PhonePreview({
               />
             ) : (
               <div
-                className={`w-20 h-20 rounded-full bg-gradient-to-br from-[#380812] to-[#1a050b] text-white flex items-center justify-center text-2xl font-serif font-bold uppercase ${currentTheme.avatarRing}`}
+                className={`w-20 h-20 rounded-full flex items-center justify-center text-2xl font-serif font-bold uppercase ${
+                  isDark
+                    ? "bg-gradient-to-br from-[#380812] to-[#1a050b] text-white"
+                    : "bg-[#f8cb46]/20 text-neutral-900"
+                } ${currentTheme.avatarRing}`}
               >
                 {profile.display_name?.charAt(0) || profile.username?.charAt(0) || "A"}
               </div>
             )}
           </div>
 
-          {/* Name & Username: Clean White Typography */}
-          <h2 className={`text-xl font-serif leading-tight font-semibold tracking-normal text-white`}>
+          {/* Name & Username: High Contrast Typography */}
+          <h2 className={`text-xl font-serif leading-tight font-semibold tracking-normal ${
+            isDark ? "text-white" : "text-neutral-900"
+          }`}>
             {profile.display_name || (profile.username ? `@${profile.username}` : "Your Name")}
           </h2>
           {profile.username && profile.display_name && (
-            <p className="text-xs mt-0.5 text-slate-300 font-sans">
+            <p className={`text-xs mt-0.5 font-sans ${isDark ? "text-slate-300" : "text-neutral-500"}`}>
               @{profile.username}
             </p>
           )}
 
-          {/* Bio: Clean Readable Slate */}
+          {/* Bio: Clean Readable */}
           {profile.bio && (
-            <p className="text-xs mt-2 max-w-[260px] leading-relaxed line-clamp-3 text-slate-300 font-sans">
+            <p className={`text-xs mt-2 max-w-[260px] leading-relaxed line-clamp-3 font-sans ${
+              isDark ? "text-slate-300" : "text-neutral-600"
+            }`}>
               {profile.bio}
             </p>
           )}
@@ -107,9 +118,11 @@ export function PhonePreview({
         {/* Links List */}
         <div className="flex-1 w-full flex flex-col gap-2.5 relative z-10">
           {visibleLinks.length === 0 ? (
-            <div className="my-auto py-8 text-center px-4 rounded-2xl border border-dashed border-[#d97706]/25 opacity-60">
-              <p className="text-xs font-serif text-white">No links shared yet</p>
-              <p className="text-[11px] text-slate-400 mt-0.5">Links will appear here</p>
+            <div className={`my-auto py-8 text-center px-4 rounded-2xl border border-dashed opacity-60 ${
+              isDark ? "border-[#f8cb46]/25" : "border-neutral-300"
+            }`}>
+              <p className={`text-xs font-serif ${isDark ? "text-white" : "text-neutral-800"}`}>No links shared yet</p>
+              <p className={`text-[11px] ${isDark ? "text-slate-400" : "text-neutral-500"} mt-0.5`}>Links will appear here</p>
             </div>
           ) : (
             visibleLinks.map((link) => {
@@ -139,7 +152,9 @@ export function PhonePreview({
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
                     <div
-                      className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border border-white/10 shadow-xs transition-transform group-hover:scale-105"
+                      className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-xs transition-transform group-hover:scale-105 border ${
+                        isDark ? "border-white/10" : "border-neutral-200/80"
+                      }`}
                       style={{
                         backgroundColor: iconStyle.bgColor,
                         color: iconStyle.color,
@@ -154,17 +169,27 @@ export function PhonePreview({
                         size={17}
                       />
                     </div>
-                    {/* Clean High-Contrast White Text */}
-                    <span className="font-sans text-xs sm:text-[13px] font-medium leading-snug truncate flex-1 text-white group-hover:text-slate-100 transition-colors">
+                    {/* Clean High-Contrast Text - Never Hidden on White Themes */}
+                    <span className={`font-sans text-xs sm:text-[13px] font-medium leading-snug truncate flex-1 transition-colors ${
+                      isDark
+                        ? "text-white group-hover:text-amber-200"
+                        : "text-neutral-900 group-hover:text-black font-semibold"
+                    }`}>
                       {link.title || "Untitled Link"}
                     </span>
                     {link.badge && (
-                      <span className="px-2 py-0.5 text-[8px] font-sans font-semibold tracking-wider uppercase bg-[#480a18] text-white border border-[#d97706]/45 rounded-full shrink-0 ml-1">
+                      <span className={`px-2 py-0.5 text-[8px] font-sans font-semibold tracking-wider uppercase rounded-full shrink-0 ml-1 ${
+                        isDark
+                          ? "bg-[#380812] text-white border border-[#f8cb46]/45"
+                          : "bg-[#f8cb46] text-neutral-950 border border-[#eab308]"
+                      }`}>
                         {link.badge}
                       </span>
                     )}
                   </div>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors shrink-0 ml-1" />
+                  <ExternalLink className={`w-3.5 h-3.5 transition-colors shrink-0 ml-1 ${
+                    isDark ? "text-slate-400 group-hover:text-white" : "text-neutral-400 group-hover:text-neutral-900"
+                  }`} />
                 </button>
               );
             })
@@ -174,13 +199,18 @@ export function PhonePreview({
           <FeaturedCreators
             creators={profile.featured_creators}
             isInteractive={isInteractive}
+            isDark={isDark}
           />
         </div>
 
         {/* Footer Brand Tag */}
         <div className="shrink-0 text-center pt-4 pb-1 relative z-10">
           <span
-            className="inline-block text-[11px] font-sans tracking-wide px-3 py-1 rounded-full bg-[#1c060d]/90 border border-[#d97706]/35 text-slate-200 shadow-xs"
+            className={`inline-block text-[11px] font-sans tracking-wide px-3 py-1 rounded-full shadow-xs ${
+              isDark
+                ? "bg-[#1c060d]/90 border border-[#f8cb46]/35 text-slate-200"
+                : "bg-white border border-neutral-200 text-neutral-800"
+            }`}
           >
             Linklet
           </span>

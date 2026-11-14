@@ -291,10 +291,10 @@ export function ProfileSettings({
         <div className="border-b border-[#d97706]/20 pb-3">
           <h3 className="font-serif text-base font-semibold text-white flex items-center gap-2">
             <Palette className="w-4 h-4 text-[#d97706]" />
-            Themes (Dark Red &amp; Dark Yellow)
+            Themes (Minimal &amp; Modern)
           </h3>
           <p className="text-xs text-slate-300 mt-0.5">
-            Select a dark red palette with warm amber accents for your public page
+            Select a minimal theme inspired by Blinkit and modern clean design
           </p>
         </div>
 
