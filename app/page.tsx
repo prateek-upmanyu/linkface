@@ -20,7 +20,7 @@ import {
 export default function LandingPage() {
   const router = useRouter();
   const [handle, setHandle] = useState("");
-  const [demoTheme, setDemoTheme] = useState<ThemeId>("light");
+  const [demoTheme, setDemoTheme] = useState<ThemeId>("luxury-craft");
 
   const handleClaim = (e: React.FormEvent) => {
     e.preventDefault();

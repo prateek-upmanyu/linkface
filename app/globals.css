@@ -24,3 +24,47 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Minecraft Authentic Voxel Button Effect */
+.minecraft-bevel-btn {
+  border: 2px solid #000000;
+  box-shadow: inset 2px 2px 0px 0px rgba(255, 255, 255, 0.4),
+              inset -2px -4px 0px 0px rgba(0, 0, 0, 0.55),
+              2px 3px 0px 0px rgba(0, 0, 0, 0.8);
+  image-rendering: pixelated;
+  transition: all 0.08s ease-in-out;
+}
+
+.minecraft-bevel-btn:hover {
+  filter: brightness(1.1);
+}
+
+.minecraft-bevel-btn:active {
+  box-shadow: inset 2px 3px 0px 0px rgba(0, 0, 0, 0.7),
+              inset -1px -1px 0px 0px rgba(255, 255, 255, 0.2),
+              1px 1px 0px 0px rgba(0, 0, 0, 0.8);
+  transform: translateY(2px) translateX(1px);
+}
+
+/* Luxury Minecraft Gold-Trim Voxel Button */
+.luxury-craft-btn {
+  border: 2px solid #1a150c;
+  box-shadow: inset 2px 2px 0px 0px #f5d77f,
+              inset -2px -4px 0px 0px #8b6818,
+              0px 4px 12px rgba(0, 0, 0, 0.7);
+  transition: all 0.08s ease-in-out;
+}
+
+.luxury-craft-btn:hover {
+  filter: brightness(1.12);
+  box-shadow: inset 2px 2px 0px 0px #fff0aa,
+              inset -2px -4px 0px 0px #b08828,
+              0px 0px 18px rgba(234, 179, 8, 0.25);
+}
+
+.luxury-craft-btn:active {
+  box-shadow: inset 2px 3px 0px 0px #5c450e,
+              inset -1px -1px 0px 0px #d4af37,
+              0px 2px 6px rgba(0, 0, 0, 0.7);
+  transform: translateY(2px);
+}

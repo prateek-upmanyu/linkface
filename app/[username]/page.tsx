@@ -126,11 +126,15 @@ export default async function PublicProfilePage({ params }: PageProps) {
             <img
               src={profile.avatar_url}
               alt={profile.display_name || profile.username}
-              className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover ${theme.avatarRing}`}
+              className={`w-24 h-24 sm:w-28 sm:h-28 ${
+                theme.avatarRing.includes("rounded-none") ? "rounded-none" : "rounded-full"
+              } object-cover ${theme.avatarRing}`}
             />
           ) : (
             <div
-              className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-indigo-600 text-white flex items-center justify-center text-3xl font-bold uppercase ${theme.avatarRing}`}
+              className={`w-24 h-24 sm:w-28 sm:h-28 ${
+                theme.avatarRing.includes("rounded-none") ? "rounded-none" : "rounded-full"
+              } bg-neutral-800 text-white flex items-center justify-center text-3xl font-bold uppercase ${theme.avatarRing}`}
             >
               {profile.display_name?.charAt(0) || profile.username.charAt(0)}
             </div>

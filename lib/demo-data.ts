@@ -6,7 +6,7 @@ export const DEMO_PROFILE: Profile = {
   display_name: "Alex Rivera",
   bio: "Product designer, indie hacker & photographer. Crafting simple web apps and sharing tools for creators.",
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
-  theme: "gradient",
+  theme: "luxury-craft",
   page_views: 1240,
   created_at: new Date().toISOString(),
 };

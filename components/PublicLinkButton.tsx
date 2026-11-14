@@ -41,20 +41,26 @@ export function PublicLinkButton({
     setTimeout(() => setClicked(false), 500);
   };
 
+  const hasCustomRounding = themeCardClass.includes("rounded-");
+
   return (
     <a
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={`w-full py-4 px-5 rounded-2xl flex items-center justify-between transition-all duration-200 group text-decoration-none select-none ${themeCardClass} ${themeCardHoverClass} ${themeButtonShadow} ${
-        clicked ? "scale-98" : ""
+      className={`w-full py-4 px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none ${
+        hasCustomRounding ? "" : "rounded-2xl"
+      } ${themeCardClass} ${themeCardHoverClass} ${themeButtonShadow} ${
+        clicked ? "scale-[0.98]" : ""
       }`}
     >
       <div className="flex items-center gap-3.5 truncate min-w-0">
         {/* Platform Icon with brand accent tint */}
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-200"
+          className={`w-10 h-10 ${
+            themeCardClass.includes("rounded-none") ? "rounded-none" : "rounded-xl"
+          } flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-150`}
           style={{
             backgroundColor: platform?.brandColor ? `${platform.brandColor}18` : undefined,
             color: platform?.brandColor || "currentColor",

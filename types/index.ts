@@ -1,4 +1,12 @@
-export type ThemeId = "light" | "dark" | "gradient" | "minimal" | "colorful";
+export type ThemeId =
+  | "luxury"
+  | "minecraft"
+  | "luxury-craft"
+  | "light"
+  | "dark"
+  | "gradient"
+  | "minimal"
+  | "colorful";
 
 export interface Profile {
   id: string; // uuid matches auth.users.id

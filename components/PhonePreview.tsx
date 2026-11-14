@@ -56,14 +56,18 @@ export function PhonePreview({
               <img
                 src={profile.avatar_url}
                 alt={profile.display_name || "Profile"}
-                className={`w-20 h-20 rounded-full object-cover ${currentTheme.avatarRing}`}
+                className={`w-20 h-20 ${
+                  currentTheme.avatarRing.includes("rounded-none") ? "rounded-none" : "rounded-full"
+                } object-cover ${currentTheme.avatarRing}`}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = "none";
                 }}
               />
             ) : (
               <div
-                className={`w-20 h-20 rounded-full bg-neutral-800 text-white flex items-center justify-center text-xl font-bold uppercase ${currentTheme.avatarRing}`}
+                className={`w-20 h-20 ${
+                  currentTheme.avatarRing.includes("rounded-none") ? "rounded-none" : "rounded-full"
+                } bg-neutral-800 text-white flex items-center justify-center text-xl font-bold uppercase ${currentTheme.avatarRing}`}
               >
                 {profile.display_name?.charAt(0) || profile.username?.charAt(0) || "U"}
               </div>
@@ -116,11 +120,15 @@ export function PhonePreview({
                       window.open(link.url, "_blank", "noopener,noreferrer");
                     }
                   }}
-                  className={`w-full py-3 px-3.5 rounded-xl flex items-center justify-between text-left transition-all duration-150 group ${currentTheme.card} ${currentTheme.cardHover} ${currentTheme.buttonShadow}`}
+                  className={`w-full py-3 px-3.5 ${
+                    currentTheme.card.includes("rounded-none") ? "rounded-none" : "rounded-xl"
+                  } flex items-center justify-between text-left transition-all duration-150 group ${currentTheme.card} ${currentTheme.cardHover} ${currentTheme.buttonShadow}`}
                 >
                   <div className="flex items-center gap-3 truncate min-w-0">
                     <div
-                      className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                      className={`w-7 h-7 ${
+                        currentTheme.card.includes("rounded-none") ? "rounded-none" : "rounded-lg"
+                      } flex items-center justify-center shrink-0`}
                       style={{
                         backgroundColor: platform?.brandColor ? `${platform.brandColor}18` : undefined,
                         color: platform?.brandColor || "currentColor",
