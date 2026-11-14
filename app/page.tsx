@@ -8,7 +8,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
 import { THEME_LIST } from "@/lib/themes";
 import { ThemeId } from "@/types";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Sparkles, Star, Layers, BarChart3, ShieldCheck } from "lucide-react";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -31,18 +31,18 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#121116] text-[#eae7e1] flex flex-col font-mono selection:bg-[#5c8e32] selection:text-white">
-      {/* Top Minecraft Navigation HUD */}
-      <header className="sticky top-0 z-40 bg-[#1c1b22] border-b-4 border-black px-4 sm:px-8 py-3 shadow-[0_4px_0_#000000]">
+    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] flex flex-col font-sans selection:bg-[#6f1225] selection:text-[#faedd0]">
+      {/* Top Luxury Navigation Header */}
+      <header className="sticky top-0 z-40 bg-[#0d0407]/90 border-b border-[#d4af37]/25 px-4 sm:px-8 py-3.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <BrandLogo className="w-8 h-8" />
             <div>
-              <span className="font-bold text-sm tracking-wider text-white uppercase mc-text-shadow">
-                CraftLink
+              <span className="font-serif font-semibold text-base tracking-widest text-gold-gradient uppercase">
+                AURUM
               </span>
-              <span className="block text-[9px] text-[#55ffff] tracking-widest uppercase">
-                Voxel Edition
+              <span className="block text-[9px] text-[#d4af37]/80 tracking-widest uppercase font-sans">
+                Haute Link in Bio
               </span>
             </div>
           </Link>
@@ -50,51 +50,52 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="px-3.5 py-1.5 mc-btn text-[11px] uppercase tracking-wider text-white"
+              className="px-4 py-2 luxury-btn-outline text-xs uppercase tracking-wider font-medium"
             >
               Sign In
             </Link>
             <Link
               href="/dashboard"
-              className="hidden sm:inline-flex px-3.5 py-1.5 mc-btn-diamond text-[11px] uppercase tracking-wider text-white"
+              className="hidden sm:inline-flex px-4 py-2 rounded-xl border border-[#d4af37]/35 bg-[#1f070e]/80 text-xs uppercase tracking-wider font-medium text-[#f7e7b4] hover:border-[#d4af37] transition-colors"
             >
-              Test World
+              Demo Studio
             </Link>
             <Link
               href="/signup"
-              className="px-4 py-1.5 mc-btn-gold text-[11px] uppercase tracking-wider font-bold text-black"
+              className="px-5 py-2 luxury-btn-gold text-xs uppercase tracking-wider font-semibold"
             >
-              Start Crafting
+              Claim Yours
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-10 pb-20 lg:pb-28 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <section className="relative pt-12 pb-24 lg:pb-32 px-4 sm:px-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Hero Column */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-block px-3 py-1 bg-[#25242d] border-2 border-black text-[#55ff55] text-[11px] tracking-wider uppercase shadow-[2px_2px_0_#000000]">
-              &gt; MINECRAFT VOXEL BIO BUILDER
+          <div className="lg:col-span-7 space-y-7 text-center lg:text-left pt-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#d4af37]/30 bg-[#460c18]/40 text-[#f7e7b4] text-xs uppercase tracking-widest font-sans">
+              <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
+              Haute Crimson &amp; Gold Edition
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase text-white leading-[1.15] mc-text-shadow tracking-wider">
-              CRAFT ONE LINK <br />
-              <span className="text-[#f5d77f]">FOR ALL YOUR LOOT.</span>
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-medium uppercase text-white leading-[1.08] tracking-tight">
+              CURATE YOUR <br />
+              <span className="text-gold-gradient font-semibold">WORLD IN GOLD.</span>
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#b0adb8] max-w-lg mx-auto lg:mx-0 leading-relaxed tracking-wide">
-              Equip your YouTube, Twitch, Discord, Instagram, server IPs, and music in one pixel-crafted bio page. Features 50+ auto-detected platforms and real-time redstone analytics.
+            <p className="text-sm sm:text-base text-[#faedd0]/80 max-w-lg mx-auto lg:mx-0 leading-relaxed font-sans">
+              The premier link in bio crafted for visionary artists, founders, and creators. Showcase 50+ auto-detected channels, promote your collaborator trio, and captivate every visitor.
             </p>
 
-            {/* Handle Claim Form - Styled like Anvil / Command line input */}
+            {/* Handle Claim Form */}
             <form
               onSubmit={handleClaim}
-              className="max-w-md mx-auto lg:mx-0 p-2 mc-panel flex items-center gap-2"
+              className="max-w-md mx-auto lg:mx-0 p-2 rounded-2xl luxury-card border border-[#d4af37]/35 shadow-[0_10px_35px_rgba(0,0,0,0.6)] flex items-center gap-2"
             >
-              <div className="flex items-center pl-2 text-[#7d798a] text-[11px] select-none tracking-wider">
-                <span>craftlink/&gt;</span>
+              <div className="flex items-center pl-3 text-[#d4af37]/75 text-xs font-serif font-medium tracking-wide select-none">
+                <span>aurum.bio/</span>
               </div>
               <input
                 type="text"
@@ -102,26 +103,26 @@ export default function LandingPage() {
                 onChange={(e) =>
                   setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
-                placeholder="player_name"
-                className="flex-1 py-2 px-2 text-xs bg-transparent text-[#55ffff] focus:outline-none placeholder:text-[#55535e] font-mono"
+                placeholder="yourname"
+                className="flex-1 py-2 px-2 text-xs sm:text-sm bg-transparent text-[#faf8f5] focus:outline-none placeholder:text-[#faedd0]/35 font-sans"
               />
               <button
                 type="submit"
-                className="py-2.5 px-4 mc-btn-gold text-xs uppercase tracking-wider font-bold shrink-0 text-black"
+                className="py-2.5 px-5 luxury-btn-gold text-xs uppercase tracking-wider font-semibold shrink-0"
               >
-                CRAFT
+                Claim Link
               </button>
             </form>
 
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-1 text-[11px] text-[#8e8b98] uppercase">
-              <span className="flex items-center gap-1.5 text-[#55ff55]">
-                <Check className="w-3.5 h-3.5" /> 100% Free Plan
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5 pt-2 text-xs text-[#faedd0]/80">
+              <span className="flex items-center gap-1.5 text-[#d4af37]">
+                <Check className="w-4 h-4" /> 100% Free Forever
               </span>
-              <span className="flex items-center gap-1.5 text-[#55ffff]">
-                <Check className="w-3.5 h-3.5" /> 50+ Recipes
+              <span className="flex items-center gap-1.5 text-[#faedd0]">
+                <Check className="w-4 h-4 text-[#d4af37]" /> 50+ Auto-Detects
               </span>
-              <span className="flex items-center gap-1.5 text-[#f5d77f]">
-                <Check className="w-3.5 h-3.5" /> Luxury Voxel FX
+              <span className="flex items-center gap-1.5 text-[#d4af37]">
+                <Check className="w-4 h-4" /> Trio Spotlight
               </span>
             </div>
           </div>
@@ -129,18 +130,18 @@ export default function LandingPage() {
           {/* Right Hero Demo Column */}
           <div className="lg:col-span-5 flex flex-col items-center">
             {/* Theme switcher */}
-            <div className="mb-4 flex flex-wrap items-center justify-center gap-1.5 p-2 mc-panel max-w-full">
-              <span className="text-[10px] uppercase text-[#7d798a] px-1 tracking-wider shrink-0 font-pixel">
-                Theme:
+            <div className="mb-5 flex flex-wrap items-center justify-center gap-2 p-2 rounded-2xl luxury-card border border-[#d4af37]/25 shadow-sm max-w-full">
+              <span className="text-xs uppercase text-[#faedd0]/60 px-1 font-semibold tracking-wider shrink-0 font-serif">
+                Palette:
               </span>
               {THEME_LIST.slice(0, 4).map((th) => (
                 <button
                   key={th.id}
                   onClick={() => setDemoTheme(th.id)}
-                  className={`px-2.5 py-1 text-[10px] uppercase tracking-wider transition-colors shrink-0 whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-xl text-xs uppercase tracking-wider transition-all shrink-0 whitespace-nowrap font-medium ${
                     demoTheme === th.id
-                      ? "mc-btn-gold text-black font-bold"
-                      : "mc-btn text-white"
+                      ? "luxury-btn-gold text-[#140407]"
+                      : "luxury-btn-outline text-[#faedd0]/80"
                   }`}
                 >
                   {th.shortName}
@@ -153,68 +154,68 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Feature Grid - Minecraft Item Slots */}
-      <section className="py-16 px-4 sm:px-8 bg-[#18161e] border-t-4 border-b-4 border-black">
+      {/* Feature Grid - Luxury Vitrines */}
+      <section className="py-20 px-4 sm:px-8 bg-gradient-to-b from-[#100407] via-[#16050a] to-[#0c0306] border-t border-b border-[#d4af37]/25">
         <div className="max-w-6xl mx-auto">
-          <div className="max-w-xl mb-10 text-center sm:text-left">
-            <span className="text-[#55ffff] text-xs uppercase tracking-widest block mb-1">
-              [INVENTORY SPECS]
+          <div className="max-w-xl mb-12 text-center sm:text-left">
+            <span className="text-[#d4af37] text-xs uppercase tracking-widest block mb-2 font-serif font-semibold">
+              Curated Excellence
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black uppercase text-white tracking-wider mc-text-shadow">
-              BUILT FOR SPEED &amp; PIXELS
+            <h2 className="text-3xl sm:text-4xl font-serif font-medium uppercase text-white tracking-tight">
+              Built for Prestige &amp; Performance
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Item 1 */}
-            <div className="p-5 mc-panel space-y-2">
-              <div className="w-10 h-10 border-2 border-black bg-[#2c2b36] shadow-[inset_2px_2px_0_#000] flex items-center justify-center text-[#ffaa00] text-lg font-bold">
+            <div className="p-6 luxury-card border border-[#d4af37]/25 hover:border-[#d4af37]/60 transition-all duration-300 space-y-3">
+              <div className="w-12 h-12 rounded-2xl border border-[#d4af37]/40 bg-[#2b0a13] shadow-[0_0_20px_rgba(212,175,55,0.2)] flex items-center justify-center text-[#d4af37] text-lg font-serif font-bold">
                 50+
               </div>
-              <h3 className="font-bold text-xs uppercase tracking-wider text-white">
-                Auto-Detection
+              <h3 className="font-serif font-semibold text-sm uppercase tracking-wider text-white">
+                Instant Auto-Detect
               </h3>
-              <p className="text-[11px] text-[#9a97a3] leading-relaxed">
-                Paste any link from YouTube, Twitch, Spotify, GitHub, or Discord. It crafts the icon and brand title instantly.
+              <p className="text-xs text-[#faedd0]/70 leading-relaxed font-sans">
+                Paste any URL from YouTube, Spotify, GitHub, Instagram, or Substack. The platform icon and brand colors render instantly.
               </p>
             </div>
 
             {/* Item 2 */}
-            <div className="p-5 mc-panel space-y-2">
-              <div className="w-10 h-10 border-2 border-black bg-[#2c2b36] shadow-[inset_2px_2px_0_#000] flex items-center justify-center text-[#55ffff] text-lg font-bold">
-                GLD
+            <div className="p-6 luxury-card border border-[#d4af37]/25 hover:border-[#d4af37]/60 transition-all duration-300 space-y-3">
+              <div className="w-12 h-12 rounded-2xl border border-[#d4af37]/40 bg-[#2b0a13] shadow-[0_0_20px_rgba(212,175,55,0.2)] flex items-center justify-center text-[#faedd0] text-lg font-serif font-bold">
+                <Star className="w-6 h-6 text-[#d4af37]" />
               </div>
-              <h3 className="font-bold text-xs uppercase tracking-wider text-white">
-                Luxury &amp; Voxel
+              <h3 className="font-serif font-semibold text-sm uppercase tracking-wider text-white">
+                Trio Spotlight
               </h3>
-              <p className="text-[11px] text-[#9a97a3] leading-relaxed">
-                Choose between Luxury Obsidian Gold, Minecraft Stone GUI, or Classic minimalist themes with tactile press.
+              <p className="text-xs text-[#faedd0]/70 leading-relaxed font-sans">
+                Feature up to 3 collaborators, clients, or sponsors below your links. Photos are scraped from links or uploaded from your phone.
               </p>
             </div>
 
             {/* Item 3 */}
-            <div className="p-5 mc-panel space-y-2">
-              <div className="w-10 h-10 border-2 border-black bg-[#2c2b36] shadow-[inset_2px_2px_0_#000] flex items-center justify-center text-[#ff5555] text-lg font-bold">
-                RED
+            <div className="p-6 luxury-card border border-[#d4af37]/25 hover:border-[#d4af37]/60 transition-all duration-300 space-y-3">
+              <div className="w-12 h-12 rounded-2xl border border-[#d4af37]/40 bg-[#2b0a13] shadow-[0_0_20px_rgba(212,175,55,0.2)] flex items-center justify-center text-[#d4af37] text-lg font-serif font-bold">
+                <BarChart3 className="w-6 h-6 text-[#d4af37]" />
               </div>
-              <h3 className="font-bold text-xs uppercase tracking-wider text-white">
-                Redstone Stats
+              <h3 className="font-serif font-semibold text-sm uppercase tracking-wider text-white">
+                Live Analytics
               </h3>
-              <p className="text-[11px] text-[#9a97a3] leading-relaxed">
-                Track link click counts, profile views, and click-through rates in real time directly on your dashboard.
+              <p className="text-xs text-[#faedd0]/70 leading-relaxed font-sans">
+                Track link click counts, total profile impressions, and engagement conversion rates in real time on your private dashboard.
               </p>
             </div>
 
             {/* Item 4 */}
-            <div className="p-5 mc-panel space-y-2">
-              <div className="w-10 h-10 border-2 border-black bg-[#2c2b36] shadow-[inset_2px_2px_0_#000] flex items-center justify-center text-[#55ff55] text-lg font-bold">
-                PNG
+            <div className="p-6 luxury-card border border-[#d4af37]/25 hover:border-[#d4af37]/60 transition-all duration-300 space-y-3">
+              <div className="w-12 h-12 rounded-2xl border border-[#d4af37]/40 bg-[#2b0a13] shadow-[0_0_20px_rgba(212,175,55,0.2)] flex items-center justify-center text-[#faedd0] text-lg font-serif font-bold">
+                <Sparkles className="w-6 h-6 text-[#d4af37]" />
               </div>
-              <h3 className="font-bold text-xs uppercase tracking-wider text-white">
-                QR Code Drop
+              <h3 className="font-serif font-semibold text-sm uppercase tracking-wider text-white">
+                Haute Gold Themes
               </h3>
-              <p className="text-[11px] text-[#9a97a3] leading-relaxed">
-                Generate high-resolution scannable QR codes for your profile and export as PNG for server cards or merch.
+              <p className="text-xs text-[#faedd0]/70 leading-relaxed font-sans">
+                Choose between Royal Crimson, Noir Velvet, Imperial Burgundy, and Ivory Gold with ambient micro-ember radiance.
               </p>
             </div>
           </div>
@@ -222,25 +223,25 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto py-8 px-4 sm:px-8 bg-[#121116] border-t-4 border-black text-xs text-[#7d798a]">
+      <footer className="mt-auto py-10 px-4 sm:px-8 bg-[#090204] border-t border-[#d4af37]/20 text-xs text-[#faedd0]/60 font-sans">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <BrandLogo className="w-6 h-6" />
-            <span className="font-bold text-white uppercase tracking-wider">
-              CraftLink
+            <span className="font-serif font-semibold text-white uppercase tracking-widest">
+              AURUM
             </span>
-            <span>&mdash; Minecraft Voxel Link-in-Bio</span>
+            <span>&mdash; The Luxury Link in Bio Experience</span>
           </div>
 
-          <div className="flex items-center gap-5 text-[11px] uppercase tracking-wider">
-            <Link href="/alex" className="hover:text-white hover:underline">
-              Demo Page
+          <div className="flex items-center gap-6 text-xs uppercase tracking-wider">
+            <Link href="/alex" className="hover:text-[#d4af37] transition-colors">
+              Demo Showcase
             </Link>
-            <Link href="/dashboard" className="hover:text-white hover:underline">
-              Dashboard
+            <Link href="/dashboard" className="hover:text-[#d4af37] transition-colors">
+              Studio
             </Link>
-            <Link href="/login" className="hover:text-white hover:underline">
-              Connect
+            <Link href="/login" className="hover:text-[#d4af37] transition-colors">
+              Sign In
             </Link>
           </div>
         </div>

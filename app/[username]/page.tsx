@@ -10,6 +10,7 @@ import { FeaturedCreators } from "@/components/FeaturedCreators";
 import { SpeechBubble } from "@/components/SpeechBubble";
 import { SoundToggle } from "@/components/SoundToggle";
 import { AmbientParticles } from "@/components/AmbientParticles";
+import { BrandLogo } from "@/components/BrandLogo";
 import { Profile, LinkItem } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -134,7 +135,6 @@ export default async function PublicProfilePage({ params }: PageProps) {
         <SpeechBubble
           message={profile.status_message}
           styleType={profile.status_style}
-          isVoxel={theme.card.includes("rounded-none") || theme.avatarRing.includes("rounded-none")}
         />
 
         {/* Avatar */}
@@ -159,11 +159,11 @@ export default async function PublicProfilePage({ params }: PageProps) {
         </div>
 
         {/* Display Name & Handle */}
-        <h1 className={`text-2xl font-bold tracking-tight text-center ${theme.textPrimary}`}>
+        <h1 className={`text-2xl sm:text-3xl font-serif font-semibold tracking-tight text-center ${theme.textPrimary}`}>
           {profile.display_name || `@${profile.username}`}
         </h1>
         {profile.display_name && (
-          <p className={`text-sm mt-0.5 ${theme.textSecondary}`}>
+          <p className={`text-xs mt-1 tracking-wider uppercase ${theme.textSecondary}`}>
             @{profile.username}
           </p>
         )}
@@ -171,7 +171,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
         {/* Bio */}
         {profile.bio && (
           <p
-            className={`text-sm text-center max-w-sm mt-3 leading-relaxed ${theme.textSecondary}`}
+            className={`text-xs sm:text-sm text-center max-w-sm mt-3 leading-relaxed ${theme.textSecondary}`}
           >
             {profile.bio}
           </p>
@@ -200,29 +200,26 @@ export default async function PublicProfilePage({ params }: PageProps) {
         {profile.featured_creators && profile.featured_creators.length > 0 && (
           <FeaturedCreators
             creators={profile.featured_creators}
-            isVoxel={theme.card.includes("rounded-none") || theme.avatarRing.includes("rounded-none")}
-            className="mt-6"
+            className="mt-8"
           />
         )}
       </main>
 
       {/* Footer Branding Badge */}
       <footer className="mt-16 text-center">
-        {(() => {
-          const isVoxel = theme.card.includes("rounded-none") || theme.avatarRing.includes("rounded-none");
-          return (
-            <Link
-              href="/"
-              className={`inline-flex items-center gap-2 px-3.5 py-1.5 ${
-                isVoxel ? "rounded-none" : "rounded-full"
-              } text-xs font-mono tracking-wide transition-all duration-150 hover:opacity-100 ${theme.badge} opacity-75 shadow-xs`}
-            >
-              <span>CraftLink</span>
-              <span className="opacity-40 text-[10px]">&bull;</span>
-              <span className="opacity-70 text-[11px]">Create your own</span>
-            </Link>
-          );
-        })()}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wider transition-all duration-200 hover:scale-105 border border-[#d4af37]/40 bg-[#18050a]/90 text-[#f7e7b4] shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md group"
+        >
+          <BrandLogo className="w-3.5 h-3.5" />
+          <span className="font-serif font-bold tracking-widest uppercase text-[11px] text-gold-gradient">
+            AURUM
+          </span>
+          <span className="opacity-40 text-[10px]">&bull;</span>
+          <span className="opacity-80 text-[11px] font-sans group-hover:text-white transition-colors">
+            Curate yours free
+          </span>
+        </Link>
       </footer>
     </div>
   );

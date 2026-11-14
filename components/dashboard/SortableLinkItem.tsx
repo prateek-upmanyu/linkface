@@ -82,40 +82,40 @@ export function SortableLinkItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`group relative border-2 border-black mc-panel transition-all ${
+      className={`group relative rounded-2xl border transition-all duration-200 ${
         link.is_visible
-          ? "opacity-100"
-          : "opacity-60 bg-[#17161b]"
+          ? "luxury-card border-[#d4af37]/25 hover:border-[#d4af37]/50"
+          : "bg-[#140509]/60 border-zinc-800/80 opacity-60"
       }`}
     >
-      <div className="p-3.5 flex items-center gap-3">
+      <div className="p-4 flex items-center gap-3">
         {/* Drag Handle */}
         <button
           type="button"
           {...attributes}
           {...listeners}
-          className="cursor-grab active:cursor-grabbing p-1 text-[#7d798a] hover:text-white transition-colors"
+          className="cursor-grab active:cursor-grabbing p-1 text-[#d4af37]/50 hover:text-[#d4af37] transition-colors"
           title="Drag to reorder"
         >
           <GripVertical className="w-4 h-4" />
         </button>
 
-        {/* Up/Down buttons for mobile/accessibility */}
-        <div className="flex flex-col -space-y-1">
+        {/* Up / Down buttons for mobile accessibility */}
+        <div className="flex flex-col gap-0.5 sm:hidden">
           <button
             type="button"
-            disabled={isFirst}
             onClick={onMoveUp}
-            className="p-0.5 text-[#7d798a] hover:text-white disabled:opacity-20 disabled:cursor-not-allowed"
+            disabled={isFirst}
+            className="p-0.5 text-[#faedd0]/40 disabled:opacity-20 hover:text-[#d4af37]"
             title="Move up"
           >
             <ChevronUp className="w-3.5 h-3.5" />
           </button>
           <button
             type="button"
-            disabled={isLast}
             onClick={onMoveDown}
-            className="p-0.5 text-[#7d798a] hover:text-white disabled:opacity-20 disabled:cursor-not-allowed"
+            disabled={isLast}
+            className="p-0.5 text-[#faedd0]/40 disabled:opacity-20 hover:text-[#d4af37]"
             title="Move down"
           >
             <ChevronDown className="w-3.5 h-3.5" />
@@ -123,195 +123,158 @@ export function SortableLinkItem({
         </div>
 
         {/* Platform Icon Badge */}
-        {(() => {
-          const iconStyle = getPlatformBadgeStyle(platform?.brandColor, true);
-          return (
-            <div
-              className="w-9 h-9 border-2 border-black shadow-[inset_1px_1px_0_#000] flex items-center justify-center shrink-0"
-              style={{
-                backgroundColor: iconStyle.bgColor,
-                color: iconStyle.color,
-              }}
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border border-[#d4af37]/30 shadow-xs"
+          style={{
+            ...getPlatformBadgeStyle(platform?.brandColor),
+          }}
+        >
+          <PlatformIcon
+            iconName={platform?.icon}
+            platformId={link.platform}
+            faviconUrl={favicon}
+            brandColor={platform?.brandColor}
+            className="w-4 h-4"
+            size={18}
+          />
+        </div>
+
+        {/* Title, URL, and Badge */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="font-serif font-medium text-sm text-[#faf8f5] truncate">
+              {link.title}
+            </span>
+            {link.badge && (
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#460c18] border border-[#d4af37]/40 text-[#f7e7b4] uppercase font-sans font-semibold tracking-wider shrink-0">
+                {link.badge}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 mt-0.5">
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-[#faedd0]/60 hover:text-[#d4af37] truncate max-w-xs flex items-center gap-1 transition-colors"
             >
-              <PlatformIcon
-                iconName={platform?.icon}
-                platformId={link.platform}
-                faviconUrl={favicon}
-                brandColor={iconStyle.color}
-                className="w-4 h-4"
-                size={18}
-              />
-            </div>
-          );
-        })()}
-
-        {/* Content Info / Inline Editor */}
-        <div className="flex-1 min-w-0 font-mono">
-          {isEditing ? (
-            <div className="space-y-2 py-1">
-              <div>
-                <label className="text-[9px] font-bold uppercase text-[#7d798a] tracking-wider">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  value={editTitle}
-                  onChange={(e) => setEditTitle(e.target.value)}
-                  className="w-full text-xs px-2 py-1 mc-input text-white focus:outline-none"
-                  placeholder="Link Title"
-                />
-              </div>
-              <div>
-                <label className="text-[9px] font-bold uppercase text-[#7d798a] tracking-wider">
-                  URL
-                </label>
-                <input
-                  type="text"
-                  value={editUrl}
-                  onChange={(e) => setEditUrl(e.target.value)}
-                  className="w-full text-[11px] font-mono px-2 py-1 mc-input text-[#55ffff] focus:outline-none"
-                  placeholder="https://example.com"
-                />
-              </div>
-              <div>
-                <label className="text-[9px] font-bold uppercase text-[#7d798a] tracking-wider block mb-1">
-                  Tag / Badge (Optional)
-                </label>
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <input
-                    type="text"
-                    value={editBadge}
-                    onChange={(e) => setEditBadge(e.target.value.slice(0, 10))}
-                    className="text-xs px-2 py-0.5 mc-input text-amber-300 w-28 uppercase font-bold"
-                    placeholder="HOT / NEW"
-                  />
-                  {["HOT", "NEW", "LIVE", "DROP"].map((tag) => (
-                    <button
-                      key={tag}
-                      type="button"
-                      onClick={() => setEditBadge(tag)}
-                      className={`px-1.5 py-0.5 text-[8px] uppercase font-bold ${
-                        editBadge === tag ? "mc-btn-gold text-black" : "mc-btn text-white/70"
-                      }`}
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                  {editBadge && (
-                    <button
-                      type="button"
-                      onClick={() => setEditBadge("")}
-                      className="text-[9px] text-red-400 hover:underline px-1"
-                    >
-                      Clear
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center gap-2 pt-1">
-                <button
-                  type="button"
-                  onClick={handleSave}
-                  className="mc-btn-diamond px-3 py-1 text-[10px] uppercase font-bold"
-                >
-                  <Check className="w-3 h-3 inline mr-1" /> Save
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditTitle(link.title);
-                    setEditUrl(link.url);
-                    setIsEditing(false);
-                  }}
-                  className="mc-btn px-2.5 py-1 text-[10px] uppercase"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div>
-              <div className="flex items-center gap-2">
-                <h4 className="font-bold text-white text-xs truncate uppercase tracking-wider">
-                  {link.title}
-                </h4>
-                {link.badge && (
-                  <span className="text-[8px] px-1.5 py-0.2 bg-amber-400 text-black font-bold uppercase border border-black shadow-[1px_1px_0_#000]">
-                    {link.badge}
-                  </span>
-                )}
-                {platform && (
-                  <span className="text-[9px] px-1.5 py-0.5 bg-[#15141a] border border-black text-[#55ffff] hidden sm:inline-block">
-                    {platform.name}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2 text-[11px] text-[#7d798a] truncate mt-0.5">
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="truncate hover:underline hover:text-[#55ffff] inline-flex items-center gap-1"
-                >
-                  {link.url}
-                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
-                </a>
-              </div>
-            </div>
-          )}
+              <span className="truncate">{link.url}</span>
+              <ExternalLink className="w-3 h-3 shrink-0 opacity-60" />
+            </a>
+          </div>
         </div>
 
-        {/* Clicks counter badge */}
-        <div className="hidden sm:flex items-center gap-1 text-[10px] text-[#b0adb8] px-2 py-1 bg-[#15141a] border border-black shadow-[inset_1px_1px_0_#000]">
-          <MousePointerClick className="w-3 h-3 text-[#ffaa00]" />
-          <span className="font-bold text-[#f5d77f]">
-            {link.click_count || 0}
-          </span>
-          <span className="text-[9px] uppercase">CLICKS</span>
+        {/* Analytics Click Count */}
+        <div
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#1f060d]/80 border border-[#d4af37]/20 text-[#d4af37] text-xs font-sans shrink-0"
+          title={`${link.click_count || 0} total clicks`}
+        >
+          <MousePointerClick className="w-3.5 h-3.5 text-[#d4af37]" />
+          <span className="font-semibold">{link.click_count || 0}</span>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Controls */}
         <div className="flex items-center gap-1.5 shrink-0">
-          {!isEditing && (
-            <button
-              type="button"
-              onClick={() => setIsEditing(true)}
-              className="p-1.5 mc-btn text-white text-xs"
-              title="Edit"
-            >
-              <Edit2 className="w-3.5 h-3.5" />
-            </button>
-          )}
-
+          {/* Visibility Toggle */}
           <button
             type="button"
             onClick={() => onUpdate(link.id, { is_visible: !link.is_visible })}
-            className={`p-1.5 mc-btn text-xs ${
-              link.is_visible ? "text-[#55ff55]" : "text-[#7d798a]"
+            className={`p-2 rounded-xl border transition-colors ${
+              link.is_visible
+                ? "border-[#d4af37]/25 text-[#d4af37] hover:bg-[#d4af37]/10"
+                : "border-zinc-800 text-zinc-500 hover:text-zinc-300"
             }`}
-            title={link.is_visible ? "Visible" : "Hidden"}
+            title={link.is_visible ? "Hide from public view" : "Make visible"}
           >
             {link.is_visible ? (
-              <Eye className="w-3.5 h-3.5" />
+              <Eye className="w-4 h-4" />
             ) : (
-              <EyeOff className="w-3.5 h-3.5" />
+              <EyeOff className="w-4 h-4" />
             )}
           </button>
 
+          {/* Edit Button */}
           <button
             type="button"
-            onClick={() => {
-              if (window.confirm(`Delete "${link.title}"?`)) {
-                onDelete(link.id);
-              }
-            }}
-            className="p-1.5 mc-btn text-[#ff8080] hover:text-[#ff5555] text-xs"
-            title="Delete"
+            onClick={() => setIsEditing(!isEditing)}
+            className="p-2 rounded-xl border border-[#d4af37]/25 text-[#faedd0]/80 hover:text-[#d4af37] hover:bg-[#d4af37]/10 transition-colors"
+            title="Edit details"
           >
-            <Trash2 className="w-3.5 h-3.5" />
+            <Edit2 className="w-4 h-4" />
+          </button>
+
+          {/* Delete Button */}
+          <button
+            type="button"
+            onClick={() => onDelete(link.id)}
+            className="p-2 rounded-xl border border-rose-900/40 text-rose-400 hover:text-rose-200 hover:bg-rose-950/40 transition-colors"
+            title="Delete link"
+          >
+            <Trash2 className="w-4 h-4" />
           </button>
         </div>
       </div>
+
+      {/* Inline Editor Drawer */}
+      {isEditing && (
+        <div className="p-4 border-t border-[#d4af37]/20 bg-[#160409]/90 rounded-b-2xl space-y-3 animate-fade-in">
+          <div>
+            <label className="text-[10px] font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1">
+              Title
+            </label>
+            <input
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              className="w-full px-3 py-2 luxury-input text-xs text-[#faf8f5] focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="text-[10px] font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1">
+              Destination URL
+            </label>
+            <input
+              type="text"
+              value={editUrl}
+              onChange={(e) => setEditUrl(e.target.value)}
+              className="w-full px-3 py-2 luxury-input text-xs text-[#faf8f5] focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="text-[10px] font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1">
+              Feature Badge (e.g. NEW, FEATURED, HOT, 50% OFF)
+            </label>
+            <input
+              type="text"
+              value={editBadge}
+              onChange={(e) => setEditBadge(e.target.value)}
+              placeholder="e.g. VIP, NEW"
+              maxLength={12}
+              className="w-full px-3 py-2 luxury-input text-xs text-[#faf8f5] focus:outline-none"
+            />
+          </div>
+
+          <div className="flex items-center justify-end gap-2 pt-2">
+            <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="py-1.5 px-3.5 rounded-xl border border-zinc-700 text-zinc-300 hover:text-white text-xs font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              className="py-1.5 px-4 luxury-btn-gold text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5"
+            >
+              <Check className="w-3.5 h-3.5" />
+              Save Changes
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

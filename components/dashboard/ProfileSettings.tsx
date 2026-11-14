@@ -13,7 +13,8 @@ import {
   User,
   Palette,
   Loader2,
-  Image as ImageIcon,
+  MessageSquare,
+  Sparkles,
 } from "lucide-react";
 
 interface ProfileSettingsProps {
@@ -32,11 +33,10 @@ export function ProfileSettings({
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
   const [statusMessage, setStatusMessage] = useState(profile.status_message || "");
   const [statusStyle, setStatusStyle] = useState<"speech" | "cloud" | "pixel">(profile.status_style || "cloud");
-  const [selectedTheme, setSelectedTheme] = useState<ThemeId>(profile.theme || "light");
+  const [selectedTheme, setSelectedTheme] = useState<ThemeId>(profile.theme || "luxury-craft");
   const [isSaved, setIsSaved] = useState(false);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
   const [imageError, setImageError] = useState("");
-  const [showUrlField, setShowUrlField] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -87,64 +87,63 @@ export function ProfileSettings({
   };
 
   return (
-    <div className="space-y-6 font-mono">
+    <div className="space-y-6 font-sans">
       {/* Profile Details Card */}
-      <div className="p-5 mc-panel border-2 border-black shadow-[0_4px_0_#000000] space-y-5">
-        <div className="flex items-center justify-between border-b border-[#3c3a44] pb-3">
+      <div className="p-5 sm:p-6 luxury-card border border-[#d4af37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-6">
+        <div className="flex items-center justify-between border-b border-[#d4af37]/20 pb-4">
           <div>
-            <h3 className="font-bold text-white text-xs uppercase tracking-wider">
-              Player Skin &amp; Lore
+            <h3 className="font-serif text-base font-medium text-gold-gradient">
+              Profile &amp; Identity
             </h3>
-            <p className="text-[10px] text-[#7d798a] mt-0.5">
-              Customize your photo, gamer tag, and bio
+            <p className="text-xs text-[#faedd0]/70 mt-0.5">
+              Refine your photo, moniker, and editorial bio
             </p>
           </div>
+
           {isSaved && (
-            <span className="text-[10px] text-[#55ff55] font-bold flex items-center gap-1">
-              <Check className="w-3 h-3" /> Saved!
+            <span className="text-xs text-emerald-400 font-semibold flex items-center gap-1 bg-emerald-950/40 border border-emerald-900/60 px-3 py-1 rounded-full">
+              <Check className="w-3.5 h-3.5" /> Saved!
             </span>
           )}
         </div>
 
-        {/* Profile Picture Section */}
-        <div>
-          <label className="text-[10px] uppercase font-bold text-[#b0adb8] block mb-2 tracking-wider">
-            Skin / Avatar
+        {/* Avatar Upload Section */}
+        <div className="space-y-3">
+          <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block">
+            Profile Portrait
           </label>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            {/* Interactive Avatar Container with hover camera overlay */}
+          <div className="flex flex-wrap items-center gap-4">
+            {/* Interactive Portrait Tile */}
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="relative group w-20 h-20 overflow-hidden bg-[#15141a] border-2 border-black shadow-[inset_2px_2px_0_#000,2px_2px_0_#000] cursor-pointer shrink-0"
-              title="Click to upload new skin photo"
+              className="relative group w-20 h-20 rounded-full border-2 border-[#d4af37]/60 bg-[#1f070e] flex items-center justify-center shrink-0 overflow-hidden shadow-[0_0_25px_rgba(212,175,55,0.25)] cursor-pointer"
+              title="Click to upload portrait"
             >
               {avatarUrl ? (
                 <img
                   src={avatarUrl}
-                  alt="Profile"
+                  alt={displayName || "Profile portrait"}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#55ffff] font-bold text-xl uppercase">
-                  {displayName.charAt(0) || profile.username.charAt(0) || "U"}
-                </div>
+                <User className="w-8 h-8 text-[#d4af37]/60" />
               )}
 
               {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white gap-0.5 text-[9px] font-bold uppercase">
-                <Camera className="w-4 h-4" />
-                <span>Change</span>
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[10px] font-medium">
+                <Camera className="w-4 h-4 mb-1 text-[#d4af37]" />
+                <span>Upload</span>
               </div>
 
               {isProcessingImage && (
-                <div className="absolute inset-0 bg-black/70 flex items-center justify-center text-[#55ffff]">
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                <div className="absolute inset-0 bg-black/80 flex items-center justify-center text-[#d4af37]">
+                  <Loader2 className="w-5 h-5 animate-spin" />
                 </div>
               )}
             </div>
 
-            {/* Hidden native file input */}
+            {/* Hidden native input */}
             <input
               ref={fileInputRef}
               type="file"
@@ -153,147 +152,125 @@ export function ProfileSettings({
               className="hidden"
             />
 
-            {/* Actions */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
+            {/* Controls */}
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isProcessingImage}
-                  className="px-3 py-1.5 mc-btn-gold text-black text-[10px] uppercase font-bold flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 luxury-btn-outline text-xs font-medium flex items-center gap-1.5"
                 >
-                  <Upload className="w-3 h-3" />
-                  Upload Skin
+                  <Upload className="w-3.5 h-3.5 text-[#d4af37]" />
+                  Upload from Device
                 </button>
 
                 {avatarUrl && (
                   <button
                     type="button"
                     onClick={handleRemovePhoto}
-                    className="p-1.5 mc-btn text-[#ff8080] hover:text-[#ff5555]"
-                    title="Remove photo"
+                    className="p-1.5 rounded-xl border border-rose-900/40 text-rose-400 hover:text-rose-200 hover:bg-rose-950/40 transition-colors"
+                    title="Remove portrait"
                   >
-                    <Trash2 className="w-3 h-3" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
-
-              <div className="flex items-center gap-3 text-[10px] text-[#7d798a]">
-                <span>PNG, JPG, or WebP</span>
-                <button
-                  type="button"
-                  onClick={() => setShowUrlField(!showUrlField)}
-                  className="hover:underline text-[#55ffff]"
-                >
-                  {showUrlField ? "Hide link" : "Or image URL"}
-                </button>
-              </div>
-
-              {imageError && (
-                <p className="text-[10px] text-[#ff5555]">{imageError}</p>
-              )}
+              <p className="text-[11px] text-[#faedd0]/50">
+                JPEG, PNG, or WebP. Automatically optimized.
+              </p>
             </div>
           </div>
 
-          {showUrlField && (
-            <div className="mt-2 pt-2 border-t border-[#3c3a44]">
-              <label className="text-[9px] uppercase font-bold text-[#7d798a] block mb-1">
-                Image Web URL
-              </label>
-              <input
-                type="text"
-                value={avatarUrl}
-                onChange={(e) => setAvatarUrl(e.target.value)}
-                placeholder="https://example.com/skin.png"
-                className="w-full px-2.5 py-1 text-xs mc-input text-white focus:outline-none"
-              />
-            </div>
+          {imageError && (
+            <p className="text-xs text-rose-400 mt-1">{imageError}</p>
           )}
         </div>
 
-        {/* Name and Bio Inputs */}
-        <form onSubmit={handleSaveInfo} className="space-y-3 pt-1">
+        {/* Details Form */}
+        <form onSubmit={handleSaveInfo} className="space-y-4">
           <div>
-            <label className="text-[10px] uppercase font-bold text-[#b0adb8] block mb-1">
-              Player Display Name
+            <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1">
+              Display Moniker / Name
             </label>
             <input
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              placeholder="e.g. Alex Rivera"
-              className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none"
+              placeholder="e.g. Aurelius Vance"
+              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
             />
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="text-[10px] uppercase font-bold text-[#b0adb8] block">
-                Lore / Bio
-              </label>
-              <span className="text-[9px] text-[#7d798a]">
-                {bio.length}/200
-              </span>
-            </div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1">
+              Editorial Bio / Synopsis
+            </label>
             <textarea
               value={bio}
-              onChange={(e) => setBio(e.target.value.slice(0, 200))}
+              onChange={(e) => setBio(e.target.value)}
               rows={3}
-              placeholder="A short introduction..."
-              className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none resize-none"
+              placeholder="A brief line about what you craft, curate, or create..."
+              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none resize-none"
             />
           </div>
 
-          {/* Floating Speech Cloud / Status Bubble */}
-          <div className="pt-2 border-t border-[#3c3a44]">
-            <div className="flex items-center justify-between mb-1">
-              <label className="text-[10px] uppercase font-bold text-amber-300 flex items-center gap-1.5">
-                <span>Floating Cloud / Speech Bubble</span>
+          {/* Floating Status Message / Speech Bubble */}
+          <div className="pt-2 border-t border-[#d4af37]/20 space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/80 flex items-center gap-1.5">
+                <MessageSquare className="w-3.5 h-3.5 text-[#d4af37]" />
+                Floating Thought / Status Bubble
               </label>
-              <span className="text-[9px] text-[#7d798a]">
-                {statusMessage.length}/60
+              <span className="text-[10px] text-[#faedd0]/50 uppercase tracking-wider">
+                Appears above avatar
               </span>
             </div>
-            <p className="text-[9px] text-[#7d798a] mb-2">
-              Shows a floating announcement or thought cloud right above your avatar.
-            </p>
+
             <input
               type="text"
               value={statusMessage}
-              onChange={(e) => setStatusMessage(e.target.value.slice(0, 60))}
-              placeholder="e.g. Streaming tonight! / Working on new track"
-              className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none mb-2"
+              onChange={(e) => setStatusMessage(e.target.value)}
+              placeholder="e.g. 🍷 Paris Fashion Week | Live now!"
+              maxLength={60}
+              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
             />
 
-            {/* Bubble Style Choice */}
-            <div className="flex items-center gap-2">
-              <span className="text-[9px] text-[#7d798a] uppercase">Shape:</span>
+            {/* Bubble Shape Picker: Cloud, Speech, Quote */}
+            <div className="flex items-center gap-2 pt-1">
+              <span className="text-xs text-[#faedd0]/70 uppercase tracking-wider">Shape:</span>
               <button
                 type="button"
                 onClick={() => setStatusStyle("cloud")}
-                className={`px-2.5 py-1 text-[10px] uppercase font-bold ${
-                  statusStyle === "cloud" ? "mc-btn-gold text-black" : "mc-btn text-white"
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                  statusStyle === "cloud"
+                    ? "luxury-btn-gold"
+                    : "luxury-btn-outline"
                 }`}
               >
-                Cloud
+                ☁️ Floating Cloud
               </button>
               <button
                 type="button"
                 onClick={() => setStatusStyle("speech")}
-                className={`px-2.5 py-1 text-[10px] uppercase font-bold ${
-                  statusStyle === "speech" ? "mc-btn-gold text-black" : "mc-btn text-white"
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                  statusStyle === "speech"
+                    ? "luxury-btn-gold"
+                    : "luxury-btn-outline"
                 }`}
               >
-                Speech
+                💬 Speech Balloon
               </button>
               <button
                 type="button"
                 onClick={() => setStatusStyle("pixel")}
-                className={`px-2.5 py-1 text-[10px] uppercase font-bold ${
-                  statusStyle === "pixel" ? "mc-btn-gold text-black" : "mc-btn text-white"
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                  statusStyle === "pixel"
+                    ? "luxury-btn-gold"
+                    : "luxury-btn-outline"
                 }`}
               >
-                Pixel
+                ✨ Luxury Plaque
               </button>
             </div>
           </div>
@@ -301,26 +278,27 @@ export function ProfileSettings({
           <button
             type="submit"
             disabled={isLoading}
-            className="px-4 py-2 mc-btn-gold text-black text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5"
+            className="mt-2 px-5 py-2.5 luxury-btn-gold text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5"
           >
-            <Check className="w-3.5 h-3.5" />
+            <Check className="w-4 h-4" />
             Save Profile
           </button>
         </form>
       </div>
 
       {/* Themes Customization Section */}
-      <div className="p-5 mc-panel border-2 border-black shadow-[0_4px_0_#000000] space-y-4">
-        <div className="border-b border-[#3c3a44] pb-2">
-          <h3 className="font-bold text-white text-xs uppercase tracking-wider">
-            Biome &amp; Texture Themes
+      <div className="p-5 sm:p-6 luxury-card border border-[#d4af37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-4">
+        <div className="border-b border-[#d4af37]/20 pb-3">
+          <h3 className="font-serif text-base font-medium text-gold-gradient flex items-center gap-2">
+            <Palette className="w-4 h-4 text-[#d4af37]" />
+            Haute Luxury Themes
           </h3>
-          <p className="text-[10px] text-[#7d798a] mt-0.5">
-            Select a theme for your public bio page
+          <p className="text-xs text-[#faedd0]/70 mt-0.5">
+            Select a deep red and rich gold aesthetic for your live bio showcase
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           {THEME_LIST.map((th) => {
             const isSelected = selectedTheme === th.id;
             return (
@@ -328,40 +306,37 @@ export function ProfileSettings({
                 key={th.id}
                 type="button"
                 onClick={() => handleSelectTheme(th.id)}
-                className={`p-3 border-2 border-black text-left transition-all relative flex items-start gap-3 ${
+                className={`p-3.5 rounded-2xl text-left border transition-all duration-200 relative overflow-hidden group ${
                   isSelected
-                    ? "bg-[#252219] border-[#d8aa2e] shadow-[inset_1px_1px_0_#d8aa2e]"
-                    : "bg-[#18161e] hover:bg-[#201d27]"
+                    ? "border-[#d4af37] bg-[#240810]/90 shadow-[0_0_25px_rgba(212,175,55,0.3)] ring-1 ring-[#d4af37]"
+                    : "border-[#d4af37]/20 bg-[#140509]/70 hover:border-[#d4af37]/50"
                 }`}
               >
-                <div
-                  className="w-9 h-12 shrink-0 p-1 flex flex-col justify-between border-2 border-black shadow-[inset_1px_1px_0_#fff]"
-                  style={{ background: th.previewBg }}
-                >
+                <div className="flex items-center gap-3">
+                  {/* Theme swatch preview */}
                   <div
-                    className="w-full h-2"
-                    style={{ background: th.previewCard }}
-                  />
-                  <div
-                    className="w-full h-2"
-                    style={{ background: th.previewCard }}
-                  />
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-[11px] text-white uppercase tracking-wider">
-                      {th.name.split("(")[0]}
-                    </h4>
-                    {isSelected && (
-                      <span className="w-3.5 h-3.5 bg-[#55ff55] border border-black text-black flex items-center justify-center font-bold text-[9px]">
-                        ✓
-                      </span>
-                    )}
+                    className="w-10 h-10 rounded-xl border border-[#d4af37]/40 shadow-inner shrink-0 flex items-center justify-center"
+                    style={{ background: th.previewBg }}
+                  >
+                    <div
+                      className="w-4 h-4 rounded-md border border-[#d4af37]/60"
+                      style={{ background: th.previewCard }}
+                    />
                   </div>
-                  <p className="text-[9px] text-[#8e8b98] mt-1 line-clamp-2">
-                    {th.description}
-                  </p>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <span className="font-serif font-semibold text-xs text-[#faf8f5]">
+                        {th.name}
+                      </span>
+                      {isSelected && (
+                        <Check className="w-3.5 h-3.5 text-[#d4af37]" />
+                      )}
+                    </div>
+                    <p className="text-[11px] text-[#faedd0]/60 truncate mt-0.5">
+                      {th.description}
+                    </p>
+                  </div>
                 </div>
               </button>
             );
@@ -369,7 +344,7 @@ export function ProfileSettings({
         </div>
       </div>
 
-      {/* Featured Trio Spotlight (Sponsors / Promoted Creators) */}
+      {/* Featured Trio Spotlight Manager */}
       <FeaturedCreatorsManager
         profile={profile}
         onUpdateProfile={onUpdateProfile}

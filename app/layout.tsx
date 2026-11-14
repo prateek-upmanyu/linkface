@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LinkinBio — One link for everything you create",
+  title: "AURUM — Haute Link in Bio for Creators & Curators",
   description:
-    "Open-source Linktree alternative with 50+ auto-detected platforms, drag-and-drop reordering, themes, and real-time click analytics.",
+    "The premier luxury link in bio with 50+ auto-detected channels, featured trio spotlight, real-time analytics, and haute crimson & gold aesthetic.",
   icons: {
     icon: "/favicon.ico",
   },

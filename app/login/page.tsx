@@ -81,28 +81,31 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#121116] flex flex-col justify-center items-center p-4 font-mono">
-      <div className="max-w-sm w-full mc-panel p-6 shadow-[0_6px_0_#000000]">
+    <div className="min-h-screen bg-[var(--bg-base)] flex flex-col justify-center items-center p-4 font-sans">
+      <div className="max-w-md w-full luxury-card p-8 border border-[#d4af37]/35 shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
         {/* Brand */}
-        <Link href="/" className="flex items-center justify-center gap-2.5 mb-6 group">
-          <BrandLogo className="w-8 h-8" />
-          <span className="font-bold text-base tracking-wider text-white uppercase mc-text-shadow">
-            CraftLink
+        <Link href="/" className="flex flex-col items-center justify-center gap-2 mb-8 group">
+          <BrandLogo className="w-10 h-10" />
+          <span className="font-serif font-semibold text-lg tracking-widest text-gold-gradient uppercase">
+            AURUM
+          </span>
+          <span className="text-[10px] uppercase tracking-widest text-[#d4af37]/70 font-sans">
+            Haute Bio Studio
           </span>
         </Link>
 
         {/* Tab switch: Sign In vs Sign Up */}
-        <div className="grid grid-cols-2 p-1 bg-[#15141a] border-2 border-black mb-5 text-[11px] uppercase tracking-wider">
+        <div className="grid grid-cols-2 p-1 rounded-xl bg-[#140509]/80 border border-[#d4af37]/20 mb-6 text-xs uppercase tracking-wider font-semibold">
           <button
             type="button"
             onClick={() => {
               setIsSignUp(false);
               setError("");
             }}
-            className={`py-1.5 transition-all ${
+            className={`py-2 rounded-lg transition-all ${
               !isSignUp
-                ? "mc-btn text-white font-bold"
-                : "text-[#8e8b98] hover:text-white"
+                ? "luxury-btn-gold text-[#140407]"
+                : "text-[#faedd0]/60 hover:text-[#faedd0]"
             }`}
           >
             Sign In
@@ -113,27 +116,27 @@ export default function LoginPage() {
               setIsSignUp(true);
               setError("");
             }}
-            className={`py-1.5 transition-all ${
+            className={`py-2 rounded-lg transition-all ${
               isSignUp
-                ? "mc-btn text-white font-bold"
-                : "text-[#8e8b98] hover:text-white"
+                ? "luxury-btn-gold text-[#140407]"
+                : "text-[#faedd0]/60 hover:text-[#faedd0]"
             }`}
           >
-            New Player
+            Create Account
           </button>
         </div>
 
         {magicLinkSent ? (
-          <div className="p-4 text-center space-y-2 bg-[#1b2b1b] border-2 border-[#55ff55] text-xs">
-            <h3 className="font-bold text-[#55ff55] uppercase tracking-wider">
-              Check Your Inbox!
+          <div className="p-5 text-center space-y-3 rounded-2xl bg-[#1f070e] border border-[#d4af37]/40 text-xs">
+            <h3 className="font-serif font-semibold text-[#f7e7b4] text-base">
+              Check Your Inbox
             </h3>
-            <p className="text-[11px] text-[#b0f5b0]">
-              Sent a verification scroll to <span className="font-bold">{email}</span>. Click it to enter the world.
+            <p className="text-[#faedd0]/80 leading-relaxed">
+              We sent a verification invitation to <span className="font-semibold text-white">{email}</span>. Click it to enter your private studio.
             </p>
             <button
               onClick={() => setMagicLinkSent(false)}
-              className="text-[10px] text-[#55ffff] underline mt-2 uppercase tracking-wider"
+              className="text-xs text-[#d4af37] underline mt-3 uppercase tracking-wider block mx-auto hover:text-[#faedd0]"
             >
               Back to Sign In
             </button>
@@ -144,7 +147,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="w-full py-2.5 px-3 mc-btn text-white font-medium text-[11px] uppercase tracking-wider flex items-center justify-center gap-2 mb-4"
+              className="w-full py-3 px-4 rounded-xl border border-[#d4af37]/25 bg-[#140509]/70 hover:border-[#d4af37]/60 hover:bg-[#d4af37]/10 text-[#faedd0] font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 mb-5 transition-all"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -167,17 +170,17 @@ export default function LoginPage() {
               <span>Continue with Google</span>
             </button>
 
-            <div className="relative flex items-center justify-center mb-4">
-              <div className="border-t border-[#3c3a44] w-full" />
-              <span className="bg-[#252429] px-2 text-[10px] text-[#7d798a] uppercase tracking-wider absolute">
+            <div className="relative flex items-center justify-center mb-5">
+              <div className="border-t border-[#d4af37]/20 w-full" />
+              <span className="bg-[#120509] px-3 text-[10px] text-[#faedd0]/50 uppercase tracking-widest absolute">
                 or email
               </span>
             </div>
 
             {/* Email Form */}
-            <form onSubmit={handleAuth} className="space-y-3">
+            <form onSubmit={handleAuth} className="space-y-4">
               <div>
-                <label className="text-[10px] uppercase tracking-wider text-[#b0adb8] block mb-1">
+                <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1.5">
                   Email Address
                 </label>
                 <input
@@ -185,14 +188,14 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="player@craftlink.app"
-                  className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none"
+                  placeholder="creator@domain.com"
+                  className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-[10px] uppercase tracking-wider text-[#b0adb8] block mb-1">
-                  Secret Key (Password)
+                <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1.5">
+                  Passcode
                 </label>
                 <input
                   type="password"
@@ -201,13 +204,13 @@ export default function LoginPage() {
                   required
                   minLength={6}
                   placeholder="••••••••"
-                  className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none"
+                  className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
                 />
               </div>
 
               {error && (
-                <div className="p-2 border border-[#ff5555] bg-[#3a1818] text-[#ff8080] text-[11px] flex items-center gap-1.5">
-                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                <div className="p-3 rounded-xl border border-rose-900/50 bg-rose-950/40 text-rose-300 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{error}</span>
                 </div>
               )}
@@ -215,22 +218,22 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2.5 px-4 mc-btn-gold text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-3"
+                className="w-full py-3 px-4 luxury-btn-gold text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 mt-4"
               >
                 {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-black" />
+                  <Loader2 className="w-4 h-4 animate-spin text-[#140407]" />
                 ) : (
-                  <span>{isSignUp ? "Create Player" : "Enter Server"}</span>
+                  <span>{isSignUp ? "Create Studio Account" : "Access Studio"}</span>
                 )}
               </button>
             </form>
 
-            <div className="mt-5 pt-3 border-t border-[#3c3a44] text-center">
+            <div className="mt-6 pt-4 border-t border-[#d4af37]/20 text-center">
               <Link
                 href="/dashboard"
-                className="text-[11px] text-[#55ffff] hover:underline uppercase tracking-wider"
+                className="text-xs text-[#d4af37] hover:text-[#faedd0] uppercase tracking-wider font-medium"
               >
-                Enter Demo Server without Sign-in &rarr;
+                Open Demo Studio without Sign-in &rarr;
               </Link>
             </div>
           </>

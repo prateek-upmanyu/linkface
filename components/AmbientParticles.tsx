@@ -21,37 +21,35 @@ export function AmbientParticles({ themeId = "luxury-craft", className = "" }: A
     let width = (canvas.width = canvas.offsetWidth);
     let height = (canvas.height = canvas.offsetHeight);
 
-    const isGold = themeId.includes("luxury") || themeId.includes("gold");
-    const isPurple = themeId.includes("obsidian") || themeId.includes("dark");
-
-    const particleColors = isGold
-      ? ["#f5d77f", "#ffd95c", "#c59b27", "#ffe57f"]
-      : isPurple
-      ? ["#b388ff", "#7c4dff", "#ea80fc", "#8c9eff"]
-      : ["#ffffff", "#e0e7ff", "#fef08a"];
+    const isLight = themeId === "light";
+    const particleColors = isLight
+      ? ["#c59e2b", "#d4af37", "#9b1932", "#8a6a1c"]
+      : ["#faedd0", "#f7e7b4", "#d4af37", "#e6c86e", "#c59e2b"];
 
     interface Particle {
       x: number;
       y: number;
-      size: number;
+      radius: number;
       speedY: number;
       speedX: number;
       color: string;
       alpha: number;
+      fadeSpeed: number;
     }
 
     const particles: Particle[] = [];
-    const count = 28;
+    const count = 35; // optimal for smooth 60fps
 
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() > 0.8 ? 3 : 2, // crisp pixel squares
-        speedY: -(Math.random() * 0.4 + 0.15),
-        speedX: (Math.random() - 0.5) * 0.2,
+        radius: Math.random() * 1.5 + 0.8, // soft circular micro-embers
+        speedY: -(Math.random() * 0.35 + 0.12),
+        speedX: (Math.random() - 0.5) * 0.18,
         color: particleColors[Math.floor(Math.random() * particleColors.length)],
-        alpha: Math.random() * 0.6 + 0.2,
+        alpha: Math.random() * 0.5 + 0.15,
+        fadeSpeed: (Math.random() * 0.008 + 0.003),
       });
     }
 
@@ -71,16 +69,21 @@ export function AmbientParticles({ themeId = "luxury-craft", className = "" }: A
         p.x += p.speedX;
 
         if (p.y < -10) {
-          p.y = height + 5;
+          p.y = height + 10;
           p.x = Math.random() * width;
         }
 
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
-        ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 6;
+        ctx.fill();
       });
 
       ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
       animId = requestAnimationFrame(render);
     };
 

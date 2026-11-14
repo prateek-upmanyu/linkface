@@ -44,7 +44,6 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
       platform: info.platformId,
     });
 
-    // Reset input
     setUrl("");
     setCustomTitle("");
     setShowAdvanced(false);
@@ -53,30 +52,31 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-5 mc-panel border-2 border-black font-mono shadow-[0_4px_0_#000000]"
+      className="p-5 sm:p-6 luxury-card border border-[#d4af37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] font-sans"
     >
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-2">
-          <Link2 className="w-3.5 h-3.5 text-[#55ffff]" />
-          Craft New Link
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-serif text-base font-medium text-gold-gradient flex items-center gap-2">
+          <Link2 className="w-4 h-4 text-[#d4af37]" />
+          Curate New Link
         </h3>
         {detected?.platformId && (
-          <span className="text-[10px] px-2 py-0.5 bg-[#172b17] border border-[#55ff55] text-[#55ff55] flex items-center gap-1">
-            <Check className="w-3 h-3" />
-            Recipe: {detected.name}
+          <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#460c18]/50 border border-[#d4af37]/40 text-[#f7e7b4] flex items-center gap-1.5 font-sans font-medium">
+            <Check className="w-3 h-3 text-[#d4af37]" />
+            Detected: {detected.name}
           </span>
         )}
       </div>
 
       {/* Main URL Input with live detection icon */}
       <div className="relative flex items-center">
-        <div className="absolute left-3 flex items-center justify-center pointer-events-none">
+        <div className="absolute left-3.5 flex items-center justify-center pointer-events-none">
           {detected && detected.isValid ? (
             <div
-              className="w-6 h-6 border border-black flex items-center justify-center"
+              className="w-7 h-7 rounded-lg flex items-center justify-center shadow-xs"
               style={{
-                backgroundColor: detected.brandColor ? `${detected.brandColor}33` : "#1e1e24",
-                color: detected.brandColor || "#ffffff",
+                backgroundColor: detected.brandColor ? `${detected.brandColor}25` : "rgba(212,175,55,0.15)",
+                color: detected.brandColor || "#d4af37",
+                border: `1px solid ${detected.brandColor || "rgba(212,175,55,0.3)"}`,
               }}
             >
               <PlatformIcon
@@ -84,12 +84,12 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
                 platformId={detected.platformId}
                 faviconUrl={detected.faviconUrl}
                 brandColor={detected.brandColor}
-                className="w-3.5 h-3.5"
-                size={14}
+                className="w-4 h-4"
+                size={16}
               />
             </div>
           ) : (
-            <Link2 className="w-4 h-4 text-[#7d798a]" />
+            <Link2 className="w-4 h-4 text-[#d4af37]/60" />
           )}
         </div>
 
@@ -100,61 +100,54 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
             setUrl(e.target.value);
             if (error) setError("");
           }}
-          placeholder="Paste link (YouTube, Twitch, Discord, GitHub...)"
-          className="w-full pl-11 pr-24 py-2.5 text-xs mc-input text-white placeholder:text-[#55535e] focus:outline-none"
+          placeholder="Paste any link (Instagram, YouTube, Spotify, Portfolio, Store...)"
+          className="w-full pl-12 pr-4 py-3 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
         />
-
-        <button
-          type="submit"
-          disabled={isLoading || !url.trim()}
-          className="absolute right-1.5 px-3 py-1.5 mc-btn-gold text-black font-bold text-[10px] uppercase tracking-wider flex items-center gap-1 disabled:opacity-40"
-        >
-          <Plus className="w-3 h-3" />
-          Add
-        </button>
       </div>
 
+      {/* Error alert */}
       {error && (
-        <div className="flex items-center gap-1.5 text-[11px] text-[#ff8080] mt-2">
+        <div className="mt-2.5 flex items-center gap-1.5 text-xs text-rose-400 bg-rose-950/40 border border-rose-900/50 p-2.5 rounded-xl">
           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Live Title Customization preview */}
-      {detected && (
-        <div className="mt-3 pt-2.5 border-t border-[#3c3a44] flex flex-wrap items-center justify-between gap-2 text-[10px]">
-          <div className="flex items-center gap-1.5 text-[#b0adb8]">
-            <span>Title:</span>
-            <span className="font-bold text-[#f5d77f]">
-              {customTitle || detected.name}
-            </span>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setShowAdvanced(!showAdvanced)}
-            className="text-[10px] text-[#55ffff] hover:underline uppercase"
-          >
-            {showAdvanced ? "Hide title" : "Edit title?"}
-          </button>
-        </div>
-      )}
-
+      {/* Advanced title expander */}
       {showAdvanced && (
-        <div className="mt-2 pt-2 border-t border-[#3c3a44]">
-          <label className="text-[9px] font-bold text-[#b0adb8] uppercase tracking-wider block mb-1">
-            Display Title
+        <div className="mt-3.5 space-y-1.5 animate-fade-in">
+          <label className="text-[11px] font-medium uppercase tracking-wider text-[#faedd0]/70">
+            Custom Title (Optional)
           </label>
           <input
             type="text"
             value={customTitle}
             onChange={(e) => setCustomTitle(e.target.value)}
-            placeholder={detected?.name || "e.g. My Twitch Channel"}
-            className="w-full px-2.5 py-1.5 text-xs mc-input text-white focus:outline-none"
+            placeholder={detected?.name ? `Default: ${detected.name}` : "e.g. Listen to my new single"}
+            className="w-full px-3.5 py-2.5 luxury-input text-xs text-[#faf8f5] focus:outline-none"
           />
         </div>
       )}
+
+      {/* Action Row */}
+      <div className="mt-4 flex items-center justify-between pt-1">
+        <button
+          type="button"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          className="text-xs text-[#d4af37]/80 hover:text-[#faedd0] transition-colors"
+        >
+          {showAdvanced ? "– Hide custom title" : "+ Add custom title"}
+        </button>
+
+        <button
+          type="submit"
+          disabled={isLoading || !url.trim()}
+          className="py-2.5 px-5 luxury-btn-gold text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          <Plus className="w-4 h-4" />
+          Add to Showcase
+        </button>
+      </div>
     </form>
   );
 }

@@ -8,7 +8,7 @@ export const DEMO_PROFILE: Profile = {
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
   theme: "luxury-craft",
   page_views: 1240,
-  status_message: "Crafting new voxel designs!",
+  status_message: "Curating the new Haute Collection ✨",
   status_style: "cloud",
   featured_creators: [
     {
@@ -23,14 +23,14 @@ export const DEMO_PROFILE: Profile = {
       name: "Marcus V.",
       url: "https://github.com/alexrivera",
       avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-      tagline: "Voxel Engine",
+      tagline: "Creative Director",
     },
     {
       id: "fc-3",
       name: "Aria Chen",
       url: "https://instagram.com/alexrivera.design",
       avatar_url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
-      tagline: "Pixel Artist",
+      tagline: "Jewelry Designer",
     },
   ],
   created_at: new Date().toISOString(),

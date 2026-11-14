@@ -30,10 +30,9 @@ export function PublicLinkButton({
         }&sz=64`
       : null;
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = () => {
     playClickSound();
 
-    // Record click count asynchronously
     fetch("/api/click", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -41,11 +40,9 @@ export function PublicLinkButton({
     }).catch((err) => console.error("Click track error:", err));
 
     setClicked(true);
-    setTimeout(() => setClicked(false), 500);
+    setTimeout(() => setClicked(false), 300);
   };
 
-  const hasCustomRounding = themeCardClass.includes("rounded-");
-  const isVoxel = themeCardClass.includes("rounded-none");
   const isDark = !themeCardClass.includes("bg-white") && !themeCardClass.includes("bg-slate-50");
   const iconStyle = getPlatformBadgeStyle(platform?.brandColor, isDark);
 
@@ -55,18 +52,14 @@ export function PublicLinkButton({
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={`w-full py-3.5 sm:py-4 px-4 sm:px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none ${
-        hasCustomRounding ? "" : "rounded-2xl"
-      } ${themeCardClass} ${themeCardHoverClass} ${themeButtonShadow} ${
-        clicked ? "scale-[0.98]" : ""
+      className={`w-full py-4 px-5 flex items-center justify-between transition-all duration-200 group text-decoration-none select-none rounded-2xl ${themeCardClass} ${themeCardHoverClass} ${themeButtonShadow} ${
+        clicked ? "scale-[0.985] brightness-110" : ""
       }`}
     >
       <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-2">
-        {/* Platform Icon with brand accent tint & contrast safety */}
+        {/* Refined Platform Icon Tile */}
         <div
-          className={`w-9 h-9 sm:w-10 sm:h-10 ${
-            isVoxel ? "rounded-none" : "rounded-xl"
-          } flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-150`}
+          className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-200 shadow-xs border border-white/10"
           style={{
             backgroundColor: iconStyle.bgColor,
             color: iconStyle.color,
@@ -78,21 +71,24 @@ export function PublicLinkButton({
             faviconUrl={favicon}
             brandColor={iconStyle.color}
             className="w-5 h-5"
-            size={22}
+            size={20}
           />
         </div>
 
-        <span className="font-mono font-medium text-xs sm:text-sm tracking-tight leading-tight truncate flex-1">
+        {/* Link Title */}
+        <span className="font-sans font-medium text-sm sm:text-base tracking-normal leading-snug truncate flex-1 text-[#faedd0] group-hover:text-white transition-colors">
           {link.title}
         </span>
+
+        {/* Refined Luxury Link Badge */}
         {link.badge && (
-          <span className="px-2 py-0.5 text-[9px] font-mono font-bold uppercase bg-amber-400 text-black border border-black shadow-[1px_1px_0_#000] shrink-0 ml-1.5">
+          <span className="px-2.5 py-0.5 text-[9px] font-sans font-semibold tracking-wider uppercase bg-[#300a12]/90 text-[#f7e7b4] border border-[#d4af37]/50 rounded-full shadow-[0_0_12px_rgba(212,175,55,0.2)] shrink-0 ml-1.5">
             {link.badge}
           </span>
         )}
       </div>
 
-      <ExternalLink className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />
+      <ExternalLink className="w-4 h-4 text-[#d4af37]/60 group-hover:text-[#faedd0] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1" />
     </a>
   );
 }

@@ -34,7 +34,7 @@ export default function OnboardingPage() {
         const data = await res.json();
         setAvailability(data);
       } catch (err) {
-        setAvailability({ available: false, message: "Error checking player tag." });
+        setAvailability({ available: false, message: "Error checking moniker." });
       } finally {
         setIsChecking(false);
       }
@@ -75,37 +75,37 @@ export default function OnboardingPage() {
 
       router.push("/dashboard");
     } catch (err: any) {
-      setSubmitError(err.message || "Failed to claim player tag.");
+      setSubmitError(err.message || "Failed to claim moniker.");
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#121116] flex flex-col justify-center items-center p-4 font-mono">
-      <div className="max-w-md w-full mc-panel p-6 shadow-[0_6px_0_#000000]">
-        <div className="flex justify-center mb-4">
-          <BrandLogo className="w-10 h-10" />
+    <div className="min-h-screen bg-[var(--bg-base)] flex flex-col justify-center items-center p-4 font-sans">
+      <div className="max-w-md w-full luxury-card p-8 border border-[#d4af37]/35 shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
+        <div className="flex justify-center mb-5">
+          <BrandLogo className="w-12 h-12" />
         </div>
 
-        <div className="text-center mb-5">
-          <h1 className="text-xl font-bold uppercase tracking-wider text-white mc-text-shadow">
-            Choose Your Player Tag
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-serif font-medium text-gold-gradient uppercase tracking-tight">
+            Claim Your Moniker
           </h1>
-          <p className="text-[11px] text-[#b0adb8] mt-1">
-            Your public bio link:{" "}
-            <span className="text-[#55ffff]">
-              craftlink.app/{username || "tag"}
+          <p className="text-xs text-[#faedd0]/70 mt-1.5 font-sans">
+            Your permanent link showcase URL:{" "}
+            <span className="text-[#d4af37] font-semibold">
+              aurum.bio/{username || "moniker"}
             </span>
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-[10px] uppercase tracking-wider text-[#b0adb8] block mb-1">
-              Player Tag
+            <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1.5">
+              Handle / Moniker
             </label>
             <div className="relative flex items-center">
-              <span className="absolute left-3 text-[#7d798a] text-xs select-none">
+              <span className="absolute left-3.5 text-[#d4af37] text-xs font-serif select-none">
                 @
               </span>
               <input
@@ -117,52 +117,52 @@ export default function OnboardingPage() {
                 placeholder="yourname"
                 required
                 maxLength={20}
-                className="w-full pl-7 pr-8 py-2.5 text-xs mc-input text-white focus:outline-none"
+                className="w-full pl-8 pr-10 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
               />
 
-              <div className="absolute right-3 flex items-center">
+              <div className="absolute right-3.5 flex items-center">
                 {isChecking && (
-                  <Loader2 className="w-3.5 h-3.5 text-[#55ffff] animate-spin" />
+                  <Loader2 className="w-4 h-4 text-[#d4af37] animate-spin" />
                 )}
                 {!isChecking && availability?.available && (
-                  <Check className="w-4 h-4 text-[#55ff55]" />
+                  <Check className="w-4 h-4 text-emerald-400" />
                 )}
                 {!isChecking && availability && !availability.available && (
-                  <X className="w-4 h-4 text-[#ff5555]" />
+                  <X className="w-4 h-4 text-rose-400" />
                 )}
               </div>
             </div>
 
             {availability && (
               <p
-                className={`text-[11px] mt-1 ${
-                  availability.available ? "text-[#55ff55]" : "text-[#ff8080]"
+                className={`text-xs mt-1.5 ${
+                  availability.available ? "text-emerald-400 font-medium" : "text-rose-300"
                 }`}
               >
                 {availability.message}
               </p>
             )}
-            <p className="text-[10px] text-[#7d798a] mt-1">
-              3-20 chars: lowercase letters, numbers, and underscores only.
+            <p className="text-[11px] text-[#faedd0]/45 mt-1">
+              3-20 characters: lowercase letters, numbers, and underscores only.
             </p>
           </div>
 
           <div>
-            <label className="text-[10px] uppercase tracking-wider text-[#b0adb8] block mb-1">
+            <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1.5">
               Display Name (Optional)
             </label>
             <input
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              placeholder="e.g. Alex Rivera"
-              className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none"
+              placeholder="e.g. Elena Rostova"
+              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
             />
           </div>
 
           {submitError && (
-            <div className="p-2 border border-[#ff5555] bg-[#3a1818] text-[#ff8080] text-[11px] flex items-center gap-1.5">
-              <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
+            <div className="p-3 rounded-xl border border-rose-900/50 bg-rose-950/40 text-rose-300 text-xs flex items-center gap-2">
+              <ShieldAlert className="w-4 h-4 shrink-0" />
               <span>{submitError}</span>
             </div>
           )}
@@ -170,12 +170,12 @@ export default function OnboardingPage() {
           <button
             type="submit"
             disabled={!availability?.available || isSubmitting}
-            className="w-full py-2.5 px-4 mc-btn-gold disabled:opacity-50 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-2"
+            className="w-full py-3 px-4 luxury-btn-gold disabled:opacity-40 text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 mt-3"
           >
             {isSubmitting ? (
-              <Loader2 className="w-4 h-4 animate-spin text-black" />
+              <Loader2 className="w-4 h-4 animate-spin text-[#140407]" />
             ) : (
-              <span>Equip Player Tag</span>
+              <span>Reserve &amp; Enter Studio</span>
             )}
           </button>
         </form>

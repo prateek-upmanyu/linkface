@@ -3,39 +3,40 @@ import React from "react";
 export function BrandLogo({ className = "w-8 h-8" }: { className?: string }) {
   return (
     <div
-      className={`border-2 border-black flex items-center justify-center select-none shadow-[2px_2px_0px_#000000] shrink-0 bg-[#5c8e32] ${className}`}
-      title="CraftLink"
+      className={`relative flex items-center justify-center shrink-0 rounded-xl bg-gradient-to-br from-[#2a0c14] to-[#120407] border border-[#d4af37]/40 shadow-[0_4px_15px_rgba(212,175,55,0.2)] ${className}`}
+      title="AURUM | Luxury Bio"
     >
-      {/* Pixelated Minecraft Grass Block Icon */}
+      {/* Elegant Gold Monogram Emblem */}
       <svg
-        viewBox="0 0 16 16"
-        className="w-full h-full"
-        style={{ shapeRendering: "crispEdges" }}
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-3/5 h-3/5 drop-shadow-[0_1px_4px_rgba(212,175,55,0.4)]"
       >
-        {/* Grass Top */}
-        <rect x="0" y="0" width="16" height="5" fill="#5c8e32" />
-        <rect x="1" y="5" width="2" height="2" fill="#5c8e32" />
-        <rect x="5" y="5" width="2" height="3" fill="#5c8e32" />
-        <rect x="9" y="5" width="2" height="2" fill="#5c8e32" />
-        <rect x="13" y="5" width="2" height="3" fill="#5c8e32" />
+        {/* Diamond Outer Frame */}
+        <path
+          d="M16 3L28 16L16 29L4 16L16 3Z"
+          stroke="url(#goldGradient)"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+        {/* Intersecting Luxury Links / Chevron */}
+        <path
+          d="M16 8L23 16L16 23L9 16L16 8Z"
+          stroke="url(#goldGradient)"
+          strokeWidth="1"
+          strokeOpacity="0.6"
+        />
+        {/* Core Radiance Dot */}
+        <circle cx="16" cy="16" r="2" fill="url(#goldGradient)" />
 
-        {/* Highlights */}
-        <rect x="0" y="0" width="16" height="1" fill="#7ebd3e" />
-        <rect x="0" y="1" width="1" height="4" fill="#7ebd3e" />
-
-        {/* Dirt Bottom */}
-        <rect x="0" y="5" width="1" height="11" fill="#866043" />
-        <rect x="3" y="5" width="2" height="11" fill="#866043" />
-        <rect x="7" y="5" width="2" height="11" fill="#866043" />
-        <rect x="11" y="5" width="2" height="11" fill="#866043" />
-        <rect x="15" y="5" width="1" height="11" fill="#866043" />
-        <rect x="0" y="8" width="16" height="8" fill="#866043" />
-
-        {/* Dirt Dark Pixels */}
-        <rect x="2" y="9" width="2" height="2" fill="#573d26" />
-        <rect x="8" y="11" width="2" height="2" fill="#573d26" />
-        <rect x="12" y="9" width="2" height="2" fill="#573d26" />
-        <rect x="5" y="13" width="2" height="2" fill="#573d26" />
+        <defs>
+          <linearGradient id="goldGradient" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#faedd0" />
+            <stop offset="0.5" stopColor="#d4af37" />
+            <stop offset="1" stopColor="#aa821e" />
+          </linearGradient>
+        </defs>
       </svg>
     </div>
   );
