@@ -182,14 +182,21 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
       {/* Footer Branding Badge */}
       <footer className="mt-16 text-center">
-        <Link
-          href="/"
-          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-150 hover:opacity-100 ${theme.badge} opacity-75 shadow-xs`}
-        >
-          <span>LinkinBio</span>
-          <span className="opacity-40 text-[10px]">&bull;</span>
-          <span className="opacity-70 text-[11px]">Create your own</span>
-        </Link>
+        {(() => {
+          const isVoxel = theme.card.includes("rounded-none") || theme.avatarRing.includes("rounded-none");
+          return (
+            <Link
+              href="/"
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 ${
+                isVoxel ? "rounded-none border-2" : "rounded-full border"
+              } text-xs font-mono tracking-wide transition-all duration-150 hover:opacity-100 ${theme.badge} opacity-75 shadow-xs`}
+            >
+              <span>LinkinBio</span>
+              <span className="opacity-40 text-[10px]">&bull;</span>
+              <span className="opacity-70 text-[11px]">Create your own</span>
+            </Link>
+          );
+        })()}
       </footer>
     </div>
   );

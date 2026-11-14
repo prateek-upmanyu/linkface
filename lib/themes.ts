@@ -26,13 +26,13 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     previewCard: "#221c12",
     previewText: "#f5d77f",
     background: "bg-[#0b0a0c] text-amber-50 min-h-screen",
-    card: "luxury-craft-btn bg-[#181613] text-amber-100 font-mono tracking-wide rounded-none",
+    card: "luxury-craft-btn bg-[#181613] text-amber-100 font-mono tracking-normal rounded-none",
     cardHover: "",
     textPrimary: "text-[#f5d77f] font-mono tracking-wider font-semibold",
     textSecondary: "text-amber-300/70 font-mono text-xs",
     avatarRing: "ring-4 ring-amber-500/80 shadow-[0_0_25px_rgba(245,215,127,0.35)] rounded-none",
     buttonShadow: "",
-    badge: "bg-[#1f1a12] border border-amber-500/40 text-amber-300 font-mono text-[10px]",
+    badge: "bg-[#1f1a12] border-2 border-amber-500/50 text-amber-300 font-mono text-[10px] shadow-[1px_1px_0_#000]",
   },
   luxury: {
     id: "luxury",
@@ -58,9 +58,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     previewCard: "#706f6f",
     previewText: "#ffffff",
     background: "bg-stone-900 text-neutral-100 min-h-screen",
-    card: "minecraft-bevel-btn bg-[#6e6d6d] text-white rounded-none font-mono tracking-wider",
+    card: "minecraft-bevel-btn bg-[#6e6d6d] text-white rounded-none font-mono tracking-normal",
     cardHover: "",
-    textPrimary: "text-white font-mono uppercase tracking-widest font-bold",
+    textPrimary: "text-white font-mono uppercase tracking-wider font-bold",
     textSecondary: "text-stone-300 font-mono text-xs",
     avatarRing: "border-4 border-black shadow-[3px_3px_0px_#000000] rounded-none",
     buttonShadow: "",
@@ -149,3 +149,8 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
 };
 
 export const THEME_LIST = Object.values(THEMES);
+
+export function isDarkTheme(themeId?: string): boolean {
+  return !["light", "colorful", "minimal"].includes(themeId || "");
+}
+

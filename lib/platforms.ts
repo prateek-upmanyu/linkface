@@ -615,3 +615,59 @@ export function detectPlatform(rawUrl: string): DetectedPlatform {
     domain: host,
   };
 }
+
+/**
+ * Computes high-contrast badge styling for platform icons on both light and dark theme cards.
+ * Automatically lifts dark/black brand colors (GitHub, X, Threads, Steam, Notion) to crisp white
+ * with frosted backdrop when rendered on dark cards.
+ */
+export function getPlatformBadgeStyle(
+  brandColor?: string | null,
+  isDarkCard: boolean = true
+): { color: string; bgColor: string; borderColor: string } {
+  if (!brandColor) {
+    return {
+      color: isDarkCard ? "#ffffff" : "#18181b",
+      bgColor: isDarkCard ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.06)",
+      borderColor: isDarkCard ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.08)",
+    };
+  }
+
+  const darkHexes = [
+    "#000000",
+    "#0A0A0A",
+    "#111111",
+    "#121212",
+    "#171A21",
+    "#18181B",
+    "#1E1E1E",
+    "#1F2937",
+    "#24292F",
+    "#252525",
+  ];
+  const isNearBlack = darkHexes.includes(brandColor.toUpperCase());
+
+  if (isNearBlack) {
+    if (isDarkCard) {
+      return {
+        color: "#ffffff",
+        bgColor: "rgba(255, 255, 255, 0.14)",
+        borderColor: "rgba(255, 255, 255, 0.22)",
+      };
+    } else {
+      return {
+        color: "#18181b",
+        bgColor: "rgba(0, 0, 0, 0.06)",
+        borderColor: "rgba(0, 0, 0, 0.12)",
+      };
+    }
+  }
+
+  // Vibrant brand colors (Instagram, Spotify, YouTube, Discord, BuyMeACoffee, etc.)
+  return {
+    color: brandColor,
+    bgColor: `${brandColor}22`,
+    borderColor: `${brandColor}40`,
+  };
+}
+

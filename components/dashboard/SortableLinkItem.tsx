@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { LinkItem } from "@/types";
-import { PLATFORMS, detectPlatform } from "@/lib/platforms";
+import { PLATFORMS, detectPlatform, getPlatformBadgeStyle } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import {
   GripVertical,
@@ -121,22 +121,28 @@ export function SortableLinkItem({
         </div>
 
         {/* Platform Icon Badge */}
-        <div
-          className="w-9 h-9 border-2 border-black shadow-[inset_1px_1px_0_#000] flex items-center justify-center shrink-0"
-          style={{
-            backgroundColor: platform?.brandColor ? `${platform.brandColor}22` : "#15141a",
-            color: platform?.brandColor || "#ffffff",
-          }}
-        >
-          <PlatformIcon
-            iconName={platform?.icon}
-            platformId={link.platform}
-            faviconUrl={favicon}
-            brandColor={platform?.brandColor}
-            className="w-4 h-4"
-            size={18}
-          />
-        </div>
+        {(() => {
+          const iconStyle = getPlatformBadgeStyle(platform?.brandColor, true);
+          return (
+            <div
+              className="w-9 h-9 border-2 border-black shadow-[inset_1px_1px_0_#000] flex items-center justify-center shrink-0"
+              style={{
+                backgroundColor: iconStyle.bgColor,
+                color: iconStyle.color,
+                borderColor: iconStyle.borderColor,
+              }}
+            >
+              <PlatformIcon
+                iconName={platform?.icon}
+                platformId={link.platform}
+                faviconUrl={favicon}
+                brandColor={iconStyle.color}
+                className="w-4 h-4"
+                size={18}
+              />
+            </div>
+          );
+        })()}
 
         {/* Content Info / Inline Editor */}
         <div className="flex-1 min-w-0 font-mono">

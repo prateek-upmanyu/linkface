@@ -46,6 +46,60 @@ body {
   transform: translateY(2px) translateX(1px);
 }
 
+/* Luxury Voxel Obsidian & Gold Beveled Link Card */
+.luxury-craft-btn {
+  background: #181613;
+  color: #fff4d1;
+  border: 2px solid #3d3119;
+  box-shadow: inset 2px 2px 0px #9e7d23,
+              inset -2px -4px 0px #080705,
+              2px 3px 0px #000000;
+  text-shadow: 1px 1px 0px #000000;
+  transition: all 0.08s ease-in-out;
+  cursor: pointer;
+}
+
+.luxury-craft-btn:hover {
+  background: #242018;
+  border-color: #ffd95c;
+  box-shadow: inset 2px 2px 0px #ffd95c,
+              inset -2px -4px 0px #080705,
+              0 0 15px rgba(245, 215, 127, 0.25),
+              2px 3px 0px #000000;
+}
+
+.luxury-craft-btn:active {
+  box-shadow: inset 2px 3px 0px #080705,
+              inset -1px -1px 0px #705514,
+              1px 1px 0px #000000;
+  transform: translateY(2px) translateX(1px);
+}
+
+/* Minecraft Stone Bevel Link Card */
+.minecraft-bevel-btn {
+  background: #6e6d6d;
+  color: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.55),
+              inset -2px -4px 0px rgba(0, 0, 0, 0.65),
+              2px 3px 0px #000000;
+  text-shadow: 1px 1px 0px #1a1a1a;
+  transition: all 0.08s ease-in-out;
+  cursor: pointer;
+}
+
+.minecraft-bevel-btn:hover {
+  background: #7d7c7c;
+}
+
+.minecraft-bevel-btn:active {
+  box-shadow: inset 2px 3px 0px rgba(0, 0, 0, 0.75),
+              inset -1px -1px 0px rgba(255, 255, 255, 0.2),
+              1px 1px 0px #000000;
+  transform: translateY(2px) translateX(1px);
+}
+
+
 /* Minecraft Gold Ingot Button */
 .mc-btn-gold {
   background: #c59b27;

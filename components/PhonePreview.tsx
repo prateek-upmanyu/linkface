@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Profile, LinkItem } from "@/types";
-import { THEMES } from "@/lib/themes";
+import { THEMES, isDarkTheme } from "@/lib/themes";
 import { PlatformIcon } from "@/components/PlatformIcon";
-import { PLATFORMS } from "@/lib/platforms";
+import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { Wifi, Battery, ExternalLink } from "lucide-react";
 
 interface PhonePreviewProps {
@@ -24,6 +24,8 @@ export function PhonePreview({
 }: PhonePreviewProps) {
   const currentTheme = THEMES[profile.theme || "light"] || THEMES.light;
   const visibleLinks = links.filter((l) => l.is_visible);
+  const isDark = isDarkTheme(currentTheme.id);
+  const isVoxel = currentTheme.card.includes("rounded-none") || currentTheme.avatarRing.includes("rounded-none");
 
   return (
     <div
@@ -109,6 +111,8 @@ export function PhonePreview({
                     }&sz=64`
                   : null;
 
+              const iconStyle = getPlatformBadgeStyle(platform?.brandColor, isDark);
+
               return (
                 <button
                   key={link.id}
@@ -120,43 +124,48 @@ export function PhonePreview({
                       window.open(link.url, "_blank", "noopener,noreferrer");
                     }
                   }}
-                  className={`w-full py-3 px-3.5 ${
-                    currentTheme.card.includes("rounded-none") ? "rounded-none" : "rounded-xl"
+                  className={`w-full py-2.5 sm:py-3 px-3 sm:px-3.5 ${
+                    isVoxel ? "rounded-none" : "rounded-xl"
                   } flex items-center justify-between text-left transition-all duration-150 group ${currentTheme.card} ${currentTheme.cardHover} ${currentTheme.buttonShadow}`}
                 >
-                  <div className="flex items-center gap-3 truncate min-w-0">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1 mr-1.5">
                     <div
-                      className={`w-7 h-7 ${
-                        currentTheme.card.includes("rounded-none") ? "rounded-none" : "rounded-lg"
-                      } flex items-center justify-center shrink-0`}
+                      className={`w-7 h-7 sm:w-8 sm:h-8 ${
+                        isVoxel ? "rounded-none" : "rounded-lg"
+                      } border flex items-center justify-center shrink-0`}
                       style={{
-                        backgroundColor: platform?.brandColor ? `${platform.brandColor}18` : undefined,
-                        color: platform?.brandColor || "currentColor",
+                        backgroundColor: iconStyle.bgColor,
+                        color: iconStyle.color,
+                        borderColor: iconStyle.borderColor,
                       }}
                     >
                       <PlatformIcon
                         iconName={platform?.icon}
                         platformId={link.platform}
                         faviconUrl={favicon}
-                        brandColor={platform?.brandColor}
+                        brandColor={iconStyle.color}
                         className="w-4 h-4"
                         size={17}
                       />
                     </div>
-                    <span className="font-medium text-xs truncate">
+                    <span className="font-medium text-[11px] sm:text-xs leading-snug line-clamp-2 break-words flex-1">
                       {link.title || "Untitled Link"}
                     </span>
                   </div>
-                  <ExternalLink className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />
+                  <ExternalLink className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition-opacity shrink-0" />
                 </button>
               );
             })
           )}
         </div>
 
-        {/* Footer Brand Tag - No AI emojis, clean typography */}
+        {/* Footer Brand Tag - Responsive voxel/pill styling */}
         <div className="shrink-0 text-center pt-2 pb-1">
-          <span className={`inline-block text-[10px] font-medium tracking-wider uppercase px-2.5 py-0.5 rounded-full ${currentTheme.badge} opacity-60`}>
+          <span
+            className={`inline-block text-[9px] sm:text-[10px] font-mono tracking-wider uppercase px-2.5 py-0.5 ${
+              isVoxel ? "rounded-none" : "rounded-full"
+            } ${currentTheme.badge} opacity-70`}
+          >
             LinkinBio
           </span>
         </div>

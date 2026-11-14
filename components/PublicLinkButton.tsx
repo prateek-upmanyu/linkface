@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { LinkItem } from "@/types";
-import { PLATFORMS } from "@/lib/platforms";
+import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { ExternalLink } from "lucide-react";
 
@@ -42,6 +42,9 @@ export function PublicLinkButton({
   };
 
   const hasCustomRounding = themeCardClass.includes("rounded-");
+  const isVoxel = themeCardClass.includes("rounded-none");
+  const isDark = !themeCardClass.includes("bg-white") && !themeCardClass.includes("bg-slate-50");
+  const iconStyle = getPlatformBadgeStyle(platform?.brandColor, isDark);
 
   return (
     <a
@@ -49,39 +52,40 @@ export function PublicLinkButton({
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={`w-full py-4 px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none ${
+      className={`w-full py-3.5 sm:py-4 px-4 sm:px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none ${
         hasCustomRounding ? "" : "rounded-2xl"
       } ${themeCardClass} ${themeCardHoverClass} ${themeButtonShadow} ${
         clicked ? "scale-[0.98]" : ""
       }`}
     >
-      <div className="flex items-center gap-3.5 truncate min-w-0">
-        {/* Platform Icon with brand accent tint */}
+      <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-2">
+        {/* Platform Icon with brand accent tint & contrast safety */}
         <div
-          className={`w-10 h-10 ${
-            themeCardClass.includes("rounded-none") ? "rounded-none" : "rounded-xl"
-          } flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-150`}
+          className={`w-9 h-9 sm:w-10 sm:h-10 ${
+            isVoxel ? "rounded-none" : "rounded-xl"
+          } border flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-150`}
           style={{
-            backgroundColor: platform?.brandColor ? `${platform.brandColor}18` : undefined,
-            color: platform?.brandColor || "currentColor",
+            backgroundColor: iconStyle.bgColor,
+            color: iconStyle.color,
+            borderColor: iconStyle.borderColor,
           }}
         >
           <PlatformIcon
             iconName={platform?.icon}
             platformId={link.platform}
             faviconUrl={favicon}
-            brandColor={platform?.brandColor}
+            brandColor={iconStyle.color}
             className="w-5 h-5"
             size={22}
           />
         </div>
 
-        <span className="font-semibold text-sm sm:text-base tracking-tight truncate">
+        <span className="font-semibold text-sm sm:text-base tracking-tight leading-snug line-clamp-2 break-words flex-1">
           {link.title}
         </span>
       </div>
 
-      <ExternalLink className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-opacity shrink-0 ml-2" />
+      <ExternalLink className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />
     </a>
   );
 }
