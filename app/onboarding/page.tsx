@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Check, X, Loader2, Sparkles, ArrowRight, ShieldAlert } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
+import { Check, X, Loader2, ArrowRight, ShieldAlert } from "lucide-react";
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -86,8 +87,8 @@ export default function OnboardingPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex flex-col justify-center items-center p-4">
       <div className="max-w-md w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-xl">
         {/* Brand */}
-        <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-2xl mx-auto mb-4 shadow-lg shadow-indigo-600/30">
-          ⚡
+        <div className="flex justify-center mb-4">
+          <BrandLogo className="w-11 h-11" />
         </div>
 
         <div className="text-center mb-6">

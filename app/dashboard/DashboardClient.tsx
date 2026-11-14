@@ -8,6 +8,7 @@ import { ProfileSettings } from "@/components/dashboard/ProfileSettings";
 import { AnalyticsTab } from "@/components/dashboard/AnalyticsTab";
 import { PhonePreview } from "@/components/PhonePreview";
 import { QrModal } from "@/components/QrModal";
+import { BrandLogo } from "@/components/BrandLogo";
 import { createClient } from "@/lib/supabase/client";
 import {
   Link2,
@@ -18,10 +19,10 @@ import {
   QrCode,
   ExternalLink,
   LogOut,
-  Sparkles,
   Smartphone,
   Eye,
   AlertTriangle,
+  X,
 } from "lucide-react";
 
 interface DashboardClientProps {
@@ -153,14 +154,12 @@ export function DashboardClient({
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Logo & User Tag */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-indigo-600/20">
-              ⚡
-            </div>
+            <BrandLogo />
             <div>
-              <span className="font-bold text-sm tracking-tight hidden sm:inline">
+              <span className="font-semibold text-sm tracking-tight text-neutral-900 dark:text-white hidden sm:inline">
                 LinkinBio
               </span>
-              <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-zinc-400">
+              <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400">
                 <span>@{profile.username}</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               </div>
@@ -301,9 +300,9 @@ export function DashboardClient({
         {/* Right Column: Live Sticky Phone Preview (5 cols) */}
         <div className="hidden lg:block lg:col-span-5 sticky top-24">
           <div className="bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm p-6 rounded-3xl border border-slate-200/80 dark:border-zinc-800/80 shadow-sm flex flex-col items-center">
-            <div className="w-full flex items-center justify-between text-xs text-slate-500 dark:text-zinc-400 mb-4 px-2">
-              <span className="font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+            <div className="w-full flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 mb-4 px-2">
+              <span className="font-medium uppercase tracking-wider flex items-center gap-1.5 text-[11px]">
+                <Eye className="w-3.5 h-3.5 text-neutral-400" />
                 Live Preview
               </span>
               <a
@@ -329,9 +328,10 @@ export function DashboardClient({
           <div className="relative w-full max-w-sm">
             <button
               onClick={() => setShowMobilePreview(false)}
-              className="absolute -top-12 right-0 p-2 text-white bg-white/20 hover:bg-white/30 rounded-full"
+              className="absolute -top-12 right-0 p-2 text-white bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center"
+              aria-label="Close preview"
             >
-              ✕ Close
+              <X className="w-5 h-5" />
             </button>
             <PhonePreview profile={profile} links={links} />
           </div>

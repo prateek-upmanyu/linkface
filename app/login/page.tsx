@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { Mail, Lock, ArrowRight, Loader2, AlertCircle, Sparkles } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
+import { Mail, Lock, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -80,20 +81,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex flex-col justify-center items-center p-4">
-      <div className="max-w-md w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-xl">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 flex flex-col justify-center items-center p-4">
+      <div className="max-w-sm w-full bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 rounded-3xl p-8 shadow-sm">
         {/* Brand */}
-        <Link href="/" className="flex items-center justify-center gap-2 mb-6 group">
-          <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-indigo-600/30 group-hover:scale-105 transition-transform">
-            ⚡
-          </div>
-          <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white">
+        <Link href="/" className="flex items-center justify-center gap-2.5 mb-6 group">
+          <BrandLogo className="w-9 h-9" />
+          <span className="font-semibold text-lg tracking-tight text-neutral-900 dark:text-white">
             LinkinBio
           </span>
         </Link>
 
         {/* Tab switch: Sign In vs Sign Up */}
-        <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-zinc-800 rounded-xl mb-6 text-xs font-semibold">
+        <div className="grid grid-cols-2 p-1 bg-neutral-100 dark:bg-neutral-800 rounded-xl mb-6 text-xs font-medium">
           <button
             type="button"
             onClick={() => {
@@ -102,8 +101,8 @@ export default function LoginPage() {
             }}
             className={`py-2 rounded-lg transition-all ${
               !isSignUp
-                ? "bg-white dark:bg-zinc-900 text-slate-900 dark:text-white shadow-sm"
-                : "text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white"
+                ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs font-semibold"
+                : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
             }`}
           >
             Sign In
@@ -116,8 +115,8 @@ export default function LoginPage() {
             }}
             className={`py-2 rounded-lg transition-all ${
               isSignUp
-                ? "bg-white dark:bg-zinc-900 text-slate-900 dark:text-white shadow-sm"
-                : "text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white"
+                ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs font-semibold"
+                : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
             }`}
           >
             Create Account
@@ -125,17 +124,16 @@ export default function LoginPage() {
         </div>
 
         {magicLinkSent ? (
-          <div className="p-6 text-center space-y-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-800">
-            <Sparkles className="w-8 h-8 text-emerald-600 mx-auto" />
-            <h3 className="font-bold text-emerald-900 dark:text-emerald-100 text-base">
-              Check your inbox!
+          <div className="p-6 text-center space-y-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-2xl border border-neutral-200 dark:border-neutral-700">
+            <h3 className="font-semibold text-neutral-900 dark:text-white text-sm">
+              Check your email
             </h3>
-            <p className="text-xs text-emerald-700 dark:text-emerald-300">
-              We sent a confirmation link to <span className="font-bold">{email}</span>. Click it to activate your account and claim your handle.
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              We sent a verification link to <span className="font-medium text-neutral-900 dark:text-white">{email}</span>. Click it to activate your account.
             </p>
             <button
               onClick={() => setMagicLinkSent(false)}
-              className="text-xs font-semibold text-emerald-800 dark:text-emerald-200 underline mt-2"
+              className="text-xs font-medium text-neutral-900 dark:text-white underline mt-2"
             >
               Back to Sign In
             </button>
@@ -146,7 +144,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="w-full py-2.5 px-4 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 font-medium text-xs rounded-xl flex items-center justify-center gap-2.5 transition-colors shadow-xs mb-4"
+              className="w-full py-2.5 px-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium text-xs rounded-xl flex items-center justify-center gap-2.5 transition-colors shadow-xs mb-4"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -170,37 +168,37 @@ export default function LoginPage() {
             </button>
 
             <div className="relative flex items-center justify-center mb-4">
-              <div className="border-t border-slate-200 dark:border-zinc-800 w-full" />
-              <span className="bg-white dark:bg-zinc-900 px-3 text-[11px] text-slate-400 font-medium uppercase tracking-wider absolute">
-                or with email
+              <div className="border-t border-neutral-200 dark:border-neutral-800 w-full" />
+              <span className="bg-white dark:bg-neutral-900 px-3 text-[11px] text-neutral-400 font-medium uppercase tracking-wider absolute">
+                or
               </span>
             </div>
 
             {/* Email Form */}
             <form onSubmit={handleAuth} className="space-y-3.5">
               <div>
-                <label className="text-[11px] font-semibold uppercase text-slate-500 tracking-wider block mb-1">
-                  Email Address
+                <label className="text-[11px] font-medium text-neutral-600 dark:text-neutral-400 block mb-1">
+                  Email
                 </label>
                 <div className="relative flex items-center">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3 pointer-events-none" />
+                  <Mail className="w-4 h-4 text-neutral-400 absolute left-3 pointer-events-none" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    placeholder="you@example.com"
-                    className="w-full pl-9.5 pr-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="name@example.com"
+                    className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-xs focus:outline-none focus:ring-1 focus:ring-neutral-900 dark:focus:ring-white transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-[11px] font-semibold uppercase text-slate-500 tracking-wider block mb-1">
+                <label className="text-[11px] font-medium text-neutral-600 dark:text-neutral-400 block mb-1">
                   Password
                 </label>
                 <div className="relative flex items-center">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 pointer-events-none" />
+                  <Lock className="w-4 h-4 text-neutral-400 absolute left-3 pointer-events-none" />
                   <input
                     type="password"
                     value={password}
@@ -208,7 +206,7 @@ export default function LoginPage() {
                     required
                     minLength={6}
                     placeholder="••••••••"
-                    className="w-full pl-9.5 pr-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-xs focus:outline-none focus:ring-1 focus:ring-neutral-900 dark:focus:ring-white transition-all"
                   />
                 </div>
               </div>
@@ -223,26 +221,26 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md shadow-indigo-600/20 transition-all active:scale-98 mt-2"
+                className="w-full py-2.5 px-4 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 disabled:opacity-50 text-white dark:text-neutral-900 font-medium text-xs rounded-xl flex items-center justify-center gap-2 shadow-xs transition-colors active:scale-98 mt-2"
               >
                 {loading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
                   <>
-                    <span>{isSignUp ? "Create Free Account" : "Sign In to Dashboard"}</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span>{isSignUp ? "Create account" : "Sign in"}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </>
                 )}
               </button>
             </form>
 
             {/* Quick Demo Preview Link */}
-            <div className="mt-6 pt-4 border-t border-slate-100 dark:border-zinc-800 text-center">
+            <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800 text-center">
               <Link
                 href="/dashboard"
-                className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
+                className="text-xs text-neutral-500 hover:text-neutral-900 dark:hover:text-white font-medium"
               >
-                Explore Demo Dashboard without Login →
+                Explore demo without signing in &rarr;
               </Link>
             </div>
           </>

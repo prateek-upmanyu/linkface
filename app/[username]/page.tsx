@@ -180,10 +180,11 @@ export default async function PublicProfilePage({ params }: PageProps) {
       <footer className="mt-16 text-center">
         <Link
           href="/"
-          className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase transition-all duration-200 hover:scale-105 ${theme.badge} opacity-85 hover:opacity-100 shadow-xs`}
+          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-150 hover:opacity-100 ${theme.badge} opacity-75 shadow-xs`}
         >
-          <span>⚡ LinkinBio</span>
-          <span className="opacity-60 text-[10px]">Create your own</span>
+          <span>LinkinBio</span>
+          <span className="opacity-40 text-[10px]">&bull;</span>
+          <span className="opacity-70 text-[11px]">Create your own</span>
         </Link>
       </footer>
     </div>

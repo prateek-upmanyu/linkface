@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import { detectPlatform, isValidUrl } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
-import { Plus, Link2, Sparkles, AlertCircle } from "lucide-react";
+import { Plus, Link2, Check, AlertCircle } from "lucide-react";
 
 interface AddLinkFormProps {
   onAdd: (data: { url: string; title: string; platform: string | null }) => void;
@@ -62,7 +62,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
         </h3>
         {detected?.platformId && (
           <span className="text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 flex items-center gap-1.5 animate-in fade-in">
-            <Sparkles className="w-3 h-3" />
+            <Check className="w-3 h-3" />
             Detected: {detected.name}
           </span>
         )}

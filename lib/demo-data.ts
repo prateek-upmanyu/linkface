@@ -4,7 +4,7 @@ export const DEMO_PROFILE: Profile = {
   id: "demo-user-123",
   username: "alex",
   display_name: "Alex Rivera",
-  bio: "Product designer, indie hacker & photographer ⚡ Crafting simple web apps and sharing tools for creators.",
+  bio: "Product designer, indie hacker & photographer. Crafting simple web apps and sharing tools for creators.",
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
   theme: "gradient",
   page_views: 1240,
