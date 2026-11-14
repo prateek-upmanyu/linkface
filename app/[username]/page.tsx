@@ -7,6 +7,9 @@ import { THEMES } from "@/lib/themes";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
+import { SpeechBubble } from "@/components/SpeechBubble";
+import { SoundToggle } from "@/components/SoundToggle";
+import { AmbientParticles } from "@/components/AmbientParticles";
 import { Profile, LinkItem } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -115,12 +118,25 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
   return (
     <div
-      className={`min-h-screen flex flex-col justify-between items-center px-4 py-12 transition-colors duration-300 ${theme.background}`}
+      className={`min-h-screen flex flex-col justify-between items-center px-4 py-12 transition-colors duration-300 relative overflow-hidden ${theme.background}`}
     >
       <PageViewTracker username={profile.username} />
+      <AmbientParticles themeId={theme.id} />
+
+      {/* Floating Sound Toggle */}
+      <div className="fixed top-4 right-4 z-40">
+        <SoundToggle />
+      </div>
 
       {/* Main Container */}
-      <main className="w-full max-w-md mx-auto flex flex-col items-center">
+      <main className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
+        {/* Floating Speech/Cloud Bubble Message */}
+        <SpeechBubble
+          message={profile.status_message}
+          styleType={profile.status_style}
+          isVoxel={theme.card.includes("rounded-none") || theme.avatarRing.includes("rounded-none")}
+        />
+
         {/* Avatar */}
         <div className="relative mb-4">
           {profile.avatar_url ? (

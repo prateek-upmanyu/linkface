@@ -24,6 +24,8 @@ export interface Profile {
   avatar_url: string | null;
   theme: ThemeId;
   page_views: number;
+  status_message?: string | null;
+  status_style?: "speech" | "cloud" | "pixel" | null;
   featured_creators?: FeaturedCreator[] | null;
   created_at: string;
 }
@@ -37,6 +39,7 @@ export interface LinkItem {
   position: number;
   is_visible: boolean;
   click_count: number;
+  badge?: string | null;
   created_at: string;
 }
 

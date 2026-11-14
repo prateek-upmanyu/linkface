@@ -57,6 +57,7 @@ export function SortableLinkItem({
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(link.title);
   const [editUrl, setEditUrl] = useState(link.url);
+  const [editBadge, setEditBadge] = useState(link.badge || "");
 
   const platform = PLATFORMS.find((p) => p.id === link.platform);
   const favicon =
@@ -72,6 +73,7 @@ export function SortableLinkItem({
       title: editTitle.trim() || link.title,
       url: detected.normalizedUrl || editUrl,
       platform: detected.platformId || link.platform,
+      badge: editBadge.trim() ? editBadge.trim().toUpperCase() : null,
     });
     setIsEditing(false);
   };
@@ -171,6 +173,41 @@ export function SortableLinkItem({
                   placeholder="https://example.com"
                 />
               </div>
+              <div>
+                <label className="text-[9px] font-bold uppercase text-[#7d798a] tracking-wider block mb-1">
+                  Tag / Badge (Optional)
+                </label>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <input
+                    type="text"
+                    value={editBadge}
+                    onChange={(e) => setEditBadge(e.target.value.slice(0, 10))}
+                    className="text-xs px-2 py-0.5 mc-input text-amber-300 w-28 uppercase font-bold"
+                    placeholder="HOT / NEW"
+                  />
+                  {["HOT", "NEW", "LIVE", "DROP"].map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      onClick={() => setEditBadge(tag)}
+                      className={`px-1.5 py-0.5 text-[8px] uppercase font-bold ${
+                        editBadge === tag ? "mc-btn-gold text-black" : "mc-btn text-white/70"
+                      }`}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                  {editBadge && (
+                    <button
+                      type="button"
+                      onClick={() => setEditBadge("")}
+                      className="text-[9px] text-red-400 hover:underline px-1"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </div>
               <div className="flex items-center gap-2 pt-1">
                 <button
                   type="button"
@@ -198,6 +235,11 @@ export function SortableLinkItem({
                 <h4 className="font-bold text-white text-xs truncate uppercase tracking-wider">
                   {link.title}
                 </h4>
+                {link.badge && (
+                  <span className="text-[8px] px-1.5 py-0.2 bg-amber-400 text-black font-bold uppercase border border-black shadow-[1px_1px_0_#000]">
+                    {link.badge}
+                  </span>
+                )}
                 {platform && (
                   <span className="text-[9px] px-1.5 py-0.5 bg-[#15141a] border border-black text-[#55ffff] hidden sm:inline-block">
                     {platform.name}

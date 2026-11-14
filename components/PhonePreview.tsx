@@ -6,6 +6,10 @@ import { THEMES, isDarkTheme } from "@/lib/themes";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
+import { SpeechBubble } from "@/components/SpeechBubble";
+import { SoundToggle } from "@/components/SoundToggle";
+import { AmbientParticles } from "@/components/AmbientParticles";
+import { playClickSound } from "@/lib/sound-fx";
 import { Wifi, Battery, ExternalLink } from "lucide-react";
 
 interface PhonePreviewProps {
@@ -42,17 +46,28 @@ export function PhonePreview({
       <div
         className={`relative w-full rounded-[32px] overflow-hidden overflow-y-auto flex flex-col justify-between p-3.5 pt-8 transition-colors duration-200 min-h-[580px] ${currentTheme.background}`}
       >
+        {/* Ambient Pixel Particles */}
+        <AmbientParticles themeId={currentTheme.id} />
+
         {/* Status Bar */}
-        <div className="flex items-center justify-between px-3 text-[11px] font-medium opacity-60 mb-4 shrink-0">
+        <div className="flex items-center justify-between px-3 text-[11px] font-medium opacity-60 mb-4 shrink-0 relative z-10">
           <span>9:41</span>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
+            <SoundToggle />
             <Wifi className="w-3 h-3" />
             <Battery className="w-3.5 h-3.5" />
           </div>
         </div>
 
         {/* Profile Header */}
-        <div className="flex flex-col items-center text-center px-2 mb-4 shrink-0">
+        <div className="flex flex-col items-center text-center px-2 mb-4 shrink-0 relative z-10">
+          {/* Floating Speech/Cloud Bubble Message */}
+          <SpeechBubble
+            message={profile.status_message}
+            styleType={profile.status_style}
+            isVoxel={isVoxel}
+          />
+
           {/* Avatar */}
           <div className="relative mb-3">
             {profile.avatar_url ? (
@@ -119,6 +134,7 @@ export function PhonePreview({
                   key={link.id}
                   type="button"
                   onClick={() => {
+                    playClickSound();
                     if (isInteractive && onLinkClick) {
                       onLinkClick(link);
                     } else if (isInteractive && link.url) {
@@ -127,7 +143,7 @@ export function PhonePreview({
                   }}
                   className={`w-full py-2.5 sm:py-3 px-3 sm:px-3.5 ${
                     isVoxel ? "rounded-none" : "rounded-xl"
-                  } flex items-center justify-between text-left transition-all duration-150 group ${currentTheme.card} ${currentTheme.cardHover} ${currentTheme.buttonShadow}`}
+                  } flex items-center justify-between text-left transition-all duration-150 group relative z-10 ${currentTheme.card} ${currentTheme.cardHover} ${currentTheme.buttonShadow}`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0 flex-1 mr-1.5">
                     <div
@@ -148,9 +164,14 @@ export function PhonePreview({
                         size={17}
                       />
                     </div>
-                    <span className="font-mono text-[11px] sm:text-xs font-medium leading-tight truncate flex-1">
+                    <span className="font-mono text-[11.5px] sm:text-xs font-medium leading-tight truncate flex-1">
                       {link.title || "Untitled Link"}
                     </span>
+                    {link.badge && (
+                      <span className="px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase bg-amber-400 text-black border border-black shadow-[1px_1px_0_#000] shrink-0 ml-1">
+                        {link.badge}
+                      </span>
+                    )}
                   </div>
                   <ExternalLink className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />
                 </button>

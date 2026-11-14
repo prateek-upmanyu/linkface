@@ -30,6 +30,8 @@ export function ProfileSettings({
   const [displayName, setDisplayName] = useState(profile.display_name || "");
   const [bio, setBio] = useState(profile.bio || "");
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
+  const [statusMessage, setStatusMessage] = useState(profile.status_message || "");
+  const [statusStyle, setStatusStyle] = useState<"speech" | "cloud" | "pixel">(profile.status_style || "cloud");
   const [selectedTheme, setSelectedTheme] = useState<ThemeId>(profile.theme || "light");
   const [isSaved, setIsSaved] = useState(false);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
@@ -72,6 +74,8 @@ export function ProfileSettings({
       display_name: displayName.trim(),
       bio: bio.trim(),
       avatar_url: avatarUrl.trim() || null,
+      status_message: statusMessage.trim() || null,
+      status_style: statusStyle,
     });
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 2000);
@@ -238,6 +242,60 @@ export function ProfileSettings({
               placeholder="A short introduction..."
               className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none resize-none"
             />
+          </div>
+
+          {/* Floating Speech Cloud / Status Bubble */}
+          <div className="pt-2 border-t border-[#3c3a44]">
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-[10px] uppercase font-bold text-amber-300 flex items-center gap-1.5">
+                <span>Floating Cloud / Speech Bubble</span>
+              </label>
+              <span className="text-[9px] text-[#7d798a]">
+                {statusMessage.length}/60
+              </span>
+            </div>
+            <p className="text-[9px] text-[#7d798a] mb-2">
+              Shows a floating announcement or thought cloud right above your avatar.
+            </p>
+            <input
+              type="text"
+              value={statusMessage}
+              onChange={(e) => setStatusMessage(e.target.value.slice(0, 60))}
+              placeholder="e.g. Streaming tonight! / Working on new track"
+              className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none mb-2"
+            />
+
+            {/* Bubble Style Choice */}
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] text-[#7d798a] uppercase">Shape:</span>
+              <button
+                type="button"
+                onClick={() => setStatusStyle("cloud")}
+                className={`px-2.5 py-1 text-[10px] uppercase font-bold ${
+                  statusStyle === "cloud" ? "mc-btn-gold text-black" : "mc-btn text-white"
+                }`}
+              >
+                Cloud
+              </button>
+              <button
+                type="button"
+                onClick={() => setStatusStyle("speech")}
+                className={`px-2.5 py-1 text-[10px] uppercase font-bold ${
+                  statusStyle === "speech" ? "mc-btn-gold text-black" : "mc-btn text-white"
+                }`}
+              >
+                Speech
+              </button>
+              <button
+                type="button"
+                onClick={() => setStatusStyle("pixel")}
+                className={`px-2.5 py-1 text-[10px] uppercase font-bold ${
+                  statusStyle === "pixel" ? "mc-btn-gold text-black" : "mc-btn text-white"
+                }`}
+              >
+                Pixel
+              </button>
+            </div>
           </div>
 
           <button

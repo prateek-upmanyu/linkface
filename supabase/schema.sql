@@ -183,5 +183,11 @@ CREATE TRIGGER on_auth_user_created
 
 -- Ensure featured_creators column exists on profiles table
 ALTER TABLE public.profiles 
-  ADD COLUMN IF NOT EXISTS featured_creators JSONB DEFAULT '[]'::jsonb;
+  ADD COLUMN IF NOT EXISTS featured_creators JSONB DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS status_message TEXT DEFAULT NULL,
+  ADD COLUMN IF NOT EXISTS status_style TEXT DEFAULT 'cloud';
+
+-- Ensure badge column exists on links table
+ALTER TABLE public.links 
+  ADD COLUMN IF NOT EXISTS badge TEXT DEFAULT NULL;
 

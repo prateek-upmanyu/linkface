@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { LinkItem } from "@/types";
 import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
+import { playClickSound } from "@/lib/sound-fx";
 import { ExternalLink } from "lucide-react";
 
 interface PublicLinkButtonProps {
@@ -30,6 +31,8 @@ export function PublicLinkButton({
       : null;
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    playClickSound();
+
     // Record click count asynchronously
     fetch("/api/click", {
       method: "POST",
@@ -82,6 +85,11 @@ export function PublicLinkButton({
         <span className="font-mono font-medium text-xs sm:text-sm tracking-tight leading-tight truncate flex-1">
           {link.title}
         </span>
+        {link.badge && (
+          <span className="px-2 py-0.5 text-[9px] font-mono font-bold uppercase bg-amber-400 text-black border border-black shadow-[1px_1px_0_#000] shrink-0 ml-1.5">
+            {link.badge}
+          </span>
+        )}
       </div>
 
       <ExternalLink className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />

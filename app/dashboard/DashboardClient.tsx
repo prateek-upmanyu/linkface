@@ -98,6 +98,7 @@ export function DashboardClient({
         platform: item.platform,
         position: idx,
         is_visible: item.is_visible,
+        badge: item.badge || null,
       }));
 
       for (const item of payload) {

@@ -8,6 +8,8 @@ export const DEMO_PROFILE: Profile = {
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
   theme: "luxury-craft",
   page_views: 1240,
+  status_message: "Crafting new voxel designs!",
+  status_style: "cloud",
   featured_creators: [
     {
       id: "fc-1",
@@ -44,6 +46,7 @@ export const DEMO_LINKS: LinkItem[] = [
     position: 0,
     is_visible: true,
     click_count: 512,
+    badge: "NEW",
     created_at: new Date().toISOString(),
   },
   {
@@ -77,6 +80,7 @@ export const DEMO_LINKS: LinkItem[] = [
     position: 3,
     is_visible: true,
     click_count: 195,
+    badge: "HOT",
     created_at: new Date().toISOString(),
   },
   {
