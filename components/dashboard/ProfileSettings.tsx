@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import { Profile, ThemeId } from "@/types";
 import { THEME_LIST, THEMES } from "@/lib/themes";
 import { processAvatarImage } from "@/lib/image-utils";
+import { FeaturedCreatorsManager } from "@/components/dashboard/FeaturedCreatorsManager";
 import {
   Camera,
   Upload,
@@ -309,6 +310,13 @@ export function ProfileSettings({
           })}
         </div>
       </div>
+
+      {/* Featured Trio Spotlight (Sponsors / Promoted Creators) */}
+      <FeaturedCreatorsManager
+        profile={profile}
+        onUpdateProfile={onUpdateProfile}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

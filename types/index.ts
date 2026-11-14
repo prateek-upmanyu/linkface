@@ -8,6 +8,14 @@ export type ThemeId =
   | "minimal"
   | "colorful";
 
+export interface FeaturedCreator {
+  id: string;
+  name: string;
+  url: string;
+  avatar_url?: string | null;
+  tagline?: string | null;
+}
+
 export interface Profile {
   id: string; // uuid matches auth.users.id
   username: string;
@@ -16,6 +24,7 @@ export interface Profile {
   avatar_url: string | null;
   theme: ThemeId;
   page_views: number;
+  featured_creators?: FeaturedCreator[] | null;
   created_at: string;
 }
 

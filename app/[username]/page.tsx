@@ -6,6 +6,7 @@ import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
 import { THEMES } from "@/lib/themes";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
 import { PageViewTracker } from "@/components/PageViewTracker";
+import { FeaturedCreators } from "@/components/FeaturedCreators";
 import { Profile, LinkItem } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -178,6 +179,15 @@ export default async function PublicProfilePage({ params }: PageProps) {
             ))
           )}
         </div>
+
+        {/* Featured Trio Spotlight (Sponsors / Promoted Creators) */}
+        {profile.featured_creators && profile.featured_creators.length > 0 && (
+          <FeaturedCreators
+            creators={profile.featured_creators}
+            isVoxel={theme.card.includes("rounded-none") || theme.avatarRing.includes("rounded-none")}
+            className="mt-6"
+          />
+        )}
       </main>
 
       {/* Footer Branding Badge */}

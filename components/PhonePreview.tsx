@@ -5,6 +5,7 @@ import { Profile, LinkItem } from "@/types";
 import { THEMES, isDarkTheme } from "@/lib/themes";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
+import { FeaturedCreators } from "@/components/FeaturedCreators";
 import { Wifi, Battery, ExternalLink } from "lucide-react";
 
 interface PhonePreviewProps {
@@ -29,7 +30,7 @@ export function PhonePreview({
 
   return (
     <div
-      className={`relative mx-auto w-full max-w-[330px] aspect-[9/18.5] rounded-[44px] p-3 shadow-2xl transition-all duration-200 border-[6px] border-neutral-900 dark:border-neutral-800 bg-neutral-900 select-none ${className}`}
+      className={`relative mx-auto w-full max-w-[350px] sm:max-w-[360px] rounded-[42px] p-3 shadow-2xl transition-all duration-200 border-[6px] border-neutral-900 bg-neutral-900 select-none ${className}`}
     >
       {/* Dynamic Island / Speaker */}
       <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-4.5 bg-black rounded-full z-30 flex items-center justify-between px-3">
@@ -39,7 +40,7 @@ export function PhonePreview({
 
       {/* Screen Frame Container */}
       <div
-        className={`relative w-full h-full rounded-[34px] overflow-hidden overflow-y-auto flex flex-col justify-between p-4 pt-9 transition-colors duration-200 ${currentTheme.background}`}
+        className={`relative w-full rounded-[32px] overflow-hidden overflow-y-auto flex flex-col justify-between p-3.5 pt-8 transition-colors duration-200 min-h-[580px] ${currentTheme.background}`}
       >
         {/* Status Bar */}
         <div className="flex items-center justify-between px-3 text-[11px] font-medium opacity-60 mb-4 shrink-0">
@@ -95,7 +96,7 @@ export function PhonePreview({
         </div>
 
         {/* Links List */}
-        <div className="flex-1 w-full flex flex-col gap-2.5 pb-6">
+        <div className="flex-1 w-full flex flex-col gap-2.5">
           {visibleLinks.length === 0 ? (
             <div className="my-auto py-8 text-center px-4 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 opacity-50">
               <p className="text-xs font-medium">No links added</p>
@@ -128,7 +129,7 @@ export function PhonePreview({
                     isVoxel ? "rounded-none" : "rounded-xl"
                   } flex items-center justify-between text-left transition-all duration-150 group ${currentTheme.card} ${currentTheme.cardHover} ${currentTheme.buttonShadow}`}
                 >
-                  <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1 mr-1.5">
                     <div
                       className={`w-7 h-7 sm:w-8 sm:h-8 ${
                         isVoxel ? "rounded-none" : "rounded-lg"
@@ -147,7 +148,7 @@ export function PhonePreview({
                         size={17}
                       />
                     </div>
-                    <span className="font-mono text-xs sm:text-[13px] font-medium leading-tight truncate flex-1">
+                    <span className="font-mono text-[11px] sm:text-xs font-medium leading-tight truncate flex-1">
                       {link.title || "Untitled Link"}
                     </span>
                   </div>
@@ -156,10 +157,17 @@ export function PhonePreview({
               );
             })
           )}
+
+          {/* Featured Creators / Sponsors (Trio Spotlight) */}
+          <FeaturedCreators
+            creators={profile.featured_creators}
+            isVoxel={isVoxel}
+            isInteractive={isInteractive}
+          />
         </div>
 
         {/* Footer Brand Tag - Responsive voxel/pill styling */}
-        <div className="shrink-0 text-center pt-2 pb-1">
+        <div className="shrink-0 text-center pt-3 pb-1">
           <span
             className={`inline-block text-[9px] font-mono tracking-widest uppercase px-3 py-1 ${
               isVoxel ? "rounded-none" : "rounded-full"

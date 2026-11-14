@@ -71,8 +71,8 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-12 pb-16 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <section className="relative pt-10 pb-20 lg:pb-28 px-4 sm:px-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           {/* Left Hero Column */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             <div className="inline-block px-3 py-1 bg-[#25242d] border-2 border-black text-[#55ff55] text-[11px] tracking-wider uppercase shadow-[2px_2px_0_#000000]">

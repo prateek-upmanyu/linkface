@@ -8,6 +8,29 @@ export const DEMO_PROFILE: Profile = {
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
   theme: "luxury-craft",
   page_views: 1240,
+  featured_creators: [
+    {
+      id: "fc-1",
+      name: "Elena Ross",
+      url: "https://youtube.com/@alexrivera",
+      avatar_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      tagline: "3D Motion",
+    },
+    {
+      id: "fc-2",
+      name: "Marcus V.",
+      url: "https://github.com/alexrivera",
+      avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      tagline: "Voxel Engine",
+    },
+    {
+      id: "fc-3",
+      name: "Aria Chen",
+      url: "https://instagram.com/alexrivera.design",
+      avatar_url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+      tagline: "Pixel Artist",
+    },
+  ],
   created_at: new Date().toISOString(),
 };
 

@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   avatar_url TEXT,
   theme TEXT NOT NULL DEFAULT 'light',
   page_views INTEGER NOT NULL DEFAULT 0,
+  featured_creators JSONB DEFAULT '[]'::jsonb,
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
@@ -179,3 +180,8 @@ DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- Ensure featured_creators column exists on profiles table
+ALTER TABLE public.profiles 
+  ADD COLUMN IF NOT EXISTS featured_creators JSONB DEFAULT '[]'::jsonb;
+
