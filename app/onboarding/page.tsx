@@ -20,7 +20,6 @@ export default function OnboardingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  // Debounced live check
   useEffect(() => {
     const clean = username.trim().toLowerCase();
     if (!clean) {
@@ -35,7 +34,7 @@ export default function OnboardingPage() {
         const data = await res.json();
         setAvailability(data);
       } catch (err) {
-        setAvailability({ available: false, message: "Error checking username." });
+        setAvailability({ available: false, message: "Error checking player tag." });
       } finally {
         setIsChecking(false);
       }
@@ -57,17 +56,15 @@ export default function OnboardingPage() {
       } = await supabase.auth.getUser();
 
       if (!user) {
-        // Fallback for demo or unauthenticated state
         router.push("/dashboard");
         return;
       }
 
-      // Upsert profile
       const { error } = await supabase.from("profiles").upsert({
         id: user.id,
         username: username.toLowerCase().trim(),
         display_name: displayName.trim() || username.toLowerCase().trim(),
-        theme: "light",
+        theme: "luxury-craft",
       });
 
       if (error) {
@@ -78,39 +75,37 @@ export default function OnboardingPage() {
 
       router.push("/dashboard");
     } catch (err: any) {
-      setSubmitError(err.message || "Something went wrong.");
+      setSubmitError(err.message || "Failed to claim player tag.");
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex flex-col justify-center items-center p-4">
-      <div className="max-w-md w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-xl">
-        {/* Brand */}
+    <div className="min-h-screen bg-[#121116] flex flex-col justify-center items-center p-4 font-mono">
+      <div className="max-w-md w-full mc-panel p-6 shadow-[0_6px_0_#000000]">
         <div className="flex justify-center mb-4">
-          <BrandLogo className="w-11 h-11" />
+          <BrandLogo className="w-10 h-10" />
         </div>
 
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-            Choose Your Unique Link
+        <div className="text-center mb-5">
+          <h1 className="text-xl font-bold uppercase tracking-wider text-white mc-text-shadow">
+            Choose Your Player Tag
           </h1>
-          <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1.5">
-            Your LinkinBio will live at:{" "}
-            <span className="font-mono font-semibold text-indigo-600 dark:text-indigo-400">
-              yourapp.com/{username || "username"}
+          <p className="text-[11px] text-[#b0adb8] mt-1">
+            Your public bio link:{" "}
+            <span className="text-[#55ffff]">
+              craftlink.app/{username || "tag"}
             </span>
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Username Input with live availability check */}
           <div>
-            <label className="text-xs font-semibold uppercase text-slate-500 tracking-wider block mb-1.5">
-              Unique Handle
+            <label className="text-[10px] uppercase tracking-wider text-[#b0adb8] block mb-1">
+              Player Tag
             </label>
             <div className="relative flex items-center">
-              <span className="absolute left-3.5 text-slate-400 font-mono text-sm select-none">
+              <span className="absolute left-3 text-[#7d798a] text-xs select-none">
                 @
               </span>
               <input
@@ -119,46 +114,41 @@ export default function OnboardingPage() {
                 onChange={(e) =>
                   setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
-                placeholder="yourhandle"
+                placeholder="yourname"
                 required
                 maxLength={20}
-                className="w-full pl-8 pr-10 py-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-slate-900 dark:text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full pl-7 pr-8 py-2.5 text-xs mc-input text-white focus:outline-none"
               />
 
-              {/* Status indicator */}
               <div className="absolute right-3 flex items-center">
                 {isChecking && (
-                  <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />
+                  <Loader2 className="w-3.5 h-3.5 text-[#55ffff] animate-spin" />
                 )}
                 {!isChecking && availability?.available && (
-                  <Check className="w-4 h-4 text-emerald-500" />
+                  <Check className="w-4 h-4 text-[#55ff55]" />
                 )}
                 {!isChecking && availability && !availability.available && (
-                  <X className="w-4 h-4 text-rose-500" />
+                  <X className="w-4 h-4 text-[#ff5555]" />
                 )}
               </div>
             </div>
 
-            {/* Availability feedback text */}
             {availability && (
               <p
-                className={`text-xs mt-1.5 flex items-center gap-1 ${
-                  availability.available
-                    ? "text-emerald-600 dark:text-emerald-400"
-                    : "text-rose-600 dark:text-rose-400"
+                className={`text-[11px] mt-1 ${
+                  availability.available ? "text-[#55ff55]" : "text-[#ff8080]"
                 }`}
               >
                 {availability.message}
               </p>
             )}
-            <p className="text-[11px] text-slate-400 mt-1">
-              3-20 characters: lowercase letters, numbers, and underscores only.
+            <p className="text-[10px] text-[#7d798a] mt-1">
+              3-20 chars: lowercase letters, numbers, and underscores only.
             </p>
           </div>
 
-          {/* Display Name Input */}
           <div>
-            <label className="text-xs font-semibold uppercase text-slate-500 tracking-wider block mb-1.5">
+            <label className="text-[10px] uppercase tracking-wider text-[#b0adb8] block mb-1">
               Display Name (Optional)
             </label>
             <input
@@ -166,13 +156,13 @@ export default function OnboardingPage() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="e.g. Alex Rivera"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none"
             />
           </div>
 
           {submitError && (
-            <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 text-xs flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 shrink-0" />
+            <div className="p-2 border border-[#ff5555] bg-[#3a1818] text-[#ff8080] text-[11px] flex items-center gap-1.5">
+              <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
               <span>{submitError}</span>
             </div>
           )}
@@ -180,15 +170,12 @@ export default function OnboardingPage() {
           <button
             type="submit"
             disabled={!availability?.available || isSubmitting}
-            className="w-full py-3.5 px-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 transition-all active:scale-98 mt-2"
+            className="w-full py-2.5 px-4 mc-btn-gold disabled:opacity-50 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-2"
           >
             {isSubmitting ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin text-black" />
             ) : (
-              <>
-                <span>Claim My Link</span>
-                <ArrowRight className="w-4 h-4" />
-              </>
+              <span>Equip Player Tag</span>
             )}
           </button>
         </form>

@@ -1,70 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #141218;
+  --foreground: #f4f4f5;
+  --font-pixel: 'Silkscreen', monospace;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: 'Silkscreen', var(--font-geist-mono), monospace;
+  --font-mono: 'Silkscreen', monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Minecraft Authentic Voxel Button Effect */
-.minecraft-bevel-btn {
-  border: 2px solid #000000;
-  box-shadow: inset 2px 2px 0px 0px rgba(255, 255, 255, 0.4),
-              inset -2px -4px 0px 0px rgba(0, 0, 0, 0.55),
-              2px 3px 0px 0px rgba(0, 0, 0, 0.8);
+  background: #141218;
+  color: #f4f4f5;
+  font-family: 'Silkscreen', monospace;
   image-rendering: pixelated;
+}
+
+/* Authentic Minecraft Stone UI Button */
+.mc-btn {
+  background: #737373;
+  color: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.55),
+              inset -2px -4px 0px rgba(0, 0, 0, 0.65),
+              2px 3px 0px #000000;
+  font-family: 'Silkscreen', monospace;
+  text-shadow: 1px 1px 0px #1a1a1a;
   transition: all 0.08s ease-in-out;
+  cursor: pointer;
 }
 
-.minecraft-bevel-btn:hover {
-  filter: brightness(1.1);
+.mc-btn:hover {
+  background: #858585;
 }
 
-.minecraft-bevel-btn:active {
-  box-shadow: inset 2px 3px 0px 0px rgba(0, 0, 0, 0.7),
-              inset -1px -1px 0px 0px rgba(255, 255, 255, 0.2),
-              1px 1px 0px 0px rgba(0, 0, 0, 0.8);
+.mc-btn:active {
+  box-shadow: inset 2px 3px 0px rgba(0, 0, 0, 0.75),
+              inset -1px -1px 0px rgba(255, 255, 255, 0.2),
+              1px 1px 0px #000000;
   transform: translateY(2px) translateX(1px);
 }
 
-/* Luxury Minecraft Gold-Trim Voxel Button */
-.luxury-craft-btn {
-  border: 2px solid #1a150c;
-  box-shadow: inset 2px 2px 0px 0px #f5d77f,
-              inset -2px -4px 0px 0px #8b6818,
-              0px 4px 12px rgba(0, 0, 0, 0.7);
+/* Minecraft Gold Ingot Button */
+.mc-btn-gold {
+  background: #c59b27;
+  color: #fff9d8;
+  border: 2px solid #000000;
+  box-shadow: inset 2px 2px 0px #ffe57f,
+              inset -2px -4px 0px #634d10,
+              2px 3px 0px #000000;
+  font-family: 'Silkscreen', monospace;
+  text-shadow: 1px 1px 0px #423207;
   transition: all 0.08s ease-in-out;
+  cursor: pointer;
 }
 
-.luxury-craft-btn:hover {
-  filter: brightness(1.12);
-  box-shadow: inset 2px 2px 0px 0px #fff0aa,
-              inset -2px -4px 0px 0px #b08828,
-              0px 0px 18px rgba(234, 179, 8, 0.25);
+.mc-btn-gold:hover {
+  background: #d8aa2e;
 }
 
-.luxury-craft-btn:active {
-  box-shadow: inset 2px 3px 0px 0px #5c450e,
-              inset -1px -1px 0px 0px #d4af37,
-              0px 2px 6px rgba(0, 0, 0, 0.7);
-  transform: translateY(2px);
+.mc-btn-gold:active {
+  box-shadow: inset 2px 3px 0px #382c06,
+              inset -1px -1px 0px #ffd95c,
+              1px 1px 0px #000000;
+  transform: translateY(2px) translateX(1px);
+}
+
+/* Minecraft Diamond Button */
+.mc-btn-diamond {
+  background: #2cb5a8;
+  color: #e0ffff;
+  border: 2px solid #000000;
+  box-shadow: inset 2px 2px 0px #7df9ec,
+              inset -2px -4px 0px #136058,
+              2px 3px 0px #000000;
+  font-family: 'Silkscreen', monospace;
+  text-shadow: 1px 1px 0px #0c3e39;
+  transition: all 0.08s ease-in-out;
+  cursor: pointer;
+}
+
+.mc-btn-diamond:hover {
+  background: #33c7b9;
+}
+
+.mc-btn-diamond:active {
+  box-shadow: inset 2px 3px 0px #0b3430,
+              inset -1px -1px 0px #69f2e3,
+              1px 1px 0px #000000;
+  transform: translateY(2px) translateX(1px);
+}
+
+/* Minecraft Stone Inventory GUI Panel */
+.mc-panel {
+  background: #252429;
+  border: 3px solid #000000;
+  box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.2),
+              inset -2px -3px 0px #0d0c0e,
+              3px 4px 0px #000000;
+}
+
+/* Minecraft Slot / Input */
+.mc-input {
+  background: #0c0b0e;
+  color: #ffffff;
+  border: 2px solid #3c3a44;
+  box-shadow: inset 2px 2px 0px #000000,
+              inset -1px -1px 0px #24222b;
+  font-family: 'Silkscreen', monospace;
+}
+
+.mc-input:focus {
+  border-color: #55ffff;
+  outline: none;
+}
+
+/* Pixel text shadow helper */
+.mc-text-shadow {
+  text-shadow: 2px 2px 0px #000000;
+}
+
+.mc-gold-shadow {
+  text-shadow: 2px 2px 0px #423207;
+}
+
+.mc-diamond-shadow {
+  text-shadow: 2px 2px 0px #0c3e39;
 }

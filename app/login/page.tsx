@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { BrandLogo } from "@/components/BrandLogo";
-import { Mail, Lock, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,7 +59,7 @@ export default function LoginPage() {
         router.push("/dashboard");
       }
     } catch (err: any) {
-      setError(err.message || "An unexpected authentication error occurred.");
+      setError(err.message || "Authentication error occurred.");
     } finally {
       setLoading(false);
     }
@@ -81,28 +81,28 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 flex flex-col justify-center items-center p-4">
-      <div className="max-w-sm w-full bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 rounded-3xl p-8 shadow-sm">
+    <div className="min-h-screen bg-[#121116] flex flex-col justify-center items-center p-4 font-mono">
+      <div className="max-w-sm w-full mc-panel p-6 shadow-[0_6px_0_#000000]">
         {/* Brand */}
         <Link href="/" className="flex items-center justify-center gap-2.5 mb-6 group">
-          <BrandLogo className="w-9 h-9" />
-          <span className="font-semibold text-lg tracking-tight text-neutral-900 dark:text-white">
-            LinkinBio
+          <BrandLogo className="w-8 h-8" />
+          <span className="font-bold text-base tracking-wider text-white uppercase mc-text-shadow">
+            CraftLink
           </span>
         </Link>
 
         {/* Tab switch: Sign In vs Sign Up */}
-        <div className="grid grid-cols-2 p-1 bg-neutral-100 dark:bg-neutral-800 rounded-xl mb-6 text-xs font-medium">
+        <div className="grid grid-cols-2 p-1 bg-[#15141a] border-2 border-black mb-5 text-[11px] uppercase tracking-wider">
           <button
             type="button"
             onClick={() => {
               setIsSignUp(false);
               setError("");
             }}
-            className={`py-2 rounded-lg transition-all ${
+            className={`py-1.5 transition-all ${
               !isSignUp
-                ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs font-semibold"
-                : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+                ? "mc-btn text-white font-bold"
+                : "text-[#8e8b98] hover:text-white"
             }`}
           >
             Sign In
@@ -113,27 +113,27 @@ export default function LoginPage() {
               setIsSignUp(true);
               setError("");
             }}
-            className={`py-2 rounded-lg transition-all ${
+            className={`py-1.5 transition-all ${
               isSignUp
-                ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs font-semibold"
-                : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+                ? "mc-btn text-white font-bold"
+                : "text-[#8e8b98] hover:text-white"
             }`}
           >
-            Create Account
+            New Player
           </button>
         </div>
 
         {magicLinkSent ? (
-          <div className="p-6 text-center space-y-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-2xl border border-neutral-200 dark:border-neutral-700">
-            <h3 className="font-semibold text-neutral-900 dark:text-white text-sm">
-              Check your email
+          <div className="p-4 text-center space-y-2 bg-[#1b2b1b] border-2 border-[#55ff55] text-xs">
+            <h3 className="font-bold text-[#55ff55] uppercase tracking-wider">
+              Check Your Inbox!
             </h3>
-            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              We sent a verification link to <span className="font-medium text-neutral-900 dark:text-white">{email}</span>. Click it to activate your account.
+            <p className="text-[11px] text-[#b0f5b0]">
+              Sent a verification scroll to <span className="font-bold">{email}</span>. Click it to enter the world.
             </p>
             <button
               onClick={() => setMagicLinkSent(false)}
-              className="text-xs font-medium text-neutral-900 dark:text-white underline mt-2"
+              className="text-[10px] text-[#55ffff] underline mt-2 uppercase tracking-wider"
             >
               Back to Sign In
             </button>
@@ -144,7 +144,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="w-full py-2.5 px-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium text-xs rounded-xl flex items-center justify-center gap-2.5 transition-colors shadow-xs mb-4"
+              className="w-full py-2.5 px-3 mc-btn text-white font-medium text-[11px] uppercase tracking-wider flex items-center justify-center gap-2 mb-4"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -164,56 +164,50 @@ export default function LoginPage() {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                 />
               </svg>
-              Continue with Google
+              <span>Continue with Google</span>
             </button>
 
             <div className="relative flex items-center justify-center mb-4">
-              <div className="border-t border-neutral-200 dark:border-neutral-800 w-full" />
-              <span className="bg-white dark:bg-neutral-900 px-3 text-[11px] text-neutral-400 font-medium uppercase tracking-wider absolute">
-                or
+              <div className="border-t border-[#3c3a44] w-full" />
+              <span className="bg-[#252429] px-2 text-[10px] text-[#7d798a] uppercase tracking-wider absolute">
+                or email
               </span>
             </div>
 
             {/* Email Form */}
-            <form onSubmit={handleAuth} className="space-y-3.5">
+            <form onSubmit={handleAuth} className="space-y-3">
               <div>
-                <label className="text-[11px] font-medium text-neutral-600 dark:text-neutral-400 block mb-1">
-                  Email
+                <label className="text-[10px] uppercase tracking-wider text-[#b0adb8] block mb-1">
+                  Email Address
                 </label>
-                <div className="relative flex items-center">
-                  <Mail className="w-4 h-4 text-neutral-400 absolute left-3 pointer-events-none" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="name@example.com"
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-xs focus:outline-none focus:ring-1 focus:ring-neutral-900 dark:focus:ring-white transition-all"
-                  />
-                </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="player@craftlink.app"
+                  className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none"
+                />
               </div>
 
               <div>
-                <label className="text-[11px] font-medium text-neutral-600 dark:text-neutral-400 block mb-1">
-                  Password
+                <label className="text-[10px] uppercase tracking-wider text-[#b0adb8] block mb-1">
+                  Secret Key (Password)
                 </label>
-                <div className="relative flex items-center">
-                  <Lock className="w-4 h-4 text-neutral-400 absolute left-3 pointer-events-none" />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    minLength={6}
-                    placeholder="••••••••"
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-xs focus:outline-none focus:ring-1 focus:ring-neutral-900 dark:focus:ring-white transition-all"
-                  />
-                </div>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  placeholder="••••••••"
+                  className="w-full px-3 py-2 text-xs mc-input text-white focus:outline-none"
+                />
               </div>
 
               {error && (
-                <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
+                <div className="p-2 border border-[#ff5555] bg-[#3a1818] text-[#ff8080] text-[11px] flex items-center gap-1.5">
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                   <span>{error}</span>
                 </div>
               )}
@@ -221,26 +215,22 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2.5 px-4 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 disabled:opacity-50 text-white dark:text-neutral-900 font-medium text-xs rounded-xl flex items-center justify-center gap-2 shadow-xs transition-colors active:scale-98 mt-2"
+                className="w-full py-2.5 px-4 mc-btn-gold text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-3"
               >
                 {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin text-black" />
                 ) : (
-                  <>
-                    <span>{isSignUp ? "Create account" : "Sign in"}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </>
+                  <span>{isSignUp ? "Create Player" : "Enter Server"}</span>
                 )}
               </button>
             </form>
 
-            {/* Quick Demo Preview Link */}
-            <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800 text-center">
+            <div className="mt-5 pt-3 border-t border-[#3c3a44] text-center">
               <Link
                 href="/dashboard"
-                className="text-xs text-neutral-500 hover:text-neutral-900 dark:hover:text-white font-medium"
+                className="text-[11px] text-[#55ffff] hover:underline uppercase tracking-wider"
               >
-                Explore demo without signing in &rarr;
+                Enter Demo Server without Sign-in &rarr;
               </Link>
             </div>
           </>

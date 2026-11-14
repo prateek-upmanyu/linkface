@@ -49,59 +49,55 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl relative text-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs font-mono">
+      <div className="mc-panel p-6 max-w-sm w-full shadow-[0_8px_0_#000000] relative text-center">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-zinc-200 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
+          className="absolute top-3 right-3 p-1.5 mc-btn text-white"
           aria-label="Close modal"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
-        <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto mb-3">
-          <QrIcon className="w-6 h-6" />
-        </div>
-
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-          Share Your QR Code
+        <h3 className="text-base font-bold uppercase tracking-wider text-white mc-text-shadow mb-1">
+          QR Code Scroll
         </h3>
-        <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1 mb-5">
-          Scan to visit <span className="font-semibold text-slate-700 dark:text-zinc-200">/{username}</span>
+        <p className="text-[11px] text-[#b0adb8] mb-4">
+          Scan to visit <span className="text-[#55ffff]">/{username}</span>
         </p>
 
         {/* QR Canvas */}
-        <div className="p-4 bg-white rounded-xl border border-slate-100 dark:border-zinc-700 shadow-inner flex justify-center items-center mx-auto w-fit">
-          <canvas ref={canvasRef} className="rounded-lg" />
+        <div className="p-3 bg-white border-2 border-black shadow-[inset_2px_2px_0_#000] flex justify-center items-center mx-auto w-fit">
+          <canvas ref={canvasRef} />
         </div>
 
         {/* URL Display */}
-        <div className="mt-4 flex items-center gap-2 p-2.5 bg-slate-100 dark:bg-zinc-800 rounded-lg text-xs text-slate-600 dark:text-zinc-300 font-mono truncate">
+        <div className="mt-3 flex items-center gap-2 p-2 mc-input text-[11px] text-[#55ffff] truncate">
           <span className="truncate flex-1 text-left">{url}</span>
           <button
             onClick={handleCopy}
-            className="p-1 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors shrink-0"
+            className="p-1 hover:text-white transition-colors shrink-0"
             title="Copy URL"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-[#55ff55]" /> : <Copy className="w-3.5 h-3.5" />}
           </button>
         </div>
 
         {/* Actions */}
-        <div className="mt-5 grid grid-cols-2 gap-3">
+        <div className="mt-4 grid grid-cols-2 gap-2">
           <button
             onClick={handleDownload}
-            className="flex items-center justify-center gap-2 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-xl transition-all shadow-md shadow-indigo-600/20 active:scale-95"
+            className="flex items-center justify-center gap-1.5 py-2 px-3 mc-btn-gold text-black font-bold text-[10px] uppercase tracking-wider"
           >
-            <Download className="w-4 h-4" />
-            Download PNG
+            <Download className="w-3.5 h-3.5" />
+            Download
           </button>
           <button
             onClick={onClose}
-            className="py-2.5 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 font-medium text-sm rounded-xl transition-all"
+            className="py-2 px-3 mc-btn text-white text-[10px] uppercase tracking-wider"
           >
-            Done
+            Close
           </button>
         </div>
       </div>
