@@ -159,11 +159,11 @@ export default async function PublicProfilePage({ params }: PageProps) {
         </div>
 
         {/* Display Name & Handle */}
-        <h1 className={`text-2xl sm:text-3xl font-serif font-semibold tracking-tight text-center ${theme.textPrimary}`}>
+        <h1 className={`text-2xl sm:text-3xl font-serif font-bold tracking-tight text-center ${theme.textPrimary}`}>
           {profile.display_name || `@${profile.username}`}
         </h1>
         {profile.display_name && (
-          <p className={`text-xs mt-1 tracking-wider uppercase ${theme.textSecondary}`}>
+          <p className="text-xs mt-1 tracking-wider text-slate-300 font-sans">
             @{profile.username}
           </p>
         )}
@@ -171,7 +171,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
         {/* Bio */}
         {profile.bio && (
           <p
-            className={`text-xs sm:text-sm text-center max-w-sm mt-3 leading-relaxed ${theme.textSecondary}`}
+            className="text-xs sm:text-sm text-center max-w-sm mt-3 leading-relaxed text-slate-300 font-sans"
           >
             {profile.bio}
           </p>
@@ -181,7 +181,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
         <div className="w-full space-y-3.5 mt-8">
           {links.length === 0 ? (
             <div className="py-12 text-center opacity-60">
-              <p className="text-sm font-medium">No public links shared yet.</p>
+              <p className="text-sm font-medium text-white">No public links shared yet.</p>
             </div>
           ) : (
             links.map((link) => (
@@ -209,15 +209,15 @@ export default async function PublicProfilePage({ params }: PageProps) {
       <footer className="mt-16 text-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wider transition-all duration-200 hover:scale-105 border border-[#d4af37]/40 bg-[#18050a]/90 text-[#f7e7b4] shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md group"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wide transition-all duration-200 hover:scale-105 border border-[#d97706]/35 bg-[#1c060d]/90 text-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md group hover:border-[#d97706]"
         >
-          <BrandLogo className="w-3.5 h-3.5" />
-          <span className="font-serif font-bold tracking-widest uppercase text-[11px] text-gold-gradient">
-            AURUM
+          <BrandLogo className="w-4 h-4" />
+          <span className="font-serif font-bold tracking-wider text-white text-xs">
+            Linklet
           </span>
-          <span className="opacity-40 text-[10px]">&bull;</span>
-          <span className="opacity-80 text-[11px] font-sans group-hover:text-white transition-colors">
-            Curate yours free
+          <span className="text-slate-500 text-[10px]">&bull;</span>
+          <span className="text-slate-300 text-xs font-sans group-hover:text-white transition-colors">
+            Create yours free
           </span>
         </Link>
       </footer>

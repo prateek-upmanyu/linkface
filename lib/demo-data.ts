@@ -8,7 +8,7 @@ export const DEMO_PROFILE: Profile = {
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
   theme: "luxury-craft",
   page_views: 1240,
-  status_message: "Curating the new Haute Collection ✨",
+  status_message: "Welcome to my links! ✨",
   status_style: "cloud",
   featured_creators: [
     {

@@ -89,13 +89,13 @@ export function ProfileSettings({
   return (
     <div className="space-y-6 font-sans">
       {/* Profile Details Card */}
-      <div className="p-5 sm:p-6 luxury-card border border-[#d4af37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-6">
-        <div className="flex items-center justify-between border-b border-[#d4af37]/20 pb-4">
+      <div className="p-5 sm:p-6 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-6">
+        <div className="flex items-center justify-between border-b border-[#d97706]/20 pb-4">
           <div>
-            <h3 className="font-serif text-base font-medium text-gold-gradient">
+            <h3 className="font-serif text-base font-semibold text-white">
               Profile &amp; Identity
             </h3>
-            <p className="text-xs text-[#faedd0]/70 mt-0.5">
+            <p className="text-xs text-slate-300 mt-0.5">
               Refine your photo, moniker, and editorial bio
             </p>
           </div>
@@ -109,7 +109,7 @@ export function ProfileSettings({
 
         {/* Avatar Upload Section */}
         <div className="space-y-3">
-          <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block">
+          <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 block">
             Profile Portrait
           </label>
 
@@ -117,7 +117,7 @@ export function ProfileSettings({
             {/* Interactive Portrait Tile */}
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="relative group w-20 h-20 rounded-full border-2 border-[#d4af37]/60 bg-[#1f070e] flex items-center justify-center shrink-0 overflow-hidden shadow-[0_0_25px_rgba(212,175,55,0.25)] cursor-pointer"
+              className="relative group w-20 h-20 rounded-full border-2 border-[#d97706]/60 bg-[#1c050c] flex items-center justify-center shrink-0 overflow-hidden shadow-[0_0_20px_rgba(217,119,6,0.2)] cursor-pointer"
               title="Click to upload portrait"
             >
               {avatarUrl ? (
@@ -127,17 +127,17 @@ export function ProfileSettings({
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 />
               ) : (
-                <User className="w-8 h-8 text-[#d4af37]/60" />
+                <User className="w-8 h-8 text-[#d97706]/70" />
               )}
 
               {/* Hover Overlay */}
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[10px] font-medium">
-                <Camera className="w-4 h-4 mb-1 text-[#d4af37]" />
+                <Camera className="w-4 h-4 mb-1 text-[#d97706]" />
                 <span>Upload</span>
               </div>
 
               {isProcessingImage && (
-                <div className="absolute inset-0 bg-black/80 flex items-center justify-center text-[#d4af37]">
+                <div className="absolute inset-0 bg-black/80 flex items-center justify-center text-[#d97706]">
                   <Loader2 className="w-5 h-5 animate-spin" />
                 </div>
               )}
@@ -161,7 +161,7 @@ export function ProfileSettings({
                   disabled={isProcessingImage}
                   className="px-3.5 py-1.5 luxury-btn-outline text-xs font-medium flex items-center gap-1.5"
                 >
-                  <Upload className="w-3.5 h-3.5 text-[#d4af37]" />
+                  <Upload className="w-3.5 h-3.5 text-[#d97706]" />
                   Upload from Device
                 </button>
 
@@ -169,14 +169,14 @@ export function ProfileSettings({
                   <button
                     type="button"
                     onClick={handleRemovePhoto}
-                    className="p-1.5 rounded-xl border border-rose-900/40 text-rose-400 hover:text-rose-200 hover:bg-rose-950/40 transition-colors"
+                    className="p-1.5 rounded-xl border border-rose-900/40 text-rose-300 hover:text-white hover:bg-rose-950/40 transition-colors"
                     title="Remove portrait"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
-              <p className="text-[11px] text-[#faedd0]/50">
+              <p className="text-[11px] text-slate-400">
                 JPEG, PNG, or WebP. Automatically optimized.
               </p>
             </div>
@@ -190,39 +190,39 @@ export function ProfileSettings({
         {/* Details Form */}
         <form onSubmit={handleSaveInfo} className="space-y-4">
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1">
-              Display Moniker / Name
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 block mb-1">
+              Display Name
             </label>
             <input
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              placeholder="e.g. Aurelius Vance"
-              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
+              placeholder="e.g. Alex Rivera"
+              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-white focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/70 block mb-1">
-              Editorial Bio / Synopsis
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 block mb-1">
+              Bio
             </label>
             <textarea
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               rows={3}
-              placeholder="A brief line about what you craft, curate, or create..."
-              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none resize-none"
+              placeholder="A brief line about what you do, build, or share..."
+              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-white focus:outline-none resize-none"
             />
           </div>
 
           {/* Floating Status Message / Speech Bubble */}
-          <div className="pt-2 border-t border-[#d4af37]/20 space-y-3">
+          <div className="pt-2 border-t border-[#d97706]/20 space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold uppercase tracking-wider text-[#faedd0]/80 flex items-center gap-1.5">
-                <MessageSquare className="w-3.5 h-3.5 text-[#d4af37]" />
-                Floating Thought / Status Bubble
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
+                <MessageSquare className="w-3.5 h-3.5 text-[#d97706]" />
+                Floating Status Bubble
               </label>
-              <span className="text-[10px] text-[#faedd0]/50 uppercase tracking-wider">
+              <span className="text-[10px] text-slate-400 uppercase tracking-wider">
                 Appears above avatar
               </span>
             </div>
@@ -231,14 +231,14 @@ export function ProfileSettings({
               type="text"
               value={statusMessage}
               onChange={(e) => setStatusMessage(e.target.value)}
-              placeholder="e.g. 🍷 Paris Fashion Week | Live now!"
+              placeholder="e.g. ✨ New release is live!"
               maxLength={60}
-              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[#faf8f5] focus:outline-none"
+              className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-white focus:outline-none"
             />
 
             {/* Bubble Shape Picker: Cloud, Speech, Quote */}
             <div className="flex items-center gap-2 pt-1">
-              <span className="text-xs text-[#faedd0]/70 uppercase tracking-wider">Shape:</span>
+              <span className="text-xs text-slate-300 uppercase tracking-wider">Shape:</span>
               <button
                 type="button"
                 onClick={() => setStatusStyle("cloud")}
@@ -287,14 +287,14 @@ export function ProfileSettings({
       </div>
 
       {/* Themes Customization Section */}
-      <div className="p-5 sm:p-6 luxury-card border border-[#d4af37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-4">
-        <div className="border-b border-[#d4af37]/20 pb-3">
-          <h3 className="font-serif text-base font-medium text-gold-gradient flex items-center gap-2">
-            <Palette className="w-4 h-4 text-[#d4af37]" />
-            Haute Luxury Themes
+      <div className="p-5 sm:p-6 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-4">
+        <div className="border-b border-[#d97706]/20 pb-3">
+          <h3 className="font-serif text-base font-semibold text-white flex items-center gap-2">
+            <Palette className="w-4 h-4 text-[#d97706]" />
+            Themes (Dark Red &amp; Dark Yellow)
           </h3>
-          <p className="text-xs text-[#faedd0]/70 mt-0.5">
-            Select a deep red and rich gold aesthetic for your live bio showcase
+          <p className="text-xs text-slate-300 mt-0.5">
+            Select a dark red palette with warm amber accents for your public page
           </p>
         </div>
 
@@ -308,32 +308,32 @@ export function ProfileSettings({
                 onClick={() => handleSelectTheme(th.id)}
                 className={`p-3.5 rounded-2xl text-left border transition-all duration-200 relative overflow-hidden group ${
                   isSelected
-                    ? "border-[#d4af37] bg-[#240810]/90 shadow-[0_0_25px_rgba(212,175,55,0.3)] ring-1 ring-[#d4af37]"
-                    : "border-[#d4af37]/20 bg-[#140509]/70 hover:border-[#d4af37]/50"
+                    ? "border-[#d97706] bg-[#24060f]/95 shadow-[0_0_20px_rgba(217,119,6,0.25)] ring-1 ring-[#d97706]"
+                    : "border-[#d97706]/20 bg-[#160308]/70 hover:border-[#d97706]/50"
                 }`}
               >
                 <div className="flex items-center gap-3">
                   {/* Theme swatch preview */}
                   <div
-                    className="w-10 h-10 rounded-xl border border-[#d4af37]/40 shadow-inner shrink-0 flex items-center justify-center"
+                    className="w-10 h-10 rounded-xl border border-[#d97706]/35 shadow-inner shrink-0 flex items-center justify-center"
                     style={{ background: th.previewBg }}
                   >
                     <div
-                      className="w-4 h-4 rounded-md border border-[#d4af37]/60"
+                      className="w-4 h-4 rounded-md border border-[#d97706]/50"
                       style={{ background: th.previewCard }}
                     />
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <span className="font-serif font-semibold text-xs text-[#faf8f5]">
+                      <span className="font-serif font-semibold text-xs text-white">
                         {th.name}
                       </span>
                       {isSelected && (
-                        <Check className="w-3.5 h-3.5 text-[#d4af37]" />
+                        <Check className="w-3.5 h-3.5 text-[#d97706]" />
                       )}
                     </div>
-                    <p className="text-[11px] text-[#faedd0]/60 truncate mt-0.5">
+                    <p className="text-[11px] text-slate-300 truncate mt-0.5">
                       {th.description}
                     </p>
                   </div>

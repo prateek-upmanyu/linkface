@@ -75,20 +75,20 @@ export function PublicLinkButton({
           />
         </div>
 
-        {/* Link Title */}
-        <span className="font-sans font-medium text-sm sm:text-base tracking-normal leading-snug truncate flex-1 text-[#faedd0] group-hover:text-white transition-colors">
+        {/* Clean, High-Contrast Normal White Text */}
+        <span className="font-sans font-medium text-sm sm:text-base tracking-normal leading-snug truncate flex-1 text-white group-hover:text-slate-100 transition-colors">
           {link.title}
         </span>
 
-        {/* Refined Luxury Link Badge */}
+        {/* Feature Badge */}
         {link.badge && (
-          <span className="px-2.5 py-0.5 text-[9px] font-sans font-semibold tracking-wider uppercase bg-[#300a12]/90 text-[#f7e7b4] border border-[#d4af37]/50 rounded-full shadow-[0_0_12px_rgba(212,175,55,0.2)] shrink-0 ml-1.5">
+          <span className="px-2.5 py-0.5 text-[10px] font-sans font-semibold tracking-wider uppercase bg-[#480a18] text-white border border-[#d97706]/50 rounded-full shrink-0 ml-1.5">
             {link.badge}
           </span>
         )}
       </div>
 
-      <ExternalLink className="w-4 h-4 text-[#d4af37]/60 group-hover:text-[#faedd0] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1" />
+      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1" />
     </a>
   );
 }

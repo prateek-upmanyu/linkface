@@ -4,7 +4,7 @@ import React from "react";
 import { Profile, LinkItem } from "@/types";
 import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
-import { Eye, MousePointerClick, TrendingUp, BarChart3, ExternalLink } from "lucide-react";
+import { Eye, MousePointerClick, TrendingUp, BarChart3 } from "lucide-react";
 
 interface AnalyticsTabProps {
   profile: Profile;
@@ -24,56 +24,56 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
       {/* Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Page Views */}
-        <div className="p-5 luxury-card border border-[#d4af37]/25 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
-          <div className="flex items-center justify-between text-[#faedd0]/60 mb-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider">Page Impressions</span>
-            <Eye className="w-4 h-4 text-[#d4af37]" />
+        <div className="p-5 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center justify-between text-slate-300 mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Page Views</span>
+            <Eye className="w-4 h-4 text-[#d97706]" />
           </div>
-          <div className="text-3xl font-serif font-semibold text-gold-gradient">
+          <div className="text-3xl font-serif font-bold text-white">
             {pageViews.toLocaleString()}
           </div>
-          <p className="text-xs text-[#faedd0]/50 mt-1">Total public visitors</p>
+          <p className="text-xs text-slate-400 mt-1">Total public visitors</p>
         </div>
 
         {/* Total Clicks */}
-        <div className="p-5 luxury-card border border-[#d4af37]/25 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
-          <div className="flex items-center justify-between text-[#faedd0]/60 mb-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider">Total Engagements</span>
-            <MousePointerClick className="w-4 h-4 text-[#d4af37]" />
+        <div className="p-5 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center justify-between text-slate-300 mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Total Clicks</span>
+            <MousePointerClick className="w-4 h-4 text-[#d97706]" />
           </div>
-          <div className="text-3xl font-serif font-semibold text-[#f7e7b4]">
+          <div className="text-3xl font-serif font-bold text-white">
             {totalClicks.toLocaleString()}
           </div>
-          <p className="text-xs text-[#faedd0]/50 mt-1">Direct link navigations</p>
+          <p className="text-xs text-slate-400 mt-1">Direct link visits</p>
         </div>
 
         {/* Click-Through Rate */}
-        <div className="p-5 luxury-card border border-[#d4af37]/25 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
-          <div className="flex items-center justify-between text-[#faedd0]/60 mb-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider">Conversion Ratio</span>
-            <TrendingUp className="w-4 h-4 text-[#d4af37]" />
+        <div className="p-5 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center justify-between text-slate-300 mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Click Ratio</span>
+            <TrendingUp className="w-4 h-4 text-[#d97706]" />
           </div>
-          <div className="text-3xl font-serif font-semibold text-gold-gradient">
+          <div className="text-3xl font-serif font-bold text-white">
             {ctr}%
           </div>
-          <p className="text-xs text-[#faedd0]/50 mt-1">Clicks per visitor</p>
+          <p className="text-xs text-slate-400 mt-1">Clicks per visitor</p>
         </div>
       </div>
 
       {/* Clicks Per Link Breakdown */}
-      <div className="p-5 sm:p-6 luxury-card border border-[#d4af37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-4">
-        <div className="flex items-center justify-between border-b border-[#d4af37]/20 pb-3">
-          <h3 className="font-serif text-base font-medium text-gold-gradient flex items-center gap-2">
-            <BarChart3 className="w-4 h-4 text-[#d4af37]" />
-            Showcase Performance Breakdown
+      <div className="p-5 sm:p-6 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-4">
+        <div className="flex items-center justify-between border-b border-[#d97706]/20 pb-3">
+          <h3 className="font-serif text-base font-semibold text-white flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-[#d97706]" />
+            Link Performance
           </h3>
-          <span className="text-xs text-[#faedd0]/60">
+          <span className="text-xs text-slate-400">
             {sortedLinks.length} Links Tracked
           </span>
         </div>
 
         {sortedLinks.length === 0 ? (
-          <p className="text-xs text-[#faedd0]/50 py-6 text-center">
+          <p className="text-xs text-slate-400 py-6 text-center">
             No links active in your showcase yet.
           </p>
         ) : (
@@ -88,12 +88,12 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
               return (
                 <div
                   key={link.id}
-                  className="p-3.5 rounded-xl border border-[#d4af37]/20 bg-[#140509]/70 space-y-2"
+                  className="p-3.5 rounded-xl border border-[#d97706]/20 bg-[#1c050c]/80 space-y-2"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5 truncate min-w-0">
                       <div
-                        className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border border-[#d4af37]/30"
+                        className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border border-white/10"
                         style={{
                           ...getPlatformBadgeStyle(platform?.brandColor),
                         }}
@@ -106,23 +106,23 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
                           size={14}
                         />
                       </div>
-                      <span className="font-serif font-medium text-xs text-[#faf8f5] truncate">
+                      <span className="font-serif font-medium text-xs text-white truncate">
                         {link.title}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0 text-xs font-sans">
-                      <span className="font-semibold text-[#d4af37]">
+                      <span className="font-semibold text-white">
                         {link.click_count || 0} clicks
                       </span>
-                      <span className="text-[#faedd0]/40">({percentage}%)</span>
+                      <span className="text-slate-400">({percentage}%)</span>
                     </div>
                   </div>
 
-                  {/* Gold Progress Bar */}
-                  <div className="w-full h-1.5 bg-[#22070e] rounded-full overflow-hidden border border-[#d4af37]/15">
+                  {/* Dark Amber Progress Bar */}
+                  <div className="w-full h-1.5 bg-[#120306] rounded-full overflow-hidden border border-[#d97706]/20">
                     <div
-                      className="h-full bg-gradient-to-r from-[#8a6a1c] via-[#d4af37] to-[#faedd0] rounded-full transition-all duration-500"
+                      className="h-full bg-gradient-to-r from-[#b45309] to-[#f59e0b] rounded-full transition-all duration-500"
                       style={{ width: `${percentage}%` }}
                     />
                   </div>

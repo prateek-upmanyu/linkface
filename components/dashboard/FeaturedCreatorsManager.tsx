@@ -95,7 +95,7 @@ export function FeaturedCreatorsManager({
     if (!targetUrl) {
       setSlotError((prev) => ({
         ...prev,
-        [index]: "Enter a profile link first to scrape its image.",
+        [index]: "Enter a link first to scrape its image.",
       }));
       return;
     }
@@ -168,15 +168,15 @@ export function FeaturedCreatorsManager({
   };
 
   return (
-    <div className="p-5 sm:p-6 luxury-card border border-[#d4af37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-6 font-sans">
+    <div className="p-5 sm:p-6 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-6 font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#d4af37]/20 pb-4">
+      <div className="flex items-center justify-between border-b border-[#d97706]/20 pb-4">
         <div>
-          <h3 className="font-serif text-base font-medium text-gold-gradient flex items-center gap-2">
-            <Star className="w-4 h-4 text-[#d4af37] fill-[#d4af37]" />
+          <h3 className="font-serif text-base font-semibold text-white flex items-center gap-2">
+            <Star className="w-4 h-4 text-[#d97706] fill-[#d97706]" />
             Featured Creator Trio Spotlight
           </h3>
-          <p className="text-xs text-[#faedd0]/70 mt-1 leading-relaxed">
+          <p className="text-xs text-slate-300 mt-1 leading-relaxed">
             Feature up to 3 collaborators, clients, or sponsors below your link showcase. Photos can be <strong>auto-scraped from any link</strong> or <strong>uploaded from your device</strong>.
           </p>
         </div>
@@ -198,12 +198,12 @@ export function FeaturedCreatorsManager({
             return (
               <div
                 key={creator.id || idx}
-                className="p-4 rounded-2xl bg-[#140509]/80 border border-[#d4af37]/25 hover:border-[#d4af37]/45 transition-colors space-y-3.5 relative flex flex-col justify-between"
+                className="p-4 rounded-2xl bg-[#1c050c]/80 border border-[#d97706]/20 hover:border-[#d97706]/45 transition-colors space-y-3.5 relative flex flex-col justify-between"
               >
                 <div className="space-y-3">
                   {/* Slot Top Header */}
-                  <div className="flex items-center justify-between border-b border-[#d4af37]/15 pb-2">
-                    <span className="text-[11px] uppercase font-semibold text-[#d4af37] tracking-wider flex items-center gap-1.5">
+                  <div className="flex items-center justify-between border-b border-[#d97706]/15 pb-2">
+                    <span className="text-[11px] uppercase font-semibold text-[#d97706] tracking-wider flex items-center gap-1.5">
                       Spotlight Slot {idx + 1}
                     </span>
                     {hasData && (
@@ -220,7 +220,7 @@ export function FeaturedCreatorsManager({
 
                   {/* Avatar Upload / Scraped Photo Preview */}
                   <div>
-                    <label className="text-[10px] uppercase font-semibold text-[#faedd0]/60 block mb-2 tracking-wider">
+                    <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-2 tracking-wider">
                       Portrait / Icon
                     </label>
 
@@ -228,30 +228,30 @@ export function FeaturedCreatorsManager({
                       {/* Interactive Photo Tile */}
                       <div
                         onClick={() => fileInputRefs.current[idx]?.click()}
-                        className="relative group w-12 h-12 rounded-full border border-[#d4af37]/50 bg-[#220810] flex items-center justify-center shrink-0 overflow-hidden shadow-[0_0_15px_rgba(212,175,55,0.2)] cursor-pointer"
+                        className="relative group w-12 h-12 rounded-full border border-[#d97706]/50 bg-[#24060f] flex items-center justify-center shrink-0 overflow-hidden shadow-[0_0_15px_rgba(217,119,6,0.15)] cursor-pointer"
                         title="Click to upload from device"
                       >
                         {creator.avatar_url ? (
                           <img
                             src={creator.avatar_url}
-                            alt="Creator avatar"
+                            alt={creator.name}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                             onError={(e) => {
                               (e.target as HTMLElement).style.display = "none";
                             }}
                           />
                         ) : (
-                          <Users className="w-5 h-5 text-[#d4af37]/60" />
+                          <Users className="w-5 h-5 text-slate-400" />
                         )}
 
                         {/* Hover Overlay */}
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[9px] font-medium">
-                          <Camera className="w-3.5 h-3.5 mb-0.5 text-[#d4af37]" />
+                          <Camera className="w-3.5 h-3.5 mb-0.5 text-[#d97706]" />
                           <span>Change</span>
                         </div>
 
                         {(isUploading || isScraping) && (
-                          <div className="absolute inset-0 bg-black/75 flex items-center justify-center text-[#d4af37]">
+                          <div className="absolute inset-0 bg-black/75 flex items-center justify-center text-[#d97706]">
                             <Loader2 className="w-4 h-4 animate-spin" />
                           </div>
                         )}
@@ -275,10 +275,10 @@ export function FeaturedCreatorsManager({
                             type="button"
                             onClick={() => fileInputRefs.current[idx]?.click()}
                             disabled={isUploading}
-                            className="px-2.5 py-1 rounded-lg border border-[#d4af37]/30 bg-[#240810]/70 hover:bg-[#d4af37]/15 text-[10px] font-medium text-[#faedd0] flex items-center gap-1 shrink-0 transition-colors"
+                            className="px-2.5 py-1 rounded-lg border border-[#d97706]/30 bg-[#25060f] hover:bg-[#d97706]/15 text-[10px] font-medium text-slate-200 flex items-center gap-1 shrink-0 transition-colors"
                             title="Upload image file from device"
                           >
-                            <Upload className="w-2.5 h-2.5 text-[#d4af37]" />
+                            <Upload className="w-2.5 h-2.5 text-[#d97706]" />
                             Upload
                           </button>
 
@@ -286,7 +286,7 @@ export function FeaturedCreatorsManager({
                             <button
                               type="button"
                               onClick={() => handleRemovePhoto(idx)}
-                              className="p-1 rounded-lg border border-rose-900/40 text-rose-400 hover:text-rose-200"
+                              className="p-1 rounded-lg border border-rose-900/40 text-rose-300 hover:text-white"
                               title="Remove photo"
                             >
                               <Trash2 className="w-2.5 h-2.5" />
@@ -298,15 +298,15 @@ export function FeaturedCreatorsManager({
                           type="button"
                           onClick={() => handleAutoScrape(idx)}
                           disabled={isScraping || !creator.url}
-                          className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-[#d4af37]/20 to-[#c59e2b]/10 border border-[#d4af37]/40 text-[#f7e7b4] text-[10px] font-medium flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed hover:border-[#d4af37] transition-all"
+                          className="px-2.5 py-1 rounded-lg bg-[#25060f] border border-[#d97706]/35 text-slate-200 text-[10px] font-medium flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed hover:border-[#d97706] transition-all"
                           title="Auto-fetch photo from creator URL"
                         >
                           {isScraping ? (
-                            <Loader2 className="w-2.5 h-2.5 animate-spin text-[#d4af37]" />
+                            <Loader2 className="w-2.5 h-2.5 animate-spin text-[#d97706]" />
                           ) : (
-                            <Sparkles className="w-2.5 h-2.5 text-[#d4af37]" />
+                            <Sparkles className="w-2.5 h-2.5 text-[#d97706]" />
                           )}
-                          Scrape From Link
+                          Scrape Link
                         </button>
                       </div>
                     </div>
@@ -318,7 +318,7 @@ export function FeaturedCreatorsManager({
 
                   {/* Creator Link / URL */}
                   <div>
-                    <label className="text-[10px] uppercase font-semibold text-[#faedd0]/60 block mb-1">
+                    <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">
                       Destination Link
                     </label>
                     <input
@@ -326,13 +326,13 @@ export function FeaturedCreatorsManager({
                       value={creator.url}
                       onChange={(e) => handleFieldChange(idx, "url", e.target.value)}
                       placeholder="https://..."
-                      className="w-full text-xs px-3 py-2 luxury-input text-[#faf8f5] focus:outline-none"
+                      className="w-full text-xs px-3 py-2 luxury-input text-white focus:outline-none"
                     />
                   </div>
 
                   {/* Creator Name */}
                   <div>
-                    <label className="text-[10px] uppercase font-semibold text-[#faedd0]/60 block mb-1">
+                    <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">
                       Name / Title
                     </label>
                     <input
@@ -340,13 +340,13 @@ export function FeaturedCreatorsManager({
                       value={creator.name}
                       onChange={(e) => handleFieldChange(idx, "name", e.target.value)}
                       placeholder="e.g. Elena Rostova"
-                      className="w-full text-xs px-3 py-2 luxury-input text-[#faf8f5] focus:outline-none"
+                      className="w-full text-xs px-3 py-2 luxury-input text-white focus:outline-none"
                     />
                   </div>
 
                   {/* Tagline / Role */}
                   <div>
-                    <label className="text-[10px] uppercase font-semibold text-[#faedd0]/60 block mb-1">
+                    <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">
                       Role / Subtitle (Optional)
                     </label>
                     <input
@@ -354,7 +354,7 @@ export function FeaturedCreatorsManager({
                       value={creator.tagline || ""}
                       onChange={(e) => handleFieldChange(idx, "tagline", e.target.value)}
                       placeholder="e.g. Creative Director"
-                      className="w-full text-xs px-3 py-2 luxury-input text-[#faf8f5] focus:outline-none"
+                      className="w-full text-xs px-3 py-2 luxury-input text-white focus:outline-none"
                     />
                   </div>
                 </div>
@@ -364,7 +364,7 @@ export function FeaturedCreatorsManager({
         </div>
 
         <div className="flex items-center justify-between pt-2">
-          <p className="text-xs text-[#faedd0]/60">
+          <p className="text-xs text-slate-400">
             Empty slots are hidden automatically on your live page.
           </p>
 

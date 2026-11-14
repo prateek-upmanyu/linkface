@@ -142,31 +142,31 @@ export function DashboardClient({
     <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] flex flex-col font-sans">
       {/* Demo Mode Notice */}
       {isDemoMode && (
-        <div className="bg-[#240810]/90 border-b border-[#d4af37]/30 px-4 py-2.5 text-xs text-[#faedd0] flex items-center justify-between backdrop-blur-md">
+        <div className="bg-[#24060f]/95 border-b border-[#d97706]/30 px-4 py-2.5 text-xs text-slate-200 flex items-center justify-between backdrop-blur-md">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 shrink-0 text-[#d4af37]" />
+            <Sparkles className="w-4 h-4 shrink-0 text-[#d97706]" />
             <span>
-              <strong>Haute Preview Studio:</strong> Changes reflect immediately in live preview. Connect Supabase in{" "}
-              <code className="bg-[#460c18] px-1.5 py-0.5 rounded text-[#faedd0]">.env.local</code> to persist to database.
+              <strong>Preview Studio Active:</strong> Changes reflect immediately in live preview. Connect Supabase in{" "}
+              <code className="bg-[#380812] px-1.5 py-0.5 rounded text-white font-mono">.env.local</code> to save to database.
             </span>
           </div>
-          <span className="hidden sm:inline-block font-semibold uppercase tracking-widest text-[10px] text-[#d4af37]">
+          <span className="hidden sm:inline-block font-semibold uppercase tracking-wider text-[10px] text-[#d97706]">
             [Live Studio]
           </span>
         </div>
       )}
 
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-[#0d0407]/90 border-b border-[#d4af37]/25 px-4 lg:px-8 py-3.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+      <header className="sticky top-0 z-40 bg-[#0d0205]/95 border-b border-[#d97706]/20 px-4 lg:px-8 py-3.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
               <BrandLogo className="w-7 h-7" />
               <div>
-                <span className="font-serif font-semibold text-sm tracking-widest text-gold-gradient uppercase hidden sm:inline">
-                  AURUM
+                <span className="font-serif font-bold text-base tracking-wider text-white uppercase hidden sm:inline">
+                  Linklet
                 </span>
-                <div className="flex items-center gap-1.5 text-xs text-[#d4af37]">
+                <div className="flex items-center gap-1.5 text-xs text-slate-300">
                   <span>@{profile.username}</span>
                 </div>
               </div>
@@ -181,8 +181,8 @@ export function DashboardClient({
               className="px-3 py-1.5 luxury-btn-outline text-xs flex items-center gap-1.5 font-medium"
               title="Open QR Code"
             >
-              <QrCode className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span className="hidden sm:inline">Emblem QR</span>
+              <QrCode className="w-3.5 h-3.5 text-[#d97706]" />
+              <span className="hidden sm:inline">QR Code</span>
             </button>
 
             {/* Visit Live Bio */}
@@ -199,7 +199,7 @@ export function DashboardClient({
             {/* Sign Out */}
             <button
               onClick={handleSignOut}
-              className="p-2 rounded-xl border border-rose-900/40 text-rose-400 hover:text-rose-200 hover:bg-rose-950/40 transition-colors"
+              className="p-2 rounded-xl border border-rose-900/40 text-rose-300 hover:text-white hover:bg-rose-950/40 transition-colors"
               title="Sign out"
             >
               <LogOut className="w-4 h-4" />
@@ -219,11 +219,11 @@ export function DashboardClient({
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all ${
                 activeTab === "links"
                   ? "luxury-btn-gold"
-                  : "luxury-btn-outline text-[#faedd0]/70"
+                  : "luxury-btn-outline text-slate-300"
               }`}
             >
               <Link2 className="w-3.5 h-3.5" />
-              Curate Links
+              Links
             </button>
 
             <button
@@ -231,11 +231,11 @@ export function DashboardClient({
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all ${
                 activeTab === "appearance"
                   ? "luxury-btn-gold"
-                  : "luxury-btn-outline text-[#faedd0]/70"
+                  : "luxury-btn-outline text-slate-300"
               }`}
             >
               <Palette className="w-3.5 h-3.5" />
-              Haute Themes
+              Themes
             </button>
 
             <button
@@ -243,7 +243,7 @@ export function DashboardClient({
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all ${
                 activeTab === "analytics"
                   ? "luxury-btn-gold"
-                  : "luxury-btn-outline text-[#faedd0]/70"
+                  : "luxury-btn-outline text-slate-300"
               }`}
             >
               <BarChart3 className="w-3.5 h-3.5" />
@@ -276,12 +276,12 @@ export function DashboardClient({
 
         {/* Right Column: Live Phone Preview */}
         <div className="lg:col-span-5 hidden lg:flex flex-col items-center sticky top-24 pb-8">
-          <div className="mb-3 flex items-center justify-between w-full max-w-[360px] px-2 text-xs text-[#faedd0]/70">
-            <span className="font-serif uppercase tracking-widest text-gold-gradient font-semibold">
-              Live Showcase
+          <div className="mb-3 flex items-center justify-between w-full max-w-[360px] px-2 text-xs text-slate-400">
+            <span className="font-serif uppercase tracking-wider text-white font-semibold">
+              Live Preview
             </span>
-            <span className="flex items-center gap-1.5 text-[11px] text-[#d4af37]">
-              <span className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse" />
+            <span className="flex items-center gap-1.5 text-[11px] text-slate-300">
+              <span className="w-2 h-2 rounded-full bg-[#d97706] animate-pulse" />
               Real-time
             </span>
           </div>

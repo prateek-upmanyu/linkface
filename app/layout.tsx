@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AURUM — Haute Link in Bio for Creators & Curators",
+  title: "Linklet — One link for everything you share",
   description:
-    "The premier luxury link in bio with 50+ auto-detected channels, featured trio spotlight, real-time analytics, and haute crimson & gold aesthetic.",
+    "The link in bio for modern creators. 50+ auto-detected platforms, featured collaborator trio, real-time analytics, and dark red & amber themes.",
   icons: {
     icon: "/favicon.ico",
   },
