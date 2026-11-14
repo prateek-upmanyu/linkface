@@ -20,60 +20,60 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
   const sortedLinks = [...links].sort((a, b) => (b.click_count || 0) - (a.click_count || 0));
 
   return (
-    <div className="space-y-6 font-sans">
+    <div className="space-y-6 font-body">
       {/* Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Page Views */}
-        <div className="p-5 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-          <div className="flex items-center justify-between text-slate-300 mb-2">
+        <div className="p-5 luxury-card border border-[var(--border-soft)] shadow-[0_10px_30px_rgba(0,15,35,0.5)]">
+          <div className="flex items-center justify-between text-[var(--color-text-muted)] mb-2">
             <span className="text-[11px] font-semibold uppercase tracking-wider">Page Views</span>
-            <Eye className="w-4 h-4 text-[#d97706]" />
+            <Eye className="w-4 h-4 text-[var(--color-acid-lime)]" />
           </div>
-          <div className="text-3xl font-serif font-bold text-white">
+          <div className="text-3xl font-heading font-medium text-[var(--color-text-offwhite)]">
             {pageViews.toLocaleString()}
           </div>
-          <p className="text-xs text-slate-400 mt-1">Total public visitors</p>
+          <p className="text-xs text-[var(--color-text-subtle)] mt-1">Total public visitors</p>
         </div>
 
         {/* Total Clicks */}
-        <div className="p-5 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-          <div className="flex items-center justify-between text-slate-300 mb-2">
+        <div className="p-5 luxury-card border border-[var(--border-soft)] shadow-[0_10px_30px_rgba(0,15,35,0.5)]">
+          <div className="flex items-center justify-between text-[var(--color-text-muted)] mb-2">
             <span className="text-[11px] font-semibold uppercase tracking-wider">Total Clicks</span>
-            <MousePointerClick className="w-4 h-4 text-[#d97706]" />
+            <MousePointerClick className="w-4 h-4 text-[var(--color-acid-lime)]" />
           </div>
-          <div className="text-3xl font-serif font-bold text-white">
+          <div className="text-3xl font-heading font-medium text-[var(--color-text-offwhite)]">
             {totalClicks.toLocaleString()}
           </div>
-          <p className="text-xs text-slate-400 mt-1">Direct link visits</p>
+          <p className="text-xs text-[var(--color-text-subtle)] mt-1">Direct link visits</p>
         </div>
 
         {/* Click-Through Rate */}
-        <div className="p-5 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-          <div className="flex items-center justify-between text-slate-300 mb-2">
+        <div className="p-5 luxury-card border border-[var(--border-soft)] shadow-[0_10px_30px_rgba(0,15,35,0.5)]">
+          <div className="flex items-center justify-between text-[var(--color-text-muted)] mb-2">
             <span className="text-[11px] font-semibold uppercase tracking-wider">Click Ratio</span>
-            <TrendingUp className="w-4 h-4 text-[#d97706]" />
+            <TrendingUp className="w-4 h-4 text-[var(--color-acid-lime)]" />
           </div>
-          <div className="text-3xl font-serif font-bold text-white">
+          <div className="text-3xl font-heading font-medium text-[var(--color-text-offwhite)]">
             {ctr}%
           </div>
-          <p className="text-xs text-slate-400 mt-1">Clicks per visitor</p>
+          <p className="text-xs text-[var(--color-text-subtle)] mt-1">Clicks per visitor</p>
         </div>
       </div>
 
       {/* Clicks Per Link Breakdown */}
-      <div className="p-5 sm:p-6 luxury-card border border-[#d97706]/25 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-4">
-        <div className="flex items-center justify-between border-b border-[#d97706]/20 pb-3">
-          <h3 className="font-serif text-base font-semibold text-white flex items-center gap-2">
-            <BarChart3 className="w-4 h-4 text-[#d97706]" />
+      <div className="p-5 sm:p-6 luxury-card border border-[var(--border-soft)] shadow-[0_10px_30px_rgba(0,15,35,0.5)] space-y-4">
+        <div className="flex items-center justify-between border-b border-[var(--border-soft)] pb-3">
+          <h3 className="font-heading text-base font-semibold text-[var(--color-text-offwhite)] flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-[var(--color-acid-lime)]" />
             Link Performance
           </h3>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-[var(--color-text-muted)]">
             {sortedLinks.length} Links Tracked
           </span>
         </div>
 
         {sortedLinks.length === 0 ? (
-          <p className="text-xs text-slate-400 py-6 text-center">
+          <p className="text-xs text-[var(--color-text-subtle)] py-6 text-center">
             No links active in your showcase yet.
           </p>
         ) : (
@@ -82,16 +82,16 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
               const platform = PLATFORMS.find((p) => p.id === link.platform);
               const percentage =
                 totalClicks > 0
-                  ? Math.round(((link.click_count || 0) / totalClicks) * 100)
-                  : 0;
+                  ? (((link.click_count || 0) / totalClicks) * 100).toFixed(0)
+                  : "0";
 
               return (
                 <div
                   key={link.id}
-                  className="p-3.5 rounded-xl border border-[#d97706]/20 bg-[#1c050c]/80 space-y-2"
+                  className="p-3.5 rounded-xl bg-[#00142b]/70 border border-[var(--border-soft)] flex flex-col gap-2"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5 truncate min-w-0">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1 mr-3">
                       <div
                         className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border border-white/10"
                         style={{
@@ -106,23 +106,25 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
                           size={14}
                         />
                       </div>
-                      <span className="font-serif font-medium text-xs text-white truncate">
+                      <span className="font-medium text-[var(--color-text-offwhite)] truncate">
                         {link.title}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2 shrink-0 text-xs font-sans">
-                      <span className="font-semibold text-white">
-                        {link.click_count || 0} clicks
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="font-heading font-medium text-sm text-[var(--color-text-offwhite)]">
+                        {link.click_count || 0}
                       </span>
-                      <span className="text-slate-400">({percentage}%)</span>
+                      <span className="text-[11px] text-[var(--color-text-muted)] w-8 text-right">
+                        {percentage}%
+                      </span>
                     </div>
                   </div>
 
-                  {/* Dark Amber Progress Bar */}
-                  <div className="w-full h-1.5 bg-[#120306] rounded-full overflow-hidden border border-[#d97706]/20">
+                  {/* Acid Lime Progress Bar */}
+                  <div className="w-full bg-[#001a3a] h-1.5 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-[#b45309] to-[#f59e0b] rounded-full transition-all duration-500"
+                      className="bg-[#d0f600] h-full rounded-full transition-all duration-500"
                       style={{ width: `${percentage}%` }}
                     />
                   </div>

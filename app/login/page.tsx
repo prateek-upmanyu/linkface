@@ -59,43 +59,42 @@ export default function LoginPage() {
         router.push("/dashboard");
       }
     } catch (err: any) {
-      setError(err.message || "Authentication error occurred.");
+      setError(err.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    setError("");
     try {
-      const { error: googleError } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
-      if (googleError) setError(googleError.message);
+      if (error) setError(error.message);
     } catch (err: any) {
-      setError(err.message || "Google sign-in failed.");
+      setError(err.message || "Google sign in failed.");
     }
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-base)] flex flex-col justify-center items-center p-4 font-sans">
-      <div className="max-w-md w-full luxury-card p-8 border border-[#d97706]/35 shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
+    <div className="min-h-screen bg-[var(--color-heritage-deep)] flex flex-col justify-center items-center p-4 font-body selection:bg-[#0a3d7a] selection:text-[#d0f600]">
+      <div className="max-w-md w-full luxury-card p-8 border border-[var(--border-soft)] shadow-[0_20px_50px_rgba(0,15,35,0.85)]">
         {/* Brand */}
         <Link href="/" className="flex flex-col items-center justify-center gap-2 mb-8 group">
           <BrandLogo className="w-10 h-10" />
-          <span className="font-serif font-bold text-2xl tracking-wider text-white uppercase">
+          <span className="font-heading font-semibold text-2xl tracking-wide text-[var(--color-text-offwhite)]">
             Linklet
           </span>
-          <span className="text-xs text-slate-400 font-sans">
-            Bio &amp; Link Showcase
+          <span className="text-xs text-[var(--color-text-muted)] font-body">
+            Curated Bio Showcase
           </span>
         </Link>
 
         {/* Tab switch: Sign In vs Sign Up */}
-        <div className="grid grid-cols-2 p-1 rounded-xl bg-[#1c050c]/80 border border-[#d97706]/20 mb-6 text-xs uppercase tracking-wider font-semibold">
+        <div className="grid grid-cols-2 p-1 rounded-xl bg-[#00142b]/80 border border-[var(--border-soft)] mb-6 text-xs uppercase tracking-wider font-semibold">
           <button
             type="button"
             onClick={() => {
@@ -104,8 +103,8 @@ export default function LoginPage() {
             }}
             className={`py-2 rounded-lg transition-all ${
               !isSignUp
-                ? "luxury-btn-gold text-white"
-                : "text-slate-400 hover:text-white"
+                ? "luxury-btn-lime text-[#002e62]"
+                : "text-[var(--color-text-muted)] hover:text-white"
             }`}
           >
             Sign In
@@ -118,8 +117,8 @@ export default function LoginPage() {
             }}
             className={`py-2 rounded-lg transition-all ${
               isSignUp
-                ? "luxury-btn-gold text-white"
-                : "text-slate-400 hover:text-white"
+                ? "luxury-btn-lime text-[#002e62]"
+                : "text-[var(--color-text-muted)] hover:text-white"
             }`}
           >
             Create Account
@@ -127,16 +126,16 @@ export default function LoginPage() {
         </div>
 
         {magicLinkSent ? (
-          <div className="p-5 text-center space-y-3 rounded-2xl bg-[#24060f] border border-[#d97706]/40 text-xs">
-            <h3 className="font-serif font-semibold text-white text-base">
+          <div className="p-5 text-center space-y-3 rounded-2xl bg-[#002e62] border border-[var(--border-soft)] text-xs">
+            <h3 className="font-heading font-medium text-[var(--color-text-offwhite)] text-base">
               Check Your Inbox
             </h3>
-            <p className="text-slate-300 leading-relaxed">
+            <p className="text-[var(--color-text-muted)] leading-relaxed">
               We sent a verification link to <span className="font-semibold text-white">{email}</span>. Click it to enter your studio.
             </p>
             <button
               onClick={() => setMagicLinkSent(false)}
-              className="text-xs text-[#f59e0b] underline mt-3 uppercase tracking-wider block mx-auto hover:text-white"
+              className="text-xs text-[var(--color-acid-lime)] underline mt-3 uppercase tracking-wider block mx-auto hover:text-white"
             >
               Back to Sign In
             </button>
@@ -147,7 +146,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="w-full py-3 px-4 rounded-xl border border-[#d97706]/25 bg-[#1c050c]/70 hover:border-[#d97706]/60 hover:bg-white/5 text-slate-200 font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 mb-5 transition-all"
+              className="w-full py-3 px-4 rounded-xl border border-[var(--border-soft)] bg-[#002e62]/60 hover:bg-[#002e62] text-[var(--color-text-offwhite)] font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 mb-5 transition-all"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -170,74 +169,69 @@ export default function LoginPage() {
               <span>Continue with Google</span>
             </button>
 
-            <div className="relative flex items-center justify-center mb-5">
-              <div className="border-t border-[#d97706]/20 w-full" />
-              <span className="bg-[#18050a] px-3 text-[10px] text-slate-400 uppercase tracking-wider absolute">
-                or email
+            <div className="relative my-6 text-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[var(--border-soft)]" />
+              </div>
+              <span className="relative px-3 bg-[#001a3a] text-[10px] text-[var(--color-text-subtle)] uppercase tracking-wider">
+                Or with Email
               </span>
             </div>
 
-            {/* Email Form */}
+            {error && (
+              <div className="mb-4 p-3 rounded-xl bg-rose-950/40 border border-rose-900/60 text-xs text-rose-300 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                <span>{error}</span>
+              </div>
+            )}
+
             <form onSubmit={handleAuth} className="space-y-4">
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">
-                  Email Address
+                <label className="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)] block mb-1.5">
+                  Email
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  placeholder="alex@example.com"
                   required
-                  placeholder="creator@domain.com"
-                  className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-white focus:outline-none"
+                  className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[var(--color-text-offwhite)] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)] block mb-1.5">
                   Password
                 </label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Minimum 6 characters"
                   required
                   minLength={6}
-                  placeholder="••••••••"
-                  className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-white focus:outline-none"
+                  className="w-full px-3.5 py-2.5 luxury-input text-xs sm:text-sm text-[var(--color-text-offwhite)] focus:outline-none"
                 />
               </div>
-
-              {error && (
-                <div className="p-3 rounded-xl border border-rose-900/50 bg-rose-950/40 text-rose-300 text-xs flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  <span>{error}</span>
-                </div>
-              )}
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 luxury-btn-gold text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 mt-4"
+                className="w-full py-3 luxury-btn-lime text-xs font-semibold uppercase tracking-wider disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
               >
-                {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-white" />
-                ) : (
-                  <span>{isSignUp ? "Create Studio Account" : "Access Studio"}</span>
-                )}
+                {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+                {isSignUp ? "Create Studio Account" : "Sign In to Studio"}
               </button>
             </form>
-
-            <div className="mt-6 pt-4 border-t border-[#d97706]/20 text-center">
-              <Link
-                href="/dashboard"
-                className="text-xs text-slate-300 hover:text-white uppercase tracking-wider font-medium"
-              >
-                Open Demo Studio without Sign-in &rarr;
-              </Link>
-            </div>
           </>
         )}
+
+        <div className="mt-8 text-center text-xs text-[var(--color-text-subtle)] font-body">
+          <Link href="/alex" className="text-[var(--color-text-muted)] hover:text-white underline">
+            View public demo profile &rarr;
+          </Link>
+        </div>
       </div>
     </div>
   );

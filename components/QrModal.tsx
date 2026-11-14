@@ -21,7 +21,7 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
         width: 240,
         margin: 2,
         color: {
-          dark: "#120306",
+          dark: "#001a3a",
           light: "#ffffff",
         },
       }).catch((err) => console.error("QR Code rendering failed:", err));
@@ -49,62 +49,54 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in font-sans">
-      <div className="luxury-card p-6 sm:p-8 max-w-sm w-full relative text-center border border-[#d97706]/35 shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in font-body">
+      <div className="luxury-card p-6 sm:p-8 max-w-sm w-full relative text-center border border-[var(--border-soft)] shadow-[0_20px_50px_rgba(0,15,35,0.85)]">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-4 right-4 p-1.5 rounded-full text-[var(--color-text-muted)] hover:text-white hover:bg-white/10 transition-colors"
           aria-label="Close modal"
         >
           <X className="w-4 h-4" />
         </button>
 
-        <h3 className="text-xl font-serif font-bold text-white mb-1">
-          QR Code
+        <h3 className="font-heading font-medium text-lg text-[var(--color-text-offwhite)] mb-1">
+          Share Your Showcase
         </h3>
-        <p className="text-xs text-slate-300 mb-5">
-          Scan to visit your Linklet page at{" "}
-          <span className="text-[#f59e0b] font-medium">/{username}</span>
+        <p className="text-xs text-[var(--color-text-muted)] mb-5">
+          Scan to visit linklet.bio/{username}
         </p>
 
-        {/* QR Canvas */}
-        <div className="p-3 bg-white rounded-2xl border border-[#d97706]/40 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex justify-center items-center mx-auto w-fit">
-          <canvas ref={canvasRef} className="rounded-lg" />
+        {/* QR Code Canvas */}
+        <div className="bg-white p-3.5 rounded-2xl inline-block shadow-inner mb-5">
+          <canvas ref={canvasRef} className="block mx-auto rounded-xl" />
         </div>
 
-        {/* URL Display */}
-        <div className="mt-4 flex items-center gap-2 p-2.5 rounded-xl border border-[#d97706]/25 bg-[#140307]/90 text-xs text-white truncate">
-          <span className="truncate flex-1 text-left font-mono text-[11px] text-slate-200">
-            {url}
-          </span>
-          <button
-            onClick={handleCopy}
-            className="p-1 text-[#f59e0b] hover:text-white transition-colors shrink-0"
-            title="Copy URL"
-          >
-            {copied ? (
-              <Check className="w-3.5 h-3.5 text-emerald-400" />
-            ) : (
-              <Copy className="w-3.5 h-3.5" />
-            )}
-          </button>
-        </div>
-
-        {/* Actions */}
-        <div className="mt-5 grid grid-cols-2 gap-3">
+        {/* Action Buttons */}
+        <div className="space-y-2.5">
           <button
             onClick={handleDownload}
-            className="flex items-center justify-center gap-1.5 py-2.5 px-3 luxury-btn-gold text-xs font-semibold uppercase tracking-wider"
+            className="w-full py-2.5 luxury-btn-lime text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2"
           >
-            <Download className="w-3.5 h-3.5" />
-            Download
+            <Download className="w-4 h-4" />
+            Download QR Code
           </button>
+
           <button
-            onClick={onClose}
-            className="py-2.5 px-3 luxury-btn-outline text-xs font-semibold uppercase tracking-wider text-slate-200"
+            onClick={handleCopy}
+            className="w-full py-2.5 luxury-btn-outline text-xs uppercase tracking-wider flex items-center justify-center gap-2"
           >
-            Close
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-[var(--color-acid-lime)]" />
+                <span className="text-[var(--color-acid-lime)]">Copied URL</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-4 h-4 text-[var(--color-acid-lime)]" />
+                <span>Copy Profile URL</span>
+              </>
+            )}
           </button>
         </div>
       </div>

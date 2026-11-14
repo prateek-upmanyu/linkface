@@ -13,7 +13,7 @@ import { PhonePreview } from "@/components/PhonePreview";
 import { QrModal } from "@/components/QrModal";
 import {
   Link2,
-  Palette,
+  User,
   BarChart3,
   ExternalLink,
   QrCode,
@@ -38,7 +38,7 @@ export function DashboardClient({
   const supabase = createClient();
   const [profile, setProfile] = useState<Profile>(initialProfile);
   const [links, setLinks] = useState<LinkItem[]>(initialLinks);
-  const [activeTab, setActiveTab] = useState<"links" | "appearance" | "analytics">("links");
+  const [activeTab, setActiveTab] = useState<"links" | "profile" | "analytics">("links");
   const [isSaving, setIsSaving] = useState(false);
   const [isQrOpen, setIsQrOpen] = useState(false);
 
@@ -125,78 +125,89 @@ export function DashboardClient({
         }
       }
     } catch (err) {
-      console.error("Error persisting links:", err);
+      console.error("Error saving links:", err);
     }
   };
 
   const handleSignOut = async () => {
-    try {
-      await supabase.auth.signOut();
-    } catch (err) {
-      console.error("Sign out error:", err);
-    }
+    await supabase.auth.signOut();
     router.push("/login");
   };
 
+  const handleCopyLink = () => {
+    if (typeof navigator !== "undefined") {
+      navigator.clipboard.writeText(publicUrl);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] flex flex-col font-sans">
-      {/* Demo Mode Notice */}
+    <div className="min-h-screen bg-[var(--color-heritage-deep)] text-[var(--color-text-offwhite)] flex flex-col font-body selection:bg-[#0a3d7a] selection:text-[#d0f600]">
+      {/* Demo Warning Banner */}
       {isDemoMode && (
-        <div className="bg-[#24060f]/95 border-b border-[#d97706]/30 px-4 py-2.5 text-xs text-slate-200 flex items-center justify-between backdrop-blur-md">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 shrink-0 text-[#d97706]" />
-            <span>
-              <strong>Preview Studio Active:</strong> Changes reflect immediately in live preview. Connect Supabase in{" "}
-              <code className="bg-[#380812] px-1.5 py-0.5 rounded text-white font-mono">.env.local</code> to save to database.
-            </span>
-          </div>
-          <span className="hidden sm:inline-block font-semibold uppercase tracking-wider text-[10px] text-[#d97706]">
-            [Live Studio]
+        <div className="bg-[#00224a] border-b border-[var(--border-soft)] py-2 px-4 text-xs text-center flex items-center justify-center gap-2 text-[var(--color-text-offwhite)]">
+          <AlertTriangle className="w-3.5 h-3.5 text-[var(--color-acid-lime)]" />
+          <span>
+            Studio Preview Mode. Changes are previewed live but not persisted.
           </span>
+          <Link
+            href="/signup"
+            className="text-[var(--color-acid-lime)] underline ml-1 font-semibold hover:text-white"
+          >
+            Create Free Account &rarr;
+          </Link>
         </div>
       )}
 
-      {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-[#0d0205]/95 border-b border-[#d97706]/20 px-4 lg:px-8 py-3.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+      {/* Top Header */}
+      <header className="sticky top-0 z-40 bg-[#001a3a]/90 border-b border-[var(--border-soft)] px-4 lg:px-8 py-3.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,15,35,0.6)]">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <BrandLogo className="w-7 h-7" />
-              <div>
-                <span className="font-serif font-bold text-base tracking-wider text-white uppercase hidden sm:inline">
+              <BrandLogo className="w-8 h-8" />
+              <div className="hidden sm:block">
+                <span className="font-heading font-semibold text-base tracking-wide text-[var(--color-text-offwhite)] block">
                   Linklet
                 </span>
-                <div className="flex items-center gap-1.5 text-xs text-slate-300">
-                  <span>@{profile.username}</span>
-                </div>
+                <span className="text-[10px] text-[var(--color-text-muted)] font-body block">
+                  Creator Studio
+                </span>
               </div>
             </Link>
+
+            {/* Public Link Pill */}
+            <div className="flex items-center gap-1.5 pl-3 border-l border-[var(--border-soft)] text-xs text-[var(--color-text-muted)]">
+              <span className="hidden md:inline text-[var(--color-text-subtle)]">Live Page:</span>
+              <a
+                href={publicUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-[var(--color-text-offwhite)] hover:text-[#d0f600] flex items-center gap-1 transition-colors group"
+              >
+                <span>linklet.bio/{profile.username}</span>
+                <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
+              </a>
+            </div>
           </div>
 
-          {/* Quick Action Controls */}
-          <div className="flex items-center gap-2.5">
-            {/* Scannable Emblem / QR */}
+          {/* Right Action Buttons */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
-              onClick={() => setIsQrOpen(true)}
-              className="px-3 py-1.5 luxury-btn-outline text-xs flex items-center gap-1.5 font-medium"
-              title="Open QR Code"
+              onClick={handleCopyLink}
+              className="px-3 py-1.5 luxury-btn-outline text-xs flex items-center gap-1.5"
+              title="Copy public link"
             >
-              <QrCode className="w-3.5 h-3.5 text-[#d97706]" />
-              <span className="hidden sm:inline">QR Code</span>
+              <Share2 className="w-3.5 h-3.5 text-[var(--color-acid-lime)]" />
+              <span className="hidden sm:inline">Share</span>
             </button>
 
-            {/* Visit Live Bio */}
-            <a
-              href={publicUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3.5 py-1.5 luxury-btn-gold text-xs flex items-center gap-1.5 font-semibold uppercase tracking-wider"
+            <button
+              onClick={() => setIsQrOpen(true)}
+              className="p-2 rounded-xl border border-[var(--border-soft)] bg-[#002e62]/60 hover:bg-[#002e62] text-[var(--color-text-muted)] hover:text-white transition-colors"
+              title="QR Code"
             >
-              <span className="hidden sm:inline">View Live</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+              <QrCode className="w-4 h-4" />
+            </button>
 
-            {/* Sign Out */}
             <button
               onClick={handleSignOut}
               className="p-2 rounded-xl border border-rose-900/40 text-rose-300 hover:text-white hover:bg-rose-950/40 transition-colors"
@@ -212,14 +223,14 @@ export function DashboardClient({
       <main className="max-w-7xl mx-auto w-full flex-1 p-4 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Editor & Tabs */}
         <div className="lg:col-span-7 space-y-6">
-          {/* Navigation Tabs - Luxury Gold Pills */}
-          <div className="flex items-center gap-2 border-b border-[#d4af37]/20 pb-4">
+          {/* Navigation Tabs */}
+          <div className="flex items-center gap-2 border-b border-[var(--border-soft)] pb-4">
             <button
               onClick={() => setActiveTab("links")}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all ${
                 activeTab === "links"
-                  ? "luxury-btn-gold"
-                  : "luxury-btn-outline text-slate-300"
+                  ? "luxury-btn-lime"
+                  : "luxury-btn-outline text-[var(--color-text-muted)]"
               }`}
             >
               <Link2 className="w-3.5 h-3.5" />
@@ -227,23 +238,23 @@ export function DashboardClient({
             </button>
 
             <button
-              onClick={() => setActiveTab("appearance")}
+              onClick={() => setActiveTab("profile")}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all ${
-                activeTab === "appearance"
-                  ? "luxury-btn-gold"
-                  : "luxury-btn-outline text-slate-300"
+                activeTab === "profile"
+                  ? "luxury-btn-lime"
+                  : "luxury-btn-outline text-[var(--color-text-muted)]"
               }`}
             >
-              <Palette className="w-3.5 h-3.5" />
-              Themes
+              <User className="w-3.5 h-3.5" />
+              Profile
             </button>
 
             <button
               onClick={() => setActiveTab("analytics")}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all ${
                 activeTab === "analytics"
-                  ? "luxury-btn-gold"
-                  : "luxury-btn-outline text-slate-300"
+                  ? "luxury-btn-lime"
+                  : "luxury-btn-outline text-[var(--color-text-muted)]"
               }`}
             >
               <BarChart3 className="w-3.5 h-3.5" />
@@ -261,7 +272,7 @@ export function DashboardClient({
             />
           )}
 
-          {activeTab === "appearance" && (
+          {activeTab === "profile" && (
             <ProfileSettings
               profile={profile}
               onUpdateProfile={handleUpdateProfile}
@@ -276,12 +287,12 @@ export function DashboardClient({
 
         {/* Right Column: Live Phone Preview */}
         <div className="lg:col-span-5 hidden lg:flex flex-col items-center sticky top-24 pb-8">
-          <div className="mb-3 flex items-center justify-between w-full max-w-[360px] px-2 text-xs text-slate-400">
-            <span className="font-serif uppercase tracking-wider text-white font-semibold">
+          <div className="mb-3 flex items-center justify-between w-full max-w-[360px] px-2 text-xs text-[var(--color-text-muted)]">
+            <span className="font-heading uppercase tracking-wider text-[var(--color-text-offwhite)] font-semibold">
               Live Preview
             </span>
-            <span className="flex items-center gap-1.5 text-[11px] text-slate-300">
-              <span className="w-2 h-2 rounded-full bg-[#d97706] animate-pulse" />
+            <span className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-muted)] font-body">
+              <span className="w-2 h-2 rounded-full bg-[#d0f600] animate-pulse" />
               Real-time
             </span>
           </div>

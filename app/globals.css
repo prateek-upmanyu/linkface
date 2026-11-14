@@ -1,77 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500;1,6..96,600;1,6..96,700&family=Manrope:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   /* =========================================================================
-     LINKLET DESIGN SYSTEM: DARK RED & DARK YELLOW / AMBER THEME
-     - Normal, clean, easy-to-read text (Pure White & Soft Slate)
-     - Theme palette: Rich Dark Red (Wine/Burgundy) with Dark Yellow/Amber accents
+     LINKLET LUXURY PALETTE (CSS VARIABLES)
+     - Core Palette: Heritage Blue (#002e62) with Acid Lime (#d0f600) accent
+     - Ratio: ~85% Heritage Blue & neutrals, ~10% off-white, ~5% rare Acid Lime
+     - Typography: Bodoni Moda (Editorial Headings) & Manrope (Body/UI)
      ========================================================================= */
-  
-  /* Dark Red Backgrounds */
-  --bg-base: #0f0306;
-  --bg-surface: #18050a;
-  --bg-card: rgba(26, 6, 12, 0.88);
-  --bg-card-hover: rgba(36, 8, 16, 0.95);
-  --bg-card-active: rgba(46, 10, 20, 0.98);
-  --bg-glass: rgba(22, 5, 10, 0.75);
-  
-  /* Dark Reds & Wine */
-  --red-darkest: #120306;
-  --red-dark: #1f050b;
-  --red-base: #380812;
-  --red-rich: #540c1c;
-  --red-accent: #781026;
-  --red-vivid: #9e1432;
-  
-  /* Dark Yellow & Warm Amber Accents (Theme only, not text) */
-  --yellow-darkest: #542503;
-  --yellow-dark: #78350f;
-  --yellow-base: #92400e;
-  --yellow-amber: #b45309;
-  --yellow-accent: #d97706;
-  --yellow-warm: #f59e0b;
-  --yellow-glow: rgba(217, 119, 6, 0.18);
-  
-  /* Theme Borders */
-  --border-yellow-subtle: rgba(217, 119, 6, 0.22);
-  --border-yellow-medium: rgba(217, 119, 6, 0.45);
-  --border-yellow-bright: rgba(217, 119, 6, 0.8);
-  --border-red-subtle: rgba(120, 16, 38, 0.35);
-  
-  /* NORMAL, CLEAN, HIGH-CONTRAST READABLE TEXT */
-  --text-primary: #ffffff;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
-  
-  /* Glows & Shadows */
-  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(217, 119, 6, 0.15);
-  --shadow-hover: 0 14px 40px -6px rgba(0, 0, 0, 0.8), 0 0 20px rgba(217, 119, 6, 0.16);
-  --shadow-yellow-glow: 0 0 25px rgba(217, 119, 6, 0.2);
-  
-  /* Typography Families */
-  --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Heritage Blue Hierarchy (85% surface presence) */
+  --color-heritage-deep: #001a3a;          /* Deepest background tone */
+  --color-heritage-dark: #00224a;          /* Secondary background / gradient stop */
+  --color-heritage-blue: #002e62;          /* Main Heritage Blue */
+  --color-heritage-surface: #0a3d7a;       /* Lighter elevated card surface */
+  --color-heritage-surface-hover: #0e498e; /* Hover state for card surfaces */
+
+  /* Acid Lime Accent (5% rare & expensive highlight) */
+  --color-acid-lime: #d0f600;
+  --color-acid-lime-hover: #bde000;
+  --color-acid-lime-active: #a8c800;
+  --color-acid-lime-muted: rgba(208, 246, 0, 0.12);
+  --color-acid-lime-subtle: rgba(208, 246, 0, 0.06);
+
+  /* Typography Colors (10% off-white and muted blue-grey) */
+  --color-text-offwhite: #f4f7fb;          /* Headings, primary text, active states */
+  --color-text-muted: #8ea8c7;             /* Body text, subheadings, handles */
+  --color-text-subtle: #5c7b9e;            /* Footers, placeholders, inactive states */
+  --color-text-on-lime: #002e62;           /* Crisp Heritage Blue text on lime buttons */
+
+  /* Borders & Dividers (Thin 1px soft blue tint) */
+  --border-soft: rgba(142, 168, 199, 0.18);
+  --border-medium: rgba(142, 168, 199, 0.32);
+  --border-lime-subtle: rgba(208, 246, 0, 0.35);
+  --border-lime-solid: #d0f600;
+
+  /* Shadows (Soft, minimal, zero neon glare) */
+  --shadow-subtle: 0 4px 20px rgba(0, 15, 35, 0.3);
+  --shadow-card: 0 8px 30px rgba(0, 15, 35, 0.45);
+  --shadow-card-hover: 0 12px 38px rgba(0, 15, 35, 0.6);
+
+  /* Spacing & Radii */
+  --space-card-radius: 1rem;
+  --space-button-radius: 0.75rem;
+  --space-pill-radius: 9999px;
+
+  /* Font Families */
+  --font-heading: 'Bodoni Moda', Georgia, serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: var(--font-heading);
+  --font-sans: var(--font-body);
 }
 
 @theme inline {
-  --color-background: var(--bg-base);
-  --color-foreground: var(--text-primary);
-  --font-serif: var(--font-serif);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --color-background: var(--color-heritage-deep);
+  --color-foreground: var(--color-text-offwhite);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-serif: var(--font-heading);
+  --font-sans: var(--font-body);
 }
 
 body {
-  background-color: var(--bg-base);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
+  background-color: var(--color-heritage-deep);
+  color: var(--color-text-offwhite);
+  font-family: var(--font-body);
   background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(84, 12, 28, 0.45) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(45, 8, 15, 0.4) 0%, transparent 75%),
-    linear-gradient(180deg, #0d0205 0%, #120307 50%, #090103 100%);
+    radial-gradient(ellipse 90% 60% at 50% -10%, #00224a 0%, transparent 70%),
+    radial-gradient(ellipse 70% 50% at 50% 110%, #001a3a 0%, transparent 80%),
+    linear-gradient(180deg, #001a3a 0%, #00224a 50%, #001a3a 100%);
   background-attachment: fixed;
   min-height: 100vh;
   letter-spacing: -0.01em;
@@ -79,112 +76,133 @@ body {
 }
 
 /* =========================================================================
-   CLEAN LUXURY UTILITY CLASSES
+   TYPOGRAPHY CLASSES
    ========================================================================= */
 
+.font-heading,
 .font-serif {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
 }
 
+.font-body,
 .font-sans {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
 }
 
-/* Theme Cards (Dark Red with Dark Yellow / Amber border) */
+/* =========================================================================
+   PREMIUM LUXURY UI COMPONENTS
+   ========================================================================= */
+
+/* Luxury Card: Heritage Blue base with soft 1px border */
 .luxury-card {
-  background: var(--bg-card);
+  background: linear-gradient(180deg, rgba(0, 46, 98, 0.85) 0%, rgba(0, 26, 58, 0.95) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-yellow-subtle);
-  border-radius: 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--space-card-radius);
   box-shadow: var(--shadow-card);
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .luxury-card:hover {
-  border-color: var(--border-yellow-medium);
-  background: var(--bg-card-hover);
-  box-shadow: var(--shadow-hover);
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* Theme Button: Dark Amber Fill with Clean White/Dark Text */
+/* Luxury Solid Button: Solid Acid Lime with Heritage Blue text */
+.luxury-btn-lime,
 .luxury-btn-gold {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-  color: #ffffff;
+  background-color: var(--color-acid-lime);
+  color: var(--color-text-on-lime);
+  font-family: var(--font-body);
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 16px rgba(180, 83, 9, 0.3);
+  border: 1px solid rgba(208, 246, 0, 0.5);
+  border-radius: var(--space-button-radius);
+  box-shadow: 0 2px 10px rgba(208, 246, 0, 0.25);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.luxury-btn-lime:hover,
 .luxury-btn-gold:hover {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+  background-color: var(--color-acid-lime-hover);
+  box-shadow: 0 4px 16px rgba(208, 246, 0, 0.35);
   transform: translateY(-1px);
 }
 
+.luxury-btn-lime:active,
 .luxury-btn-gold:active {
+  background-color: var(--color-acid-lime-active);
   transform: translateY(1px);
 }
 
-/* Theme Button: Dark Red with Amber Outline */
+/* Luxury Outline Button: Thin 1px border with smooth hover */
 .luxury-btn-outline {
-  background: rgba(28, 6, 13, 0.85);
+  background: rgba(0, 46, 98, 0.5);
   backdrop-filter: blur(8px);
-  color: #ffffff;
-  border: 1px solid var(--border-yellow-medium);
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  color: var(--color-text-offwhite);
+  border: 1px solid var(--border-soft);
+  font-family: var(--font-body);
+  font-weight: 500;
+  border-radius: var(--space-button-radius);
+  box-shadow: 0 2px 8px rgba(0, 15, 35, 0.3);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .luxury-btn-outline:hover {
-  background: rgba(45, 10, 20, 0.95);
-  border-color: var(--yellow-accent);
-  color: #ffffff;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 15px rgba(217, 119, 6, 0.15);
+  background: rgba(10, 61, 122, 0.7);
+  border-color: var(--color-acid-lime);
+  color: var(--color-text-offwhite);
   transform: translateY(-1px);
 }
 
-/* Luxury Input Field: Clean, Dark Red background with crisp white text */
+.luxury-btn-outline:active {
+  transform: translateY(1px);
+}
+
+/* Luxury Input Field */
 .luxury-input {
-  background: rgba(20, 5, 10, 0.85);
-  border: 1px solid var(--border-yellow-subtle);
-  border-radius: 0.75rem;
-  color: #ffffff;
-  font-family: var(--font-sans);
+  background: rgba(0, 26, 58, 0.85);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--space-button-radius);
+  color: var(--color-text-offwhite);
+  font-family: var(--font-body);
   transition: all 0.2s ease;
 }
 
 .luxury-input:focus {
   outline: none;
-  border-color: var(--yellow-accent);
-  background: rgba(30, 7, 15, 0.95);
-  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+  border-color: var(--color-acid-lime);
+  background: rgba(0, 34, 74, 0.95);
+  box-shadow: 0 0 0 2px rgba(208, 246, 0, 0.2);
 }
 
 .luxury-input::placeholder {
-  color: #64748b;
+  color: var(--color-text-subtle);
 }
 
-/* Luxury Link Card: Dark Red tile with Dark Yellow border & Crisp White Text */
+/* Luxury Link Card */
 .luxury-link-card {
-  background: linear-gradient(135deg, rgba(28, 7, 14, 0.92) 0%, rgba(20, 5, 10, 0.96) 100%);
+  background: linear-gradient(135deg, rgba(0, 46, 98, 0.95) 0%, rgba(0, 26, 58, 0.98) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-yellow-subtle);
-  border-radius: 1rem;
-  box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--space-card-radius);
+  box-shadow: 0 6px 20px -4px rgba(0, 15, 35, 0.6);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .luxury-link-card:hover {
-  background: linear-gradient(135deg, rgba(40, 10, 20, 0.96) 0%, rgba(26, 6, 13, 1) 100%);
-  border-color: var(--border-yellow-medium);
-  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(217, 119, 6, 0.15);
+  background: linear-gradient(135deg, rgba(10, 61, 122, 0.98) 0%, rgba(0, 46, 98, 1) 100%);
+  border-color: var(--color-acid-lime);
+  box-shadow: 0 10px 28px -4px rgba(0, 15, 35, 0.75);
   transform: translateY(-1.5px);
 }
 
@@ -192,14 +210,16 @@ body {
   transform: translateY(0.5px);
 }
 
-/* Badges */
+/* Luxury Accent Badge */
 .luxury-badge {
-  background: rgba(84, 12, 28, 0.6);
-  border: 1px solid rgba(217, 119, 6, 0.4);
-  color: #fef3c7;
-  border-radius: 9999px;
-  font-size: 0.65rem;
+  background: var(--color-acid-lime-muted);
+  border: 1px solid var(--border-lime-subtle);
+  color: var(--color-acid-lime);
+  border-radius: var(--space-pill-radius);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
   letter-spacing: 0.05em;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
