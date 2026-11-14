@@ -9,7 +9,6 @@ import { SpeechBubble } from "@/components/SpeechBubble";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { SoundToggle } from "@/components/SoundToggle";
-import { AmbientParticles } from "@/components/AmbientParticles";
 import { BrandLogo } from "@/components/BrandLogo";
 
 interface PageProps {
@@ -71,13 +70,13 @@ export async function generateMetadata({
 
   if (!data) {
     return {
-      title: "User Not Found | Linklet",
+      title: "Profile Not Found | Linklet",
     };
   }
 
   const { profile } = data;
   const title = profile.display_name || `@${profile.username}`;
-  const description = profile.bio || `Check out ${title}'s links and updates on Linklet.`;
+  const description = profile.bio || `Explore ${title}'s links and portfolio on Linklet.`;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://linklet.bio";
 
   return {
@@ -120,37 +119,29 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const { profile, links } = data;
 
   return (
-    <div
-      className="min-h-screen flex flex-col justify-between items-center px-4 py-12 transition-colors duration-300 relative overflow-hidden bg-[var(--color-heritage-deep)] text-[var(--color-text-offwhite)] font-body"
-    >
+    <div className="min-h-screen flex flex-col justify-between items-center px-6 py-16 bg-[var(--color-heritage-deep)] text-[var(--color-text-offwhite)] font-body selection:bg-[#0a3d7a] selection:text-[#d0f600]">
       <PageViewTracker username={profile.username} />
-      <AmbientParticles />
 
-      {/* Floating Sound Toggle */}
-      <div className="fixed top-4 right-4 z-40">
+      {/* Floating Sound Control */}
+      <div className="fixed top-6 right-6 z-40">
         <SoundToggle />
       </div>
 
-      {/* Main Container */}
-      <main className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
-        {/* Floating Speech/Cloud Bubble Message */}
-        <SpeechBubble
-          message={profile.status_message}
-          styleType={profile.status_style}
-        />
+      {/* Main Profile Canvas */}
+      <main className="w-full max-w-md mx-auto flex flex-col items-center">
+        {/* Status Message */}
+        <SpeechBubble message={profile.status_message} />
 
         {/* Avatar */}
-        <div className="relative mb-4">
+        <div className="relative mb-5">
           {profile.avatar_url ? (
             <img
               src={profile.avatar_url}
               alt={profile.display_name || profile.username}
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover ring-1 ring-[var(--border-soft)] shadow-md"
+              className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover ring-1 ring-[var(--border-soft)]"
             />
           ) : (
-            <div
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-3xl font-heading font-medium bg-[#002e62] text-[var(--color-text-offwhite)] ring-1 ring-[var(--border-soft)] shadow-md"
-            >
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-3xl font-heading font-medium bg-[#002e62] text-[var(--color-text-offwhite)] ring-1 ring-[var(--border-soft)]">
               {profile.display_name?.charAt(0) || profile.username.charAt(0)}
             </div>
           )}
@@ -161,7 +152,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
           {profile.display_name || `@${profile.username}`}
         </h1>
         {profile.display_name && (
-          <p className="text-xs mt-1 tracking-wider text-[var(--color-text-muted)] font-body">
+          <p className="text-xs mt-1 tracking-[0.12em] text-[var(--color-text-muted)] font-body">
             @{profile.username}
           </p>
         )}
@@ -174,24 +165,21 @@ export default async function PublicProfilePage({ params }: PageProps) {
         )}
 
         {/* Links Stack */}
-        <div className="w-full space-y-3.5 mt-8">
+        <div className="w-full space-y-3 mt-8">
           {links.length === 0 ? (
-            <div className="py-12 text-center opacity-60 rounded-2xl border border-dashed border-[var(--border-soft)]">
+            <div className="py-12 text-center opacity-60 rounded-[12px] border border-dashed border-[var(--border-soft)]">
               <p className="text-sm font-medium text-[var(--color-text-offwhite)] font-body">
-                No public links shared yet.
+                No links shared yet.
               </p>
             </div>
           ) : (
             links.map((link) => (
-              <PublicLinkButton
-                key={link.id}
-                link={link}
-              />
+              <PublicLinkButton key={link.id} link={link} />
             ))
           )}
         </div>
 
-        {/* Featured Trio Spotlight (Sponsors / Collaborators) */}
+        {/* Featured Trio Spotlight */}
         {profile.featured_creators && profile.featured_creators.length > 0 && (
           <FeaturedCreators
             creators={profile.featured_creators}
@@ -200,19 +188,19 @@ export default async function PublicProfilePage({ params }: PageProps) {
         )}
       </main>
 
-      {/* Footer Branding Badge */}
-      <footer className="mt-16 text-center">
+      {/* Footer Colophon */}
+      <footer className="mt-20 text-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wide transition-all duration-200 hover:scale-105 backdrop-blur-md group border border-[var(--border-soft)] bg-[#002e62]/90 text-[var(--color-text-muted)] shadow-[var(--shadow-card)] hover:border-[#d0f600]"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wider transition-colors border border-[var(--border-soft)] bg-[#00224a] text-[var(--color-text-muted)] hover:border-[#d0f600] hover:text-white"
         >
-          <BrandLogo className="w-4 h-4" />
-          <span className="font-heading font-semibold tracking-wider text-xs text-[var(--color-text-offwhite)]">
+          <BrandLogo className="w-3.5 h-3.5" />
+          <span className="font-heading font-medium tracking-tight text-[var(--color-text-offwhite)]">
             Linklet
           </span>
-          <span className="text-[var(--color-text-subtle)] text-[10px]">&bull;</span>
-          <span className="text-xs font-body transition-colors text-[var(--color-text-muted)] group-hover:text-[var(--color-text-offwhite)]">
-            Create yours free
+          <span className="text-[var(--color-text-subtle)]">&mdash;</span>
+          <span className="text-[11px] font-body text-[var(--color-text-muted)]">
+            Create your profile &rarr;
           </span>
         </Link>
       </footer>

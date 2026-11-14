@@ -3,49 +3,36 @@
 
 :root {
   /* =========================================================================
-     LINKLET LUXURY PALETTE (CSS VARIABLES)
-     - Core Palette: Heritage Blue (#002e62) with Acid Lime (#d0f600) accent
-     - Ratio: ~85% Heritage Blue & neutrals, ~10% off-white, ~5% rare Acid Lime
+     LINKLET EDITORIAL LUXURY SYSTEM
+     - Palette: Heritage Blue (#002e62) & Acid Lime (#d0f600)
      - Typography: Bodoni Moda (Editorial Headings) & Manrope (Body/UI)
+     - Radii: 12px (Surfaces) and Full (Buttons) ONLY
+     - Depth: Clean color hierarchy & thin 1px borders. Zero drop shadows/glows.
      ========================================================================= */
 
-  /* Heritage Blue Hierarchy (85% surface presence) */
-  --color-heritage-deep: #001a3a;          /* Deepest background tone */
-  --color-heritage-dark: #00224a;          /* Secondary background / gradient stop */
-  --color-heritage-blue: #002e62;          /* Main Heritage Blue */
-  --color-heritage-surface: #0a3d7a;       /* Lighter elevated card surface */
-  --color-heritage-surface-hover: #0e498e; /* Hover state for card surfaces */
+  /* Palette */
+  --color-heritage-deep: #001a3a;
+  --color-heritage-dark: #00224a;
+  --color-heritage-blue: #002e62;
+  --color-heritage-surface: #0a3d7a;
 
-  /* Acid Lime Accent (5% rare & expensive highlight) */
   --color-acid-lime: #d0f600;
   --color-acid-lime-hover: #bde000;
-  --color-acid-lime-active: #a8c800;
-  --color-acid-lime-muted: rgba(208, 246, 0, 0.12);
-  --color-acid-lime-subtle: rgba(208, 246, 0, 0.06);
+  --color-text-on-lime: #002e62;
 
-  /* Typography Colors (10% off-white and muted blue-grey) */
-  --color-text-offwhite: #f4f7fb;          /* Headings, primary text, active states */
-  --color-text-muted: #8ea8c7;             /* Body text, subheadings, handles */
-  --color-text-subtle: #5c7b9e;            /* Footers, placeholders, inactive states */
-  --color-text-on-lime: #002e62;           /* Crisp Heritage Blue text on lime buttons */
+  --color-text-offwhite: #f4f7fb;
+  --color-text-muted: #8ea8c7;
+  --color-text-subtle: #5c7b9e;
 
-  /* Borders & Dividers (Thin 1px soft blue tint) */
-  --border-soft: rgba(142, 168, 199, 0.18);
-  --border-medium: rgba(142, 168, 199, 0.32);
-  --border-lime-subtle: rgba(208, 246, 0, 0.35);
-  --border-lime-solid: #d0f600;
+  --border-soft: rgba(142, 168, 199, 0.16);
+  --border-medium: rgba(142, 168, 199, 0.28);
+  --border-lime: #d0f600;
 
-  /* Shadows (Soft, minimal, zero neon glare) */
-  --shadow-subtle: 0 4px 20px rgba(0, 15, 35, 0.3);
-  --shadow-card: 0 8px 30px rgba(0, 15, 35, 0.45);
-  --shadow-card-hover: 0 12px 38px rgba(0, 15, 35, 0.6);
+  /* Standard Radii (2 sizes only) */
+  --radius-surface: 12px;
+  --radius-button: 9999px;
 
-  /* Spacing & Radii */
-  --space-card-radius: 1rem;
-  --space-button-radius: 0.75rem;
-  --space-pill-radius: 9999px;
-
-  /* Font Families */
+  /* Fonts */
   --font-heading: 'Bodoni Moda', Georgia, serif;
   --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif: var(--font-heading);
@@ -65,170 +52,138 @@ body {
   background-color: var(--color-heritage-deep);
   color: var(--color-text-offwhite);
   font-family: var(--font-body);
-  background-image: 
-    radial-gradient(ellipse 90% 60% at 50% -10%, #00224a 0%, transparent 70%),
-    radial-gradient(ellipse 70% 50% at 50% 110%, #001a3a 0%, transparent 80%),
-    linear-gradient(180deg, #001a3a 0%, #00224a 50%, #001a3a 100%);
-  background-attachment: fixed;
   min-height: 100vh;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
 }
 
-/* =========================================================================
-   TYPOGRAPHY CLASSES
-   ========================================================================= */
-
-.font-heading,
-.font-serif {
+/* Typography Helpers */
+.font-heading {
   font-family: var(--font-heading);
 }
 
-.font-body,
-.font-sans {
+.font-body {
   font-family: var(--font-body);
 }
 
 /* =========================================================================
-   PREMIUM LUXURY UI COMPONENTS
+   TWO BUTTON STYLES ONLY
    ========================================================================= */
 
-/* Luxury Card: Heritage Blue base with soft 1px border */
-.luxury-card {
-  background: linear-gradient(180deg, rgba(0, 46, 98, 0.85) 0%, rgba(0, 26, 58, 0.95) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--space-card-radius);
-  box-shadow: var(--shadow-card);
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.luxury-card:hover {
-  border-color: var(--border-medium);
-  box-shadow: var(--shadow-card-hover);
-}
-
-/* Luxury Solid Button: Solid Acid Lime with Heritage Blue text */
+/* Style 1: Solid Lime with Heritage Blue text */
+.btn-lime,
 .luxury-btn-lime,
 .luxury-btn-gold {
   background-color: var(--color-acid-lime);
   color: var(--color-text-on-lime);
   font-family: var(--font-body);
   font-weight: 600;
-  border: 1px solid rgba(208, 246, 0, 0.5);
-  border-radius: var(--space-button-radius);
-  box-shadow: 0 2px 10px rgba(208, 246, 0, 0.25);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 0.8125rem;
+  line-height: 1;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-button);
+  transition: background-color 0.15s ease, transform 0.15s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+  border: none;
 }
 
+.btn-lime:hover,
 .luxury-btn-lime:hover,
 .luxury-btn-gold:hover {
   background-color: var(--color-acid-lime-hover);
-  box-shadow: 0 4px 16px rgba(208, 246, 0, 0.35);
   transform: translateY(-1px);
 }
 
+.btn-lime:active,
 .luxury-btn-lime:active,
 .luxury-btn-gold:active {
-  background-color: var(--color-acid-lime-active);
-  transform: translateY(1px);
+  transform: translateY(0);
 }
 
-/* Luxury Outline Button: Thin 1px border with smooth hover */
+/* Style 2: Thin Outline */
+.btn-outline,
 .luxury-btn-outline {
-  background: rgba(0, 46, 98, 0.5);
-  backdrop-filter: blur(8px);
+  background: transparent;
   color: var(--color-text-offwhite);
-  border: 1px solid var(--border-soft);
   font-family: var(--font-body);
   font-weight: 500;
-  border-radius: var(--space-button-radius);
-  box-shadow: 0 2px 8px rgba(0, 15, 35, 0.3);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 0.8125rem;
+  line-height: 1;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-button);
+  border: 1px solid var(--border-soft);
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
 }
 
+.btn-outline:hover,
 .luxury-btn-outline:hover {
-  background: rgba(10, 61, 122, 0.7);
   border-color: var(--color-acid-lime);
   color: var(--color-text-offwhite);
-  transform: translateY(-1px);
+  background-color: rgba(208, 246, 0, 0.05);
 }
 
-.luxury-btn-outline:active {
-  transform: translateY(1px);
-}
+/* =========================================================================
+   SURFACES & INPUTS (12px Radius, 1px Border, No Heavy Shadows)
+   ========================================================================= */
 
-/* Luxury Input Field */
-.luxury-input {
-  background: rgba(0, 26, 58, 0.85);
+.luxury-card {
+  background: var(--color-heritage-blue);
   border: 1px solid var(--border-soft);
-  border-radius: var(--space-button-radius);
+  border-radius: var(--radius-surface);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.luxury-card:hover {
+  border-color: var(--border-medium);
+}
+
+.luxury-input {
+  background: var(--color-heritage-deep);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-surface);
   color: var(--color-text-offwhite);
   font-family: var(--font-body);
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease;
 }
 
 .luxury-input:focus {
   outline: none;
   border-color: var(--color-acid-lime);
-  background: rgba(0, 34, 74, 0.95);
-  box-shadow: 0 0 0 2px rgba(208, 246, 0, 0.2);
 }
 
 .luxury-input::placeholder {
   color: var(--color-text-subtle);
 }
 
-/* Luxury Link Card */
-.luxury-link-card {
-  background: linear-gradient(135deg, rgba(0, 46, 98, 0.95) 0%, rgba(0, 26, 58, 0.98) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--space-card-radius);
-  box-shadow: 0 6px 20px -4px rgba(0, 15, 35, 0.6);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+/* Subtle Link Underline Slide Animation */
+.editorial-link {
+  position: relative;
+  display: inline-block;
 }
 
-.luxury-link-card:hover {
-  background: linear-gradient(135deg, rgba(10, 61, 122, 0.98) 0%, rgba(0, 46, 98, 1) 100%);
-  border-color: var(--color-acid-lime);
-  box-shadow: 0 10px 28px -4px rgba(0, 15, 35, 0.75);
-  transform: translateY(-1.5px);
+.editorial-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-acid-lime);
+  transform-origin: bottom right;
+  transition: transform 0.2s ease-out;
 }
 
-.luxury-link-card:active {
-  transform: translateY(0.5px);
-}
-
-/* Luxury Accent Badge */
-.luxury-badge {
-  background: var(--color-acid-lime-muted);
-  border: 1px solid var(--border-lime-subtle);
-  color: var(--color-acid-lime);
-  border-radius: var(--space-pill-radius);
-  font-family: var(--font-body);
-  font-size: 0.6875rem;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.25s ease-out forwards;
+.editorial-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

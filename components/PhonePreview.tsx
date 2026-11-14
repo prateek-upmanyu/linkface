@@ -6,10 +6,9 @@ import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { SpeechBubble } from "@/components/SpeechBubble";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
-import { AmbientParticles } from "@/components/AmbientParticles";
 import { SoundToggle } from "@/components/SoundToggle";
 import { playClickSound } from "@/lib/sound-fx";
-import { ExternalLink, Wifi, Battery } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface PhonePreviewProps {
   profile: Profile;
@@ -30,32 +29,18 @@ export function PhonePreview({
 
   return (
     <div
-      className={`relative mx-auto w-full max-w-[360px] rounded-[48px] p-3.5 shadow-[0_25px_70px_-15px_rgba(0,15,35,0.95)] transition-all duration-300 border-[6px] border-[#00142b] ring-1 ring-[var(--border-soft)] bg-[#001a3a] select-none ${className}`}
+      className={`mx-auto w-full max-w-[360px] rounded-[12px] p-4 border border-[var(--border-soft)] bg-[#001a3a] select-none ${className}`}
     >
-      {/* Dynamic Island / Speaker */}
-      <div className="absolute top-4.5 left-1/2 -translate-x-1/2 w-24 h-4.5 bg-[#001124] rounded-full z-30 flex items-center justify-between px-3 border border-[var(--border-soft)]">
-        <div className="w-2 h-2 rounded-full bg-[#001a3a] border border-[#8ea8c7]/30" />
-        <div className="w-1.5 h-1.5 rounded-full bg-[#d0f600]/40" />
+      {/* Editorial Profile Frame Header */}
+      <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--border-soft)] text-[10px] font-body tracking-[0.2em] uppercase text-[var(--color-text-subtle)]">
+        <span>Curated Colophon</span>
+        <SoundToggle />
       </div>
 
-      {/* Screen Frame Container */}
-      <div className="relative w-full rounded-[36px] overflow-hidden overflow-y-auto flex flex-col justify-between p-4 pt-8 transition-colors duration-300 min-h-[590px] bg-gradient-to-b from-[#001a3a] via-[#00224a] to-[#001a3a] text-[var(--color-text-offwhite)]">
-        {/* Soft Ambient Particles */}
-        <AmbientParticles />
-
-        {/* Status Bar */}
-        <div className="flex items-center justify-between px-2 text-[11px] font-body font-medium mb-4 shrink-0 relative z-10 text-[var(--color-text-muted)]">
-          <span>9:41</span>
-          <div className="flex items-center gap-2">
-            <SoundToggle />
-            <Wifi className="w-3 h-3 text-[var(--color-text-muted)]" />
-            <Battery className="w-3.5 h-3.5 text-[var(--color-text-muted)]" />
-          </div>
-        </div>
-
+      <div className="flex flex-col justify-between min-h-[520px]">
         {/* Profile Header */}
-        <div className="flex flex-col items-center text-center px-2 mb-4 shrink-0 relative z-10">
-          {/* Floating Speech/Cloud Bubble Message */}
+        <div className="flex flex-col items-center text-center px-2 mb-4 shrink-0">
+          {/* Status Message */}
           <SpeechBubble
             message={profile.status_message}
             styleType={profile.status_style}
@@ -67,22 +52,20 @@ export function PhonePreview({
               <img
                 src={profile.avatar_url}
                 alt={profile.display_name || "Profile"}
-                className="w-20 h-20 rounded-full object-cover ring-1 ring-[var(--border-soft)] shadow-md"
+                className="w-20 h-20 rounded-full object-cover ring-1 ring-[var(--border-soft)]"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = "none";
                 }}
               />
             ) : (
-              <div
-                className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-heading font-medium bg-[#002e62] text-[var(--color-text-offwhite)] ring-1 ring-[var(--border-soft)] shadow-md"
-              >
+              <div className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-heading font-medium bg-[#002e62] text-[var(--color-text-offwhite)] ring-1 ring-[var(--border-soft)]">
                 {profile.display_name?.charAt(0) || profile.username?.charAt(0) || "A"}
               </div>
             )}
           </div>
 
-          {/* Name & Username: Bodoni Moda & Manrope */}
-          <h2 className="text-xl sm:text-2xl font-heading leading-tight font-medium tracking-tight text-[var(--color-text-offwhite)]">
+          {/* Name & Handle: Bodoni Moda & Manrope */}
+          <h2 className="text-2xl font-heading leading-tight font-medium tracking-tight text-[var(--color-text-offwhite)]">
             {profile.display_name || (profile.username ? `@${profile.username}` : "Your Name")}
           </h2>
           {profile.username && profile.display_name && (
@@ -100,9 +83,9 @@ export function PhonePreview({
         </div>
 
         {/* Links List */}
-        <div className="flex-1 w-full flex flex-col gap-2.5 relative z-10">
+        <div className="flex-1 w-full flex flex-col gap-2.5">
           {visibleLinks.length === 0 ? (
-            <div className="my-auto py-8 text-center px-4 rounded-2xl border border-dashed border-[var(--border-soft)] opacity-60">
+            <div className="my-auto py-8 text-center px-4 rounded-[12px] border border-dashed border-[var(--border-soft)] opacity-60">
               <p className="text-xs font-heading text-[var(--color-text-offwhite)]">No links shared yet</p>
               <p className="text-[11px] text-[var(--color-text-muted)] mt-0.5 font-body">Links will appear here</p>
             </div>
@@ -130,11 +113,11 @@ export function PhonePreview({
                       window.open(link.url, "_blank", "noopener,noreferrer");
                     }
                   }}
-                  className="w-full py-3.5 px-4 rounded-2xl flex items-center justify-between text-left transition-all duration-200 group relative bg-[#002e62]/90 hover:bg-[#0a3d7a] border border-[var(--border-soft)] hover:border-[#d0f600] shadow-[0_4px_16px_rgba(0,15,35,0.4)]"
+                  className="w-full py-3.5 px-4 rounded-[12px] flex items-center justify-between text-left transition-all duration-150 group relative bg-[#002e62] hover:bg-[#0a3d7a] border border-[var(--border-soft)] hover:border-[#d0f600]"
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
                     <div
-                      className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-xs transition-transform group-hover:scale-105 border border-white/10"
+                      className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border border-white/10"
                       style={{
                         backgroundColor: iconStyle.bgColor,
                         color: iconStyle.color,
@@ -146,20 +129,23 @@ export function PhonePreview({
                         faviconUrl={favicon}
                         brandColor={iconStyle.color}
                         className="w-4 h-4"
-                        size={17}
+                        size={16}
                       />
                     </div>
-                    {/* High-Contrast Off-White Text with Lime hover */}
-                    <span className="font-body text-xs sm:text-[13px] font-medium leading-snug truncate flex-1 transition-colors text-[var(--color-text-offwhite)] group-hover:text-[#d0f600]">
+                    {/* High-Contrast Off-White Text */}
+                    <span className="font-body text-xs sm:text-[13px] font-medium leading-snug truncate flex-1 transition-colors text-[var(--color-text-offwhite)] group-hover:text-white">
                       {link.title || "Untitled Link"}
                     </span>
                     {link.badge && (
-                      <span className="px-2 py-0.5 text-[8px] font-body font-semibold tracking-wider uppercase rounded-full shrink-0 ml-1 bg-[rgba(208,246,0,0.12)] text-[#d0f600] border border-[#d0f600]/40">
+                      <span className="px-2 py-0.5 text-[8px] font-body font-semibold tracking-[0.14em] uppercase rounded-full shrink-0 ml-1 bg-[rgba(208,246,0,0.1)] text-[#d0f600] border border-[#d0f600]/30">
                         {link.badge}
                       </span>
                     )}
                   </div>
-                  <ExternalLink className="w-3.5 h-3.5 transition-colors shrink-0 ml-1 text-[var(--color-text-muted)] group-hover:text-[#d0f600]" />
+                  <ArrowUpRight
+                    strokeWidth={1.5}
+                    className="w-3.5 h-3.5 transition-transform duration-150 shrink-0 ml-1 text-[var(--color-text-muted)] group-hover:text-[#d0f600] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
                 </button>
               );
             })
@@ -172,10 +158,10 @@ export function PhonePreview({
           />
         </div>
 
-        {/* Footer Brand Tag */}
-        <div className="shrink-0 text-center pt-5 pb-1 relative z-10">
-          <span className="inline-block text-[11px] font-body tracking-wide px-3 py-1 rounded-full bg-[#001e42] border border-[var(--border-soft)] text-[var(--color-text-muted)] shadow-xs">
-            Linklet
+        {/* Footer Brand Colophon */}
+        <div className="shrink-0 text-center pt-5 pb-1 border-t border-[var(--border-soft)] mt-4">
+          <span className="text-[10px] font-body tracking-[0.18em] uppercase text-[var(--color-text-subtle)]">
+            Linklet / Editorial Profile
           </span>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { PhonePreview } from "@/components/PhonePreview";
 import { BrandLogo } from "@/components/BrandLogo";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
-import { Check, Sparkles, Star, BarChart3, Layers, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -24,37 +24,37 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[var(--color-heritage-deep)] text-[var(--color-text-offwhite)] flex flex-col font-body selection:bg-[#0a3d7a] selection:text-[#d0f600]">
-      {/* Top Navigation Header */}
-      <header className="sticky top-0 z-40 bg-[#001a3a]/90 border-b border-[var(--border-soft)] px-4 sm:px-8 py-4 backdrop-blur-md shadow-[0_4px_30px_rgba(0,15,35,0.6)]">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <BrandLogo className="w-8 h-8" />
-            <div>
-              <span className="font-heading font-semibold text-lg tracking-wide text-[var(--color-text-offwhite)]">
+      {/* Top Editorial Nav Header */}
+      <header className="sticky top-0 z-40 bg-[#001a3a]/95 border-b border-[var(--border-soft)] px-6 lg:px-12 py-5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-3 group">
+              <BrandLogo className="w-7 h-7" />
+              <span className="font-heading text-lg font-medium tracking-tight text-[var(--color-text-offwhite)]">
                 Linklet
               </span>
-              <span className="block text-[10px] text-[var(--color-text-muted)] tracking-wider font-body">
-                Curated Bio Showcase
-              </span>
-            </div>
-          </Link>
+            </Link>
+            <span className="hidden md:inline-block text-[11px] tracking-[0.2em] uppercase text-[var(--color-text-subtle)] border-l border-[var(--border-soft)] pl-6">
+              Editorial Index
+            </span>
+          </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-6">
+            <Link
+              href="/alex"
+              className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)] hover:text-white editorial-link hidden sm:inline-block transition-colors"
+            >
+              Public Demo
+            </Link>
             <Link
               href="/login"
-              className="px-4 py-2 luxury-btn-outline text-xs uppercase tracking-wider font-medium"
+              className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)] hover:text-white editorial-link transition-colors"
             >
               Sign In
             </Link>
             <Link
-              href="/dashboard"
-              className="hidden sm:inline-flex px-4 py-2 rounded-xl border border-[var(--border-soft)] bg-[#002e62]/70 text-xs uppercase tracking-wider font-medium text-[var(--color-text-offwhite)] hover:border-[#d0f600] transition-colors"
-            >
-              Studio
-            </Link>
-            <Link
               href="/signup"
-              className="px-5 py-2 luxury-btn-lime text-xs uppercase tracking-wider font-semibold"
+              className="btn-lime text-xs uppercase tracking-[0.12em]"
             >
               Get Started
             </Link>
@@ -62,33 +62,34 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-24 lg:pb-36 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left Hero Column */}
-          <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
-            {/* Subtle product badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-soft)] bg-[#002e62]/60 text-[var(--color-text-muted)] text-xs tracking-wide font-body">
-              <Sparkles className="w-3.5 h-3.5 text-[var(--color-acid-lime)]" />
-              <span>One Curated Link for Modern Creators</span>
+      {/* Hero Section: Asymmetric, Left-Aligned Editorial Layout */}
+      <section className="pt-20 pb-28 lg:pt-28 lg:pb-36 px-6 lg:px-12 border-b border-[var(--border-soft)]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
+          {/* Left Column: Big Editorial Typography & Copy */}
+          <div className="lg:col-span-7 space-y-10 text-left">
+            <div className="flex items-center gap-3">
+              <span className="text-[11px] tracking-[0.22em] uppercase text-[#d0f600] font-semibold">
+                01 / Digital Colophon
+              </span>
+              <span className="w-8 h-px bg-[#d0f600]/40" />
             </div>
 
-            {/* Editorial Heading: Bodoni Moda with Italic Accent */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-medium text-[var(--color-text-offwhite)] leading-[1.06] tracking-tight">
-              One Link for <br />
-              <span className="italic font-normal text-[var(--color-acid-lime)]">everything</span> you share.
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-heading font-medium leading-[0.98] tracking-tight text-[var(--color-text-offwhite)]">
+              Your entire <br />
+              presence, <br />
+              reduced to <span className="italic font-normal text-[#d0f600]">one</span> link.
             </h1>
 
-            <p className="text-sm sm:text-base text-[var(--color-text-muted)] max-w-lg mx-auto lg:mx-0 leading-relaxed font-body">
-              Connect your audience to everything you build. Showcase 50+ auto-detected channels, spotlight featured collaborators, and measure real-time click insights on a clean, minimal canvas.
+            <p className="text-base sm:text-lg text-[var(--color-text-muted)] max-w-xl leading-relaxed font-body">
+              A quiet, refined home for your work. Paste any destination from 50+ platforms, spotlight three collaborators in your footer, and view private traffic logs without algorithms or clutter.
             </p>
 
-            {/* Handle Claim Form */}
+            {/* Architectural Claim Form */}
             <form
               onSubmit={handleClaim}
-              className="max-w-md mx-auto lg:mx-0 p-2 rounded-2xl luxury-card border border-[var(--border-soft)] shadow-[0_10px_35px_rgba(0,15,35,0.6)] flex items-center gap-2"
+              className="max-w-lg p-1.5 rounded-[12px] bg-[#00224a] border border-[var(--border-soft)] flex items-center gap-2"
             >
-              <div className="flex items-center pl-3 text-[var(--color-text-subtle)] text-xs font-body tracking-wide select-none">
+              <div className="flex items-center pl-3.5 text-[var(--color-text-subtle)] text-sm font-body select-none">
                 <span>linklet.bio/</span>
               </div>
               <input
@@ -97,124 +98,167 @@ export default function LandingPage() {
                 onChange={(e) =>
                   setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
-                placeholder="yourname"
-                className="flex-1 py-2 px-2 text-xs sm:text-sm bg-transparent text-[var(--color-text-offwhite)] focus:outline-none placeholder:text-[var(--color-text-subtle)] font-body"
+                placeholder="handle"
+                className="flex-1 py-2 px-1 text-sm bg-transparent text-[var(--color-text-offwhite)] focus:outline-none placeholder:text-[var(--color-text-subtle)] font-body"
               />
               <button
                 type="submit"
-                className="py-2.5 px-5 luxury-btn-lime text-xs uppercase tracking-wider font-semibold shrink-0"
+                className="btn-lime text-xs uppercase tracking-[0.12em] shrink-0"
               >
-                Claim Link
+                Claim Link &rarr;
               </button>
             </form>
 
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-2 text-xs text-[var(--color-text-muted)]">
-              <span className="flex items-center gap-1.5 text-[var(--color-text-offwhite)]">
-                <Check className="w-4 h-4 text-[var(--color-acid-lime)]" /> 100% Free Forever
-              </span>
-              <span className="flex items-center gap-1.5 text-[var(--color-text-offwhite)]">
-                <Check className="w-4 h-4 text-[var(--color-acid-lime)]" /> 50+ Auto-Detects
-              </span>
-              <span className="flex items-center gap-1.5 text-[var(--color-text-offwhite)]">
-                <Check className="w-4 h-4 text-[var(--color-acid-lime)]" /> Trio Spotlight
-              </span>
+            {/* Editorial Metadata Row */}
+            <div className="pt-4 flex flex-wrap items-center gap-8 text-[11px] uppercase tracking-[0.16em] text-[var(--color-text-subtle)] border-t border-[var(--border-soft)]">
+              <span>50+ Auto-Detects</span>
+              <span>Collaborator Spotlight</span>
+              <span>Zero Tracking Cookies</span>
             </div>
           </div>
 
-          {/* Right Hero Demo Column (Phone Preview without theme switcher) */}
-          <div className="lg:col-span-5 flex flex-col items-center">
-            <PhonePreview profile={DEMO_PROFILE} links={DEMO_LINKS} />
+          {/* Right Column: Architectural Framed Preview */}
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
+            <div className="p-4 sm:p-6 rounded-[12px] bg-[#00224a] border border-[var(--border-soft)] w-full max-w-[400px]">
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-soft)] text-[10px] tracking-[0.2em] uppercase text-[var(--color-text-subtle)]">
+                <span>Live Sample &mdash; @alex</span>
+                <span className="text-[#d0f600]">Active</span>
+              </div>
+              <PhonePreview profile={DEMO_PROFILE} links={DEMO_LINKS} />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Feature Grid */}
-      <section className="py-24 px-4 sm:px-8 bg-gradient-to-b from-[#001a3a] via-[#00224a] to-[#001a3a] border-t border-b border-[var(--border-soft)]">
-        <div className="max-w-6xl mx-auto">
-          <div className="max-w-xl mb-14 text-center sm:text-left">
-            <span className="text-[var(--color-acid-lime)] text-xs uppercase tracking-widest block mb-2 font-body font-semibold">
-              Engineered for Quality
+      {/* Section 2: Numbered List Breakdown (01, 02, 03) Instead of Equal Icon Cards */}
+      <section className="py-28 lg:py-36 px-6 lg:px-12 border-b border-[var(--border-soft)] bg-[#00224a]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          {/* Sticky Left Editorial Headline */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-5">
+            <span className="text-[11px] tracking-[0.22em] uppercase text-[#d0f600] font-semibold block">
+              The Architecture
             </span>
-            <h2 className="text-3xl sm:text-4xl font-heading font-medium text-[var(--color-text-offwhite)] tracking-tight">
-              Powerful Features, Pure Simplicity
+            <h2 className="text-4xl sm:text-5xl font-heading font-medium tracking-tight text-[var(--color-text-offwhite)] leading-tight">
+              Crafted for precision, not <span className="italic font-normal text-[#d0f600]">templates</span>.
             </h2>
+            <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-md">
+              Every detail is considered: instant domain recognition, collaborator circulation, and calm analytics without third-party scripts.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Item 1 */}
-            <div className="p-6 luxury-card border border-[var(--border-soft)] hover:border-[var(--color-acid-lime)] transition-all duration-300 space-y-3">
-              <div className="w-12 h-12 rounded-2xl border border-[var(--border-soft)] bg-[#001a3a] flex items-center justify-center text-[var(--color-acid-lime)] text-lg font-heading font-bold">
-                50+
-              </div>
-              <h3 className="font-heading font-semibold text-sm tracking-wide text-[var(--color-text-offwhite)]">
-                Instant Auto-Detect
+          {/* Right Numbered Rows with Thin 1px Dividers */}
+          <div className="lg:col-span-7 divide-y divide-[var(--border-soft)] border-t lg:border-t-0 border-[var(--border-soft)]">
+            {/* 01 */}
+            <div className="py-10 space-y-4">
+              <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
+                01 / VERIFIED RECOGNITION
+              </span>
+              <h3 className="text-2xl font-heading font-medium text-[var(--color-text-offwhite)] tracking-tight">
+                Paste any link. We format the rest.
               </h3>
-              <p className="text-xs text-[var(--color-text-muted)] leading-relaxed font-body">
-                Paste any destination URL from YouTube, Spotify, GitHub, Instagram, or Substack. The platform icon and brand colors configure instantly.
+              <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
+                Paste a URL from GitHub, Spotify, Substack, YouTube, Instagram, or 50+ other networks. Linklet recognizes the host, injects the verified symbol, and presents it with balanced typographic proportion.
               </p>
             </div>
 
-            {/* Item 2 */}
-            <div className="p-6 luxury-card border border-[var(--border-soft)] hover:border-[var(--color-acid-lime)] transition-all duration-300 space-y-3">
-              <div className="w-12 h-12 rounded-2xl border border-[var(--border-soft)] bg-[#001a3a] flex items-center justify-center text-[var(--color-text-offwhite)] text-lg font-heading font-bold">
-                <Star className="w-6 h-6 text-[var(--color-acid-lime)]" />
-              </div>
-              <h3 className="font-heading font-semibold text-sm tracking-wide text-[var(--color-text-offwhite)]">
-                Trio Spotlight
+            {/* 02 */}
+            <div className="py-10 space-y-4">
+              <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
+                02 / TRIO SPOTLIGHT
+              </span>
+              <h3 className="text-2xl font-heading font-medium text-[var(--color-text-offwhite)] tracking-tight">
+                Share your traffic with three people.
               </h3>
-              <p className="text-xs text-[var(--color-text-muted)] leading-relaxed font-body">
-                Feature up to 3 collaborators, clients, or sponsors below your links. Photos are automatically scraped from links or uploaded directly.
+              <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
+                Rather than hoarding visitors, feature clients, co-founders, or peers in an understated three-column footer. Linklet automatically pulls their photo from their URL or lets you upload portraits directly.
               </p>
             </div>
 
-            {/* Item 3 */}
-            <div className="p-6 luxury-card border border-[var(--border-soft)] hover:border-[var(--color-acid-lime)] transition-all duration-300 space-y-3">
-              <div className="w-12 h-12 rounded-2xl border border-[var(--border-soft)] bg-[#001a3a] flex items-center justify-center text-[var(--color-acid-lime)] text-lg font-heading font-bold">
-                <BarChart3 className="w-6 h-6 text-[var(--color-acid-lime)]" />
-              </div>
-              <h3 className="font-heading font-semibold text-sm tracking-wide text-[var(--color-text-offwhite)]">
-                Live Analytics
+            {/* 03 */}
+            <div className="py-10 space-y-4">
+              <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
+                03 / PRIVATE METRICS
+              </span>
+              <h3 className="text-2xl font-heading font-medium text-[var(--color-text-offwhite)] tracking-tight">
+                Raw counts. Zero surveillance.
               </h3>
-              <p className="text-xs text-[var(--color-text-muted)] leading-relaxed font-body">
-                Track link click counts, total profile impressions, and engagement conversion rates in real time on your private dashboard.
-              </p>
-            </div>
-
-            {/* Item 4 */}
-            <div className="p-6 luxury-card border border-[var(--border-soft)] hover:border-[var(--color-acid-lime)] transition-all duration-300 space-y-3">
-              <div className="w-12 h-12 rounded-2xl border border-[var(--border-soft)] bg-[#001a3a] flex items-center justify-center text-[var(--color-text-offwhite)] text-lg font-heading font-bold">
-                <Layers className="w-6 h-6 text-[var(--color-acid-lime)]" />
-              </div>
-              <h3 className="font-heading font-semibold text-sm tracking-wide text-[var(--color-text-offwhite)]">
-                Curated Presence
-              </h3>
-              <p className="text-xs text-[var(--color-text-muted)] leading-relaxed font-body">
-                Deliver an unforgettable impression with editorial typography, custom floating status notes, and minimal luxury card layouts.
+              <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
+                A transparent real-time log of profile visits and direct link clicks. No ad tracking, no cross-site pixels, and no selling visitor data.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="mt-auto py-12 px-4 sm:px-8 bg-[#00132b] border-t border-[var(--border-soft)] text-xs text-[var(--color-text-muted)] font-body">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <BrandLogo className="w-6 h-6" />
-            <span className="font-heading font-semibold text-[var(--color-text-offwhite)] tracking-wide">
-              Linklet
+      {/* Section 3: Asymmetric Editorial Split Quote & Statement */}
+      <section className="py-28 lg:py-36 px-6 lg:px-12 border-b border-[var(--border-soft)]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          <div className="lg:col-span-8 space-y-6">
+            <span className="text-[11px] tracking-[0.22em] uppercase text-[var(--color-text-subtle)] font-semibold block">
+              Editorial Statement
             </span>
-            <span className="text-[var(--color-text-subtle)]">&mdash; One Link for Everything You Share</span>
+            <blockquote className="text-3xl sm:text-5xl font-heading font-medium leading-[1.12] text-[var(--color-text-offwhite)] tracking-tight">
+              &ldquo;A link in bio shouldn&rsquo;t feel like a link tree. It should read like your personal <span className="italic font-normal text-[#d0f600]">colophon</span>.&rdquo;
+            </blockquote>
+          </div>
+          <div className="lg:col-span-4 border-l border-[var(--border-soft)] pl-8 space-y-3">
+            <p className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)]">
+              Designed For
+            </p>
+            <p className="text-sm text-[var(--color-text-offwhite)] font-medium leading-relaxed">
+              Designers, writers, researchers, developers, and photographers who value white space over noise.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 4: Spacious Final Colophon CTA */}
+      <section className="py-24 lg:py-32 px-6 lg:px-12">
+        <div className="max-w-4xl mx-auto text-left space-y-8">
+          <span className="text-[11px] tracking-[0.22em] uppercase text-[#d0f600] font-semibold block">
+            Start Your Archive
+          </span>
+
+          <h2 className="text-4xl sm:text-6xl font-heading font-medium tracking-tight text-[var(--color-text-offwhite)] leading-tight">
+            Claim your <span className="italic font-normal text-[#d0f600]">name</span> today.
+          </h2>
+
+          <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <Link
+              href="/signup"
+              className="btn-lime text-xs uppercase tracking-[0.14em]"
+            >
+              Create Your Linklet &rarr;
+            </Link>
+            <Link
+              href="/alex"
+              className="btn-outline text-xs uppercase tracking-[0.14em]"
+            >
+              Explore Sample Profile
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Colophon */}
+      <footer className="mt-auto py-12 px-6 lg:px-12 border-t border-[var(--border-soft)] bg-[#00142b] text-[11px] tracking-[0.14em] uppercase text-[var(--color-text-subtle)]">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <span className="font-heading font-medium text-sm text-[var(--color-text-offwhite)] tracking-tight">
+              LINKLET
+            </span>
+            <span>&mdash;</span>
+            <span>Minimal Profile System</span>
           </div>
 
-          <div className="flex items-center gap-6 text-xs uppercase tracking-wider">
-            <Link href="/alex" className="hover:text-[var(--color-text-offwhite)] transition-colors">
-              Demo Page
+          <div className="flex items-center gap-8">
+            <Link href="/alex" className="hover:text-white transition-colors">
+              Directory
             </Link>
-            <Link href="/dashboard" className="hover:text-[var(--color-text-offwhite)] transition-colors">
+            <Link href="/dashboard" className="hover:text-white transition-colors">
               Studio
             </Link>
-            <Link href="/login" className="hover:text-[var(--color-text-offwhite)] transition-colors">
+            <Link href="/login" className="hover:text-white transition-colors">
               Sign In
             </Link>
           </div>

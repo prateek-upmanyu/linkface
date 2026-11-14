@@ -5,7 +5,7 @@ import { LinkItem } from "@/types";
 import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { playClickSound } from "@/lib/sound-fx";
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface PublicLinkButtonProps {
   link: LinkItem;
@@ -15,10 +15,7 @@ interface PublicLinkButtonProps {
   isDark?: boolean;
 }
 
-export function PublicLinkButton({
-  link,
-  themeCardHoverClass = "hover:scale-[1.01] active:scale-[0.99]",
-}: PublicLinkButtonProps) {
+export function PublicLinkButton({ link }: PublicLinkButtonProps) {
   const [clicked, setClicked] = useState(false);
 
   const platform = PLATFORMS.find((p) => p.id === link.platform);
@@ -39,7 +36,7 @@ export function PublicLinkButton({
     }).catch((err) => console.error("Click track error:", err));
 
     setClicked(true);
-    setTimeout(() => setClicked(false), 300);
+    setTimeout(() => setClicked(false), 250);
   };
 
   const iconStyle = getPlatformBadgeStyle(platform?.brandColor, true);
@@ -50,14 +47,14 @@ export function PublicLinkButton({
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={`w-full py-4 px-5 flex items-center justify-between transition-all duration-200 group text-decoration-none select-none rounded-2xl bg-[#002e62]/90 hover:bg-[#0a3d7a] border border-[var(--border-soft)] hover:border-[#d0f600] shadow-[0_4px_20px_rgba(0,15,35,0.45)] ${themeCardHoverClass} ${
-        clicked ? "scale-[0.985] brightness-110" : ""
+      className={`w-full py-4 px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none rounded-[12px] bg-[#002e62] hover:bg-[#0a3d7a] border border-[var(--border-soft)] hover:border-[#d0f600] ${
+        clicked ? "scale-[0.99]" : ""
       }`}
     >
       <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-2">
-        {/* Platform Icon Tile */}
+        {/* Subtle Line Platform Icon Tile */}
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-200 shadow-xs border border-white/10"
+          className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 border border-white/10"
           style={{
             backgroundColor: iconStyle.bgColor,
             color: iconStyle.color,
@@ -68,25 +65,28 @@ export function PublicLinkButton({
             platformId={link.platform}
             faviconUrl={favicon}
             brandColor={iconStyle.color}
-            className="w-5 h-5"
-            size={20}
+            className="w-4 h-4"
+            size={18}
           />
         </div>
 
-        {/* High-Contrast Off-White Text */}
-        <span className="font-body font-medium text-sm sm:text-base tracking-normal leading-snug truncate flex-1 transition-colors text-[var(--color-text-offwhite)] group-hover:text-[#d0f600]">
+        {/* Clean Manrope Typography */}
+        <span className="font-body font-medium text-sm sm:text-base tracking-normal truncate flex-1 transition-colors text-[var(--color-text-offwhite)] group-hover:text-white">
           {link.title}
         </span>
 
-        {/* Feature Badge */}
+        {/* Subtle Badge */}
         {link.badge && (
-          <span className="px-2.5 py-0.5 text-[10px] font-body font-semibold tracking-wider uppercase rounded-full shrink-0 ml-1.5 bg-[rgba(208,246,0,0.12)] text-[#d0f600] border border-[#d0f600]/40">
+          <span className="px-2 py-0.5 text-[9px] font-body font-semibold tracking-[0.14em] uppercase rounded-full shrink-0 ml-1.5 bg-[rgba(208,246,0,0.1)] text-[#d0f600] border border-[#d0f600]/30">
             {link.badge}
           </span>
         )}
       </div>
 
-      <ExternalLink className="w-4 h-4 transition-all shrink-0 ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[var(--color-text-muted)] group-hover:text-[#d0f600]" />
+      <ArrowUpRight
+        strokeWidth={1.5}
+        className="w-4 h-4 transition-transform duration-150 shrink-0 ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[var(--color-text-muted)] group-hover:text-[#d0f600]"
+      />
     </a>
   );
 }
