@@ -39,9 +39,19 @@ async function getProfileAndLinks(
           .eq("is_visible", true)
           .order("position", { ascending: true });
 
+        const unpacked = unpackProfile(profile);
+        const isPro = unpacked.plan === "pro";
+        const visibleLinks = links || [];
+        const displayedLinks = isPro ? visibleLinks : visibleLinks.slice(0, 3);
+        const safeProfile: Profile = {
+          ...unpacked,
+          theme: isPro ? unpacked.theme : "midnight",
+          spotlight_enabled: isPro ? unpacked.spotlight_enabled : false,
+        };
+
         return {
-          profile: unpackProfile(profile),
-          links: links || [],
+          profile: safeProfile,
+          links: displayedLinks,
         };
       }
     }

@@ -7,6 +7,7 @@ export interface ProfileMetadata {
   featured_creators?: FeaturedCreator[];
   status_message?: string | null;
   status_style?: "speech" | "cloud" | "pixel" | null;
+  spotlight_enabled?: boolean;
 }
 
 /**
@@ -75,8 +76,23 @@ export function unpackProfile(raw: any): Profile {
       ? raw.status_style
       : metadata.status_style || "speech";
 
+  const spotlight_enabled =
+    raw.spotlight_enabled !== undefined && raw.spotlight_enabled !== null
+      ? Boolean(raw.spotlight_enabled)
+      : Boolean(metadata.spotlight_enabled ?? false);
+
+  const plan = raw.plan === "pro" ? "pro" : "free";
+
   return {
     ...raw,
+    theme: raw.theme || "midnight",
+    plan,
+    plan_status: raw.plan_status || (plan === "pro" ? "active" : null),
+    billing_interval: raw.billing_interval || null,
+    current_period_end: raw.current_period_end || null,
+    provider_customer_id: raw.provider_customer_id || null,
+    provider_subscription_id: raw.provider_subscription_id || null,
+    spotlight_enabled,
     bio: cleaned,
     featured_creators: Array.isArray(featured) ? featured : [],
     status_message,
@@ -109,6 +125,11 @@ export function packProfileUpdates(
       ? updates.status_style
       : currentProfile.status_style || "speech";
 
+  const finalSpotlight =
+    updates.spotlight_enabled !== undefined
+      ? Boolean(updates.spotlight_enabled)
+      : Boolean(currentProfile.spotlight_enabled ?? false);
+
   const rawBio = updates.bio !== undefined ? updates.bio : currentProfile.bio || "";
   const cleanedBio = cleanBio(rawBio);
 
@@ -123,6 +144,7 @@ export function packProfileUpdates(
   if (finalStatusStyle) {
     meta.status_style = finalStatusStyle;
   }
+  meta.spotlight_enabled = finalSpotlight;
 
   // Pack metadata into bio
   let packedBio = cleanedBio;
@@ -139,10 +161,10 @@ export function packProfileUpdates(
     featured_creators: finalFeatured,
     status_message: finalStatusMessage,
     status_style: finalStatusStyle,
+    spotlight_enabled: finalSpotlight,
   };
 
   // Safe columns that exist in the Supabase `profiles` table:
-  // id, username, display_name, bio, avatar_url, theme, updated_at
   const dbPayload: Record<string, any> = {
     bio: packedBio,
     updated_at: new Date().toISOString(),
@@ -152,6 +174,7 @@ export function packProfileUpdates(
   if (updates.display_name !== undefined) dbPayload.display_name = updates.display_name;
   if (updates.avatar_url !== undefined) dbPayload.avatar_url = updates.avatar_url;
   if (updates.theme !== undefined) dbPayload.theme = updates.theme;
+  if (updates.spotlight_enabled !== undefined) dbPayload.spotlight_enabled = updates.spotlight_enabled;
 
   return { dbPayload, updatedProfile };
 }

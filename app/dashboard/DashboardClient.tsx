@@ -10,12 +10,14 @@ import { sanitizeAndValidateUrl } from "@/lib/security";
 import { BrandLogo } from "@/components/BrandLogo";
 import { LinkManager } from "@/components/dashboard/LinkManager";
 import { ProfileSettings } from "@/components/dashboard/ProfileSettings";
+import { ThemeSelector } from "@/components/dashboard/ThemeSelector";
 import { AnalyticsTab } from "@/components/dashboard/AnalyticsTab";
 import { PhonePreview } from "@/components/PhonePreview";
 import { QrModal } from "@/components/QrModal";
 import {
   Link2,
   User,
+  Palette,
   BarChart3,
   ExternalLink,
   QrCode,
@@ -24,6 +26,8 @@ import {
   Share2,
   Eye,
   Check,
+  Sparkles,
+  Lock,
 } from "lucide-react";
 
 interface DashboardClientProps {
@@ -32,7 +36,7 @@ interface DashboardClientProps {
   isDemoMode?: boolean;
 }
 
-type TabType = "links" | "profile" | "analytics" | "preview";
+type TabType = "links" | "themes" | "profile" | "analytics" | "preview";
 
 export function DashboardClient({
   initialProfile,
@@ -270,7 +274,22 @@ export function DashboardClient({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2.5 shrink-0">
+            {profile.plan === "pro" ? (
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18223a] border border-[#c9a96a]/40 text-[#c9a96a] text-[10px] font-mono uppercase tracking-[0.14em] font-semibold">
+                <Sparkles className="w-3 h-3 text-[#c9a96a]" />
+                Pro Active
+              </span>
+            ) : (
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#c9a96a] hover:bg-[#d9bb80] text-[#0a0f1c] text-xs font-semibold uppercase tracking-wider transition-colors shadow-xs"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Upgrade to Pro</span>
+              </Link>
+            )}
+
             <button
               onClick={handleCopyLink}
               className="px-3.5 py-1.5 rounded-full border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#F39C12] hover:bg-[#FFFDF9] text-xs font-semibold flex items-center gap-1.5 text-[#18181B] transition-all shadow-xs"
@@ -312,7 +331,7 @@ export function DashboardClient({
       <main className="max-w-7xl mx-auto w-full flex-1 p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Editor & Navigation Tabs */}
         <div className="lg:col-span-7 space-y-6">
-          {/* Navigation Tabs (Theme Switcher hidden as requested) */}
+          {/* Navigation Tabs */}
           <div className="flex items-center gap-2 border-b border-[#E5E7EB] pb-3 overflow-x-auto no-scrollbar">
             <button
               onClick={() => setActiveTab("links")}
@@ -324,6 +343,19 @@ export function DashboardClient({
             >
               <Link2 className="w-3.5 h-3.5" />
               Links
+            </button>
+
+            <button
+              onClick={() => setActiveTab("themes")}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wide transition-all shrink-0 ${
+                activeTab === "themes"
+                  ? "bg-[#c9a96a]/20 text-[#B9770E] border-2 border-[#c9a96a]"
+                  : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:text-[#18181B] hover:border-gray-300"
+              }`}
+            >
+              <Palette className="w-3.5 h-3.5" />
+              Themes
+              {profile.plan !== "pro" && <Lock className="w-3 h-3 text-[#B9770E]" />}
             </button>
 
             <button
@@ -370,6 +402,15 @@ export function DashboardClient({
               links={links}
               setLinks={setLinks}
               onSaveLinks={handleSaveLinks}
+              isLoading={isSaving}
+              plan={profile.plan}
+            />
+          )}
+
+          {activeTab === "themes" && (
+            <ThemeSelector
+              profile={profile}
+              onUpdateProfile={handleUpdateProfile}
               isLoading={isSaving}
             />
           )}

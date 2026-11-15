@@ -6,10 +6,14 @@ export const DEMO_PROFILE: Profile = {
   display_name: "Alex Rivera",
   bio: "Designer & developer. Building clean tools and sharing useful resources.",
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
-  theme: "apple",
+  theme: "midnight",
   page_views: 1240,
   status_message: "Latest projects & links",
   status_style: "speech",
+  plan: "pro",
+  plan_status: "active",
+  billing_interval: "yearly",
+  spotlight_enabled: true,
   featured_creators: [
     {
       id: "fc-1",

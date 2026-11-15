@@ -108,30 +108,33 @@ CREATE OR REPLACE FUNCTION public.increment_link_clicks(link_id UUID)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
-AS $$
+AS $func_increment_clicks$
 BEGIN
   UPDATE public.links
   SET click_count = click_count + 1
   WHERE id = link_id;
 END;
-$$;
+$func_increment_clicks$;
 
 -- Increments profile page view counter securely
 CREATE OR REPLACE FUNCTION public.increment_page_views(profile_username TEXT)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
-AS $$
+AS $func_increment_views$
 BEGIN
   UPDATE public.profiles
   SET page_views = page_views + 1
   WHERE username = LOWER(profile_username);
 END;
-$$;
+$func_increment_views$;
 
 -- 8. Optional: Trigger to auto-create profile stub on Supabase Auth signup
 CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+AS $func_handle_new_user$
 DECLARE
   initial_username TEXT;
   clean_name TEXT;
@@ -159,7 +162,7 @@ BEGIN
       initial_username,
       coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', clean_name),
       coalesce(new.raw_user_meta_data->>'avatar_url', new.raw_user_meta_data->>'picture', null),
-      'light'
+      'midnight'
     );
   EXCEPTION WHEN unique_violation THEN
     -- Append unique suffix on collision
@@ -169,13 +172,13 @@ BEGIN
       initial_username || '_' || substr(new.id::text, 1, 4),
       clean_name,
       null,
-      'light'
+      'midnight'
     );
   END;
 
   RETURN new;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$func_handle_new_user$;
 
 -- Drop trigger if exists and recreate
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;

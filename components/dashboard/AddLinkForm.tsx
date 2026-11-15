@@ -5,14 +5,21 @@ import { detectPlatform } from "@/lib/platforms";
 import { sanitizeAndValidateUrl } from "@/lib/security";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { processAvatarImage } from "@/lib/image-utils";
-import { Plus, Link2, Check, Image as ImageIcon, X } from "lucide-react";
+import { Plus, Link2, Check, Image as ImageIcon, X, Lock } from "lucide-react";
 
 interface AddLinkFormProps {
   onAdd: (data: { url: string; title: string; platform: string | null; custom_icon?: string | null }) => void;
   isLoading?: boolean;
+  isLimitReached?: boolean;
+  onLimitClick?: () => void;
 }
 
-export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
+export function AddLinkForm({
+  onAdd,
+  isLoading = false,
+  isLimitReached = false,
+  onLimitClick,
+}: AddLinkFormProps) {
   const [url, setUrl] = useState("");
   const [customTitle, setCustomTitle] = useState("");
   const [customIcon, setCustomIcon] = useState<string | null>(null);
@@ -39,6 +46,11 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (isLimitReached) {
+      if (onLimitClick) onLimitClick();
+      return;
+    }
 
     if (!url.trim()) {
       setError("Please enter a destination URL.");
@@ -128,11 +140,20 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
 
         <button
           type="submit"
-          disabled={isLoading || !url.trim()}
-          className="absolute right-2 btn-champagne text-xs uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 px-4 py-1.5 min-h-[36px]"
+          disabled={isLoading || (!isLimitReached && !url.trim())}
+          className="absolute right-2 btn-champagne text-xs uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 px-4 py-1.5 min-h-[36px] rounded-full"
         >
-          <Plus className="w-3.5 h-3.5" />
-          Add
+          {isLimitReached ? (
+            <>
+              <Lock className="w-3.5 h-3.5" />
+              <span>Unlock Pro</span>
+            </>
+          ) : (
+            <>
+              <Plus className="w-3.5 h-3.5" />
+              <span>Add</span>
+            </>
+          )}
         </button>
       </div>
 

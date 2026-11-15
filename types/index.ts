@@ -1,4 +1,16 @@
 export type ThemeId =
+  | "midnight"
+  | "ivory"
+  | "obsidian"
+  | "forest"
+  | "burgundy"
+  | "sand"
+  | "slate"
+  | "blush"
+  | "ocean"
+  | "graphite"
+  | "plum"
+  | "paper"
   | "apple"
   | "bmw"
   | "minecraft"
@@ -9,6 +21,10 @@ export type ThemeId =
   | "gradient"
   | "minimal"
   | "colorful";
+
+export type UserPlan = "free" | "pro";
+export type PlanStatus = "active" | "cancelled" | "past_due" | "expired";
+export type BillingInterval = "monthly" | "yearly";
 
 export interface FeaturedCreator {
   id: string;
@@ -29,6 +45,13 @@ export interface Profile {
   status_message?: string | null;
   status_style?: "speech" | "cloud" | "pixel" | null;
   featured_creators?: FeaturedCreator[] | null;
+  plan: UserPlan;
+  plan_status?: PlanStatus | null;
+  billing_interval?: BillingInterval | null;
+  current_period_end?: string | null;
+  provider_customer_id?: string | null;
+  provider_subscription_id?: string | null;
+  spotlight_enabled?: boolean | null;
   created_at: string;
 }
 

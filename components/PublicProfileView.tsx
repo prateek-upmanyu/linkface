@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { Profile, LinkItem } from "@/types";
+import { getTheme, isProTheme } from "@/lib/themes";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
+import { PageViewTracker } from "@/components/PageViewTracker";
+import { SoundToggle } from "@/components/SoundToggle";
 import { SpeechBubble } from "@/components/SpeechBubble";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
-import { SoundToggle } from "@/components/SoundToggle";
-import { PageViewTracker } from "@/components/PageViewTracker";
+import { ProfileSpotlight } from "@/components/ProfileSpotlight";
 import { BrandLogo } from "@/components/BrandLogo";
+import Link from "next/link";
 
 interface PublicProfileViewProps {
   initialProfile: Profile;
@@ -22,32 +24,32 @@ export function PublicProfileView({
   const [profile, setProfile] = useState<Profile>(initialProfile);
   const [links, setLinks] = useState<LinkItem[]>(initialLinks);
 
-  // Sync with studio edits from localStorage on this device
+  // Sync with local edits if previewing in same browser
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    const key = `linklet_preview_${initialProfile.username}`;
+    const stored = localStorage.getItem(key);
+    if (stored) {
       try {
-        const cachedProfile = localStorage.getItem(`linklet_profile_${initialProfile.username}`);
-        if (cachedProfile) {
-          const parsed = JSON.parse(cachedProfile);
-          if (parsed && typeof parsed === "object") {
-            setProfile((prev) => ({ ...prev, ...parsed }));
-          }
-        }
-
-        const cachedLinks = localStorage.getItem(`linklet_links_${initialProfile.username}`);
-        if (cachedLinks) {
-          const parsed = JSON.parse(cachedLinks);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setLinks(parsed);
-          }
-        }
+        const parsed = JSON.parse(stored);
+        if (parsed.profile) setProfile(parsed.profile);
+        if (parsed.links) setLinks(parsed.links);
       } catch (err) {
         console.error("Local sync hydration error:", err);
       }
     }
   }, [initialProfile.username]);
 
-  const visibleLinks = links.filter((l) => l.is_visible);
+  const isPro = profile.plan === "pro";
+
+  // Downgrade rules:
+  // 1. Free users are forced to default "midnight" theme
+  const activeThemeId = isPro ? profile.theme : "midnight";
+  const theme = getTheme(activeThemeId);
+
+  // 2. Free users show max 3 links publicly (all others preserved safely in DB)
+  const allVisibleLinks = links.filter((l) => l.is_visible);
+  const displayedLinks = isPro ? allVisibleLinks : allVisibleLinks.slice(0, 3);
+
   const initials = (profile.display_name || profile.username || "U")
     .split(" ")
     .map((n) => n[0])
@@ -55,89 +57,136 @@ export function PublicProfileView({
     .join("")
     .toUpperCase();
 
+  const cleanHandle = (profile.username || "").split("@")[0].replace(/[^a-z0-9_]/gi, "").toLowerCase();
+
   return (
     <div
-      className="min-h-screen bg-[#FFFDF9] text-[#18181B] flex flex-col justify-between items-center px-4 sm:px-6 py-12 sm:py-16 selection:bg-[#F9E79F] selection:text-[#18181B]"
+      className="min-h-screen relative flex flex-col justify-between items-center px-4 sm:px-6 py-12 sm:py-16 selection:bg-[#c9a96a]/30 overflow-x-hidden font-body"
       style={{
-        background: "radial-gradient(circle at 50% 0%, rgba(249, 231, 159, 0.35) 0%, transparent 60%), #FFFDF9",
+        backgroundColor: theme.bg,
+        color: theme.text,
+        background: theme.bgTint ? `${theme.bgTint}, ${theme.bg}` : theme.bg,
       }}
     >
       <PageViewTracker username={profile.username} />
+
+      {/* Interactive Cursor / Touch Spotlight (Pro only) */}
+      {isPro && profile.spotlight_enabled && (
+        <ProfileSpotlight accentColor={theme.accent} opacity={0.1} />
+      )}
 
       {/* Floating Sound Control */}
       <div className="fixed top-5 right-5 z-40">
         <SoundToggle />
       </div>
 
-      {/* Centered Column Max 480px */}
-      <main className="w-full max-w-[480px] mx-auto flex flex-col items-center">
+      {/* Centered Column Max 480px, strictly z-10 above spotlight */}
+      <main className="w-full max-w-[480px] mx-auto flex flex-col items-center relative z-10">
         {/* Status / Speech Bubble */}
         <SpeechBubble
           message={profile.status_message}
           styleType={profile.status_style}
         />
 
-        {/* 96px Avatar with Vibrant Sunlit Ring */}
+        {/* 96px Avatar with Theme Accent Ring */}
         <div className="relative mb-4">
           {profile.avatar_url ? (
             <img
               src={profile.avatar_url}
               alt={profile.display_name || profile.username}
-              className="w-24 h-24 rounded-full object-cover ring-2 ring-[#F39C12] p-0.5 shadow-md"
+              className="w-24 h-24 rounded-full object-cover p-0.5 shadow-md"
+              style={{
+                boxShadow: `0 0 0 2px ${theme.accent}`,
+              }}
             />
           ) : (
-            <div className="w-24 h-24 rounded-full flex items-center justify-center font-heading text-3xl font-bold bg-gradient-to-tr from-[#F39C12] to-[#F4D03F] text-white ring-2 ring-[#F39C12] shadow-md">
+            <div
+              className="w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold shadow-md"
+              style={{
+                backgroundColor: theme.surfaceRaised,
+                color: theme.accent,
+                boxShadow: `0 0 0 2px ${theme.accent}`,
+                fontFamily: theme.headingFontFamily,
+              }}
+            >
               {initials}
             </div>
           )}
         </div>
 
-        {/* Name in Bold Instrument Serif */}
-        <h1 className="font-heading text-3xl sm:text-4xl font-bold leading-tight tracking-tight text-[#18181B] text-center">
+        {/* Display Name with Theme Heading Font */}
+        <h1
+          className="text-3xl sm:text-4xl font-normal leading-tight tracking-tight text-center"
+          style={{
+            fontFamily: theme.headingFontFamily,
+            color: theme.text,
+          }}
+        >
           {profile.display_name || profile.username}
         </h1>
 
         {/* Handle */}
-        <p className="mt-1 text-xs font-mono font-bold text-[#F39C12] tracking-wide text-center">
-          @{(profile.username || "").split("@")[0].replace(/[^a-z0-9_]/gi, "").toLowerCase()}
+        <p
+          className="mt-1 text-xs font-mono font-semibold tracking-wide text-center"
+          style={{ color: theme.accent }}
+        >
+          @{cleanHandle}
         </p>
 
-        {/* Bio in Crisp Inter */}
+        {/* Bio */}
         {profile.bio && (
-          <p className="mt-2.5 text-sm font-body font-medium text-[#4B5563] leading-relaxed max-w-[380px] text-center line-clamp-3">
+          <p
+            className="mt-2.5 text-sm font-medium leading-relaxed max-w-[380px] text-center line-clamp-3"
+            style={{ color: theme.muted }}
+          >
             {profile.bio}
           </p>
         )}
 
         {/* Links Stack */}
-        <div className="w-full space-y-2.5 mt-7">
-          {visibleLinks.length === 0 ? (
-            <div className="py-12 text-center rounded-[14px] border border-dashed border-[#E5E7EB] bg-white">
-              <p className="text-xs text-[#9CA3AF] font-body font-medium">No links published yet.</p>
+        <div className="w-full space-y-3 mt-7">
+          {displayedLinks.length === 0 ? (
+            <div
+              className="py-12 text-center rounded-[14px] border border-dashed"
+              style={{
+                backgroundColor: theme.surface,
+                borderColor: theme.border,
+                color: theme.muted,
+              }}
+            >
+              <p className="text-xs font-medium">No links published yet.</p>
             </div>
           ) : (
-            visibleLinks.map((link) => (
+            displayedLinks.map((link) => (
               <PublicLinkButton
                 key={link.id}
                 link={link}
-                themeId={profile.theme}
+                themeConfig={theme}
               />
             ))
           )}
         </div>
 
+        {/* Notice for Free users if extra links exist */}
+        {!isPro && allVisibleLinks.length > 3 && (
+          <p className="mt-4 text-[11px] text-center" style={{ color: theme.muted }}>
+            Showing top 3 links on the Free plan.
+          </p>
+        )}
+
         {/* Featured Collaborators */}
         <FeaturedCreators
           creators={profile.featured_creators}
-          themeId={profile.theme}
+          themeId={theme.id}
         />
       </main>
 
-      {/* Footer */}
-      <footer className="mt-12 text-center">
+      {/* Minimal Footer */}
+      <footer className="mt-12 text-center relative z-10">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs font-body font-bold text-[#9CA3AF] hover:text-[#E67E22] transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-medium transition-colors hover:opacity-100 opacity-60"
+          style={{ color: theme.muted }}
         >
           <BrandLogo className="w-4 h-4 shadow-none" />
           <span>Made with Linklet</span>

@@ -131,6 +131,12 @@ export default function LandingPage() {
                 Supported Apps
               </a>
               <Link
+                href="/pricing"
+                className="text-xs uppercase font-bold tracking-wider text-[#4B5563] hover:text-[#E67E22] transition-colors"
+              >
+                Pricing
+              </Link>
+              <Link
                 href="/alex"
                 className="text-xs uppercase font-bold tracking-wider text-[#4B5563] hover:text-[#E67E22] transition-colors"
               >
@@ -221,7 +227,7 @@ export default function LandingPage() {
               animate="visible"
               custom={3}
               onSubmit={handleClaim}
-              className="w-full max-w-md p-1.5 rounded-full bg-[#FFFFFF] border-2 border-[#E5E7EB] shadow-md flex items-center gap-1.5 focus-within:border-[#F39C12] transition-colors"
+              className="w-full max-w-md h-[54px] p-1.5 rounded-full bg-[#FFFFFF] border-2 border-[#E5E7EB] shadow-md flex items-center gap-1.5 focus-within:border-[#F39C12] transition-all box-border"
             >
               <div className="flex items-center pl-4 text-[#B9770E] font-mono font-bold text-xs sm:text-sm select-none shrink-0">
                 <span>linklet.bio/</span>
@@ -233,11 +239,11 @@ export default function LandingPage() {
                   setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
                 placeholder="yourname"
-                className="flex-1 min-w-0 py-2 px-1 text-xs sm:text-sm bg-transparent text-[#18181B] font-body font-semibold focus:outline-none placeholder:text-[#9CA3AF]"
+                className="flex-1 min-w-0 h-full py-0 px-1.5 text-xs sm:text-sm bg-transparent text-[#18181B] font-body font-semibold focus:outline-none placeholder:text-[#9CA3AF]"
               />
               <button
                 type="submit"
-                className="btn-champagne text-xs uppercase tracking-wider shrink-0 px-5 sm:px-6 h-10 rounded-full font-bold flex items-center justify-center gap-1 shadow-xs"
+                className="btn-champagne text-xs uppercase tracking-wider shrink-0 px-5 sm:px-6 h-[42px] min-h-[42px] rounded-full font-bold flex items-center justify-center gap-1 shadow-xs my-0"
               >
                 Claim Link →
               </button>
@@ -450,14 +456,17 @@ export default function LandingPage() {
             <a href="#how-it-works" className="hover:text-[#18181B] transition-colors">
               How It Works
             </a>
+            <Link href="/pricing" className="hover:text-[#18181B] transition-colors">
+              Pricing
+            </Link>
             <Link href="/alex" className="hover:text-[#18181B] transition-colors">
               Sample Page
             </Link>
-            <Link href="/login" className="hover:text-[#18181B] transition-colors">
-              Sign In
+            <Link href="/terms" className="hover:text-[#18181B] transition-colors">
+              Terms
             </Link>
-            <Link href="/signup" className="hover:text-[#18181B] transition-colors">
-              Sign Up
+            <Link href="/privacy" className="hover:text-[#18181B] transition-colors">
+              Privacy
             </Link>
           </div>
 

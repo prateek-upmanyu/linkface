@@ -6,6 +6,8 @@ import { SpeechBubble } from "@/components/SpeechBubble";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
 import { SoundToggle } from "@/components/SoundToggle";
+import { ProfileSpotlight } from "@/components/ProfileSpotlight";
+import { getTheme } from "@/lib/themes";
 import { motion } from "framer-motion";
 
 interface PhonePreviewProps {
@@ -24,28 +26,49 @@ export function PhonePreview({
   isInteractive = true,
   floating = false,
 }: PhonePreviewProps) {
+  const isPro = profile.plan === "pro";
+  const activeThemeId = isPro ? profile.theme : "midnight";
+  const theme = getTheme(activeThemeId);
+
   const visibleLinks = links.filter((l) => l.is_visible);
+  const displayedLinks = isPro ? visibleLinks : visibleLinks.slice(0, 3);
+
+  const initials = (profile.display_name || profile.username || "U")
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  const cleanHandle = (profile.username || "alex").split("@")[0].replace(/[^a-z0-9_]/gi, "").toLowerCase();
 
   return (
     <div
-      className={`relative mx-auto w-full max-w-[340px] sm:max-w-[360px] rounded-[48px] p-4 sm:p-5 border-[6px] border-[#18181B] bg-[#FFFDF9] shadow-[0_24px_64px_rgba(243,156,18,0.18),0_8px_24px_rgba(0,0,0,0.06)] select-none transition-all duration-300 overflow-hidden ${
+      className={`relative mx-auto w-full max-w-[340px] sm:max-w-[360px] rounded-[48px] p-4 sm:p-5 border-[6px] border-[#18181B] shadow-[0_24px_64px_rgba(0,0,0,0.5)] select-none transition-all duration-300 overflow-hidden ${
         floating ? "animate-phone-float" : ""
       } ${className}`}
       style={{
-        background: "radial-gradient(circle at 50% 0%, rgba(249, 231, 159, 0.25) 0%, transparent 60%), #FFFDF9",
+        backgroundColor: theme.bg,
+        color: theme.text,
+        background: theme.bgTint ? `${theme.bgTint}, ${theme.bg}` : theme.bg,
       }}
     >
+      {/* 60fps Spotlight Effect if enabled and Pro */}
+      {isPro && profile.spotlight_enabled && (
+        <ProfileSpotlight accentColor={theme.accent} opacity={0.1} />
+      )}
+
       {/* Speaker / Dynamic Island Pill */}
-      <div className="flex items-center justify-between mb-5 px-3">
+      <div className="flex items-center justify-between mb-5 px-3 relative z-10">
         <div className="w-20 h-4 rounded-full bg-[#18181B] mx-auto flex items-center justify-center">
           <div className="w-2 h-2 rounded-full bg-[#27272A]" />
         </div>
-        <div className="absolute right-6 top-5">
-          <SoundToggle />
+        <div className="absolute right-5 top-4">
+          <SoundToggle className="w-7 h-7 p-1 border-white/10 bg-black/25 hover:bg-black/45 text-white/80 hover:text-white" />
         </div>
       </div>
 
-      <div className="flex flex-col justify-between min-h-[480px] w-full max-w-full overflow-hidden">
+      <div className="flex flex-col justify-between min-h-[480px] w-full max-w-full overflow-hidden relative z-10">
         {/* Profile Header */}
         <div className="flex flex-col items-center text-center px-1 mb-5 shrink-0">
           {/* Status Message / Thought Bubble */}
@@ -54,37 +77,58 @@ export function PhonePreview({
             styleType={profile.status_style}
           />
 
-          {/* Avatar with Vibrant Orange-Gold Ring */}
+          {/* Avatar with Theme Accent Ring */}
           <div className="relative mb-3.5">
             {profile.avatar_url ? (
               <img
                 src={profile.avatar_url}
                 alt={profile.display_name || "Profile"}
-                className="w-20 h-20 sm:w-22 sm:h-22 object-cover rounded-full ring-2 ring-[#F39C12] p-0.5 shadow-sm"
+                className="w-20 h-20 sm:w-22 sm:h-22 object-cover rounded-full p-0.5 shadow-sm"
+                style={{ boxShadow: `0 0 0 2px ${theme.accent}` }}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = "none";
                 }}
               />
             ) : (
-              <div className="w-20 h-20 sm:w-22 sm:h-22 flex items-center justify-center text-2xl font-heading font-bold text-[#FFFFFF] bg-gradient-to-tr from-[#F39C12] to-[#F4D03F] rounded-full ring-2 ring-[#F39C12] shadow-sm">
-                {profile.display_name?.charAt(0) || profile.username?.charAt(0) || "U"}
+              <div
+                className="w-20 h-20 sm:w-22 sm:h-22 flex items-center justify-center text-2xl font-bold rounded-full shadow-sm"
+                style={{
+                  backgroundColor: theme.surfaceRaised,
+                  color: theme.accent,
+                  boxShadow: `0 0 0 2px ${theme.accent}`,
+                  fontFamily: theme.headingFontFamily,
+                }}
+              >
+                {initials}
               </div>
             )}
           </div>
 
-          {/* Name in Bold Instrument Serif */}
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-[#18181B] leading-tight">
+          {/* Display Name with Theme Heading Font */}
+          <h2
+            className="text-2xl sm:text-3xl font-normal tracking-tight leading-tight"
+            style={{
+              fontFamily: theme.headingFontFamily,
+              color: theme.text,
+            }}
+          >
             {profile.display_name || profile.username || "Alex Rivera"}
           </h2>
 
           {/* Handle */}
-          <p className="text-xs font-mono font-semibold text-[#F39C12] mt-0.5">
-            @{(profile.username || "alex").split("@")[0].replace(/[^a-z0-9_]/gi, "").toLowerCase()}
+          <p
+            className="text-xs font-mono font-semibold mt-0.5"
+            style={{ color: theme.accent }}
+          >
+            @{cleanHandle}
           </p>
 
-          {/* Bio in Crisp Inter */}
+          {/* Bio */}
           {profile.bio && (
-            <p className="mt-2 text-xs sm:text-[13px] text-[#4B5563] max-w-[280px] leading-relaxed line-clamp-3 font-body font-medium">
+            <p
+              className="mt-2 text-xs sm:text-[13px] max-w-[280px] leading-relaxed line-clamp-3 font-medium"
+              style={{ color: theme.muted }}
+            >
               {profile.bio}
             </p>
           )}
@@ -92,41 +136,61 @@ export function PhonePreview({
 
         {/* Links List with Stagger */}
         <div className="flex-1 w-full max-w-full flex flex-col gap-2.5">
-          {visibleLinks.length === 0 ? (
-            <div className="p-6 text-center text-xs text-[#9CA3AF] rounded-[12px] border border-dashed border-[#E5E7EB] bg-white">
+          {displayedLinks.length === 0 ? (
+            <div
+              className="p-6 text-center text-xs rounded-[12px] border border-dashed"
+              style={{
+                backgroundColor: theme.surface,
+                borderColor: theme.border,
+                color: theme.muted,
+              }}
+            >
               No links shared yet.
             </div>
           ) : (
-            visibleLinks.map((link, idx) => (
+            displayedLinks.map((link, idx) => (
               <motion.div
                 key={link.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.35,
-                  delay: idx * 0.06,
+                  duration: 0.25,
+                  delay: idx * 0.04,
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 className="w-full min-w-0"
               >
-                <PublicLinkButton link={link} themeId={profile.theme} />
+                <PublicLinkButton link={link} themeConfig={theme} />
               </motion.div>
             ))
           )}
         </div>
 
-        {/* Featured Collaborators (Strictly contained inside phone) */}
-        <div className="w-full max-w-full shrink-0">
+        {/* Notice for Free users if extra links exist */}
+        {!isPro && visibleLinks.length > 3 && (
+          <p className="mt-2 text-[10px] text-center" style={{ color: theme.muted }}>
+            Free plan: only first 3 links shown publicly.
+          </p>
+        )}
+
+        {/* Featured Collaborators */}
+        <div className="w-full max-w-full shrink-0 mt-3">
           <FeaturedCreators
             creators={profile.featured_creators}
-            themeId={profile.theme}
+            themeId={theme.id}
             isInteractive={isInteractive}
           />
         </div>
 
         {/* Quiet Footer */}
-        <div className="mt-5 pt-3 text-center border-t border-[#E5E7EB]">
-          <span className="text-[10px] tracking-[0.14em] uppercase font-bold text-[#9CA3AF]">
+        <div
+          className="mt-5 pt-3 text-center border-t"
+          style={{ borderColor: theme.border }}
+        >
+          <span
+            className="text-[10px] tracking-[0.14em] uppercase font-bold"
+            style={{ color: theme.muted }}
+          >
             Made with Linklet
           </span>
         </div>

@@ -5,20 +5,21 @@ import { LinkItem, ThemeId } from "@/types";
 import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { playClickSound } from "@/lib/sound-fx";
-import { ChevronRight } from "lucide-react";
+import { getTheme, ThemeConfig } from "@/lib/themes";
+import { ArrowRight } from "lucide-react";
 
 interface PublicLinkButtonProps {
   link: LinkItem;
   themeId?: ThemeId | string;
-  themeCardClass?: string;
-  themeCardHoverClass?: string;
-  themeButtonShadow?: string;
+  themeConfig?: ThemeConfig;
   isDark?: boolean;
 }
 
-export function PublicLinkButton({ link }: PublicLinkButtonProps) {
+export function PublicLinkButton({ link, themeId, themeConfig }: PublicLinkButtonProps) {
   const [clicked, setClicked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
+  const theme = themeConfig || getTheme(themeId);
   const platform = PLATFORMS.find((p) => p.id === link.platform);
   const favicon =
     link.url && !platform
@@ -40,7 +41,8 @@ export function PublicLinkButton({ link }: PublicLinkButtonProps) {
     setTimeout(() => setClicked(false), 150);
   };
 
-  const iconStyle = getPlatformBadgeStyle(platform?.brandColor, true);
+  // Adaptive platform icon color ensuring WCAG AA contrast against theme surface
+  const iconStyle = getPlatformBadgeStyle(platform?.brandColor, theme.isDark);
 
   return (
     <a
@@ -48,17 +50,25 @@ export function PublicLinkButton({ link }: PublicLinkButtonProps) {
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={`w-full min-h-[52px] px-4 py-2.5 flex items-center justify-between rounded-[12px] bg-[#FFFFFF] hover:bg-[#FFFDF9] border border-[#E5E7EB] hover:border-[#F39C12] shadow-sm hover:shadow-[0_4px_16px_rgba(243,156,18,0.12)] transition-all duration-150 group text-decoration-none select-none ${
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        backgroundColor: isHovered ? theme.surfaceRaised : theme.surface,
+        borderColor: isHovered ? theme.accent : theme.border,
+        borderRadius: theme.radiusCard,
+        color: theme.text,
+      }}
+      className={`w-full h-14 min-h-[56px] px-4 flex items-center justify-between border transition-all duration-200 group text-decoration-none select-none relative z-10 ${
         clicked ? "scale-[0.99]" : ""
       }`}
     >
-      <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
+      <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-3">
         {/* Platform or Custom Icon Container */}
         <div
-          className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFDF5] text-[#18181B] overflow-hidden"
+          className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 overflow-hidden"
           style={{
-            backgroundColor: platform?.brandColor ? `${platform.brandColor}12` : "#FFFDF5",
-            color: iconStyle.color || "#F39C12",
+            backgroundColor: theme.isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.04)",
+            color: iconStyle.color || theme.accent,
           }}
         >
           {link.custom_icon ? (
@@ -72,28 +82,42 @@ export function PublicLinkButton({ link }: PublicLinkButtonProps) {
               iconName={platform?.icon}
               platformId={link.platform}
               faviconUrl={favicon}
-              brandColor={iconStyle.color}
+              brandColor={iconStyle.color || theme.accent}
               className="w-4 h-4"
               size={18}
             />
           )}
         </div>
 
-        {/* Title: Bold, crisp, legible */}
-        <span className="font-body font-semibold text-sm sm:text-[15px] leading-tight tracking-tight truncate flex-1 text-[#18181B] group-hover:text-[#E67E22] transition-colors">
+        {/* Title: Left-aligned, crisp, high-contrast */}
+        <span
+          className="font-body font-medium text-sm sm:text-[15px] leading-tight tracking-tight truncate flex-1"
+          style={{ color: theme.text }}
+        >
           {link.title}
         </span>
 
-        {/* Badge in Sunlit Yellow */}
+        {/* Badge */}
         {link.badge && (
-          <span className="px-2 py-0.5 text-[10px] font-body font-bold uppercase tracking-wider rounded-full shrink-0 ml-1 bg-[#F9E79F] text-[#B9770E] border border-[#F4D03F]">
+          <span
+            className="px-2 py-0.5 text-[9px] font-mono uppercase tracking-[0.12em] rounded-full shrink-0 ml-1 font-semibold"
+            style={{
+              backgroundColor: `${theme.accent}18`,
+              color: theme.accent,
+              border: `1px solid ${theme.accent}40`,
+            }}
+          >
             {link.badge}
           </span>
         )}
       </div>
 
-      {/* Tiny arrow right */}
-      <ChevronRight className="w-4 h-4 text-[#9CA3AF] group-hover:text-[#F39C12] group-hover:translate-x-1 transition-all duration-150 shrink-0" />
+      {/* Right Arrow: Moves 4px (translate-x-1) on hover */}
+      <ArrowRight
+        className="w-4 h-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+        style={{ color: isHovered ? theme.accent : theme.muted }}
+        strokeWidth={1.75}
+      />
     </a>
   );
 }
