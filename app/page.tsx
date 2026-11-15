@@ -7,14 +7,185 @@ import { motion, useReducedMotion } from "framer-motion";
 import { PhonePreview } from "@/components/PhonePreview";
 import { BrandLogo } from "@/components/BrandLogo";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
-import { ArrowUpRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { Profile, LinkItem } from "@/types";
+
+// Showcase Profiles for Section 4
+const SHOWCASE_PROFILE_2: Profile = {
+  id: "showcase-maya",
+  username: "mayalin",
+  display_name: "Maya Lin",
+  bio: "Acoustic composer and spatial audio designer. Investigating resonance, physical instruments, and modular synthesis.",
+  avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+  theme: "apple",
+  page_views: 2450,
+  status_message: "Releasing 'Echoes in Monolith' on Vinyl",
+  status_style: "cloud",
+  featured_creators: [
+    {
+      id: "fc-m1",
+      name: "Kian Sato",
+      url: "https://spotify.com",
+      avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      tagline: "Mastering",
+    },
+    {
+      id: "fc-m2",
+      name: "Tessa Gray",
+      url: "https://soundcloud.com",
+      avatar_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      tagline: "Cello",
+    },
+  ],
+  created_at: new Date().toISOString(),
+};
+
+const SHOWCASE_LINKS_2: LinkItem[] = [
+  {
+    id: "m-link-1",
+    user_id: "showcase-maya",
+    url: "https://spotify.com",
+    title: "Echoes in Monolith (LP)",
+    platform: "spotify",
+    position: 0,
+    is_visible: true,
+    click_count: 840,
+    badge: "NEW",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "m-link-2",
+    user_id: "showcase-maya",
+    url: "https://bandcamp.com",
+    title: "Bandcamp — Vinyl & 24bit Master",
+    platform: "bandcamp",
+    position: 1,
+    is_visible: true,
+    click_count: 420,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "m-link-3",
+    user_id: "showcase-maya",
+    url: "https://soundcloud.com",
+    title: "Field Recordings & Modular Sketches",
+    platform: "soundcloud",
+    position: 2,
+    is_visible: true,
+    click_count: 310,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "m-link-4",
+    user_id: "showcase-maya",
+    url: "https://youtube.com",
+    title: "Live at Berlin Philharmonie",
+    platform: "youtube",
+    position: 3,
+    is_visible: true,
+    click_count: 240,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "m-link-5",
+    user_id: "showcase-maya",
+    url: "https://substack.com",
+    title: "Acoustic Dispatches Newsletter",
+    platform: "substack",
+    position: 4,
+    is_visible: true,
+    click_count: 180,
+    created_at: new Date().toISOString(),
+  },
+];
+
+const SHOWCASE_PROFILE_3: Profile = {
+  id: "showcase-julian",
+  username: "julianvance",
+  display_name: "Julian Vance",
+  bio: "Architectural critic and editor at Large. Writing on Brutalism, urban renewal, and tactile stone construction.",
+  avatar_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+  theme: "apple",
+  page_views: 2450,
+  status_message: "New essay in Architectural Review",
+  status_style: "speech",
+  featured_creators: [
+    {
+      id: "fc-j1",
+      name: "Studio OMA",
+      url: "https://instagram.com",
+      avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      tagline: "Architecture",
+    },
+  ],
+  created_at: new Date().toISOString(),
+};
+
+const SHOWCASE_LINKS_3: LinkItem[] = [
+  {
+    id: "j-link-1",
+    user_id: "showcase-julian",
+    url: "https://substack.com",
+    title: "The Concrete Archive (Weekly)",
+    platform: "substack",
+    position: 0,
+    is_visible: true,
+    click_count: 670,
+    badge: "ESSAY",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "j-link-2",
+    user_id: "showcase-julian",
+    url: "https://twitter.com",
+    title: "Dispatches & Fragments on X",
+    platform: "twitter",
+    position: 1,
+    is_visible: true,
+    click_count: 530,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "j-link-3",
+    user_id: "showcase-julian",
+    url: "https://instagram.com",
+    title: "Visual Monoliths on Instagram",
+    platform: "instagram",
+    position: 2,
+    is_visible: true,
+    click_count: 410,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "j-link-4",
+    user_id: "showcase-julian",
+    url: "https://readcv.com",
+    title: "Curated Bibliography & Lectures",
+    platform: "custom",
+    position: 3,
+    is_visible: true,
+    click_count: 290,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "j-link-5",
+    user_id: "showcase-julian",
+    url: "https://buymeacoffee.com",
+    title: "Support Independent Architectural Criticism",
+    platform: "buymeacoffee",
+    position: 4,
+    is_visible: true,
+    click_count: 140,
+    created_at: new Date().toISOString(),
+  },
+];
 
 export default function LandingPage() {
   const router = useRouter();
   const supabase = createClient();
   const [handle, setHandle] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [scrolled, setScrolled] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -26,6 +197,13 @@ export default function LandingPage() {
       .catch(() => {
         setIsAuthenticated(false);
       });
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleClaim = (e: React.FormEvent) => {
@@ -43,7 +221,7 @@ export default function LandingPage() {
   };
 
   const fadeInVariants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 24 },
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
     visible: (custom: number) => ({
       opacity: 1,
       y: 0,
@@ -56,106 +234,122 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color-heritage-deep)] text-[var(--color-text-offwhite)] flex flex-col font-body selection:bg-[#0a3d7a] selection:text-[#d0f600]">
-      {/* Top Editorial Nav Header */}
-      <header className="sticky top-0 z-40 bg-[#001530]/95 backdrop-blur-md border-b border-[var(--border-soft)] px-6 lg:px-12 py-5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-3 group">
-              <BrandLogo className="w-7 h-7" />
-              <span className="font-heading text-lg font-medium tracking-tight text-[var(--color-text-offwhite)]">
-                Linklet
-              </span>
-            </Link>
-            <span className="hidden md:inline-block text-[11px] tracking-[0.2em] uppercase text-[var(--color-text-subtle)] border-l border-[var(--border-soft)] pl-6">
-              Editorial Index
+    <div className="min-h-screen bg-[#0a0f1c] text-[#f5f1e8] font-body selection:bg-[#18223a] selection:text-[#c9a96a]">
+      {/* =========================================================================
+          1. NAV: 72px tall, transparent, thin bottom border after scroll.
+          Logo left, 3 small links and one pill button right. Nothing else.
+          ========================================================================= */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 h-[72px] transition-colors duration-300 ${
+          scrolled
+            ? "bg-[#0a0f1c]/90 backdrop-blur-md border-b border-[rgba(245,241,232,0.08)]"
+            : "bg-transparent border-b border-transparent"
+        }`}
+      >
+        <div className="quiet-container h-full flex items-center justify-between">
+          {/* Logo Left */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <BrandLogo className="w-5 h-5 text-[#c9a96a]" />
+            <span className="font-heading text-xl font-normal tracking-tight text-[#f5f1e8]">
+              Linklet
             </span>
-          </div>
+          </Link>
 
-          <div className="flex items-center gap-6">
-            <Link
-              href="/alex"
-              className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)] hover:text-white editorial-link hidden sm:inline-block transition-colors"
-            >
-              Public Demo
-            </Link>
+          {/* 3 Small Links + One Pill Button Right */}
+          <div className="flex items-center gap-8">
+            <nav className="hidden sm:flex items-center gap-8">
+              <a
+                href="#how-it-works"
+                className="text-xs uppercase tracking-[0.14em] text-[rgba(245,241,232,0.62)] hover:text-[#f5f1e8] editorial-link transition-colors"
+              >
+                Architecture
+              </a>
+              <a
+                href="#showcase"
+                className="text-xs uppercase tracking-[0.14em] text-[rgba(245,241,232,0.62)] hover:text-[#f5f1e8] editorial-link transition-colors"
+              >
+                Showcase
+              </a>
+              <Link
+                href="/alex"
+                className="text-xs uppercase tracking-[0.14em] text-[rgba(245,241,232,0.62)] hover:text-[#f5f1e8] editorial-link transition-colors"
+              >
+                Colophon
+              </Link>
+            </nav>
+
             {isAuthenticated ? (
               <Link
                 href="/dashboard"
-                className="btn-lime text-xs uppercase tracking-[0.12em]"
+                className="btn-champagne text-xs uppercase tracking-[0.12em] px-5 py-2.5"
               >
-                Dashboard &rarr;
+                Studio &rarr;
               </Link>
             ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)] hover:text-white editorial-link transition-colors"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/signup"
-                  className="btn-lime text-xs uppercase tracking-[0.12em]"
-                >
-                  Get Started
-                </Link>
-              </>
+              <Link
+                href="/signup"
+                className="btn-champagne text-xs uppercase tracking-[0.12em] px-5 py-2.5"
+              >
+                Claim Link
+              </Link>
             )}
           </div>
         </div>
       </header>
 
-      {/* Hero Section: Asymmetric, Left-Aligned Editorial Layout */}
-      <section className="pt-20 pb-28 lg:pt-32 lg:pb-36 px-6 lg:px-12 border-b border-[var(--border-soft)]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
-          {/* Left Column: Big Editorial Typography & Copy */}
-          <div className="lg:col-span-7 space-y-10 text-left">
-            <motion.div
+      {/* =========================================================================
+          2. HERO: Two columns on desktop. Mobile: stacked, text first.
+          160px top padding, 128px bottom.
+          Left: small label, huge serif headline, one muted sentence, one input + champagne button.
+          Right: realistic phone mockup (rounded 44px frame, thin border, soft dark shadow).
+          ========================================================================= */}
+      <section className="pt-28 lg:pt-[160px] pb-20 lg:pb-[128px] border-b border-[rgba(245,241,232,0.08)]">
+        <div className="quiet-container grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-16 items-center">
+          {/* Left Column */}
+          <div className="lg:col-span-7 space-y-8 text-left">
+            <motion.span
               variants={fadeInVariants}
               initial="hidden"
               animate="visible"
               custom={0}
-              className="flex items-center gap-3"
+              className="inline-block text-xs uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] font-body"
             >
-              <span className="text-[11px] tracking-[0.22em] uppercase text-[#d0f600] font-semibold">
-                01 / Digital Colophon
-              </span>
-              <span className="w-8 h-px bg-[#d0f600]/40" />
-            </motion.div>
+              The Quiet Index for Creators
+            </motion.span>
 
+            {/* Huge Serif Headline with ONE italic word */}
             <motion.h1
               variants={fadeInVariants}
               initial="hidden"
               animate="visible"
               custom={1}
-              className="text-5xl sm:text-7xl lg:text-8xl font-heading font-medium leading-[0.98] tracking-tight text-[var(--color-text-offwhite)]"
+              className="font-heading text-[clamp(3rem,8vw,6.5rem)] font-normal leading-[0.95] tracking-[-0.03em] text-[#f5f1e8]"
             >
-              Your entire <br />
-              presence, <br />
-              reduced to <span className="italic font-normal text-[#d0f600]">one</span> link.
+              Your whole world, <br />
+              curated into <span className="italic font-normal text-[#c9a96a]">one</span> address.
             </motion.h1>
 
+            {/* One Muted Sentence */}
             <motion.p
               variants={fadeInVariants}
               initial="hidden"
               animate="visible"
               custom={2}
-              className="text-base sm:text-lg text-[var(--color-text-muted)] max-w-xl leading-relaxed font-body"
+              className="text-base sm:text-lg text-[rgba(245,241,232,0.62)] font-body leading-[1.65] max-w-lg"
             >
-              A quiet, refined home for your work. Curate destinations from 50+ platforms, spotlight three collaborators in your footer, and observe private traffic without algorithms or clutter.
+              A calm digital colophon for writers, designers, and curators. Bring together 50+ platforms, share audience with three peers, and measure readership in pure numbers.
             </motion.p>
 
-            {/* Architectural Claim Form */}
+            {/* Input + Champagne Button */}
             <motion.form
               variants={fadeInVariants}
               initial="hidden"
               animate="visible"
               custom={3}
               onSubmit={handleClaim}
-              className="max-w-lg p-1.5 rounded-[12px] bg-[#001e42] border border-[var(--border-soft)] flex items-center gap-2 focus-within:border-[#d0f600] transition-colors"
+              className="max-w-md p-1.5 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] flex items-center gap-2 focus-within:border-[#c9a96a] transition-colors"
             >
-              <div className="flex items-center pl-3.5 text-[var(--color-text-subtle)] text-sm font-body select-none">
+              <div className="flex items-center pl-3 text-[rgba(245,241,232,0.38)] text-sm font-body select-none">
                 <span>linklet.bio/</span>
               </div>
               <input
@@ -164,85 +358,77 @@ export default function LandingPage() {
                 onChange={(e) =>
                   setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
-                placeholder="handle"
-                className="flex-1 py-2 px-1 text-sm bg-transparent text-[var(--color-text-offwhite)] focus:outline-none placeholder:text-[var(--color-text-subtle)] font-body"
+                placeholder="yourname"
+                className="flex-1 py-2 px-1 text-sm bg-transparent text-[#f5f1e8] focus:outline-none placeholder:text-[rgba(245,241,232,0.38)] font-body"
               />
               <button
                 type="submit"
-                className="btn-lime text-xs uppercase tracking-[0.12em] shrink-0"
+                className="btn-champagne text-xs uppercase tracking-[0.12em] shrink-0 px-4 py-2"
               >
                 Claim Link &rarr;
               </button>
             </motion.form>
-
-            {/* Editorial Metadata Row */}
-            <motion.div
-              variants={fadeInVariants}
-              initial="hidden"
-              animate="visible"
-              custom={4}
-              className="pt-4 flex flex-wrap items-center gap-8 text-[11px] uppercase tracking-[0.16em] text-[var(--color-text-subtle)] border-t border-[var(--border-soft)]"
-            >
-              <span>50+ Auto-Detects</span>
-              <span>Collaborator Spotlight</span>
-              <span>Zero Tracking Cookies</span>
-            </motion.div>
           </div>
 
-          {/* Right Column: Architectural Framed Preview with Gentle Float */}
-          <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
+          {/* Right Column: Realistic Phone Mockup */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-              className="w-full max-w-[400px]"
+              className="w-full max-w-[360px]"
             >
-              <div className="p-4 sm:p-6 rounded-[12px] bg-[#001e42] border border-[var(--border-soft)] w-full">
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-soft)] text-[10px] tracking-[0.2em] uppercase text-[var(--color-text-subtle)]">
-                  <span>Live Sample &mdash; @alex</span>
-                  <span className="text-[#d0f600]">Active</span>
-                </div>
-                <PhonePreview profile={DEMO_PROFILE} links={DEMO_LINKS} />
-              </div>
+              <PhonePreview
+                profile={DEMO_PROFILE}
+                links={DEMO_LINKS}
+                floating={true}
+              />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Section 2: Numbered List Breakdown (01, 02, 03) */}
-      <section className="py-28 lg:py-36 px-6 lg:px-12 border-b border-[var(--border-soft)] bg-[#001e42]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          {/* Sticky Left Editorial Headline */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-5">
-            <span className="text-[11px] tracking-[0.22em] uppercase text-[#d0f600] font-semibold block">
-              The Architecture
+      {/* =========================================================================
+          3. HOW IT WORKS: Big heading on left, 3 numbered rows on right (01, 02, 03).
+          Separated by thin 1px lines. No cards, no icons.
+          Spacing: 128px desktop, 80px mobile.
+          ========================================================================= */}
+      <section
+        id="how-it-works"
+        className="py-20 lg:py-[128px] border-b border-[rgba(245,241,232,0.08)]"
+      >
+        <div className="quiet-container grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          {/* Big Section Heading Left with ONE italic word */}
+          <div className="lg:col-span-5 lg:sticky lg:top-32 space-y-4">
+            <span className="text-xs uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block font-body">
+              How It Works
             </span>
-            <h2 className="text-4xl sm:text-5xl font-heading font-medium tracking-tight text-[var(--color-text-offwhite)] leading-tight">
-              Crafted for precision, not <span className="italic font-normal text-[#d0f600]">templates</span>.
+            <h2 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-normal leading-[1.05] tracking-tight text-[#f5f1e8]">
+              Architecture for <span className="italic font-normal text-[#c9a96a]">curators</span>.
             </h2>
-            <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-md">
-              Every detail is considered: instant domain recognition, collaborator circulation, and calm analytics without third-party surveillance.
+            <p className="text-sm font-body text-[rgba(245,241,232,0.62)] leading-relaxed max-w-sm pt-2">
+              Every detail is calibrated for restraint: instant URL recognition, collaborator circulation, and quiet private analytics without algorithms.
             </p>
           </div>
 
-          {/* Right Numbered Rows with Thin 1px Dividers */}
-          <div className="lg:col-span-7 divide-y divide-[var(--border-soft)] border-t lg:border-t-0 border-[var(--border-soft)]">
+          {/* Three Numbered Rows on Right (01, 02, 03) */}
+          <div className="lg:col-span-7 divide-y divide-[rgba(245,241,232,0.08)] border-t lg:border-t-0 border-b border-[rgba(245,241,232,0.08)]">
             {/* 01 */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
-              className="py-10 space-y-4"
+              className="py-10 space-y-3"
             >
-              <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
-                01 / VERIFIED RECOGNITION
+              <span className="font-mono text-xs uppercase tracking-[0.14em] text-[#c9a96a] block">
+                01
               </span>
-              <h3 className="text-2xl font-heading font-medium text-[var(--color-text-offwhite)] tracking-tight">
-                Paste any link. We format the rest.
+              <h3 className="font-heading text-2xl sm:text-3xl font-normal text-[#f5f1e8] tracking-tight">
+                Connect every destination.
               </h3>
-              <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
-                Paste a URL from GitHub, Spotify, Substack, YouTube, Instagram, or 50+ other networks. Linklet recognizes the host, injects the verified symbol, and presents it with balanced typographic proportion.
+              <p className="text-sm sm:text-base font-body text-[rgba(245,241,232,0.62)] leading-relaxed max-w-xl">
+                Paste any link from GitHub, Substack, Spotify, YouTube, or 50+ other networks. Linklet detects the service, displays its authentic symbol, and typesets the card in balanced proportions.
               </p>
             </motion.div>
 
@@ -252,16 +438,16 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
-              className="py-10 space-y-4"
+              className="py-10 space-y-3"
             >
-              <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
-                02 / TRIO SPOTLIGHT
+              <span className="font-mono text-xs uppercase tracking-[0.14em] text-[#c9a96a] block">
+                02
               </span>
-              <h3 className="text-2xl font-heading font-medium text-[var(--color-text-offwhite)] tracking-tight">
-                Share your traffic with three people.
+              <h3 className="font-heading text-2xl sm:text-3xl font-normal text-[#f5f1e8] tracking-tight">
+                Circulate your audience.
               </h3>
-              <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
-                Rather than hoarding visitors, feature clients, co-founders, or peers in an understated footer. Linklet automatically pulls their photo from their URL or lets you upload portraits directly.
+              <p className="text-sm sm:text-base font-body text-[rgba(245,241,232,0.62)] leading-relaxed max-w-xl">
+                Rather than claiming exclusive attention, elevate friends, co-founders, and clients in your colophon. Add one, two, or three collaborators with automatic portrait resolution.
               </p>
             </motion.div>
 
@@ -271,96 +457,155 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
-              className="py-10 space-y-4"
+              className="py-10 space-y-3"
             >
-              <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
-                03 / PRIVATE METRICS
+              <span className="font-mono text-xs uppercase tracking-[0.14em] text-[#c9a96a] block">
+                03
               </span>
-              <h3 className="text-2xl font-heading font-medium text-[var(--color-text-offwhite)] tracking-tight">
-                Raw counts. Zero surveillance.
+              <h3 className="font-heading text-2xl sm:text-3xl font-normal text-[#f5f1e8] tracking-tight">
+                Observe private telemetry.
               </h3>
-              <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
-                A transparent real-time log of profile visits and direct link clicks. No ad tracking, no cross-site pixels, and no selling visitor data.
+              <p className="text-sm sm:text-base font-body text-[rgba(245,241,232,0.62)] leading-relaxed max-w-xl">
+                Review unadulterated counts of visits and destination clicks. No marketing surveillance, no third-party tracking cookies, and no data broker exchange.
               </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Section 3: Asymmetric Editorial Split Quote */}
-      <section className="py-28 lg:py-36 px-6 lg:px-12 border-b border-[var(--border-soft)]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          <div className="lg:col-span-8 space-y-6">
-            <span className="text-[11px] tracking-[0.22em] uppercase text-[var(--color-text-subtle)] font-semibold block">
-              Editorial Statement
+      {/* =========================================================================
+          4. SHOWCASE: Heading + 3 phone mockups side by side showing different profile styles,
+          slightly staggered vertically.
+          Spacing: 128px desktop, 80px mobile.
+          ========================================================================= */}
+      <section
+        id="showcase"
+        className="py-20 lg:py-[128px] border-b border-[rgba(245,241,232,0.08)] bg-[#0a0f1c]"
+      >
+        <div className="quiet-container space-y-16">
+          {/* Section Heading */}
+          <div className="text-left space-y-3">
+            <span className="text-xs uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block font-body">
+              Showcase
             </span>
-            <blockquote className="text-3xl sm:text-5xl font-heading font-medium leading-[1.12] text-[var(--color-text-offwhite)] tracking-tight">
-              &ldquo;A link in bio shouldn&rsquo;t feel like a link tree. It should read like your personal <span className="italic font-normal text-[#d0f600]">colophon</span>.&rdquo;
-            </blockquote>
+            <h2 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-normal leading-[1.05] tracking-tight text-[#f5f1e8]">
+              Selected <span className="italic font-normal text-[#c9a96a]">colophons</span>.
+            </h2>
+            <p className="text-sm sm:text-base font-body text-[rgba(245,241,232,0.62)] leading-relaxed max-w-md">
+              Distinct profiles across product design, sound composition, and architectural criticism.
+            </p>
           </div>
-          <div className="lg:col-span-4 border-l border-[var(--border-soft)] pl-8 space-y-3">
-            <p className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)]">
-              Designed For
-            </p>
-            <p className="text-sm text-[var(--color-text-offwhite)] font-medium leading-relaxed">
-              Designers, writers, researchers, developers, and photographers who value white space over noise.
-            </p>
+
+          {/* 3 Staggered Phone Mockups */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-8 items-start pt-4">
+            {/* Phone 1: Product Design */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as const }}
+              className="flex flex-col items-center"
+            >
+              <div className="w-full pb-4 text-center text-xs font-mono text-[rgba(245,241,232,0.38)] uppercase tracking-[0.14em]">
+                01 / Product Architecture
+              </div>
+              <PhonePreview
+                profile={DEMO_PROFILE}
+                links={DEMO_LINKS}
+                isInteractive={false}
+              />
+            </motion.div>
+
+            {/* Phone 2: Sound Design (Staggered down by 32px on desktop) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] as const }}
+              className="flex flex-col items-center lg:translate-y-8"
+            >
+              <div className="w-full pb-4 text-center text-xs font-mono text-[rgba(245,241,232,0.38)] uppercase tracking-[0.14em]">
+                02 / Acoustic Composition
+              </div>
+              <PhonePreview
+                profile={SHOWCASE_PROFILE_2}
+                links={SHOWCASE_LINKS_2}
+                isInteractive={false}
+              />
+            </motion.div>
+
+            {/* Phone 3: Architectural Criticism (Staggered down by 64px on desktop) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
+              className="flex flex-col items-center lg:translate-y-16"
+            >
+              <div className="w-full pb-4 text-center text-xs font-mono text-[rgba(245,241,232,0.38)] uppercase tracking-[0.14em]">
+                03 / Spatial Criticism
+              </div>
+              <PhonePreview
+                profile={SHOWCASE_PROFILE_3}
+                links={SHOWCASE_LINKS_3}
+                isInteractive={false}
+              />
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Section 4: Spacious Final Colophon CTA */}
-      <section className="py-24 lg:py-32 px-6 lg:px-12">
-        <div className="max-w-4xl mx-auto text-left space-y-8">
-          <span className="text-[11px] tracking-[0.22em] uppercase text-[#d0f600] font-semibold block">
-            Start Your Archive
-          </span>
-
-          <h2 className="text-4xl sm:text-6xl font-heading font-medium tracking-tight text-[var(--color-text-offwhite)] leading-tight">
-            Claim your <span className="italic font-normal text-[#d0f600]">name</span> today.
+      {/* =========================================================================
+          5. FINAL CTA + FOOTER:
+          Simple centered serif line, one champagne button.
+          Below it, minimal footer: logo, 4 links, copyright. Done.
+          Spacing: 128px desktop, 80px mobile.
+          ========================================================================= */}
+      <section className="pt-20 lg:pt-[128px] pb-16 lg:pb-[96px]">
+        <div className="quiet-container text-center space-y-8">
+          <h2 className="font-heading text-4xl sm:text-6xl font-normal tracking-[-0.02em] text-[#f5f1e8] max-w-2xl mx-auto leading-tight">
+            Claim your <span className="italic font-normal text-[#c9a96a]">name</span> in the quiet archive.
           </h2>
 
-          <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="pt-2 flex justify-center">
             <Link
               href="/signup"
-              className="btn-lime text-xs uppercase tracking-[0.14em]"
+              className="btn-champagne text-xs uppercase tracking-[0.14em] px-8 py-3.5"
             >
-              Create Your Linklet &rarr;
+              Claim Your Link &rarr;
             </Link>
-            <Link
-              href="/alex"
-              className="btn-outline text-xs uppercase tracking-[0.14em]"
-            >
-              Explore Sample Profile
+          </div>
+        </div>
+
+        {/* Minimal Footer: Logo, 4 Links, Copyright */}
+        <div className="quiet-container mt-24 pt-8 border-t border-[rgba(245,241,232,0.08)] flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-body text-[rgba(245,241,232,0.38)]">
+          <div className="flex items-center gap-3">
+            <BrandLogo className="w-4 h-4 text-[#c9a96a]" />
+            <span className="font-heading text-base font-normal text-[#f5f1e8]">Linklet</span>
+            <span className="text-[rgba(245,241,232,0.2)]">&mdash;</span>
+            <span>Quiet Profile System</span>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <a href="#showcase" className="hover:text-[#f5f1e8] transition-colors">
+              Showcase
+            </a>
+            <Link href="/alex" className="hover:text-[#f5f1e8] transition-colors">
+              Colophon
             </Link>
+            <Link href="/login" className="hover:text-[#f5f1e8] transition-colors">
+              Sign In
+            </Link>
+            <Link href="/signup" className="hover:text-[#f5f1e8] transition-colors">
+              Get Started
+            </Link>
+          </div>
+
+          <div>
+            &copy; {new Date().getFullYear()} Linklet. All rights reserved.
           </div>
         </div>
       </section>
-
-      {/* Footer Colophon */}
-      <footer className="mt-auto py-12 px-6 lg:px-12 border-t border-[var(--border-soft)] bg-[#001026] text-[11px] tracking-[0.14em] uppercase text-[var(--color-text-subtle)]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <span className="font-heading font-medium text-sm text-[var(--color-text-offwhite)] tracking-tight">
-              LINKLET
-            </span>
-            <span>&mdash;</span>
-            <span>Minimal Profile System</span>
-          </div>
-
-          <div className="flex items-center gap-8">
-            <Link href="/alex" className="hover:text-white transition-colors">
-              Directory
-            </Link>
-            <Link href="/dashboard" className="hover:text-white transition-colors">
-              Studio
-            </Link>
-            <Link href="/login" className="hover:text-white transition-colors">
-              Sign In
-            </Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

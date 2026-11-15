@@ -37,7 +37,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <aside aria-label="Notifications" className="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none">
+      <aside aria-label="Notifications" className="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none font-body">
         <AnimatePresence>
           {toasts.map((toast) => (
             <motion.div
@@ -46,18 +46,18 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className={`p-3.5 rounded-[12px] border flex items-center justify-between gap-3 shadow-2xl pointer-events-auto select-none font-body ${
+              className={`p-3.5 rounded-[12px] border flex items-center justify-between gap-3 shadow-2xl pointer-events-auto select-none ${
                 toast.type === "success"
-                  ? "bg-[#001e42] border-[#d0f600]/40 text-[#f4f7fb]"
+                  ? "bg-[#121a2e] border-[#c9a96a]/40 text-[#f5f1e8]"
                   : toast.type === "error"
                   ? "bg-[#250d15] border-rose-500/40 text-rose-100"
-                  : "bg-[#001e42] border-[var(--border-soft)] text-[#f4f7fb]"
+                  : "bg-[#121a2e] border-[rgba(245,241,232,0.08)] text-[#f5f1e8]"
               }`}
             >
               <div className="flex items-center gap-2.5 min-w-0">
                 {toast.type === "success" && (
-                  <div className="w-5 h-5 rounded-full bg-[#d0f600]/20 flex items-center justify-center shrink-0">
-                    <Check className="w-3 h-3 text-[#d0f600]" strokeWidth={2.5} />
+                  <div className="w-5 h-5 rounded-full bg-[#c9a96a]/20 flex items-center justify-center shrink-0">
+                    <Check className="w-3 h-3 text-[#c9a96a]" strokeWidth={2.5} />
                   </div>
                 )}
                 {toast.type === "error" && (
@@ -70,7 +70,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                     <Info className="w-3 h-3 text-sky-400" strokeWidth={2} />
                   </div>
                 )}
-                <span className="text-xs font-medium tracking-tight truncate">
+                <span className="text-xs font-normal tracking-tight truncate">
                   {toast.message}
                 </span>
               </div>
@@ -78,7 +78,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               <button
                 type="button"
                 onClick={() => removeToast(toast.id)}
-                className="text-[var(--color-text-subtle)] hover:text-white transition-colors shrink-0 p-1"
+                className="text-[rgba(245,241,232,0.38)] hover:text-white transition-colors shrink-0 p-1"
               >
                 <X className="w-3.5 h-3.5" />
               </button>

@@ -18,45 +18,43 @@ export function SpeechBubble({
 
   const resolvedStyle = styleType || "speech";
 
-  // THOUGHT CLOUD BUBBLE: Crisp pill contour with clean descending thought circles
+  // Thought Bubble
   if (resolvedStyle === "cloud") {
     return (
-      <div className={`mb-3 flex flex-col items-center animate-fade-in ${className}`}>
-        <div className="relative px-5 py-2 rounded-full bg-[#111827] border border-white/20 text-center max-w-[280px] shadow-md">
-          <span className="text-xs text-[#f3f4f6] font-medium leading-relaxed">
+      <div className={`mb-4 flex flex-col items-center animate-fade-in ${className}`}>
+        <div className="relative px-4 py-1.5 rounded-full bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-center max-w-[280px]">
+          <span className="text-xs text-[rgba(245,241,232,0.62)] font-body font-normal leading-relaxed">
             {message}
           </span>
         </div>
-        {/* Clean descending thought dots pointing directly to avatar */}
         <div className="flex flex-col items-center gap-1 mt-1">
-          <div className="w-2 h-2 rounded-full bg-[#111827] border border-white/20" />
-          <div className="w-1.2 h-1.2 rounded-full bg-[#111827] border border-white/20" />
+          <div className="w-1.5 h-1.5 rounded-full bg-[#121a2e] border border-[rgba(245,241,232,0.08)]" />
+          <div className="w-1 h-1 rounded-full bg-[#121a2e] border border-[rgba(245,241,232,0.08)]" />
         </div>
       </div>
     );
   }
 
-  // DIALOGUE SPEECH BUBBLE: Smooth conversational balloon with centered downward tail
+  // Dialogue Speech Bubble
   if (resolvedStyle === "speech") {
     return (
-      <div className={`mb-3 flex flex-col items-center animate-fade-in ${className}`}>
-        <div className="relative px-4 py-2 rounded-[14px] bg-[#111827] border border-white/20 text-center max-w-[280px] shadow-md">
-          <span className="text-xs text-[#f3f4f6] font-medium leading-relaxed">
+      <div className={`mb-4 flex flex-col items-center animate-fade-in ${className}`}>
+        <div className="relative px-4 py-1.5 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-center max-w-[280px]">
+          <span className="text-xs text-[rgba(245,241,232,0.62)] font-body font-normal leading-relaxed">
             {message}
           </span>
-          {/* Centered Downward Speech Pointer */}
-          <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#111827] border-b border-r border-white/20 rotate-45" />
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#121a2e] border-b border-r border-[rgba(245,241,232,0.08)] rotate-45" />
         </div>
       </div>
     );
   }
 
-  // EDITORIAL / RETRO PLAQUE: Sleek status badge
+  // Understated Status Pill
   return (
-    <div className={`mb-3 flex flex-col items-center animate-fade-in ${className}`}>
-      <div className="px-3.5 py-1.5 rounded-[6px] bg-[#111827] border border-white/20 text-center max-w-[280px] flex items-center gap-2 shadow-sm">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] shrink-0 animate-pulse" />
-        <span className="text-xs font-mono tracking-wide text-[#f3f4f6]">
+    <div className={`mb-4 flex flex-col items-center animate-fade-in ${className}`}>
+      <div className="px-3.5 py-1 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-center max-w-[280px] flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#c9a96a] shrink-0" />
+        <span className="text-xs font-body text-[rgba(245,241,232,0.62)]">
           {message}
         </span>
       </div>

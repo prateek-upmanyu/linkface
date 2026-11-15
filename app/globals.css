@@ -1,113 +1,114 @@
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500;1,6..96,600;1,6..96,700&family=Manrope:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   /* =========================================================================
-     LINKLET EDITORIAL LUXURY SYSTEM
-     - Main Palette: Heritage Blue (#002e62)
-     - Accents: Acid Lime (#d0f600) — rare, ~5% of UI
-     - Typography: Bodoni Moda (High-fashion Editorial Headings) & Manrope (Body/UI)
-     - Spacing Scale: 4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px, 96px, 128px
-     - Radii: 12px (Surfaces) and 9999px (Buttons/Pills) ONLY
+     QUIET LUXURY DESIGN TOKENS
+     - Background: #0a0f1c
+     - Surface: #121a2e, Raised: #18223a
+     - Borders: rgba(245,241,232,0.08), Strong: rgba(245,241,232,0.16)
+     - Text: #f5f1e8, Muted: rgba(245,241,232,0.62), Faint: rgba(245,241,232,0.38)
+     - Accent: Champagne #c9a96a, Hover: #d9bb80 (Max 2-3 accent elements visible)
+     - Fonts: Instrument Serif (headings), Inter (body/UI)
+     - Spacing Scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 160
+     - Radii: 12px for cards & inputs, 999px for buttons
      ========================================================================= */
 
-  /* Primary Palette */
-  --color-heritage-deep: #001530;
-  --color-heritage-dark: #001e42;
-  --color-heritage-blue: #002e62;
-  --color-heritage-surface: #0a3d7a;
-  --color-heritage-card: #002654;
+  /* Palette */
+  --color-bg: #0a0f1c;
+  --color-surface: #121a2e;
+  --color-raised: #18223a;
 
-  /* Rare Accent (5%) */
-  --color-acid-lime: #d0f600;
-  --color-acid-lime-hover: #bde000;
-  --color-text-on-lime: #002e62;
+  --border-subtle: rgba(245, 241, 232, 0.08);
+  --border-strong: rgba(245, 241, 232, 0.16);
+  --border-focus: #c9a96a;
 
-  /* Text & Neutrals */
-  --color-text-offwhite: #f4f7fb;
-  --color-text-muted: #8ea8c7;
-  --color-text-subtle: #5c7b9e;
+  --color-text: #f5f1e8;
+  --color-text-muted: rgba(245, 241, 232, 0.62);
+  --color-text-faint: rgba(245, 241, 232, 0.38);
 
-  /* Fine 1px Borders */
-  --border-soft: rgba(142, 168, 199, 0.16);
-  --border-medium: rgba(142, 168, 199, 0.28);
-  --border-lime: #d0f600;
+  --color-champagne: #c9a96a;
+  --color-champagne-hover: #d9bb80;
+  --color-text-on-champagne: #0a0f1c;
+
+  /* Aliases for backward system compatibility */
+  --color-heritage-deep: #0a0f1c;
+  --color-heritage-dark: #121a2e;
+  --color-heritage-surface: #18223a;
+  --color-heritage-card: #121a2e;
+  --color-heritage-blue: #121a2e;
+  --color-acid-lime: #c9a96a;
+  --color-acid-lime-hover: #d9bb80;
+  --color-text-on-lime: #0a0f1c;
+  --color-text-offwhite: #f5f1e8;
+  --color-text-subtle: rgba(245, 241, 232, 0.38);
+  --border-soft: rgba(245, 241, 232, 0.08);
+  --border-medium: rgba(245, 241, 232, 0.16);
 
   /* Strict Radii (2 sizes only) */
+  --radius-card: 12px;
+  --radius-input: 12px;
+  --radius-button: 999px;
   --radius-surface: 12px;
-  --radius-button: 9999px;
 
   /* Typography */
-  --font-heading: 'Bodoni Moda', Georgia, serif;
-  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--color-heritage-deep);
-  --color-foreground: var(--color-text-offwhite);
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
 }
 
 /* =========================================================================
-   BASE STYLES & LUXURY TEXTURE
+   BASE STYLES
    ========================================================================= */
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--color-bg);
 }
 
 body {
-  background-color: var(--color-heritage-deep);
-  color: var(--color-text-offwhite);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-body);
   min-height: 100vh;
   line-height: 1.65;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  position: relative;
 }
 
-/* Subtle tactile noise texture on dark luxury backgrounds */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* High-Fashion Selection Color */
+/* Subtle Champagne Selection Color */
 ::selection {
-  background-color: var(--color-heritage-surface);
-  color: var(--color-acid-lime);
+  background-color: var(--color-raised);
+  color: var(--color-champagne);
 }
 
-/* Custom Minimalist Scrollbar */
+/* Minimalist Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-heritage-deep);
+  background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-heritage-surface);
-  border-radius: 9999px;
+  background: var(--color-surface);
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-acid-lime);
+  background: var(--color-champagne);
 }
 
-/* Typography Helpers */
+/* Typography Classes */
 .font-heading {
   font-family: var(--font-heading);
 }
@@ -117,76 +118,81 @@ body::before {
 }
 
 /* =========================================================================
-   TWO BUTTON STYLES ONLY (Solid Lime & Thin Outline)
+   BUTTONS (Only 2 styles: Champagne Solid & Fine Outline)
    ========================================================================= */
 
-/* Style 1: Solid Lime with Heritage Blue text */
+/* Primary Button: Champagne with Dark Slate text */
+.btn-champagne,
 .btn-lime,
 .luxury-btn-lime,
 .luxury-btn-gold {
-  background-color: var(--color-acid-lime);
-  color: var(--color-text-on-lime);
+  background-color: var(--color-champagne);
+  color: var(--color-text-on-champagne);
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.8125rem;
+  font-weight: 500;
+  font-size: 0.875rem;
   line-height: 1;
-  padding: 0.75rem 1.35rem;
+  padding: 0.75rem 1.5rem;
   border-radius: var(--radius-button);
-  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s ease, opacity 0.2s ease;
+  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 1px solid var(--color-acid-lime);
+  border: 1px solid var(--color-champagne);
   user-select: none;
+  min-height: 44px;
 }
 
+.btn-champagne:hover,
 .btn-lime:hover,
 .luxury-btn-lime:hover,
 .luxury-btn-gold:hover {
-  background-color: var(--color-acid-lime-hover);
-  transform: translateY(-1px);
+  background-color: var(--color-champagne-hover);
+  border-color: var(--color-champagne-hover);
 }
 
+.btn-champagne:active,
 .btn-lime:active,
 .luxury-btn-lime:active,
 .luxury-btn-gold:active {
   transform: scale(0.98);
 }
 
+.btn-champagne:focus-visible,
 .btn-lime:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-heritage-deep), 0 0 0 4px var(--color-acid-lime);
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-champagne);
 }
 
-/* Style 2: Thin Outline */
+/* Secondary Button: Thin Outline */
 .btn-outline,
 .luxury-btn-outline {
   background: transparent;
-  color: var(--color-text-offwhite);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1;
-  padding: 0.75rem 1.35rem;
+  padding: 0.75rem 1.5rem;
   border-radius: var(--radius-button);
-  border: 1px solid var(--border-soft);
-  transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   user-select: none;
+  min-height: 44px;
 }
 
 .btn-outline:hover,
 .luxury-btn-outline:hover {
-  border-color: var(--color-acid-lime);
-  color: var(--color-text-offwhite);
-  background-color: rgba(208, 246, 0, 0.04);
-  transform: translateY(-1px);
+  border-color: var(--border-strong);
+  color: #ffffff;
+  background-color: rgba(245, 241, 232, 0.04);
 }
 
 .btn-outline:active,
@@ -196,44 +202,45 @@ body::before {
 
 .btn-outline:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-heritage-deep), 0 0 0 4px var(--color-acid-lime);
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-champagne);
 }
 
 /* =========================================================================
-   SURFACES & INPUTS (12px Radius, 1px Border)
+   SURFACES & INPUTS (12px Radius, 1px Border, Zero Drop Shadows)
    ========================================================================= */
 
 .luxury-card {
-  background: var(--color-heritage-card);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-surface);
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  background: var(--color-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
 .luxury-card:hover {
-  border-color: var(--border-medium);
+  border-color: var(--border-strong);
 }
 
 .luxury-input {
-  background: var(--color-heritage-deep);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-surface);
-  color: var(--color-text-offwhite);
+  background: var(--color-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-input);
+  color: var(--color-text);
   font-family: var(--font-body);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 44px;
 }
 
 .luxury-input:focus {
   outline: none;
-  border-color: var(--color-acid-lime);
-  box-shadow: 0 0 0 1px var(--color-acid-lime);
+  border-color: var(--color-champagne);
+  box-shadow: 0 0 0 1px var(--color-champagne);
 }
 
 .luxury-input::placeholder {
-  color: var(--color-text-subtle);
+  color: var(--color-text-faint);
 }
 
-/* Subtle Link Underline Slide Animation */
+/* Slide-in Animated Underline for Links */
 .editorial-link {
   position: relative;
   display: inline-block;
@@ -247,35 +254,43 @@ body::before {
   height: 1px;
   bottom: -2px;
   left: 0;
-  background-color: var(--color-acid-lime);
-  transform-origin: bottom right;
+  background-color: var(--color-champagne);
+  transform-origin: bottom left;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .editorial-link:hover::after {
   transform: scaleX(1);
-  transform-origin: bottom left;
 }
 
-/* Skeletons */
-.luxury-skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(142, 168, 199, 0.08) 25%,
-    rgba(142, 168, 199, 0.18) 50%,
-    rgba(142, 168, 199, 0.08) 75%
-  );
-  background-size: 200% 100%;
-  animation: luxuryShimmer 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
-  border-radius: var(--radius-surface);
-}
-
-@keyframes luxuryShimmer {
-  0% {
-    background-position: 200% 0;
+/* Phone Mockup Floating Keyframe */
+@keyframes phoneFloat {
+  0%, 100% {
+    transform: translateY(0px);
   }
-  100% {
-    background-position: -200% 0;
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-phone-float {
+  animation: phoneFloat 6s ease-in-out infinite;
+}
+
+/* Responsive Container */
+.quiet-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+@media (min-width: 768px) {
+  .quiet-container {
+    padding-left: 48px;
+    padding-right: 48px;
   }
 }
 
@@ -288,5 +303,8 @@ body::before {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .animate-phone-float {
+    animation: none !important;
   }
 }

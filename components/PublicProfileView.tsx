@@ -9,7 +9,6 @@ import { FeaturedCreators } from "@/components/FeaturedCreators";
 import { SoundToggle } from "@/components/SoundToggle";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { BrandLogo } from "@/components/BrandLogo";
-import { getTheme } from "@/lib/themes";
 
 interface PublicProfileViewProps {
   initialProfile: Profile;
@@ -48,86 +47,68 @@ export function PublicProfileView({
     }
   }, [initialProfile.username]);
 
-  const theme = getTheme(profile.theme);
-
-  // Dynamic typography & surface styling per theme
-  // 1. APPLE MODERN: San Francisco + #1D1D1F / #F5F5F7 / #007AFF
-  let titleClass =
-    "font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro','Helvetica_Neue',sans-serif] text-2xl sm:text-3xl font-semibold tracking-tight text-[#F5F5F7]";
-  let bioClass = "font-[-apple-system,sans-serif] text-xs sm:text-sm text-[#AAAAAA]";
-  let avatarRing = "ring-2 ring-[#AAAAAA]/30 shadow-[0_0_24px_rgba(0,122,255,0.25)]";
-  let bgClass = "bg-[#1D1D1F] text-[#F5F5F7]";
-
-  // 2. BMW: Helvetica Bold + #000000 / #4AA5D2 / #FFFFFF
-  if (theme.id === "bmw") {
-    titleClass =
-      "font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-xl sm:text-2xl font-bold tracking-tight uppercase text-[#FFFFFF]";
-    bioClass = "font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-xs sm:text-sm text-[#4AA5D2]/80";
-    avatarRing = "ring-2 ring-[#4AA5D2] shadow-[0_0_30px_rgba(74,165,210,0.5)]";
-    bgClass = "bg-[#000000] text-[#FFFFFF]";
-  } else if (theme.id === "minecraft") {
-    titleClass =
-      "font-['Silkscreen',monospace] text-base sm:text-lg font-bold tracking-widest uppercase text-white drop-shadow-[2px_2px_0px_#000]";
-    bioClass = "font-['Silkscreen',monospace] text-xs text-[#aaaaaa]";
-    avatarRing = "border-2 border-[#55FF55] rounded-none";
-    bgClass = "bg-[#141416] text-[#e0e0e0]";
-  }
-
   const visibleLinks = links.filter((l) => l.is_visible);
+  const initials = (profile.display_name || profile.username || "U")
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
-    <div
-      className={`min-h-screen flex flex-col justify-between items-center px-4 py-10 sm:py-16 transition-colors duration-200 ${bgClass}`}
-    >
+    <div className="min-h-screen bg-[#0a0f1c] text-[#f5f1e8] flex flex-col justify-between items-center px-6 py-16 selection:bg-[#18223a] selection:text-[#c9a96a]">
       <PageViewTracker username={profile.username} />
 
-      {/* Floating Sound Control */}
-      <div className="fixed top-5 right-5 z-40">
+      {/* Floating Sound Control (Subtle top right) */}
+      <div className="fixed top-6 right-6 z-40">
         <SoundToggle />
       </div>
 
-      {/* Main Profile Canvas */}
-      <main className="w-full max-w-md mx-auto flex flex-col items-center">
-        {/* Status / Floating Message Bubble */}
+      {/* Centered Column Max 480px */}
+      <main className="w-full max-w-[480px] mx-auto flex flex-col items-center">
+        {/* Status / Speech Bubble */}
         <SpeechBubble
           message={profile.status_message}
           styleType={profile.status_style}
         />
 
-        {/* Profile Avatar */}
-        <div className="relative mb-4">
+        {/* 96px Avatar with 1px #c9a96a 40% border */}
+        <div className="relative mb-5">
           {profile.avatar_url ? (
             <img
               src={profile.avatar_url}
               alt={profile.display_name || profile.username}
-              className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover ${avatarRing}`}
+              className="w-24 h-24 rounded-full object-cover border border-[#c9a96a]/40"
             />
           ) : (
-            <div
-              className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-3xl font-semibold bg-white/10 text-white ${avatarRing}`}
-            >
-              {profile.display_name?.charAt(0) || profile.username?.charAt(0)}
+            <div className="w-24 h-24 rounded-full flex items-center justify-center font-heading text-3xl font-normal bg-[#121a2e] text-[#f5f1e8] border border-[#c9a96a]/40">
+              {initials}
             </div>
           )}
         </div>
 
-        {/* Display Name ONLY - No redundant email handle beneath it */}
-        <h1 className={`text-center leading-tight ${titleClass}`}>
+        {/* Name in Instrument Serif 32px */}
+        <h1 className="font-heading text-[32px] font-normal leading-tight tracking-tight text-[#f5f1e8] text-center">
           {profile.display_name || profile.username}
         </h1>
 
-        {/* Bio */}
+        {/* Faint @handle below (NEVER showing raw email) */}
+        <p className="mt-1 text-xs font-body text-[rgba(245,241,232,0.38)] tracking-wide text-center">
+          @{profile.username}
+        </p>
+
+        {/* Bio in Inter 14px, muted, max 3 lines */}
         {profile.bio && (
-          <p className={`text-center max-w-sm mt-2.5 leading-relaxed ${bioClass}`}>
+          <p className="mt-3 text-sm font-body text-[rgba(245,241,232,0.62)] leading-relaxed max-w-[400px] text-center line-clamp-3">
             {profile.bio}
           </p>
         )}
 
-        {/* Links Stack */}
-        <div className="w-full space-y-3 mt-7">
+        {/* Links Stack (56px tall buttons with #121a2e surface) */}
+        <div className="w-full space-y-3 mt-8">
           {visibleLinks.length === 0 ? (
-            <div className="py-10 text-center opacity-60 rounded-[14px] border border-dashed border-white/15">
-              <p className="text-xs text-white">No links shared yet.</p>
+            <div className="py-12 text-center rounded-[12px] border border-dashed border-[rgba(245,241,232,0.12)]">
+              <p className="text-xs text-[rgba(245,241,232,0.38)] font-body">No links published yet.</p>
             </div>
           ) : (
             visibleLinks.map((link) => (
@@ -140,22 +121,21 @@ export function PublicProfileView({
           )}
         </div>
 
-        {/* Featured Spotlight (1, 2, or 3 collaborators) - Always invoked; FeaturedCreators hides automatically if empty */}
+        {/* Featured Collaborators */}
         <FeaturedCreators
           creators={profile.featured_creators}
           themeId={profile.theme}
-          className="mt-6"
         />
       </main>
 
-      {/* Clean Minimal Footer */}
+      {/* Tiny Footer: 'Made with Linklet' in faint 12px Inter */}
       <footer className="mt-16 text-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-medium tracking-wide transition-colors border border-white/10 bg-white/[0.04] text-white/60 hover:text-white hover:border-white/20"
+          className="inline-flex items-center gap-2 text-xs font-body text-[rgba(245,241,232,0.38)] hover:text-[#f5f1e8] transition-colors"
         >
-          <BrandLogo className="w-3.5 h-3.5" />
-          <span>Linklet</span>
+          <BrandLogo className="w-3.5 h-3.5 opacity-60" />
+          <span>Made with Linklet</span>
         </Link>
       </footer>
     </div>

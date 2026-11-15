@@ -54,21 +54,21 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 luxury-card border border-[var(--border-soft)] font-body"
+      className="p-6 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] font-body"
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#d0f600]">
-            Input
+          <span className="text-[11px] font-mono tracking-[0.14em] uppercase text-[#c9a96a]">
+            Curate
           </span>
-          <span className="text-[var(--color-text-subtle)] text-xs">&mdash;</span>
-          <h3 className="font-heading text-base font-medium text-[var(--color-text-offwhite)]">
-            Add New Link
+          <span className="text-[rgba(245,241,232,0.3)] text-xs">&mdash;</span>
+          <h3 className="font-heading text-lg font-normal text-[#f5f1e8]">
+            Add New Destination
           </h3>
         </div>
         {detected?.platformId && (
-          <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#001a3a] border border-[#d0f600]/40 text-[#d0f600] flex items-center gap-1.5 font-body font-medium">
-            <Check className="w-3 h-3 text-[#d0f600]" />
+          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#18223a] border border-[#c9a96a]/40 text-[#c9a96a] flex items-center gap-1.5 font-body">
+            <Check className="w-3 h-3 text-[#c9a96a]" />
             {detected.name}
           </span>
         )}
@@ -81,9 +81,9 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
             <div
               className="w-7 h-7 rounded-[6px] flex items-center justify-center"
               style={{
-                backgroundColor: detected.brandColor ? `${detected.brandColor}25` : "rgba(208,246,0,0.15)",
+                backgroundColor: detected.brandColor ? `${detected.brandColor}20` : "rgba(201,169,106,0.15)",
                 color: detected.brandColor || "#ffffff",
-                border: `1px solid ${detected.brandColor || "rgba(208,246,0,0.3)"}`,
+                border: `1px solid ${detected.brandColor || "rgba(201,169,106,0.3)"}`,
               }}
             >
               <PlatformIcon
@@ -95,7 +95,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
               />
             </div>
           ) : (
-            <Link2 className="w-4 h-4 text-[var(--color-text-subtle)]" strokeWidth={1.5} />
+            <Link2 className="w-4 h-4 text-[rgba(245,241,232,0.38)]" strokeWidth={1.5} />
           )}
         </div>
 
@@ -107,13 +107,13 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
             if (error) setError("");
           }}
           placeholder="Paste URL (e.g. youtube.com/@channel, spotify.com, or yoursite.com)"
-          className="w-full pl-12 pr-28 py-3 luxury-input text-xs sm:text-sm text-[var(--color-text-offwhite)] focus:outline-none"
+          className="w-full pl-12 pr-28 py-3 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a] transition-colors"
         />
 
         <button
           type="submit"
           disabled={isLoading || !url.trim()}
-          className="absolute right-2 btn-lime text-xs uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+          className="absolute right-2 btn-champagne text-xs uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 px-4 py-1.5 min-h-[36px]"
         >
           <Plus className="w-3.5 h-3.5" />
           Add
@@ -128,7 +128,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
           <button
             type="button"
             onClick={() => setShowAdvanced(true)}
-            className="text-[11px] text-[var(--color-text-muted)] hover:text-[var(--color-text-offwhite)] transition-colors underline"
+            className="text-xs text-[rgba(245,241,232,0.38)] hover:text-[#f5f1e8] transition-colors underline"
           >
             + Customize link title before adding
           </button>
@@ -139,7 +139,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
               value={customTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="Custom title (defaults to auto-detected platform name)"
-              className="w-full px-3.5 py-2 luxury-input text-xs text-[var(--color-text-offwhite)] focus:outline-none"
+              className="w-full px-3.5 py-2 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
             />
           </div>
         )}
