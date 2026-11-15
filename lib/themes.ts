@@ -290,7 +290,7 @@ export const THEMES: Record<string, ThemeConfig> = {
   // 13. APPLE (Modern Light, San Francisco Font)
   apple: {
     id: "apple",
-    name: "Apple Modern",
+    name: "Cupertino Modern",
     isDark: false,
     isPro: true,
     bg: "#f5f5f7",
@@ -312,7 +312,7 @@ export const THEMES: Record<string, ThemeConfig> = {
   // 14. BMW (Performance Black & M Blue, Helvetica Bold)
   bmw: {
     id: "bmw",
-    name: "BMW Performance",
+    name: "Bavarian Motorsport",
     isDark: true,
     isPro: true,
     bg: "#000000",
@@ -334,7 +334,7 @@ export const THEMES: Record<string, ThemeConfig> = {
   // 15. MINECRAFT (8-Bit Blocky Voxel, Diamond Cyan & Grass Green)
   minecraft: {
     id: "minecraft",
-    name: "Minecraft Voxel",
+    name: "Voxel 8-Bit",
     isDark: true,
     isPro: true,
     bg: "#151413",
