@@ -16,35 +16,40 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #F4D03F 0%, #F39C12 50%, #E67E22 100%)",
+          backgroundColor: "#18181B",
           borderRadius: "14px",
-          boxShadow: "0 2px 8px rgba(230, 126, 34, 0.4)",
+          border: "1.5px solid rgba(245, 158, 11, 0.6)",
         }}
       >
         <svg
-          width="32"
-          height="32"
-          viewBox="0 0 32 32"
+          width="34"
+          height="34"
+          viewBox="0 0 44 44"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M11 9C9 7 6 7 4 9C2 11 2 14 4 16L8 20C10 22 13 22 15 20C17 18 17 15 15 13L13 11"
-            stroke="#FFFFFF"
-            strokeWidth="2.8"
+            d="M16 11C12.7 11 10 13.7 10 17V24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24V17C22 13.7 19.3 11 16 11Z"
+            stroke="#F59E0B"
+            strokeWidth="3.6"
             strokeLinecap="round"
             strokeLinejoin="round"
-            transform="translate(4, 1)"
           />
           <path
-            d="M21 23C23 25 26 25 28 23C30 21 30 18 28 16L24 12C22 10 19 10 17 12C15 14 15 17 17 19L19 21"
-            stroke="#FFFFFF"
-            strokeWidth="2.8"
+            d="M27 22C23.7 22 21 24.7 21 28C21 31.3 23.7 34 27 34H31C34.3 34 37 31.3 37 28C37 24.7 34.3 22 31 22H27Z"
+            stroke="#EA580C"
+            strokeWidth="3.6"
             strokeLinecap="round"
             strokeLinejoin="round"
-            transform="translate(-4, -1)"
           />
-          <circle cx="16" cy="16" r="1.8" fill="#FFFFFF" />
+          <path
+            d="M17 25L26 21"
+            stroke="#FDE047"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+          <circle cx="21.5" cy="23" r="2.8" fill="#FDE047" />
+          <circle cx="21.5" cy="23" r="1.2" fill="#18181B" />
         </svg>
       </div>
     ),
