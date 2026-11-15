@@ -36,12 +36,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/brand-logo-64.png", sizes: "64x64", type: "image/png" },
-      { url: "/brand-logo-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico?v=3", sizes: "any" },
+      { url: "/brand-logo-64.png?v=3", sizes: "64x64", type: "image/png" },
+      { url: "/brand-logo-32.png?v=3", sizes: "32x32", type: "image/png" },
     ],
     apple: [
-      { url: "/brand-logo-128.png", sizes: "128x128", type: "image/png" },
+      { url: "/brand-logo-128.png?v=3", sizes: "128x128", type: "image/png" },
     ],
   },
 };

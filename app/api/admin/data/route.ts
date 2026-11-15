@@ -13,10 +13,10 @@ export async function GET(req: NextRequest) {
         userEmail = user?.email || null;
       }
     } catch {
-      // Continue to cookie check
+      // Continue to header/cookie check
     }
 
-    const authorized = await isAuthorizedAdmin(userEmail);
+    const authorized = await isAuthorizedAdmin(req, userEmail);
     if (!authorized) {
       return NextResponse.json({ error: "Unauthorized access to admin console." }, { status: 401 });
     }
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Admin database service unavailable." }, { status: 503 });
     }
 
-    // 2. Fetch profiles
+    // 2. Fetch profiles safely
     const { data: profiles, error: profileErr } = await supabaseAdmin
       .from("profiles")
       .select("id, username, display_name, avatar_url, plan, plan_status, billing_interval, created_at, updated_at, theme")
@@ -37,10 +37,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Failed to load profiles" }, { status: 500 });
     }
 
-    // 3. Fetch links summary
+    // 3. Fetch links safely using click_count
     const { data: links, error: linkErr } = await supabaseAdmin
       .from("links")
-      .select("id, user_id, clicks, is_visible");
+      .select("id, user_id, click_count, is_visible");
+
+    if (linkErr) {
+      console.warn("Admin links fetch warning:", linkErr);
+    }
 
     const linksList = links || [];
     const profilesList = profiles || [];
@@ -52,7 +56,7 @@ export async function GET(req: NextRequest) {
 
     for (const l of linksList) {
       linkCountByUser[l.user_id] = (linkCountByUser[l.user_id] || 0) + 1;
-      const c = Number(l.clicks) || 0;
+      const c = Number((l as any).click_count || (l as any).clicks || 0);
       clicksByUser[l.user_id] = (clicksByUser[l.user_id] || 0) + c;
       totalClicks += c;
     }

@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     }
 
     const token = getAdminSessionToken();
-    const response = NextResponse.json({ ok: true, message: "Welcome Prateek" });
+    const response = NextResponse.json({ ok: true, token, message: "Welcome Admin" });
 
     // Set secure HTTP-only cookie valid for 7 days
     response.cookies.set("linkface_admin_session", token, {

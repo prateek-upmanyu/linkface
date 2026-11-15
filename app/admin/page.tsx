@@ -61,7 +61,17 @@ export default function AdminPage() {
   const loadAdminData = async () => {
     setIsLoadingData(true);
     try {
-      const res = await fetch("/api/admin/data");
+      const storedKey = typeof window !== "undefined" ? sessionStorage.getItem("linkface_admin_auth") : null;
+      const headers: Record<string, string> = {};
+      if (storedKey) {
+        headers["x-admin-key"] = storedKey;
+      }
+
+      const res = await fetch("/api/admin/data", {
+        headers,
+        cache: "no-store",
+      });
+
       if (res.ok) {
         const data = await res.json();
         setStats(data.stats);
@@ -98,6 +108,9 @@ export default function AdminPage() {
       if (!res.ok) {
         setLoginError(data.error || "Authentication failed.");
       } else {
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("linkface_admin_auth", password);
+        }
         setIsAuthenticated(true);
         setPassword("");
         loadAdminData();
@@ -110,6 +123,9 @@ export default function AdminPage() {
   };
 
   const handleLogout = async () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("linkface_admin_auth");
+    }
     await fetch("/api/admin/logout", { method: "POST" });
     setIsAuthenticated(false);
     setStats(null);
@@ -121,9 +137,15 @@ export default function AdminPage() {
     setActionLoadingId(user.id);
 
     try {
+      const storedKey = typeof window !== "undefined" ? sessionStorage.getItem("linkface_admin_auth") : null;
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (storedKey) {
+        headers["x-admin-key"] = storedKey;
+      }
+
       const res = await fetch("/api/admin/toggle-pro", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ userId: user.id, plan: nextPlan }),
       });
 
@@ -210,7 +232,7 @@ export default function AdminPage() {
                 Executive Console
               </h1>
               <p className="text-xs text-[#6B7280]">
-                Restricted to authorized owner: <span className="font-semibold text-[#18181B]">Prateek Upmanyu</span>
+                Restricted access • <span className="font-semibold text-[#18181B]">Admin Terminal</span>
               </p>
             </div>
 
@@ -287,7 +309,7 @@ export default function AdminPage() {
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-2 text-xs text-[#4B5563]">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Owner: <strong>Prateek Upmanyu</strong></span>
+              <span>Role: <strong>Admin</strong></span>
             </div>
 
             <button

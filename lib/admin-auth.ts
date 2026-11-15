@@ -16,13 +16,21 @@ export function verifyAdminPassword(pass: string): boolean {
   return pass.trim() === ADMIN_PASS;
 }
 
-export async function isAuthorizedAdmin(userEmail?: string | null): Promise<boolean> {
-  // 1. Direct authorization if authenticated user is the designated admin email
+export async function isAuthorizedAdmin(req?: Request | null, userEmail?: string | null): Promise<boolean> {
+  // 1. Direct authorization via header
+  if (req) {
+    const headerKey = req.headers.get("x-admin-key");
+    if (headerKey && (headerKey.trim() === ADMIN_PASS || headerKey.trim() === getAdminSessionToken())) {
+      return true;
+    }
+  }
+
+  // 2. Direct authorization if authenticated user is the designated admin email
   if (userEmail && userEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
     return true;
   }
 
-  // 2. Authorization via secure HTTP-only admin session cookie
+  // 3. Authorization via secure HTTP-only admin session cookie
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("linkface_admin_session")?.value;

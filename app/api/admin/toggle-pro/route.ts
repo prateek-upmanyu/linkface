@@ -12,10 +12,10 @@ export async function POST(req: NextRequest) {
         userEmail = user?.email || null;
       }
     } catch {
-      // Continue to cookie check
+      // Continue to header/cookie check
     }
 
-    const authorized = await isAuthorizedAdmin(userEmail);
+    const authorized = await isAuthorizedAdmin(req, userEmail);
     if (!authorized) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
