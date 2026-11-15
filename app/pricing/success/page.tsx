@@ -56,7 +56,7 @@ function SuccessContent() {
       </span>
 
       <h1 className="font-heading text-3xl sm:text-4xl font-bold text-[#18181B] tracking-tight mt-2">
-        Welcome to Linklet Pro.
+        Welcome to Linkface Pro.
       </h1>
 
       <p className="mt-3 text-xs sm:text-sm text-[#4B5563] leading-relaxed font-medium">
@@ -103,7 +103,7 @@ export default function PricingSuccessPage() {
           <Link href="/" className="flex items-center gap-2.5">
             <BrandLogo className="w-8 h-8" />
             <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
-              Link<span className="text-[#F39C12]">let</span>
+              Link<span className="text-[#F39C12]">face</span>
             </span>
           </Link>
         </div>
@@ -118,7 +118,7 @@ export default function PricingSuccessPage() {
 
       {/* Footer */}
       <footer className="border-t border-[#E5E7EB] py-6 text-center text-xs text-[#9CA3AF] bg-[#FFFFFF]">
-        <span>Linklet • Secure Payments Verified</span>
+        <span>Linkface • Secure Payments Verified</span>
       </footer>
     </div>
   );

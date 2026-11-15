@@ -3,8 +3,8 @@ import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
 
 export const metadata = {
-  title: "Privacy Policy — Linklet",
-  description: "Privacy policy, data retention, and cookie disclosure for Linklet.",
+  title: "Privacy Policy — Linkface",
+  description: "Privacy policy, data retention, and cookie disclosure for Linkface.",
 };
 
 export default function PrivacyPage() {
@@ -15,7 +15,7 @@ export default function PrivacyPage() {
           <Link href="/" className="flex items-center gap-2.5">
             <BrandLogo className="w-8 h-8" />
             <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
-              Link<span className="text-[#F39C12]">let</span>
+              Link<span className="text-[#F39C12]">face</span>
             </span>
           </Link>
           <Link
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
             1. Zero Tracking Cookies
           </h2>
           <p>
-            Linklet does not deploy third-party advertising trackers, cross-site profiling cookies, or data-broker pixels. Our analytics are strictly privacy-first: page views and link clicks are aggregated as simple numbers without storing your visitors&apos; personal identities or browsing histories.
+            Linkface does not deploy third-party advertising trackers, cross-site profiling cookies, or data-broker pixels. Our analytics are strictly privacy-first: page views and link clicks are aggregated as simple numbers without storing your visitors&apos; personal identities or browsing histories.
           </p>
         </section>
 
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
             2. Information We Collect
           </h2>
           <p>
-            When you register for a Linklet account, we collect your email address and authentication credentials. If you choose to personalize your profile, you may optionally provide a display name, bio description, avatar image, social destination links, and collaborator information.
+            When you register for a Linkface account, we collect your email address and authentication credentials. If you choose to personalize your profile, you may optionally provide a display name, bio description, avatar image, social destination links, and collaborator information.
           </p>
         </section>
 
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
             3. Payment Processing
           </h2>
           <p>
-            Payment transactions for Linklet Pro subscriptions are conducted through authorized merchant of record partners (such as Dodo Payments). Linklet never stores, transmits, or has access to your full credit card numbers or banking passwords. All financial data is encrypted and handled in compliance with PCI-DSS standards.
+            Payment transactions for Linkface Pro subscriptions are conducted through authorized merchant of record partners (such as Dodo Payments). Linkface never stores, transmits, or has access to your full credit card numbers or banking passwords. All financial data is encrypted and handled in compliance with PCI-DSS standards.
           </p>
         </section>
 
@@ -81,14 +81,14 @@ export default function PrivacyPage() {
             5. Contact Us
           </h2>
           <p>
-            If you have questions or concerns regarding our privacy practices, contact our Data Protection Officer at <span className="font-mono text-[#18181B] font-bold">privacy@linklet.bio</span>.
+            If you have questions or concerns regarding our privacy practices, contact our Data Protection Officer at <span className="font-mono text-[#18181B] font-bold">privacy@linkface.in</span>.
           </p>
         </section>
       </main>
 
       <footer className="border-t border-[#E5E7EB] py-8 text-center text-xs text-[#6B7280] bg-[#FFFFFF]">
         <div className="quiet-container flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span>Linklet • Pure Handcrafted Digital Presence</span>
+          <span>Linkface • Pure Handcrafted Digital Presence</span>
           <div className="flex items-center gap-6 font-semibold">
             <Link href="/" className="hover:text-[#18181B]">Home</Link>
             <Link href="/pricing" className="hover:text-[#18181B]">Pricing</Link>

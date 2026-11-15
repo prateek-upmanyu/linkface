@@ -19,19 +19,19 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Linklet — Quiet Luxury Link in Bio",
+  title: "Linkface — Quiet Luxury Link in Bio",
   description:
     "An editorial colophon for your digital presence. Curate destinations with architectural precision.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://linktree-livid-three.vercel.app"),
   openGraph: {
-    title: "Linklet — Quiet Luxury Link in Bio",
+    title: "Linkface — Quiet Luxury Link in Bio",
     description: "Your entire presence, reduced to one link.",
     type: "website",
-    siteName: "Linklet",
+    siteName: "Linkface",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Linklet — Quiet Luxury Link in Bio",
+    title: "Linkface — Quiet Luxury Link in Bio",
     description: "Your entire presence, reduced to one link.",
   },
   icons: {

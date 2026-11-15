@@ -1,5 +1,5 @@
 /**
- * Linklet Security & Input Sanitization Suite
+ * Linkface Security & Input Sanitization Suite
  * Server-side input validation, XSS prevention, SSRF guards, and sliding-window rate limiting.
  */
 
@@ -41,7 +41,7 @@ export const RESERVED_USERNAMES = new Set([
   "sitemap",
   "well-known",
   "alex",
-  "linklet",
+  "linkface",
   "linktree",
   "bio",
   "null",

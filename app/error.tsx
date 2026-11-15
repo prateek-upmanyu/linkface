@@ -23,7 +23,7 @@ export default function ErrorPage({
         <Link href="/" className="flex items-center gap-3 group">
           <BrandLogo className="w-7 h-7" />
           <span className="font-heading text-lg font-medium tracking-tight text-[var(--color-text-offwhite)]">
-            Linklet
+            Linkface
           </span>
         </Link>
         <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-rose-400">
@@ -62,7 +62,7 @@ export default function ErrorPage({
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto w-full text-center text-xs text-[var(--color-text-subtle)] border-t border-[var(--border-soft)] pt-6">
-        Linklet &bull; Editorial Bio Index
+        Linkface &bull; Editorial Bio Index
       </footer>
     </div>
   );

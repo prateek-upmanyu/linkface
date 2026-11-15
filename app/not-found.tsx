@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
 
 export const metadata = {
-  title: "Page Not Found | Linklet",
+  title: "Page Not Found | Linkface",
   description: "The requested destination could not be found.",
 };
 
@@ -14,7 +14,7 @@ export default function NotFound() {
         <Link href="/" className="flex items-center gap-3 group">
           <BrandLogo className="w-7 h-7" />
           <span className="font-heading text-lg font-medium tracking-tight text-[var(--color-text-offwhite)]">
-            Linklet
+            Linkface
           </span>
         </Link>
         <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-[var(--color-text-subtle)]">
@@ -48,7 +48,7 @@ export default function NotFound() {
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto w-full text-center text-xs text-[var(--color-text-subtle)] border-t border-[var(--border-soft)] pt-6">
-        Linklet &bull; Editorial Bio Index
+        Linkface &bull; Editorial Bio Index
       </footer>
     </div>
   );

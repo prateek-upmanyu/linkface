@@ -16,7 +16,7 @@ export function UnclaimedProfileView({ username }: UnclaimedProfileViewProps) {
         <Link href="/" className="flex items-center gap-3 group">
           <BrandLogo className="w-7 h-7" />
           <span className="font-heading text-lg font-medium tracking-tight text-[var(--color-text-offwhite)]">
-            Linklet
+            Linkface
           </span>
         </Link>
         <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-[#d0f600]">
@@ -51,14 +51,14 @@ export function UnclaimedProfileView({ username }: UnclaimedProfileViewProps) {
             Claim @{clean} Now →
           </Link>
           <Link href="/" className="btn-outline w-full sm:w-auto text-xs uppercase tracking-[0.14em]">
-            Learn About Linklet
+            Learn About Linkface
           </Link>
         </div>
       </main>
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto w-full text-center text-xs text-[var(--color-text-subtle)] border-t border-[var(--border-soft)] pt-6">
-        Linklet &bull; Editorial Bio Index
+        Linkface &bull; Editorial Bio Index
       </footer>
     </div>
   );

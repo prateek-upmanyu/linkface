@@ -191,7 +191,7 @@ export function PhonePreview({
             className="text-[10px] tracking-[0.14em] uppercase font-bold"
             style={{ color: theme.muted }}
           >
-            Made with Linklet
+            Made with Linkface
           </span>
         </div>
       </div>

@@ -100,7 +100,7 @@ export default function OnboardingPage() {
           <p className="text-xs text-[#4B5563] mt-1.5 font-body font-medium">
             Your permanent link URL will be:{" "}
             <span className="text-[#E67E22] font-mono font-bold">
-              linklet.bio/{username || "username"}
+              linkface.in/{username || "username"}
             </span>
           </p>
         </div>

@@ -63,7 +63,7 @@ export default function PricingPage() {
           <Link href="/" className="flex items-center gap-2.5 group">
             <BrandLogo className="w-8 h-8" />
             <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
-              Link<span className="text-[#F39C12]">let</span>
+              Link<span className="text-[#F39C12]">face</span>
             </span>
           </Link>
 
@@ -321,7 +321,7 @@ export default function PricingPage() {
       {/* Footer */}
       <footer className="border-t border-[#E5E7EB] py-8 text-center text-xs text-[#6B7280] bg-[#FFFFFF]">
         <div className="quiet-container flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="font-medium">Linklet • Pure Handcrafted Digital Presence</span>
+          <span className="font-medium">Linkface • Pure Handcrafted Digital Presence</span>
           <div className="flex items-center gap-6 font-semibold">
             <Link href="/terms" className="hover:text-[#18181B]">Terms of Service</Link>
             <Link href="/privacy" className="hover:text-[#18181B]">Privacy Policy</Link>

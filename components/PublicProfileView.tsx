@@ -26,7 +26,7 @@ export function PublicProfileView({
 
   // Sync with local edits if previewing in same browser
   useEffect(() => {
-    const key = `linklet_preview_${initialProfile.username}`;
+    const key = `linkface_preview_${initialProfile.username}`;
     const stored = localStorage.getItem(key);
     if (stored) {
       try {
@@ -189,7 +189,7 @@ export function PublicProfileView({
           style={{ color: theme.muted }}
         >
           <BrandLogo className="w-4 h-4 shadow-none" />
-          <span>Made with Linklet</span>
+          <span>Made with Linkface</span>
         </Link>
       </footer>
     </div>

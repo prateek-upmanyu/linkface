@@ -55,7 +55,7 @@ export function DashboardClient({
   useEffect(() => {
     if (typeof window !== "undefined" && initialProfile?.username) {
       try {
-        const cached = localStorage.getItem(`linklet_profile_${initialProfile.username}`);
+        const cached = localStorage.getItem(`linkface_profile_${initialProfile.username}`);
         if (cached) {
           const parsed = JSON.parse(cached);
           if (parsed && typeof parsed === "object") {
@@ -88,7 +88,7 @@ export function DashboardClient({
     // Persist to local storage for instant sync across tabs and live preview link
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem(`linklet_profile_${profile.username}`, JSON.stringify(updatedProfile));
+        localStorage.setItem(`linkface_profile_${profile.username}`, JSON.stringify(updatedProfile));
       } catch (err) {
         console.error("Local sync error:", err);
       }
@@ -121,7 +121,7 @@ export function DashboardClient({
     // Persist links to local storage for instant sync across tabs
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem(`linklet_links_${profile.username}`, JSON.stringify(updatedLinks));
+        localStorage.setItem(`linkface_links_${profile.username}`, JSON.stringify(updatedLinks));
       } catch (err) {
         console.error("Local links sync error:", err);
       }
@@ -249,7 +249,7 @@ export function DashboardClient({
               <BrandLogo className="w-7 h-7 shadow-none" />
               <div className="hidden sm:block">
                 <span className="font-heading font-bold text-base text-[#18181B] block leading-tight">
-                  Link<span className="text-[#F39C12]">let</span>
+                  Link<span className="text-[#F39C12]">face</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#6B7280] block">
                   Dashboard
@@ -266,7 +266,7 @@ export function DashboardClient({
                 rel="noopener noreferrer"
                 className="font-semibold text-[#18181B] hover:text-[#E67E22] flex items-center gap-1.5 transition-colors truncate text-xs"
               >
-                <span className="truncate max-w-[140px] sm:max-w-none">linklet.bio/{profile.username}</span>
+                <span className="truncate max-w-[140px] sm:max-w-none">linkface.in/{profile.username}</span>
                 <ExternalLink className="w-3 h-3 text-[#9CA3AF] shrink-0" />
               </a>
             </div>

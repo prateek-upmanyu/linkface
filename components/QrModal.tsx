@@ -33,7 +33,7 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
   const handleDownload = () => {
     if (!canvasRef.current) return;
     const link = document.createElement("a");
-    link.download = `${username}-linklet-qr.png`;
+    link.download = `${username}-linkface-qr.png`;
     link.href = canvasRef.current.toDataURL("image/png");
     link.click();
   };
@@ -64,7 +64,7 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
           Share Your Link
         </h3>
         <p className="text-xs text-[#6B7280] mb-5 font-body font-medium">
-          Scan to visit linklet.bio/{username}
+          Scan to visit linkface.in/{username}
         </p>
 
         {/* QR Code Canvas */}

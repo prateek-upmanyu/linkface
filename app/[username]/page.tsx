@@ -78,26 +78,26 @@ export async function generateMetadata({
 
   if (!data) {
     return {
-      title: "Profile Not Found | Linklet",
+      title: "Profile Not Found | Linkface",
     };
   }
 
   const { profile } = data;
   const title = profile.display_name || `@${profile.username}`;
   const description =
-    profile.bio || `Explore ${title}'s curated link collection on Linklet.`;
+    profile.bio || `Explore ${title}'s curated link collection on Linkface.`;
 
   return {
-    title: `${title} | Linklet`,
+    title: `${title} | Linkface`,
     description,
     openGraph: {
-      title: `${title} | Linklet`,
+      title: `${title} | Linkface`,
       description,
       images: profile.avatar_url ? [{ url: profile.avatar_url }] : [],
     },
     twitter: {
       card: "summary",
-      title: `${title} | Linklet`,
+      title: `${title} | Linkface`,
       description,
       images: profile.avatar_url ? [profile.avatar_url] : [],
     },

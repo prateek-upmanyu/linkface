@@ -111,7 +111,7 @@ export default function LandingPage() {
           <Link href="/" className="flex items-center gap-2.5 group">
             <BrandLogo className="w-8 h-8" />
             <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
-              Link<span className="text-[#F39C12]">let</span>
+              Link<span className="text-[#F39C12]">face</span>
             </span>
           </Link>
 
@@ -230,7 +230,7 @@ export default function LandingPage() {
               className="w-full max-w-md h-[54px] p-1.5 rounded-full bg-[#FFFFFF] border-2 border-[#E5E7EB] shadow-md flex items-center gap-1.5 focus-within:border-[#F39C12] transition-all box-border"
             >
               <div className="flex items-center pl-4 text-[#B9770E] font-mono font-bold text-xs sm:text-sm select-none shrink-0">
-                <span>linklet.bio/</span>
+                <span>linkface.in/</span>
               </div>
               <input
                 type="text"
@@ -301,7 +301,7 @@ export default function LandingPage() {
               Simple 3-Step Setup
             </span>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight tracking-tight text-[#18181B]">
-              How Linklet <span className="italic font-bold text-[#E67E22]">works</span>.
+              How Linkface <span className="italic font-bold text-[#E67E22]">works</span>.
             </h2>
             <p className="text-sm sm:text-base font-body font-medium text-[#4B5563] leading-relaxed max-w-sm">
               No design skills needed. Just paste your links, add a photo, and share your unique URL everywhere.
@@ -319,7 +319,7 @@ export default function LandingPage() {
                 Paste your links.
               </h3>
               <p className="text-sm font-body font-medium text-[#4B5563] leading-relaxed max-w-xl">
-                Paste any link from YouTube, Instagram, Spotify, GitHub, TikTok, or your own website. Linklet identifies the platform and styles it automatically with the official icon.
+                Paste any link from YouTube, Instagram, Spotify, GitHub, TikTok, or your own website. Linkface identifies the platform and styles it automatically with the official icon.
               </p>
             </div>
 
@@ -367,7 +367,7 @@ export default function LandingPage() {
             Works with every app you <span className="italic font-bold text-[#E67E22]">love</span>.
           </h2>
           <p className="text-sm sm:text-base font-body font-medium text-[#4B5563] max-w-xl mx-auto">
-            Paste any URL. Linklet automatically pulls the verified icon and colors for 50+ platforms, or lets you upload your own custom logo for any link.
+            Paste any URL. Linkface automatically pulls the verified icon and colors for 50+ platforms, or lets you upload your own custom logo for any link.
           </p>
         </div>
 
@@ -430,7 +430,7 @@ export default function LandingPage() {
             Create your free page in <span className="italic font-bold text-[#E67E22]">seconds</span>.
           </h2>
           <p className="text-base text-[#4B5563] font-body font-medium max-w-md mx-auto">
-            Join thousands of creators, musicians, and developers using Linklet.
+            Join thousands of creators, musicians, and developers using Linkface.
           </p>
 
           <div className="pt-2 flex justify-center">
@@ -447,7 +447,7 @@ export default function LandingPage() {
         <div className="quiet-container mt-20 pt-8 border-t border-[#E5E7EB] flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-body font-medium text-[#6B7280]">
           <div className="flex items-center gap-3">
             <BrandLogo className="w-5 h-5 shadow-none" />
-            <span className="font-heading text-lg font-bold text-[#18181B]">Link<span className="text-[#F39C12]">let</span></span>
+            <span className="font-heading text-lg font-bold text-[#18181B]">Link<span className="text-[#F39C12]">face</span></span>
             <span className="text-[#D1D5DB]">&mdash;</span>
             <span>Simple Link in Bio</span>
           </div>
@@ -471,7 +471,7 @@ export default function LandingPage() {
           </div>
 
           <div>
-            &copy; {new Date().getFullYear()} Linklet. All rights reserved.
+            &copy; {new Date().getFullYear()} Linkface. All rights reserved.
           </div>
         </div>
       </section>

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
 
 export const metadata = {
-  title: "Terms of Service — Linklet",
-  description: "Terms of service, billing terms, cancellation, and refund policies for Linklet.",
+  title: "Terms of Service — Linkface",
+  description: "Terms of service, billing terms, cancellation, and refund policies for Linkface.",
 };
 
 export default function TermsPage() {
@@ -15,7 +15,7 @@ export default function TermsPage() {
           <Link href="/" className="flex items-center gap-2.5">
             <BrandLogo className="w-8 h-8" />
             <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
-              Link<span className="text-[#F39C12]">let</span>
+              Link<span className="text-[#F39C12]">face</span>
             </span>
           </Link>
           <Link
@@ -36,14 +36,14 @@ export default function TermsPage() {
             Terms of Service
           </h1>
           <p className="text-xs text-[#6B7280]">
-            Effective Date: November 15, 2026 • Last updated for Linklet Subscriptions
+            Effective Date: November 15, 2026 • Last updated for Linkface Subscriptions
           </p>
         </div>
 
         <section className="space-y-4 text-xs sm:text-sm text-[#4B5563] leading-relaxed">
           <h2 className="font-heading text-2xl font-bold text-[#18181B]">1. Overview</h2>
           <p>
-            Welcome to Linklet (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;). By accessing or using Linklet, our websites, mobile applications, APIs, or subscribing to our Pro services, you agree to be bound by these Terms of Service. If you do not agree to these terms, do not access or use our services.
+            Welcome to Linkface (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;). By accessing or using Linkface, our websites, mobile applications, APIs, or subscribing to our Pro services, you agree to be bound by these Terms of Service. If you do not agree to these terms, do not access or use our services.
           </p>
         </section>
 
@@ -57,7 +57,7 @@ export default function TermsPage() {
         <section className="space-y-4 text-xs sm:text-sm text-[#4B5563] leading-relaxed">
           <h2 className="font-heading text-2xl font-bold text-[#18181B]">3. Free and Pro Subscription Plans</h2>
           <p>
-            Linklet offers both a Free tier and a paid Pro subscription:
+            Linkface offers both a Free tier and a paid Pro subscription:
           </p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
@@ -82,7 +82,7 @@ export default function TermsPage() {
         <section className="space-y-4 text-xs sm:text-sm text-[#4B5563] leading-relaxed">
           <h2 className="font-heading text-2xl font-bold text-[#18181B]">5. 14-Day Refund Policy</h2>
           <p>
-            If you are unsatisfied with Linklet Pro for any reason, you may request a full refund within 14 days of your initial purchase or yearly renewal. Contact our support team via your account dashboard, and your refund will be processed promptly to your original payment method.
+            If you are unsatisfied with Linkface Pro for any reason, you may request a full refund within 14 days of your initial purchase or yearly renewal. Contact our support team via your account dashboard, and your refund will be processed promptly to your original payment method.
           </p>
         </section>
 
@@ -96,14 +96,14 @@ export default function TermsPage() {
         <section className="space-y-4 text-xs sm:text-sm text-[#4B5563] leading-relaxed">
           <h2 className="font-heading text-2xl font-bold text-[#18181B]">7. Contact Information</h2>
           <p>
-            For questions regarding these Terms or billing inquiries, contact us at <span className="font-mono text-[#18181B] font-bold">legal@linklet.bio</span>.
+            For questions regarding these Terms or billing inquiries, contact us at <span className="font-mono text-[#18181B] font-bold">legal@linkface.in</span>.
           </p>
         </section>
       </main>
 
       <footer className="border-t border-[#E5E7EB] py-8 text-center text-xs text-[#6B7280] bg-[#FFFFFF]">
         <div className="quiet-container flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span>Linklet • Pure Handcrafted Digital Presence</span>
+          <span>Linkface • Pure Handcrafted Digital Presence</span>
           <div className="flex items-center gap-6 font-semibold">
             <Link href="/" className="hover:text-[#18181B]">Home</Link>
             <Link href="/pricing" className="hover:text-[#18181B]">Pricing</Link>
