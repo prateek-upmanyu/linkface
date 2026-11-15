@@ -55,7 +55,17 @@ export function DashboardClient({
 
   const handleUpdateProfile = async (updates: Partial<Profile>): Promise<void> => {
     setIsSaving(true);
-    setProfile((prev) => ({ ...prev, ...updates }));
+    const updated = { ...profile, ...updates };
+    setProfile(updated);
+
+    // Persist to local storage for instant sync across tabs and live preview link
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(`linklet_profile_${profile.username}`, JSON.stringify(updated));
+      } catch (err) {
+        console.error("Local sync error:", err);
+      }
+    }
 
     if (isDemoMode) {
       setTimeout(() => setIsSaving(false), 200);
@@ -69,7 +79,7 @@ export function DashboardClient({
         .eq("id", profile.id);
 
       if (error) {
-        console.error("Error updating profile:", error);
+        console.error("Error updating profile in Supabase:", error);
       }
     } catch (err) {
       console.error("Unexpected profile update error:", err);
@@ -80,6 +90,15 @@ export function DashboardClient({
 
   const handleSaveLinks = async (updatedLinks: LinkItem[]) => {
     setLinks(updatedLinks);
+
+    // Persist links to local storage for instant sync across tabs
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(`linklet_links_${profile.username}`, JSON.stringify(updatedLinks));
+      } catch (err) {
+        console.error("Local links sync error:", err);
+      }
+    }
 
     if (isDemoMode) return;
 
