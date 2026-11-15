@@ -64,7 +64,7 @@ export default function OnboardingPage() {
         id: user.id,
         username: username.toLowerCase().trim(),
         display_name: displayName.trim() || username.toLowerCase().trim(),
-        theme: "luxury-craft",
+        theme: "apple",
         page_views: 0,
       });
 

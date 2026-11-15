@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
-import { FeaturedCreator } from "@/types";
+import { FeaturedCreator, ThemeId } from "@/types";
+import { getTheme } from "@/lib/themes";
 import { ArrowUpRight } from "lucide-react";
 
 interface FeaturedCreatorsProps {
   creators?: FeaturedCreator[] | null;
+  themeId?: ThemeId | string;
   className?: string;
   isInteractive?: boolean;
   isDark?: boolean;
@@ -13,21 +15,42 @@ interface FeaturedCreatorsProps {
 
 export function FeaturedCreators({
   creators,
+  themeId = "apple",
   className = "",
   isInteractive = true,
 }: FeaturedCreatorsProps) {
   if (!creators || creators.length === 0) return null;
 
   const activeCreators = creators.slice(0, 3);
+  const theme = getTheme(themeId);
+
+  // Card classes per theme
+  let cardClass =
+    "rounded-[14px] bg-white/[0.07] hover:bg-white/[0.12] border border-white/15 hover:border-white/30 text-[#f5f5f7]";
+  let avatarRing = "ring-1 ring-white/20";
+  let titleClass = "font-medium text-xs text-[#f5f5f7] tracking-tight";
+  let subtitleClass = "text-[10px] text-[#86868b]";
+
+  if (theme.id === "bmw") {
+    cardClass =
+      "rounded-[8px] bg-[#0d131f] hover:bg-[#141d2e] border border-[#1e293b] hover:border-[#009ada]/70 text-[#f8fafc]";
+    avatarRing = "ring-1 ring-[#009ada]";
+    titleClass = "font-['Space_Grotesk',sans-serif] font-bold text-xs uppercase tracking-wider text-[#f8fafc]";
+    subtitleClass = "font-mono text-[10px] text-[#64748b]";
+  } else if (theme.id === "minecraft") {
+    cardClass =
+      "rounded-none bg-[#2b2b2b] hover:bg-[#353535] border-2 border-t-[#666666] border-l-[#666666] border-b-[#111111] border-r-[#111111] text-white shadow-[2px_2px_0px_#000000]";
+    avatarRing = "border border-[#55ff55] rounded-none";
+    titleClass = "font-['Silkscreen',monospace] font-bold text-[10px] tracking-wider text-[#ffffff]";
+    subtitleClass = "font-['Silkscreen',monospace] text-[9px] text-[#55ff55]";
+  }
 
   return (
-    <div
-      className={`w-full mt-8 pt-5 border-t border-[var(--border-soft)] ${className}`}
-    >
-      {/* Editorial Header */}
-      <div className="flex items-center justify-between mb-3 px-1 text-[10px] font-body tracking-[0.2em] uppercase text-[var(--color-text-subtle)]">
-        <span>Spotlight / Collaborators</span>
-        <span className="text-[#d0f600]">03 Slots</span>
+    <div className={`w-full mt-7 pt-5 border-t border-white/10 ${className}`}>
+      {/* Spotlight Header */}
+      <div className="flex items-center justify-between mb-3 px-1 text-[10px] font-mono tracking-[0.16em] uppercase text-[#86868b]">
+        <span>Spotlight Trio</span>
+        <span className="text-white/60">03 Slots</span>
       </div>
 
       {/* 3-Column Creator Grid */}
@@ -43,7 +66,7 @@ export function FeaturedCreators({
                 e.preventDefault();
               }
             }}
-            className="p-3 flex flex-col items-center text-center transition-all duration-150 group select-none relative rounded-[12px] bg-[#002e62] hover:bg-[#0a3d7a] text-[var(--color-text-offwhite)] border border-[var(--border-soft)] hover:border-[#d0f600]"
+            className={`p-3 flex flex-col items-center text-center transition-all duration-150 group select-none relative ${cardClass}`}
           >
             {/* Creator Avatar */}
             <div className="relative mb-2 shrink-0">
@@ -51,35 +74,37 @@ export function FeaturedCreators({
                 <img
                   src={creator.avatar_url}
                   alt={creator.name}
-                  className="w-11 h-11 object-cover rounded-full group-hover:scale-105 transition-all ring-1 ring-[var(--border-soft)] group-hover:ring-[#d0f600]"
+                  className={`w-11 h-11 object-cover rounded-full group-hover:scale-105 transition-all ${avatarRing}`}
                   onError={(e) => {
                     (e.target as HTMLElement).style.display = "none";
                   }}
                 />
               ) : (
-                <div className="w-11 h-11 flex items-center justify-center font-heading text-sm font-semibold rounded-full bg-[#001a3a] text-[var(--color-text-offwhite)] ring-1 ring-[var(--border-soft)] group-hover:ring-[#d0f600]">
+                <div
+                  className={`w-11 h-11 flex items-center justify-center font-heading text-sm font-semibold rounded-full bg-white/10 text-white ${avatarRing}`}
+                >
                   {creator.name.charAt(0) || "U"}
                 </div>
               )}
 
               {/* Tiny arrow badge on hover */}
-              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-[#001a3a] text-[#d0f600] border border-[#d0f600]/40">
+              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 text-white border border-white/20">
                 <ArrowUpRight strokeWidth={1.5} className="w-2.5 h-2.5" />
               </div>
             </div>
 
             {/* Creator Name */}
-            <span className="font-heading text-xs font-medium leading-tight truncate w-full transition-colors text-[var(--color-text-offwhite)] group-hover:text-white">
+            <span className={`w-full truncate ${titleClass}`}>
               {creator.name}
             </span>
 
             {/* Tagline / Role */}
             {creator.tagline ? (
-              <span className="text-[10px] font-body truncate w-full mt-0.5 text-[var(--color-text-muted)]">
+              <span className={`w-full truncate mt-0.5 ${subtitleClass}`}>
                 {creator.tagline}
               </span>
             ) : (
-              <span className="text-[10px] font-body truncate w-full mt-0.5 text-[var(--color-text-subtle)]">
+              <span className={`w-full truncate mt-0.5 ${subtitleClass}`}>
                 Visit &rarr;
               </span>
             )}

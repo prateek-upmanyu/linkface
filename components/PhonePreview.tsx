@@ -2,13 +2,11 @@
 
 import React from "react";
 import { Profile, LinkItem } from "@/types";
-import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
-import { PlatformIcon } from "@/components/PlatformIcon";
 import { SpeechBubble } from "@/components/SpeechBubble";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
+import { PublicLinkButton } from "@/components/PublicLinkButton";
 import { SoundToggle } from "@/components/SoundToggle";
-import { playClickSound } from "@/lib/sound-fx";
-import { ArrowUpRight } from "lucide-react";
+import { getTheme } from "@/lib/themes";
 
 interface PhonePreviewProps {
   profile: Profile;
@@ -21,62 +19,80 @@ interface PhonePreviewProps {
 export function PhonePreview({
   profile,
   links,
-  onLinkClick,
   className = "",
   isInteractive = true,
 }: PhonePreviewProps) {
   const visibleLinks = links.filter((l) => l.is_visible);
+  const theme = getTheme(profile.theme);
+
+  // Background and frame styling per theme
+  let frameBg = "bg-[#090a0f] border-white/10";
+  let titleClass = "font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Display','Helvetica_Neue',sans-serif] font-semibold text-2xl tracking-tight text-white";
+  let bioClass = "font-[-apple-system,sans-serif] text-xs text-[#86868b]";
+  let avatarRing = "ring-2 ring-white/20";
+
+  if (theme.id === "bmw") {
+    frameBg = "bg-[#080a0f] border-[#1e293b]";
+    titleClass = "font-['Space_Grotesk',sans-serif] font-bold text-xl tracking-wider uppercase text-[#f8fafc]";
+    bioClass = "font-['Space_Grotesk',sans-serif] text-xs text-[#64748b]";
+    avatarRing = "ring-2 ring-[#009ada] shadow-[0_0_20px_rgba(0,154,218,0.3)]";
+  } else if (theme.id === "minecraft") {
+    frameBg = "bg-[#141416] border-[#333333]";
+    titleClass = "font-['Silkscreen',monospace] font-bold text-base tracking-widest uppercase text-white drop-shadow-[2px_2px_0px_#000]";
+    bioClass = "font-['Silkscreen',monospace] text-[11px] text-[#aaaaaa]";
+    avatarRing = "border-2 border-[#55ff55] rounded-none";
+  }
 
   return (
     <div
-      className={`mx-auto w-full max-w-[360px] rounded-[12px] p-4 border border-[var(--border-soft)] bg-[#001a3a] select-none ${className}`}
+      className={`mx-auto w-full max-w-[360px] rounded-[24px] p-4 border select-none transition-colors duration-200 ${frameBg} ${className}`}
     >
-      {/* Editorial Profile Frame Header */}
-      <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--border-soft)] text-[10px] font-body tracking-[0.2em] uppercase text-[var(--color-text-subtle)]">
-        <span>Curated Colophon</span>
+      {/* Phone Mockup Header */}
+      <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10 text-[10px] font-mono tracking-[0.16em] uppercase text-white/50">
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#009ada] animate-pulse" />
+          {theme.name}
+        </span>
         <SoundToggle />
       </div>
 
       <div className="flex flex-col justify-between min-h-[520px]">
         {/* Profile Header */}
         <div className="flex flex-col items-center text-center px-2 mb-4 shrink-0">
-          {/* Status Message */}
+          {/* Status Message / Thought / Speech */}
           <SpeechBubble
             message={profile.status_message}
             styleType={profile.status_style}
           />
 
-          {/* Avatar with Subtle Ring */}
+          {/* Avatar */}
           <div className="relative mb-3.5">
             {profile.avatar_url ? (
               <img
                 src={profile.avatar_url}
                 alt={profile.display_name || "Profile"}
-                className="w-20 h-20 rounded-full object-cover ring-1 ring-[var(--border-soft)]"
+                className={`w-20 h-20 object-cover rounded-full ${avatarRing}`}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = "none";
                 }}
               />
             ) : (
-              <div className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-heading font-medium bg-[#002e62] text-[var(--color-text-offwhite)] ring-1 ring-[var(--border-soft)]">
-                {profile.display_name?.charAt(0) || profile.username?.charAt(0) || "A"}
+              <div
+                className={`w-20 h-20 flex items-center justify-center text-2xl font-semibold bg-white/10 text-white rounded-full ${avatarRing}`}
+              >
+                {profile.display_name?.charAt(0) || profile.username?.charAt(0) || "U"}
               </div>
             )}
           </div>
 
-          {/* Name & Handle: Bodoni Moda & Manrope */}
-          <h2 className="text-2xl font-heading leading-tight font-medium tracking-tight text-[var(--color-text-offwhite)]">
-            {profile.display_name || (profile.username ? `@${profile.username}` : "Your Name")}
+          {/* Display Name ONLY - No cut-off @email username underneath */}
+          <h2 className={`leading-tight ${titleClass}`}>
+            {profile.display_name || profile.username || "Your Name"}
           </h2>
-          {profile.username && profile.display_name && (
-            <p className="text-xs mt-0.5 text-[var(--color-text-muted)] font-body">
-              @{profile.username}
-            </p>
-          )}
 
           {/* Bio */}
           {profile.bio && (
-            <p className="text-xs mt-2 max-w-[260px] leading-relaxed line-clamp-3 text-[var(--color-text-muted)] font-body">
+            <p className={`mt-2 max-w-[260px] leading-relaxed line-clamp-3 ${bioClass}`}>
               {profile.bio}
             </p>
           )}
@@ -85,85 +101,27 @@ export function PhonePreview({
         {/* Links List */}
         <div className="flex-1 w-full flex flex-col gap-2.5">
           {visibleLinks.length === 0 ? (
-            <div className="my-auto py-8 text-center px-4 rounded-[12px] border border-dashed border-[var(--border-soft)] opacity-60">
-              <p className="text-xs font-heading text-[var(--color-text-offwhite)]">No links shared yet</p>
-              <p className="text-[11px] text-[var(--color-text-muted)] mt-0.5 font-body">Links will appear here</p>
+            <div className="my-auto py-8 text-center px-4 rounded-[12px] border border-dashed border-white/15 opacity-60">
+              <p className="text-xs text-white">No links shared yet</p>
+              <p className="text-[11px] text-white/50 mt-0.5">Add your first link in the studio</p>
             </div>
           ) : (
-            visibleLinks.map((link) => {
-              const platform = PLATFORMS.find((p) => p.id === link.platform);
-              const favicon =
-                link.url && !platform
-                  ? `https://www.google.com/s2/favicons?domain=${
-                      link.url.replace(/^https?:\/\//i, "").split("/")[0]
-                    }&sz=64`
-                  : null;
-
-              const iconStyle = getPlatformBadgeStyle(platform?.brandColor, true);
-
-              return (
-                <button
-                  key={link.id}
-                  type="button"
-                  onClick={() => {
-                    playClickSound();
-                    if (isInteractive && onLinkClick) {
-                      onLinkClick(link);
-                    } else if (isInteractive && link.url) {
-                      window.open(link.url, "_blank", "noopener,noreferrer");
-                    }
-                  }}
-                  className="w-full py-3.5 px-4 rounded-[12px] flex items-center justify-between text-left transition-all duration-150 group relative bg-[#002e62] hover:bg-[#0a3d7a] border border-[var(--border-soft)] hover:border-[#d0f600]"
-                >
-                  <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
-                    <div
-                      className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border border-white/10"
-                      style={{
-                        backgroundColor: iconStyle.bgColor,
-                        color: iconStyle.color,
-                      }}
-                    >
-                      <PlatformIcon
-                        iconName={platform?.icon}
-                        platformId={link.platform}
-                        faviconUrl={favicon}
-                        brandColor={iconStyle.color}
-                        className="w-4 h-4"
-                        size={16}
-                      />
-                    </div>
-                    {/* High-Contrast Off-White Text */}
-                    <span className="font-body text-xs sm:text-[13px] font-medium leading-snug truncate flex-1 transition-colors text-[var(--color-text-offwhite)] group-hover:text-white">
-                      {link.title || "Untitled Link"}
-                    </span>
-                    {link.badge && (
-                      <span className="px-2 py-0.5 text-[8px] font-body font-semibold tracking-[0.14em] uppercase rounded-full shrink-0 ml-1 bg-[rgba(208,246,0,0.1)] text-[#d0f600] border border-[#d0f600]/30">
-                        {link.badge}
-                      </span>
-                    )}
-                  </div>
-                  <ArrowUpRight
-                    strokeWidth={1.5}
-                    className="w-3.5 h-3.5 transition-transform duration-150 shrink-0 ml-1 text-[var(--color-text-muted)] group-hover:text-[#d0f600] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </button>
-              );
-            })
+            visibleLinks.map((link) => (
+              <PublicLinkButton
+                key={link.id}
+                link={link}
+                themeId={profile.theme}
+              />
+            ))
           )}
-
-          {/* Featured Creators / Sponsors (Trio Spotlight) */}
-          <FeaturedCreators
-            creators={profile.featured_creators}
-            isInteractive={isInteractive}
-          />
         </div>
 
-        {/* Footer Brand Colophon */}
-        <div className="shrink-0 text-center pt-5 pb-1 border-t border-[var(--border-soft)] mt-4">
-          <span className="text-[10px] font-body tracking-[0.18em] uppercase text-[var(--color-text-subtle)]">
-            Linklet / Editorial Profile
-          </span>
-        </div>
+        {/* Spotlight Trio Collaborators */}
+        <FeaturedCreators
+          creators={profile.featured_creators}
+          themeId={profile.theme}
+          isInteractive={isInteractive}
+        />
       </div>
     </div>
   );

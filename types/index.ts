@@ -1,7 +1,9 @@
 export type ThemeId =
-  | "luxury"
+  | "apple"
+  | "bmw"
   | "minecraft"
   | "luxury-craft"
+  | "luxury"
   | "light"
   | "dark"
   | "gradient"

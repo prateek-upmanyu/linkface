@@ -1,24 +1,30 @@
-import React from "react";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Metadata } from "next";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
 import { SpeechBubble } from "@/components/SpeechBubble";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
-import { PageViewTracker } from "@/components/PageViewTracker";
 import { SoundToggle } from "@/components/SoundToggle";
+import { PageViewTracker } from "@/components/PageViewTracker";
 import { BrandLogo } from "@/components/BrandLogo";
+import { Profile, LinkItem } from "@/types";
+import { getTheme } from "@/lib/themes";
 
 interface PageProps {
-  params: Promise<{ username: string }>;
+  params: Promise<{
+    username: string;
+  }>;
 }
 
-async function getProfileAndLinks(username: string) {
+// Fetch user profile and visible links from Supabase
+async function getProfileAndLinks(
+  username: string
+): Promise<{ profile: Profile; links: LinkItem[] } | null> {
   const cleanUsername = username.toLowerCase().trim();
 
-  // 1. Check for built-in demo profile "alex"
+  // Seamless fallback for demo user 'alex'
   if (cleanUsername === "alex") {
     return {
       profile: DEMO_PROFILE,
@@ -26,7 +32,6 @@ async function getProfileAndLinks(username: string) {
     };
   }
 
-  // 2. Query Supabase
   try {
     const supabase = await createServerSupabaseClient();
     if (!supabase) return null;
@@ -76,39 +81,27 @@ export async function generateMetadata({
 
   const { profile } = data;
   const title = profile.display_name || `@${profile.username}`;
-  const description = profile.bio || `Explore ${title}'s links and portfolio on Linklet.`;
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://linklet.bio";
+  const description =
+    profile.bio || `Explore ${title}'s curated link collection on Linklet.`;
 
   return {
     title: `${title} | Linklet`,
     description,
     openGraph: {
-      title,
+      title: `${title} | Linklet`,
       description,
-      url: `${baseUrl}/${profile.username}`,
-      siteName: "Linklet",
-      images: profile.avatar_url
-        ? [
-            {
-              url: profile.avatar_url,
-              width: 800,
-              height: 800,
-              alt: title,
-            },
-          ]
-        : [],
-      type: "profile",
+      images: profile.avatar_url ? [{ url: profile.avatar_url }] : [],
     },
     twitter: {
-      card: "summary_large_image",
-      title,
+      card: "summary",
+      title: `${title} | Linklet`,
       description,
       images: profile.avatar_url ? [profile.avatar_url] : [],
     },
   };
 }
 
-export default async function PublicProfilePage({ params }: PageProps) {
+export default async function UserProfilePage({ params }: PageProps) {
   const { username } = await params;
   const data = await getProfileAndLinks(username);
 
@@ -117,67 +110,90 @@ export default async function PublicProfilePage({ params }: PageProps) {
   }
 
   const { profile, links } = data;
+  const theme = getTheme(profile.theme);
+
+  // Dynamic typography & surface styling per theme
+  let titleClass =
+    "font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Display','Helvetica_Neue',sans-serif] text-2xl sm:text-3xl font-semibold tracking-tight text-[#f5f5f7]";
+  let bioClass = "font-[-apple-system,sans-serif] text-xs sm:text-sm text-[#86868b]";
+  let avatarRing = "ring-2 ring-white/20";
+  let bgClass = "bg-[#000000] text-[#f5f5f7]";
+
+  if (theme.id === "bmw") {
+    titleClass =
+      "font-['Space_Grotesk',sans-serif] text-xl sm:text-2xl font-bold tracking-wider uppercase text-[#f8fafc]";
+    bioClass = "font-['Space_Grotesk',sans-serif] text-xs sm:text-sm text-[#64748b]";
+    avatarRing = "ring-2 ring-[#009ada] shadow-[0_0_24px_rgba(0,154,218,0.35)]";
+    bgClass = "bg-[#080a0f] text-[#f8fafc]";
+  } else if (theme.id === "minecraft") {
+    titleClass =
+      "font-['Silkscreen',monospace] text-base sm:text-lg font-bold tracking-widest uppercase text-white drop-shadow-[2px_2px_0px_#000]";
+    bioClass = "font-['Silkscreen',monospace] text-xs text-[#aaaaaa]";
+    avatarRing = "border-2 border-[#55ff55] rounded-none";
+    bgClass = "bg-[#141416] text-[#e0e0e0]";
+  }
 
   return (
-    <div className="min-h-screen flex flex-col justify-between items-center px-6 py-16 bg-[var(--color-heritage-deep)] text-[var(--color-text-offwhite)] font-body selection:bg-[#0a3d7a] selection:text-[#d0f600]">
+    <div
+      className={`min-h-screen flex flex-col justify-between items-center px-4 py-10 sm:py-16 transition-colors duration-200 ${bgClass}`}
+    >
       <PageViewTracker username={profile.username} />
 
       {/* Floating Sound Control */}
-      <div className="fixed top-6 right-6 z-40">
+      <div className="fixed top-5 right-5 z-40">
         <SoundToggle />
       </div>
 
       {/* Main Profile Canvas */}
       <main className="w-full max-w-md mx-auto flex flex-col items-center">
-        {/* Status Message */}
+        {/* Status / Floating Message Bubble */}
         <SpeechBubble
           message={profile.status_message}
           styleType={profile.status_style}
         />
 
-        {/* Avatar */}
-        <div className="relative mb-5">
+        {/* Profile Avatar */}
+        <div className="relative mb-4">
           {profile.avatar_url ? (
             <img
               src={profile.avatar_url}
               alt={profile.display_name || profile.username}
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover ring-1 ring-[var(--border-soft)]"
+              className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover ${avatarRing}`}
             />
           ) : (
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-3xl font-heading font-medium bg-[#002e62] text-[var(--color-text-offwhite)] ring-1 ring-[var(--border-soft)]">
+            <div
+              className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-3xl font-semibold bg-white/10 text-white ${avatarRing}`}
+            >
               {profile.display_name?.charAt(0) || profile.username.charAt(0)}
             </div>
           )}
         </div>
 
-        {/* Display Name & Handle */}
-        <h1 className="text-3xl sm:text-4xl font-heading font-medium tracking-tight text-center text-[var(--color-text-offwhite)]">
-          {profile.display_name || `@${profile.username}`}
+        {/* Display Name ONLY - No redundant email handle beneath it */}
+        <h1 className={`text-center leading-tight ${titleClass}`}>
+          {profile.display_name || profile.username}
         </h1>
-        {profile.display_name && (
-          <p className="text-xs mt-1 tracking-[0.12em] text-[var(--color-text-muted)] font-body">
-            @{profile.username}
-          </p>
-        )}
 
         {/* Bio */}
         {profile.bio && (
-          <p className="text-xs sm:text-sm text-center max-w-sm mt-3 leading-relaxed text-[var(--color-text-muted)] font-body">
+          <p className={`text-center max-w-sm mt-2.5 leading-relaxed ${bioClass}`}>
             {profile.bio}
           </p>
         )}
 
         {/* Links Stack */}
-        <div className="w-full space-y-3 mt-8">
+        <div className="w-full space-y-3 mt-7">
           {links.length === 0 ? (
-            <div className="py-12 text-center opacity-60 rounded-[12px] border border-dashed border-[var(--border-soft)]">
-              <p className="text-sm font-medium text-[var(--color-text-offwhite)] font-body">
-                No links shared yet.
-              </p>
+            <div className="py-10 text-center opacity-60 rounded-[14px] border border-dashed border-white/15">
+              <p className="text-xs text-white">No links shared yet.</p>
             </div>
           ) : (
             links.map((link) => (
-              <PublicLinkButton key={link.id} link={link} />
+              <PublicLinkButton
+                key={link.id}
+                link={link}
+                themeId={profile.theme}
+              />
             ))
           )}
         </div>
@@ -186,25 +202,20 @@ export default async function PublicProfilePage({ params }: PageProps) {
         {profile.featured_creators && profile.featured_creators.length > 0 && (
           <FeaturedCreators
             creators={profile.featured_creators}
-            className="mt-8"
+            themeId={profile.theme}
+            className="mt-6"
           />
         )}
       </main>
 
-      {/* Footer Colophon */}
-      <footer className="mt-20 text-center">
+      {/* Clean Minimal Footer */}
+      <footer className="mt-16 text-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wider transition-colors border border-[var(--border-soft)] bg-[#00224a] text-[var(--color-text-muted)] hover:border-[#d0f600] hover:text-white"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-medium tracking-wide transition-colors border border-white/10 bg-white/[0.04] text-white/60 hover:text-white hover:border-white/20"
         >
           <BrandLogo className="w-3.5 h-3.5" />
-          <span className="font-heading font-medium tracking-tight text-[var(--color-text-offwhite)]">
-            Linklet
-          </span>
-          <span className="text-[var(--color-text-subtle)]">&mdash;</span>
-          <span className="text-[11px] font-body text-[var(--color-text-muted)]">
-            Create your profile &rarr;
-          </span>
+          <span>Linklet</span>
         </Link>
       </footer>
     </div>
