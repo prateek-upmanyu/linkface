@@ -1,11 +1,21 @@
 /**
- * Client-side image processor: compresses and resizes avatars
- * to a clean 400x400 square format for crisp, fast loading.
+ * Secure Avatar Image Processor
+ * Enforces strict size limits, rejects malicious SVG payloads to prevent XSS,
+ * and normalizes images to a clean 400x400 square format.
  */
 export async function processAvatarImage(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
-    if (!file.type.startsWith("image/")) {
-      reject(new Error("Please upload an image file (PNG, JPG, or WebP)."));
+    // 1. Strict File Size limit: 2MB max
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      reject(new Error("Image size must be under 2MB."));
+      return;
+    }
+
+    // 2. Strict MIME Type checking: Reject SVG to prevent SVG XSS injection
+    const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
+    if (!ALLOWED_MIME_TYPES.includes(file.type.toLowerCase())) {
+      reject(new Error("Please upload a standard image file (PNG, JPG, or WebP). SVGs are disallowed for security."));
       return;
     }
 
@@ -50,10 +60,10 @@ export async function processAvatarImage(file: File): Promise<string> {
           resolve(dataUrl);
         }
       };
-      img.onerror = () => reject(new Error("Failed to load image."));
+      img.onerror = () => reject(new Error("Failed to decode image. File may be corrupted."));
       img.src = e.target?.result as string;
     };
-    reader.onerror = () => reject(new Error("Failed to read file."));
+    reader.onerror = () => reject(new Error("Failed to read image file."));
     reader.readAsDataURL(file);
   });
 }

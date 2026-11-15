@@ -9,6 +9,35 @@ export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+  // Add security headers to every response
+  supabaseResponse.headers.set("X-Content-Type-Options", "nosniff");
+  supabaseResponse.headers.set("X-Frame-Options", "SAMEORIGIN");
+  supabaseResponse.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  supabaseResponse.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+
+  // Restrict CORS for internal API routes
+  if (request.nextUrl.pathname.startsWith("/api/")) {
+    const origin = request.headers.get("origin");
+    const host = request.headers.get("host");
+
+    if (origin) {
+      try {
+        const originUrl = new URL(origin);
+        if (host && originUrl.host !== host && !originUrl.host.endsWith(".vercel.app")) {
+          return new NextResponse(JSON.stringify({ error: "CORS policy violation" }), {
+            status: 403,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+      } catch {
+        return new NextResponse(JSON.stringify({ error: "Invalid Origin" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+  }
+
   if (!supabaseUrl || !supabaseAnonKey) {
     return supabaseResponse;
   }
@@ -43,7 +72,6 @@ export async function middleware(request: NextRequest) {
   if (user && (url.pathname === "/login" || url.pathname === "/signup")) {
     url.pathname = "/dashboard";
     const redirectRes = NextResponse.redirect(url);
-    // Copy all updated session cookies to redirect response
     supabaseResponse.cookies.getAll().forEach((c) => {
       redirectRes.cookies.set(c.name, c.value);
     });

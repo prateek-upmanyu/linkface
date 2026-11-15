@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { motion, useReducedMotion } from "framer-motion";
 import { PhonePreview } from "@/components/PhonePreview";
 import { BrandLogo } from "@/components/BrandLogo";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
@@ -14,13 +15,17 @@ export default function LandingPage() {
   const supabase = createClient();
   const [handle, setHandle] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setIsAuthenticated(Boolean(user));
-    }).catch(() => {
-      setIsAuthenticated(false);
-    });
+    supabase.auth
+      .getUser()
+      .then(({ data: { user } }) => {
+        setIsAuthenticated(Boolean(user));
+      })
+      .catch(() => {
+        setIsAuthenticated(false);
+      });
   }, []);
 
   const handleClaim = (e: React.FormEvent) => {
@@ -37,10 +42,23 @@ export default function LandingPage() {
     }
   };
 
+  const fadeInVariants = {
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 24 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        delay: shouldReduceMotion ? 0 : custom * 0.12,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    }),
+  };
+
   return (
     <div className="min-h-screen bg-[var(--color-heritage-deep)] text-[var(--color-text-offwhite)] flex flex-col font-body selection:bg-[#0a3d7a] selection:text-[#d0f600]">
       {/* Top Editorial Nav Header */}
-      <header className="sticky top-0 z-40 bg-[#001a3a]/95 border-b border-[var(--border-soft)] px-6 lg:px-12 py-5">
+      <header className="sticky top-0 z-40 bg-[#001530]/95 backdrop-blur-md border-b border-[var(--border-soft)] px-6 lg:px-12 py-5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-3 group">
@@ -89,31 +107,53 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section: Asymmetric, Left-Aligned Editorial Layout */}
-      <section className="pt-20 pb-28 lg:pt-28 lg:pb-36 px-6 lg:px-12 border-b border-[var(--border-soft)]">
+      <section className="pt-20 pb-28 lg:pt-32 lg:pb-36 px-6 lg:px-12 border-b border-[var(--border-soft)]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
           {/* Left Column: Big Editorial Typography & Copy */}
           <div className="lg:col-span-7 space-y-10 text-left">
-            <div className="flex items-center gap-3">
+            <motion.div
+              variants={fadeInVariants}
+              initial="hidden"
+              animate="visible"
+              custom={0}
+              className="flex items-center gap-3"
+            >
               <span className="text-[11px] tracking-[0.22em] uppercase text-[#d0f600] font-semibold">
                 01 / Digital Colophon
               </span>
               <span className="w-8 h-px bg-[#d0f600]/40" />
-            </div>
+            </motion.div>
 
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-heading font-medium leading-[0.98] tracking-tight text-[var(--color-text-offwhite)]">
+            <motion.h1
+              variants={fadeInVariants}
+              initial="hidden"
+              animate="visible"
+              custom={1}
+              className="text-5xl sm:text-7xl lg:text-8xl font-heading font-medium leading-[0.98] tracking-tight text-[var(--color-text-offwhite)]"
+            >
               Your entire <br />
               presence, <br />
               reduced to <span className="italic font-normal text-[#d0f600]">one</span> link.
-            </h1>
+            </motion.h1>
 
-            <p className="text-base sm:text-lg text-[var(--color-text-muted)] max-w-xl leading-relaxed font-body">
-              A quiet, refined home for your work. Paste any destination from 50+ platforms, spotlight three collaborators in your footer, and view private traffic logs without algorithms or clutter.
-            </p>
+            <motion.p
+              variants={fadeInVariants}
+              initial="hidden"
+              animate="visible"
+              custom={2}
+              className="text-base sm:text-lg text-[var(--color-text-muted)] max-w-xl leading-relaxed font-body"
+            >
+              A quiet, refined home for your work. Curate destinations from 50+ platforms, spotlight three collaborators in your footer, and observe private traffic without algorithms or clutter.
+            </motion.p>
 
             {/* Architectural Claim Form */}
-            <form
+            <motion.form
+              variants={fadeInVariants}
+              initial="hidden"
+              animate="visible"
+              custom={3}
               onSubmit={handleClaim}
-              className="max-w-lg p-1.5 rounded-[12px] bg-[#00224a] border border-[var(--border-soft)] flex items-center gap-2"
+              className="max-w-lg p-1.5 rounded-[12px] bg-[#001e42] border border-[var(--border-soft)] flex items-center gap-2 focus-within:border-[#d0f600] transition-colors"
             >
               <div className="flex items-center pl-3.5 text-[var(--color-text-subtle)] text-sm font-body select-none">
                 <span>linklet.bio/</span>
@@ -133,31 +173,44 @@ export default function LandingPage() {
               >
                 Claim Link &rarr;
               </button>
-            </form>
+            </motion.form>
 
             {/* Editorial Metadata Row */}
-            <div className="pt-4 flex flex-wrap items-center gap-8 text-[11px] uppercase tracking-[0.16em] text-[var(--color-text-subtle)] border-t border-[var(--border-soft)]">
+            <motion.div
+              variants={fadeInVariants}
+              initial="hidden"
+              animate="visible"
+              custom={4}
+              className="pt-4 flex flex-wrap items-center gap-8 text-[11px] uppercase tracking-[0.16em] text-[var(--color-text-subtle)] border-t border-[var(--border-soft)]"
+            >
               <span>50+ Auto-Detects</span>
               <span>Collaborator Spotlight</span>
               <span>Zero Tracking Cookies</span>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Right Column: Architectural Framed Preview */}
+          {/* Right Column: Architectural Framed Preview with Gentle Float */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
-            <div className="p-4 sm:p-6 rounded-[12px] bg-[#00224a] border border-[var(--border-soft)] w-full max-w-[400px]">
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-soft)] text-[10px] tracking-[0.2em] uppercase text-[var(--color-text-subtle)]">
-                <span>Live Sample &mdash; @alex</span>
-                <span className="text-[#d0f600]">Active</span>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+              className="w-full max-w-[400px]"
+            >
+              <div className="p-4 sm:p-6 rounded-[12px] bg-[#001e42] border border-[var(--border-soft)] w-full">
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-soft)] text-[10px] tracking-[0.2em] uppercase text-[var(--color-text-subtle)]">
+                  <span>Live Sample &mdash; @alex</span>
+                  <span className="text-[#d0f600]">Active</span>
+                </div>
+                <PhonePreview profile={DEMO_PROFILE} links={DEMO_LINKS} />
               </div>
-              <PhonePreview profile={DEMO_PROFILE} links={DEMO_LINKS} />
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Section 2: Numbered List Breakdown (01, 02, 03) Instead of Equal Icon Cards */}
-      <section className="py-28 lg:py-36 px-6 lg:px-12 border-b border-[var(--border-soft)] bg-[#00224a]">
+      {/* Section 2: Numbered List Breakdown (01, 02, 03) */}
+      <section className="py-28 lg:py-36 px-6 lg:px-12 border-b border-[var(--border-soft)] bg-[#001e42]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           {/* Sticky Left Editorial Headline */}
           <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-5">
@@ -168,14 +221,20 @@ export default function LandingPage() {
               Crafted for precision, not <span className="italic font-normal text-[#d0f600]">templates</span>.
             </h2>
             <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-md">
-              Every detail is considered: instant domain recognition, collaborator circulation, and calm analytics without third-party scripts.
+              Every detail is considered: instant domain recognition, collaborator circulation, and calm analytics without third-party surveillance.
             </p>
           </div>
 
           {/* Right Numbered Rows with Thin 1px Dividers */}
           <div className="lg:col-span-7 divide-y divide-[var(--border-soft)] border-t lg:border-t-0 border-[var(--border-soft)]">
             {/* 01 */}
-            <div className="py-10 space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
+              className="py-10 space-y-4"
+            >
               <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
                 01 / VERIFIED RECOGNITION
               </span>
@@ -185,10 +244,16 @@ export default function LandingPage() {
               <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
                 Paste a URL from GitHub, Spotify, Substack, YouTube, Instagram, or 50+ other networks. Linklet recognizes the host, injects the verified symbol, and presents it with balanced typographic proportion.
               </p>
-            </div>
+            </motion.div>
 
             {/* 02 */}
-            <div className="py-10 space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
+              className="py-10 space-y-4"
+            >
               <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
                 02 / TRIO SPOTLIGHT
               </span>
@@ -196,12 +261,18 @@ export default function LandingPage() {
                 Share your traffic with three people.
               </h3>
               <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
-                Rather than hoarding visitors, feature clients, co-founders, or peers in an understated three-column footer. Linklet automatically pulls their photo from their URL or lets you upload portraits directly.
+                Rather than hoarding visitors, feature clients, co-founders, or peers in an understated footer. Linklet automatically pulls their photo from their URL or lets you upload portraits directly.
               </p>
-            </div>
+            </motion.div>
 
             {/* 03 */}
-            <div className="py-10 space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
+              className="py-10 space-y-4"
+            >
               <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#d0f600] block">
                 03 / PRIVATE METRICS
               </span>
@@ -211,12 +282,12 @@ export default function LandingPage() {
               <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xl">
                 A transparent real-time log of profile visits and direct link clicks. No ad tracking, no cross-site pixels, and no selling visitor data.
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Section 3: Asymmetric Editorial Split Quote & Statement */}
+      {/* Section 3: Asymmetric Editorial Split Quote */}
       <section className="py-28 lg:py-36 px-6 lg:px-12 border-b border-[var(--border-soft)]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-8 space-y-6">
@@ -267,7 +338,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer Colophon */}
-      <footer className="mt-auto py-12 px-6 lg:px-12 border-t border-[var(--border-soft)] bg-[#00142b] text-[11px] tracking-[0.14em] uppercase text-[var(--color-text-subtle)]">
+      <footer className="mt-auto py-12 px-6 lg:px-12 border-t border-[var(--border-soft)] bg-[#001026] text-[11px] tracking-[0.14em] uppercase text-[var(--color-text-subtle)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <span className="font-heading font-medium text-sm text-[var(--color-text-offwhite)] tracking-tight">

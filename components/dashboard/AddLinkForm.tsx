@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { detectPlatform, isValidUrl } from "@/lib/platforms";
+import { detectPlatform } from "@/lib/platforms";
+import { sanitizeAndValidateUrl } from "@/lib/security";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { Plus, Link2, Check } from "lucide-react";
 
@@ -30,16 +31,17 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
       return;
     }
 
-    if (!isValidUrl(url)) {
-      setError("Please enter a valid URL (e.g. https://instagram.com/yourname).");
+    const validation = sanitizeAndValidateUrl(url);
+    if (!validation.isValid) {
+      setError(validation.error || "Please enter a valid HTTP or HTTPS destination URL.");
       return;
     }
 
-    const info = detectPlatform(url);
+    const info = detectPlatform(validation.sanitizedUrl);
     const finalTitle = customTitle.trim() || info.name || "My Link";
 
     onAdd({
-      url: info.normalizedUrl,
+      url: validation.sanitizedUrl,
       title: finalTitle,
       platform: info.platformId,
     });

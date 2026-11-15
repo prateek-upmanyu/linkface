@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Profile, LinkItem } from "@/types";
 import { createClient } from "@/lib/supabase/client";
 import { packProfileUpdates } from "@/lib/profile-utils";
+import { sanitizeAndValidateUrl } from "@/lib/security";
 import { BrandLogo } from "@/components/BrandLogo";
 import { LinkManager } from "@/components/dashboard/LinkManager";
 import { ThemeSelector } from "@/components/dashboard/ThemeSelector";
@@ -128,28 +129,36 @@ export function DashboardClient({
     if (isDemoMode) return;
 
     try {
-      // 1. Process deletions
+      // 1. Process deletions with strict user_id scoping to prevent ID-tampering
       const currentIds = updatedLinks.map((l) => l.id).filter((id) => !id.startsWith("temp-"));
       const originalIds = links.map((l) => l.id).filter((id) => !id.startsWith("temp-"));
       const deletedIds = originalIds.filter((id) => !currentIds.includes(id));
 
       if (deletedIds.length > 0) {
-        await supabase.from("links").delete().in("id", deletedIds);
+        await supabase
+          .from("links")
+          .delete()
+          .in("id", deletedIds)
+          .eq("user_id", profile.id);
       }
 
-      // 2. Process upserts
+      // 2. Process upserts with server-grade URL sanitization and user scoping
       for (const item of updatedLinks) {
+        const urlValidation = sanitizeAndValidateUrl(item.url);
+        const safeUrl = urlValidation.isValid ? urlValidation.sanitizedUrl : item.url;
+        const safeTitle = (item.title || "My Link").trim().slice(0, 100);
+
         if (item.id.startsWith("temp-")) {
           const { data, error } = await supabase
             .from("links")
             .insert({
               user_id: profile.id,
-              url: item.url,
-              title: item.title,
+              url: safeUrl,
+              title: safeTitle,
               platform: item.platform,
               position: item.position,
               is_visible: item.is_visible,
-              badge: item.badge,
+              badge: item.badge ? item.badge.trim().slice(0, 20) : null,
             })
             .select()
             .single();
@@ -163,14 +172,15 @@ export function DashboardClient({
           await supabase
             .from("links")
             .update({
-              url: item.url,
-              title: item.title,
+              url: safeUrl,
+              title: safeTitle,
               platform: item.platform,
               position: item.position,
               is_visible: item.is_visible,
-              badge: item.badge,
+              badge: item.badge ? item.badge.trim().slice(0, 20) : null,
             })
-            .eq("id", item.id);
+            .eq("id", item.id)
+            .eq("user_id", profile.id);
         }
       }
     } catch (err) {

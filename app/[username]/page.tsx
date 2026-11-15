@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
 import { PublicProfileView } from "@/components/PublicProfileView";
+import { UnclaimedProfileView } from "@/components/UnclaimedProfileView";
 import { Profile, LinkItem } from "@/types";
 import { unpackProfile } from "@/lib/profile-utils";
 
@@ -99,7 +99,7 @@ export default async function UserProfilePage({ params }: PageProps) {
   const data = await getProfileAndLinks(username);
 
   if (!data) {
-    notFound();
+    return <UnclaimedProfileView username={username} />;
   }
 
   const { profile, links } = data;

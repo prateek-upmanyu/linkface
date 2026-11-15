@@ -1,31 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import {
+  sanitizeAndValidateUrl,
+  isPrivateOrReservedHost,
+  checkRateLimit,
+} from "@/lib/security";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    let rawUrl = (body.url || "").trim();
+    // 1. Session verification: Must be an authenticated user
+    const supabase = await createServerSupabaseClient();
+    if (!supabase) {
+      return NextResponse.json({ error: "Service unconfigured" }, { status: 503 });
+    }
 
-    if (!rawUrl) {
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
       return NextResponse.json(
-        { error: "URL is required" },
+        { error: "Authentication required to fetch metadata" },
+        { status: 401 }
+      );
+    }
+
+    // 2. Rate limiting: 15 scrapes per minute per authenticated user
+    const rate = checkRateLimit(`rate:scrape:${user.id}`, 15, 60000);
+    if (!rate.isAllowed) {
+      return NextResponse.json(
+        { error: "Scraping rate limit exceeded. Please wait a moment." },
+        { status: 429, headers: { "Retry-After": String(Math.ceil(rate.resetMs / 1000)) } }
+      );
+    }
+
+    const body = await req.json();
+    const rawUrl = body.url;
+
+    // 3. Strict URL validation
+    const urlValidation = sanitizeAndValidateUrl(rawUrl);
+    if (!urlValidation.isValid) {
+      return NextResponse.json(
+        { error: urlValidation.error || "Invalid URL" },
         { status: 400 }
       );
     }
 
-    // Ensure protocol
-    if (!rawUrl.startsWith("http://") && !rawUrl.startsWith("https://")) {
-      rawUrl = "https://" + rawUrl;
-    }
+    const parsedUrl = new URL(urlValidation.sanitizedUrl);
 
-    let parsedUrl: URL;
-    try {
-      parsedUrl = new URL(rawUrl);
-    } catch {
+    // 4. SSRF Guard: reject loopback, internal networks, or cloud metadata endpoints
+    if (isPrivateOrReservedHost(parsedUrl.hostname)) {
       return NextResponse.json(
-        { error: "Invalid URL provided" },
-        { status: 400 }
+        { error: "Access to private or internal addresses is prohibited." },
+        { status: 403 }
       );
     }
 
@@ -40,6 +70,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
           success: true,
           avatarUrl: `https://github.com/${username}.png`,
+          avatar_url: `https://github.com/${username}.png`,
           name: username,
         });
       }
@@ -53,6 +84,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
           success: true,
           avatarUrl: `https://unavatar.io/x/${username}`,
+          avatar_url: `https://unavatar.io/x/${username}`,
           name: `@${username}`,
         });
       }
@@ -64,6 +96,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         success: true,
         avatarUrl: `https://unavatar.io/substack/${sub}`,
+        avatar_url: `https://unavatar.io/substack/${sub}`,
         name: sub,
       });
     }
@@ -106,9 +139,12 @@ export async function POST(req: NextRequest) {
 
       if (ogImageMatch && ogImageMatch[1]) {
         try {
-          avatarUrl = new URL(ogImageMatch[1], parsedUrl.href).href;
+          const resolved = new URL(ogImageMatch[1], parsedUrl.href);
+          if (!isPrivateOrReservedHost(resolved.hostname)) {
+            avatarUrl = resolved.href;
+          }
         } catch {
-          avatarUrl = ogImageMatch[1];
+          avatarUrl = null;
         }
       }
 
@@ -120,7 +156,6 @@ export async function POST(req: NextRequest) {
 
       if (titleMatch && titleMatch[1]) {
         title = titleMatch[1].trim();
-        // Clean up common suffixes like " - YouTube", " | Twitter", " / X"
         title = title.replace(/\s*([|–—-])\s*(YouTube|Twitter|X|GitHub|Instagram|LinkedIn|Substack|Twitch).*$/i, "").trim();
       }
     }

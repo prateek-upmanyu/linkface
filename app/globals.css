@@ -1,42 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500;1,6..96,600;1,6..96,700&family=Manrope:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500;1,6..96,600;1,6..96,700&family=Manrope:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap');
 @import "tailwindcss";
 
 :root {
   /* =========================================================================
      LINKLET EDITORIAL LUXURY SYSTEM
-     - Palette: Heritage Blue (#002e62) & Acid Lime (#d0f600)
-     - Typography: Bodoni Moda (Editorial Headings) & Manrope (Body/UI)
-     - Radii: 12px (Surfaces) and Full (Buttons) ONLY
-     - Depth: Clean color hierarchy & thin 1px borders. Zero drop shadows/glows.
+     - Main Palette: Heritage Blue (#002e62)
+     - Accents: Acid Lime (#d0f600) — rare, ~5% of UI
+     - Typography: Bodoni Moda (High-fashion Editorial Headings) & Manrope (Body/UI)
+     - Spacing Scale: 4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px, 96px, 128px
+     - Radii: 12px (Surfaces) and 9999px (Buttons/Pills) ONLY
      ========================================================================= */
 
-  /* Palette */
-  --color-heritage-deep: #001a3a;
-  --color-heritage-dark: #00224a;
+  /* Primary Palette */
+  --color-heritage-deep: #001530;
+  --color-heritage-dark: #001e42;
   --color-heritage-blue: #002e62;
   --color-heritage-surface: #0a3d7a;
+  --color-heritage-card: #002654;
 
+  /* Rare Accent (5%) */
   --color-acid-lime: #d0f600;
   --color-acid-lime-hover: #bde000;
   --color-text-on-lime: #002e62;
 
+  /* Text & Neutrals */
   --color-text-offwhite: #f4f7fb;
   --color-text-muted: #8ea8c7;
   --color-text-subtle: #5c7b9e;
 
+  /* Fine 1px Borders */
   --border-soft: rgba(142, 168, 199, 0.16);
   --border-medium: rgba(142, 168, 199, 0.28);
   --border-lime: #d0f600;
 
-  /* Standard Radii (2 sizes only) */
+  /* Strict Radii (2 sizes only) */
   --radius-surface: 12px;
   --radius-button: 9999px;
 
-  /* Fonts */
+  /* Typography */
   --font-heading: 'Bodoni Moda', Georgia, serif;
   --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: var(--font-heading);
-  --font-sans: var(--font-body);
 }
 
 @theme inline {
@@ -44,8 +47,14 @@
   --color-foreground: var(--color-text-offwhite);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
-  --font-serif: var(--font-heading);
-  --font-sans: var(--font-body);
+}
+
+/* =========================================================================
+   BASE STYLES & LUXURY TEXTURE
+   ========================================================================= */
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -53,8 +62,49 @@ body {
   color: var(--color-text-offwhite);
   font-family: var(--font-body);
   min-height: 100vh;
+  line-height: 1.65;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Subtle tactile noise texture on dark luxury backgrounds */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* High-Fashion Selection Color */
+::selection {
+  background-color: var(--color-heritage-surface);
+  color: var(--color-acid-lime);
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-heritage-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-heritage-surface);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-acid-lime);
 }
 
 /* Typography Helpers */
@@ -67,7 +117,7 @@ body {
 }
 
 /* =========================================================================
-   TWO BUTTON STYLES ONLY
+   TWO BUTTON STYLES ONLY (Solid Lime & Thin Outline)
    ========================================================================= */
 
 /* Style 1: Solid Lime with Heritage Blue text */
@@ -80,15 +130,16 @@ body {
   font-weight: 600;
   font-size: 0.8125rem;
   line-height: 1;
-  padding: 0.65rem 1.25rem;
+  padding: 0.75rem 1.35rem;
   border-radius: var(--radius-button);
-  transition: background-color 0.15s ease, transform 0.15s ease;
+  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s ease, opacity 0.2s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: none;
+  border: 1px solid var(--color-acid-lime);
+  user-select: none;
 }
 
 .btn-lime:hover,
@@ -101,7 +152,12 @@ body {
 .btn-lime:active,
 .luxury-btn-lime:active,
 .luxury-btn-gold:active {
-  transform: translateY(0);
+  transform: scale(0.98);
+}
+
+.btn-lime:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-heritage-deep), 0 0 0 4px var(--color-acid-lime);
 }
 
 /* Style 2: Thin Outline */
@@ -113,33 +169,45 @@ body {
   font-weight: 500;
   font-size: 0.8125rem;
   line-height: 1;
-  padding: 0.65rem 1.25rem;
+  padding: 0.75rem 1.35rem;
   border-radius: var(--radius-button);
   border: 1px solid var(--border-soft);
-  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  user-select: none;
 }
 
 .btn-outline:hover,
 .luxury-btn-outline:hover {
   border-color: var(--color-acid-lime);
   color: var(--color-text-offwhite);
-  background-color: rgba(208, 246, 0, 0.05);
+  background-color: rgba(208, 246, 0, 0.04);
+  transform: translateY(-1px);
+}
+
+.btn-outline:active,
+.luxury-btn-outline:active {
+  transform: scale(0.98);
+}
+
+.btn-outline:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-heritage-deep), 0 0 0 4px var(--color-acid-lime);
 }
 
 /* =========================================================================
-   SURFACES & INPUTS (12px Radius, 1px Border, No Heavy Shadows)
+   SURFACES & INPUTS (12px Radius, 1px Border)
    ========================================================================= */
 
 .luxury-card {
-  background: var(--color-heritage-blue);
+  background: var(--color-heritage-card);
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-surface);
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .luxury-card:hover {
@@ -152,12 +220,13 @@ body {
   border-radius: var(--radius-surface);
   color: var(--color-text-offwhite);
   font-family: var(--font-body);
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .luxury-input:focus {
   outline: none;
   border-color: var(--color-acid-lime);
+  box-shadow: 0 0 0 1px var(--color-acid-lime);
 }
 
 .luxury-input::placeholder {
@@ -180,10 +249,44 @@ body {
   left: 0;
   background-color: var(--color-acid-lime);
   transform-origin: bottom right;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .editorial-link:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
+}
+
+/* Skeletons */
+.luxury-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(142, 168, 199, 0.08) 25%,
+    rgba(142, 168, 199, 0.18) 50%,
+    rgba(142, 168, 199, 0.08) 75%
+  );
+  background-size: 200% 100%;
+  animation: luxuryShimmer 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  border-radius: var(--radius-surface);
+}
+
+@keyframes luxuryShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

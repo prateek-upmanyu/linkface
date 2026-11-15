@@ -1,65 +1,35 @@
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { validateUsername, checkRateLimit, getClientIp } from "@/lib/security";
 
 export const dynamic = "force-dynamic";
 
-const RESERVED_USERNAMES = new Set([
-  "admin",
-  "administrator",
-  "root",
-  "login",
-  "signup",
-  "signin",
-  "auth",
-  "api",
-  "dashboard",
-  "settings",
-  "account",
-  "profile",
-  "user",
-  "help",
-  "support",
-  "terms",
-  "privacy",
-  "explore",
-  "about",
-  "contact",
-  "billing",
-  "public",
-  "static",
-  "assets",
-  "favicon",
-  "robots",
-  "sitemap",
-]);
-
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const username = (searchParams.get("username") || "").toLowerCase().trim();
-
-  if (!username) {
+  // Rate limiting: 60 checks per minute per IP
+  const clientIp = getClientIp(request);
+  const rate = checkRateLimit(`rate:username_check:${clientIp}`, 60, 60000);
+  if (!rate.isAllowed) {
     return NextResponse.json(
-      { available: false, message: "Username is required." },
-      { status: 400 }
+      { available: false, message: "Too many checks. Please wait a moment." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(Math.ceil(rate.resetMs / 1000)) },
+      }
     );
   }
 
-  // Format validation: 3-20 characters, lowercase letters, numbers, and underscores only
-  if (!/^[a-z0-9_]{3,20}$/.test(username)) {
+  const { searchParams } = new URL(request.url);
+  const rawUsername = searchParams.get("username");
+
+  const validation = validateUsername(rawUsername);
+  if (!validation.isValid) {
     return NextResponse.json({
       available: false,
-      message:
-        "Username must be 3-20 characters long and contain only lowercase letters, numbers, and underscores.",
+      message: validation.error,
     });
   }
 
-  // Reserved keyword validation
-  if (RESERVED_USERNAMES.has(username)) {
-    return NextResponse.json({
-      available: false,
-      message: `The username "${username}" is a reserved system word.`,
-    });
-  }
+  const username = validation.cleanUsername;
 
   // Check Supabase if configured
   try {
@@ -76,7 +46,7 @@ export async function GET(request: Request) {
       } else if (data) {
         return NextResponse.json({
           available: false,
-          message: "This username is already taken.",
+          message: "This username is already claimed.",
         });
       }
     }
@@ -84,16 +54,8 @@ export async function GET(request: Request) {
     console.warn("Could not reach database, allowing fallback check:", err);
   }
 
-  // Demo user check
-  if (username === "alex") {
-    return NextResponse.json({
-      available: false,
-      message: "The username 'alex' is reserved for the live demo showcase.",
-    });
-  }
-
   return NextResponse.json({
     available: true,
-    message: "Username is available!",
+    message: "Username is available.",
   });
 }

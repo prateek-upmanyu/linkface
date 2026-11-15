@@ -1,37 +1,41 @@
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { checkRateLimit, getClientIp } from "@/lib/security";
+
+export const dynamic = "force-dynamic";
+
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function POST(request: Request) {
   try {
+    // Rate limit: max 30 clicks per minute per IP
+    const clientIp = getClientIp(request);
+    const rate = checkRateLimit(`rate:click:${clientIp}`, 30, 60000);
+    if (!rate.isAllowed) {
+      return NextResponse.json(
+        { error: "Rate limit exceeded" },
+        { status: 429, headers: { "Retry-After": String(Math.ceil(rate.resetMs / 1000)) } }
+      );
+    }
+
     const body = await request.json();
     const { linkId } = body;
 
-    if (!linkId) {
-      return NextResponse.json({ error: "Missing linkId" }, { status: 400 });
+    if (!linkId || typeof linkId !== "string" || !UUID_REGEX.test(linkId)) {
+      return NextResponse.json({ error: "Invalid link identifier" }, { status: 400 });
     }
 
     const supabase = await createServerSupabaseClient();
     if (supabase) {
-      // First attempt using secure RPC function
+      // Execute atomic RPC increment. RPC is configured with SECURITY DEFINER
+      // so unauthenticated visitors can track clicks without direct table write access.
       const { error: rpcError } = await supabase.rpc("increment_link_clicks", {
         link_id: linkId,
       });
 
       if (rpcError) {
-        // Fallback: direct update if RPC is not installed yet
-        console.warn("RPC increment_link_clicks failed, attempting fallback:", rpcError);
-        const { data: link } = await supabase
-          .from("links")
-          .select("click_count")
-          .eq("id", linkId)
-          .single();
-
-        if (link) {
-          await supabase
-            .from("links")
-            .update({ click_count: (link.click_count || 0) + 1 })
-            .eq("id", linkId);
-        }
+        console.warn("RPC increment_link_clicks error:", rpcError);
+        return NextResponse.json({ error: "Failed to record click" }, { status: 500 });
       }
     }
 

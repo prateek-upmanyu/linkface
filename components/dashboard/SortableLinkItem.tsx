@@ -5,6 +5,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { LinkItem } from "@/types";
 import { PLATFORMS, detectPlatform, getPlatformBadgeStyle } from "@/lib/platforms";
+import { sanitizeAndValidateUrl } from "@/lib/security";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import {
   GripVertical,
@@ -68,12 +69,14 @@ export function SortableLinkItem({
       : null;
 
   const handleSaveEdit = () => {
-    const detected = detectPlatform(editUrl);
+    const validation = sanitizeAndValidateUrl(editUrl);
+    const finalUrl = validation.isValid ? validation.sanitizedUrl : editUrl;
+    const detected = detectPlatform(finalUrl);
     onUpdate(link.id, {
-      title: editTitle.trim() || link.title,
-      url: detected.normalizedUrl || editUrl,
+      title: editTitle.trim().slice(0, 100) || link.title,
+      url: finalUrl,
       platform: detected.platformId || link.platform,
-      badge: editBadge.trim() || null,
+      badge: editBadge.trim().slice(0, 20) || null,
     });
     setIsEditing(false);
   };

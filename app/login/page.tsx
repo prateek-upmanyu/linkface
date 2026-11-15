@@ -33,8 +33,14 @@ export default function LoginPage() {
 
     try {
       if (isSignUp) {
+        if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
+          setError("Password must be at least 8 characters and include both letters and numbers.");
+          setLoading(false);
+          return;
+        }
+
         const { data, error: signUpError } = await supabase.auth.signUp({
-          email,
+          email: email.trim().toLowerCase(),
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/auth/callback`,
@@ -54,12 +60,13 @@ export default function LoginPage() {
         }
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({
-          email,
+          email: email.trim().toLowerCase(),
           password,
         });
 
         if (signInError) {
-          setError(signInError.message);
+          // Generic error message to prevent user enumeration
+          setError("Invalid email or password.");
           setLoading(false);
           return;
         }
@@ -67,7 +74,7 @@ export default function LoginPage() {
         router.push("/dashboard");
       }
     } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
+      setError("An unexpected authentication error occurred.");
     } finally {
       setLoading(false);
     }

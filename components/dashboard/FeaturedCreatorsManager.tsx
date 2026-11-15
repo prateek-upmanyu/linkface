@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FeaturedCreator, Profile } from "@/types";
 import { processAvatarImage } from "@/lib/image-utils";
+import { sanitizeAndValidateUrl } from "@/lib/security";
 import {
   Check,
   Trash2,
@@ -169,16 +170,23 @@ export function FeaturedCreatorsManager({
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Filter only slots with both name and url, normalizing the url
-    const validCreators = creators
-      .filter((c) => c.name.trim() && c.url.trim())
-      .map((c) => ({
-        ...c,
-        name: c.name.trim(),
-        url: normalizeUrl(c.url),
-        tagline: c.tagline?.trim() || null,
-        avatar_url: c.avatar_url?.trim() || null,
-      }));
+    // Filter only slots with both name and url, sanitizing the destination URL
+    const validCreators: FeaturedCreator[] = [];
+
+    for (const c of creators) {
+      if (c.name.trim() && c.url.trim()) {
+        const urlValidation = sanitizeAndValidateUrl(c.url);
+        const finalUrl = urlValidation.isValid ? urlValidation.sanitizedUrl : c.url.trim();
+
+        validCreators.push({
+          ...c,
+          name: c.name.trim().slice(0, 50),
+          url: finalUrl,
+          tagline: c.tagline?.trim().slice(0, 40) || null,
+          avatar_url: c.avatar_url?.trim() || null,
+        });
+      }
+    }
 
     await onUpdateProfile({
       featured_creators: validCreators,
