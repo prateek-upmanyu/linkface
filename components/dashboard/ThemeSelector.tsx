@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Profile, ThemeId } from "@/types";
 import { PRIMARY_THEMES, getTheme } from "@/lib/themes";
-import { Check, Layers, ArrowRight } from "lucide-react";
+import { Check } from "lucide-react";
 
 interface ThemeSelectorProps {
   profile: Profile;
@@ -37,15 +37,15 @@ export function ThemeSelector({
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#38bdf8]">
-              03 Editions
+              03 Official Themes
             </span>
             <span className="text-[var(--color-text-subtle)] text-xs">&mdash;</span>
             <h3 className="font-heading text-base font-medium text-[var(--color-text-offwhite)]">
-              Card & Profile Theme
+              Card & Typography Theme
             </h3>
           </div>
           <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
-            Choose your signature showcase aesthetic. Updates your public page and link cards instantly.
+            Select between Apple Modern, BMW Edition, and Minecraft Retro. Applies official fonts and exact color palettes.
           </p>
         </div>
       </div>
@@ -69,7 +69,7 @@ export function ThemeSelector({
               {/* Top Row: Name + Selected Tag */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-heading font-semibold text-white">
+                  <span className="text-sm font-heading font-semibold text-white">
                     {t.name}
                   </span>
                   {isSelected && (
@@ -78,9 +78,43 @@ export function ThemeSelector({
                     </span>
                   )}
                 </div>
-                <p className="text-[11px] text-[var(--color-text-muted)] leading-snug">
-                  {t.tagline}
-                </p>
+
+                {/* Font Indicator */}
+                <div className="flex items-center gap-1.5 mt-1">
+                  <span className="text-[10px] font-mono text-[#38bdf8] uppercase tracking-wider font-semibold">
+                    Font:
+                  </span>
+                  <span
+                    className="text-xs text-white font-medium truncate"
+                    style={{ fontFamily: t.fontFamily }}
+                  >
+                    {t.fontName}
+                  </span>
+                </div>
+              </div>
+
+              {/* Color Palette Swatches */}
+              <div className="space-y-1.5">
+                <span className="text-[9px] font-mono uppercase tracking-wider text-white/50 block">
+                  Color Palette
+                </span>
+                <div className="flex items-center gap-2">
+                  {t.paletteColors.map((hex) => (
+                    <div
+                      key={hex}
+                      className="group/swatch relative flex flex-col items-center"
+                    >
+                      <div
+                        className="w-7 h-7 rounded-full border border-white/20 shadow-sm"
+                        style={{ backgroundColor: hex }}
+                        title={hex}
+                      />
+                      <span className="text-[8px] font-mono text-white/70 mt-0.5">
+                        {hex}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Mini Card Preview */}
@@ -88,7 +122,7 @@ export function ThemeSelector({
                 className="w-full p-3 rounded-[10px] border flex items-center justify-between select-none"
                 style={{
                   background: t.previewBg,
-                  borderColor: isSelected ? t.previewAccent : "rgba(255,255,255,0.12)",
+                  borderColor: isSelected ? t.previewAccent : "rgba(255,255,255,0.15)",
                 }}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
@@ -122,11 +156,6 @@ export function ThemeSelector({
                   &rarr;
                 </div>
               </div>
-
-              {/* Description */}
-              <p className="text-[10px] text-[var(--color-text-subtle)] leading-relaxed">
-                {t.description}
-              </p>
 
               {/* Action Button */}
               <button

@@ -44,7 +44,7 @@ export function PublicLinkButton({ link, themeId = "apple" }: PublicLinkButtonPr
 
   const iconStyle = getPlatformBadgeStyle(platform?.brandColor, true);
 
-  // 1. APPLE EDITION: Cupertino Frosted Glass & SF Typography
+  // 1. APPLE MODERN: San Francisco font + #F5F5F7 / #1D1D1F / #AAAAAA / #007AFF
   if (theme.id === "apple") {
     return (
       <a
@@ -52,7 +52,7 @@ export function PublicLinkButton({ link, themeId = "apple" }: PublicLinkButtonPr
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleClick}
-        className={`w-full py-3.5 px-4 sm:py-4 sm:px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none rounded-[16px] bg-white/[0.08] hover:bg-white/[0.14] active:bg-white/[0.22] border border-white/15 hover:border-white/30 backdrop-blur-xl shadow-sm ${
+        className={`w-full py-3.5 px-4 sm:py-4 sm:px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none rounded-[18px] bg-[#2C2C2E] hover:bg-[#3A3A3C] active:bg-[#48484A] border border-[#AAAAAA]/25 hover:border-[#007AFF]/70 shadow-sm ${
           clicked ? "scale-[0.99]" : ""
         }`}
       >
@@ -74,23 +74,23 @@ export function PublicLinkButton({ link, themeId = "apple" }: PublicLinkButtonPr
             />
           </div>
 
-          <span className="font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Text','Helvetica_Neue',sans-serif] font-medium text-sm sm:text-base tracking-tight truncate flex-1 text-[#f5f5f7] group-hover:text-white transition-colors">
+          <span className="font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Text','SF_Pro','Helvetica_Neue',sans-serif] font-medium text-sm sm:text-base tracking-tight truncate flex-1 text-[#F5F5F7] group-hover:text-white transition-colors">
             {link.title}
           </span>
 
           {link.badge && (
-            <span className="px-2.5 py-0.5 text-[10px] font-[-apple-system,sans-serif] font-medium tracking-wide uppercase rounded-full shrink-0 ml-1.5 bg-white/15 text-[#f5f5f7] border border-white/20">
+            <span className="px-2.5 py-0.5 text-[10px] font-[-apple-system,sans-serif] font-medium tracking-wide uppercase rounded-full shrink-0 ml-1.5 bg-[#007AFF]/15 text-[#007AFF] border border-[#007AFF]/35">
               {link.badge}
             </span>
           )}
         </div>
 
-        <ChevronRight className="w-4 h-4 text-[#86868b] group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0 ml-1" />
+        <ChevronRight className="w-4 h-4 text-[#AAAAAA] group-hover:text-[#007AFF] group-hover:translate-x-0.5 transition-all shrink-0 ml-1" />
       </a>
     );
   }
 
-  // 2. BMW M EDITION: Carbon Obsidian & Precision M Tricolor Accent
+  // 2. BMW: Helvetica Bold + #FFFFFF / #4AA5D2 / #000000
   if (theme.id === "bmw") {
     return (
       <a
@@ -98,20 +98,16 @@ export function PublicLinkButton({ link, themeId = "apple" }: PublicLinkButtonPr
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleClick}
-        className={`relative w-full py-3.5 px-4 sm:py-4 sm:px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none rounded-[10px] bg-[#0d131f] hover:bg-[#141d2e] border-l-4 border-l-[#009ada] border-y border-r border-[#1e293b] hover:border-[#009ada]/70 shadow-[0_8px_30px_rgba(0,0,0,0.6)] ${
+        className={`relative w-full py-3.5 px-4 sm:py-4 sm:px-5 flex items-center justify-between transition-all duration-150 group text-decoration-none select-none rounded-[10px] bg-[#0D0D0D] hover:bg-[#161616] border border-[#4AA5D2]/40 hover:border-[#4AA5D2] shadow-[0_8px_30px_rgba(0,0,0,0.85)] ${
           clicked ? "scale-[0.99]" : ""
         }`}
       >
-        {/* Subtle BMW M-Performance Tricolor Accent In Corner */}
-        <div className="flex items-center gap-0.5 absolute top-2 right-2.5 opacity-40 group-hover:opacity-100 transition-opacity">
-          <span className="w-1.5 h-1 bg-[#009ada] rounded-xs" />
-          <span className="w-1.5 h-1 bg-[#003399] rounded-xs" />
-          <span className="w-1.5 h-1 bg-[#e00000] rounded-xs" />
-        </div>
+        {/* BMW Sky Blue Accent Tick */}
+        <div className="w-1 h-5 rounded-full bg-[#4AA5D2] shrink-0 mr-3 opacity-90 group-hover:opacity-100" />
 
-        <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-2">
+        <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
           <div
-            className="w-9 h-9 rounded-[6px] flex items-center justify-center shrink-0 border border-[#1e293b] bg-[#111726]"
+            className="w-9 h-9 rounded-[6px] flex items-center justify-center shrink-0 border border-[#4AA5D2]/30 bg-[#000000]"
             style={{
               backgroundColor: iconStyle.bgColor,
               color: iconStyle.color,
@@ -127,33 +123,33 @@ export function PublicLinkButton({ link, themeId = "apple" }: PublicLinkButtonPr
             />
           </div>
 
-          <span className="font-['Space_Grotesk',sans-serif] font-bold text-xs sm:text-sm tracking-wide uppercase truncate flex-1 text-[#f8fafc] group-hover:text-[#38bdf8] transition-colors">
+          <span className="font-['Helvetica_Neue',Helvetica,Arial,sans-serif] font-bold text-xs sm:text-sm tracking-wide uppercase truncate flex-1 text-[#FFFFFF] group-hover:text-[#4AA5D2] transition-colors">
             {link.title}
           </span>
 
           {link.badge && (
-            <span className="px-2 py-0.5 text-[9px] font-['Space_Grotesk',sans-serif] font-bold tracking-wider uppercase rounded-[4px] shrink-0 ml-1.5 bg-[#009ada]/15 text-[#38bdf8] border border-[#009ada]/40">
+            <span className="px-2 py-0.5 text-[9px] font-['Helvetica_Neue',Helvetica,Arial,sans-serif] font-bold tracking-wider uppercase rounded-[4px] shrink-0 ml-1.5 bg-[#4AA5D2]/15 text-[#4AA5D2] border border-[#4AA5D2]/50">
               {link.badge}
             </span>
           )}
         </div>
 
         <ArrowUpRight
-          strokeWidth={1.75}
-          className="w-4 h-4 text-[#009ada] group-hover:text-[#38bdf8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1"
+          strokeWidth={2}
+          className="w-4 h-4 text-[#4AA5D2] group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1"
         />
       </a>
     );
   }
 
-  // 3. MINECRAFT EDITION: Authentic Voxel 3D Beveled Stone Block
+  // 3. MINECRAFT EDITION: Silkscreen Voxel 3D Beveled Stone Block
   return (
     <a
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={`w-full py-3 px-4 flex items-center justify-between select-none rounded-none bg-[#2b2b2b] hover:bg-[#353535] border-2 border-t-[#666666] border-l-[#666666] border-b-[#111111] border-r-[#111111] active:border-t-[#111111] active:border-l-[#111111] active:border-b-[#666666] active:border-r-[#666666] shadow-[2px_2px_0px_#000000] text-decoration-none group ${
+      className={`w-full py-3 px-4 flex items-center justify-between select-none rounded-none bg-[#2B2B2B] hover:bg-[#353535] border-2 border-t-[#666666] border-l-[#666666] border-b-[#111111] border-r-[#111111] active:border-t-[#111111] active:border-l-[#111111] active:border-b-[#666666] active:border-r-[#666666] shadow-[2px_2px_0px_#000000] text-decoration-none group ${
         clicked ? "translate-x-0.5 translate-y-0.5 shadow-none" : ""
       }`}
     >
@@ -175,12 +171,12 @@ export function PublicLinkButton({ link, themeId = "apple" }: PublicLinkButtonPr
           />
         </div>
 
-        <span className="font-['Silkscreen',monospace] font-bold text-[11px] sm:text-xs tracking-wider truncate flex-1 text-[#ffffff] group-hover:text-[#55ff55] transition-colors">
+        <span className="font-['Silkscreen',monospace] font-bold text-[11px] sm:text-xs tracking-wider truncate flex-1 text-[#FFFFFF] group-hover:text-[#55FF55] transition-colors">
           {link.title}
         </span>
 
         {link.badge && (
-          <span className="px-1.5 py-0.5 text-[8px] font-['Silkscreen',monospace] font-bold tracking-widest uppercase rounded-none shrink-0 ml-1 bg-[#1a381a] text-[#55ff55] border border-[#55ff55]/60">
+          <span className="px-1.5 py-0.5 text-[8px] font-['Silkscreen',monospace] font-bold tracking-widest uppercase rounded-none shrink-0 ml-1 bg-[#1A381A] text-[#55FF55] border border-[#55FF55]/60">
             {link.badge}
           </span>
         )}
@@ -188,7 +184,7 @@ export function PublicLinkButton({ link, themeId = "apple" }: PublicLinkButtonPr
 
       <ArrowUpRight
         strokeWidth={2}
-        className="w-3.5 h-3.5 text-[#55ff55] group-hover:text-white transition-colors shrink-0 ml-1"
+        className="w-3.5 h-3.5 text-[#55FF55] group-hover:text-white transition-colors shrink-0 ml-1"
       />
     </a>
   );

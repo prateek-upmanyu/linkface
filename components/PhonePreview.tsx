@@ -26,21 +26,24 @@ export function PhonePreview({
   const theme = getTheme(profile.theme);
 
   // Background and frame styling per theme
-  let frameBg = "bg-[#090a0f] border-white/10";
-  let titleClass = "font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Display','Helvetica_Neue',sans-serif] font-semibold text-2xl tracking-tight text-white";
-  let bioClass = "font-[-apple-system,sans-serif] text-xs text-[#86868b]";
-  let avatarRing = "ring-2 ring-white/20";
+  let frameBg = "bg-[#1D1D1F] border-[#AAAAAA]/20";
+  let titleClass =
+    "font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro','Helvetica_Neue',sans-serif] font-semibold text-2xl tracking-tight text-[#F5F5F7]";
+  let bioClass = "font-[-apple-system,sans-serif] text-xs text-[#AAAAAA]";
+  let avatarRing = "ring-2 ring-[#AAAAAA]/30 shadow-[0_0_20px_rgba(0,122,255,0.2)]";
 
   if (theme.id === "bmw") {
-    frameBg = "bg-[#080a0f] border-[#1e293b]";
-    titleClass = "font-['Space_Grotesk',sans-serif] font-bold text-xl tracking-wider uppercase text-[#f8fafc]";
-    bioClass = "font-['Space_Grotesk',sans-serif] text-xs text-[#64748b]";
-    avatarRing = "ring-2 ring-[#009ada] shadow-[0_0_20px_rgba(0,154,218,0.3)]";
+    frameBg = "bg-[#000000] border-[#4AA5D2]/30 shadow-[0_0_40px_rgba(74,165,210,0.15)]";
+    titleClass =
+      "font-['Helvetica_Neue',Helvetica,Arial,sans-serif] font-bold text-xl tracking-tight uppercase text-[#FFFFFF]";
+    bioClass = "font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-xs text-[#4AA5D2]/80";
+    avatarRing = "ring-2 ring-[#4AA5D2] shadow-[0_0_24px_rgba(74,165,210,0.45)]";
   } else if (theme.id === "minecraft") {
     frameBg = "bg-[#141416] border-[#333333]";
-    titleClass = "font-['Silkscreen',monospace] font-bold text-base tracking-widest uppercase text-white drop-shadow-[2px_2px_0px_#000]";
+    titleClass =
+      "font-['Silkscreen',monospace] font-bold text-base tracking-widest uppercase text-white drop-shadow-[2px_2px_0px_#000]";
     bioClass = "font-['Silkscreen',monospace] text-[11px] text-[#aaaaaa]";
-    avatarRing = "border-2 border-[#55ff55] rounded-none";
+    avatarRing = "border-2 border-[#55FF55] rounded-none";
   }
 
   return (
@@ -50,8 +53,12 @@ export function PhonePreview({
       {/* Phone Mockup Header */}
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10 text-[10px] font-mono tracking-[0.16em] uppercase text-white/50">
         <span className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#009ada] animate-pulse" />
-          {theme.name}
+          <span
+            className="w-2 h-2 rounded-full"
+            style={{ backgroundColor: theme.accentColor }}
+          />
+          <span className="text-white/80 font-medium">{theme.name}</span>
+          <span className="text-white/40">&bull; {theme.fontName}</span>
         </span>
         <SoundToggle />
       </div>

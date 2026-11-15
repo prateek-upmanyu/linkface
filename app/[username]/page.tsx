@@ -113,23 +113,25 @@ export default async function UserProfilePage({ params }: PageProps) {
   const theme = getTheme(profile.theme);
 
   // Dynamic typography & surface styling per theme
+  // 1. APPLE MODERN: San Francisco + #1D1D1F / #F5F5F7 / #007AFF
   let titleClass =
-    "font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Display','Helvetica_Neue',sans-serif] text-2xl sm:text-3xl font-semibold tracking-tight text-[#f5f5f7]";
-  let bioClass = "font-[-apple-system,sans-serif] text-xs sm:text-sm text-[#86868b]";
-  let avatarRing = "ring-2 ring-white/20";
-  let bgClass = "bg-[#000000] text-[#f5f5f7]";
+    "font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro','Helvetica_Neue',sans-serif] text-2xl sm:text-3xl font-semibold tracking-tight text-[#F5F5F7]";
+  let bioClass = "font-[-apple-system,sans-serif] text-xs sm:text-sm text-[#AAAAAA]";
+  let avatarRing = "ring-2 ring-[#AAAAAA]/30 shadow-[0_0_24px_rgba(0,122,255,0.25)]";
+  let bgClass = "bg-[#1D1D1F] text-[#F5F5F7]";
 
+  // 2. BMW: Helvetica Bold + #000000 / #4AA5D2 / #FFFFFF
   if (theme.id === "bmw") {
     titleClass =
-      "font-['Space_Grotesk',sans-serif] text-xl sm:text-2xl font-bold tracking-wider uppercase text-[#f8fafc]";
-    bioClass = "font-['Space_Grotesk',sans-serif] text-xs sm:text-sm text-[#64748b]";
-    avatarRing = "ring-2 ring-[#009ada] shadow-[0_0_24px_rgba(0,154,218,0.35)]";
-    bgClass = "bg-[#080a0f] text-[#f8fafc]";
+      "font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-xl sm:text-2xl font-bold tracking-tight uppercase text-[#FFFFFF]";
+    bioClass = "font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-xs sm:text-sm text-[#4AA5D2]/80";
+    avatarRing = "ring-2 ring-[#4AA5D2] shadow-[0_0_30px_rgba(74,165,210,0.5)]";
+    bgClass = "bg-[#000000] text-[#FFFFFF]";
   } else if (theme.id === "minecraft") {
     titleClass =
       "font-['Silkscreen',monospace] text-base sm:text-lg font-bold tracking-widest uppercase text-white drop-shadow-[2px_2px_0px_#000]";
     bioClass = "font-['Silkscreen',monospace] text-xs text-[#aaaaaa]";
-    avatarRing = "border-2 border-[#55ff55] rounded-none";
+    avatarRing = "border-2 border-[#55FF55] rounded-none";
     bgClass = "bg-[#141416] text-[#e0e0e0]";
   }
 
@@ -164,7 +166,7 @@ export default async function UserProfilePage({ params }: PageProps) {
             <div
               className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-3xl font-semibold bg-white/10 text-white ${avatarRing}`}
             >
-              {profile.display_name?.charAt(0) || profile.username.charAt(0)}
+              {profile.display_name?.charAt(0) || profile.username?.charAt(0)}
             </div>
           )}
         </div>

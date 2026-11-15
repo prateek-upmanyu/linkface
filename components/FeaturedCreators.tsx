@@ -26,29 +26,29 @@ export function FeaturedCreators({
 
   // Card classes per theme
   let cardClass =
-    "rounded-[14px] bg-white/[0.07] hover:bg-white/[0.12] border border-white/15 hover:border-white/30 text-[#f5f5f7]";
-  let avatarRing = "ring-1 ring-white/20";
-  let titleClass = "font-medium text-xs text-[#f5f5f7] tracking-tight";
-  let subtitleClass = "text-[10px] text-[#86868b]";
+    "rounded-[14px] bg-[#2C2C2E] hover:bg-[#3A3A3C] border border-[#AAAAAA]/25 hover:border-[#007AFF]/60 text-[#F5F5F7]";
+  let avatarRing = "ring-1 ring-[#AAAAAA]/30";
+  let titleClass = "font-medium text-xs text-[#F5F5F7] tracking-tight font-[-apple-system,sans-serif]";
+  let subtitleClass = "text-[10px] text-[#AAAAAA]";
 
   if (theme.id === "bmw") {
     cardClass =
-      "rounded-[8px] bg-[#0d131f] hover:bg-[#141d2e] border border-[#1e293b] hover:border-[#009ada]/70 text-[#f8fafc]";
-    avatarRing = "ring-1 ring-[#009ada]";
-    titleClass = "font-['Space_Grotesk',sans-serif] font-bold text-xs uppercase tracking-wider text-[#f8fafc]";
-    subtitleClass = "font-mono text-[10px] text-[#64748b]";
+      "rounded-[8px] bg-[#0D0D0D] hover:bg-[#161616] border border-[#4AA5D2]/40 hover:border-[#4AA5D2] text-[#FFFFFF]";
+    avatarRing = "ring-1 ring-[#4AA5D2]";
+    titleClass = "font-['Helvetica_Neue',Helvetica,Arial,sans-serif] font-bold text-xs uppercase tracking-wider text-[#FFFFFF]";
+    subtitleClass = "font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-[10px] text-[#4AA5D2]";
   } else if (theme.id === "minecraft") {
     cardClass =
-      "rounded-none bg-[#2b2b2b] hover:bg-[#353535] border-2 border-t-[#666666] border-l-[#666666] border-b-[#111111] border-r-[#111111] text-white shadow-[2px_2px_0px_#000000]";
-    avatarRing = "border border-[#55ff55] rounded-none";
-    titleClass = "font-['Silkscreen',monospace] font-bold text-[10px] tracking-wider text-[#ffffff]";
-    subtitleClass = "font-['Silkscreen',monospace] text-[9px] text-[#55ff55]";
+      "rounded-none bg-[#2B2B2B] hover:bg-[#353535] border-2 border-t-[#666666] border-l-[#666666] border-b-[#111111] border-r-[#111111] text-white shadow-[2px_2px_0px_#000000]";
+    avatarRing = "border border-[#55FF55] rounded-none";
+    titleClass = "font-['Silkscreen',monospace] font-bold text-[10px] tracking-wider text-[#FFFFFF]";
+    subtitleClass = "font-['Silkscreen',monospace] text-[9px] text-[#55FF55]";
   }
 
   return (
     <div className={`w-full mt-7 pt-5 border-t border-white/10 ${className}`}>
       {/* Spotlight Header */}
-      <div className="flex items-center justify-between mb-3 px-1 text-[10px] font-mono tracking-[0.16em] uppercase text-[#86868b]">
+      <div className="flex items-center justify-between mb-3 px-1 text-[10px] font-mono tracking-[0.16em] uppercase text-white/50">
         <span>Spotlight Trio</span>
         <span className="text-white/60">03 Slots</span>
       </div>
