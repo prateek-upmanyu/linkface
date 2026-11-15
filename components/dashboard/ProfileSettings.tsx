@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Profile } from "@/types";
 import { FeaturedCreatorsManager } from "@/components/dashboard/FeaturedCreatorsManager";
 import { processAvatarImage } from "@/lib/image-utils";
@@ -29,6 +29,14 @@ export function ProfileSettings({
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
   const [statusMessage, setStatusMessage] = useState(profile.status_message || "");
   const [statusStyle, setStatusStyle] = useState<"speech" | "cloud" | "pixel">(profile.status_style || "cloud");
+
+  useEffect(() => {
+    setDisplayName(profile.display_name || "");
+    setBio(profile.bio || "");
+    setAvatarUrl(profile.avatar_url || "");
+    setStatusMessage(profile.status_message || "");
+    setStatusStyle(profile.status_style || "cloud");
+  }, [profile.display_name, profile.bio, profile.avatar_url, profile.status_message, profile.status_style]);
 
   const [isSaved, setIsSaved] = useState(false);
   const [isProcessingImage, setIsProcessingImage] = useState(false);

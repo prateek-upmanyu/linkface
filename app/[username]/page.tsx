@@ -4,6 +4,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
 import { PublicProfileView } from "@/components/PublicProfileView";
 import { Profile, LinkItem } from "@/types";
+import { unpackProfile } from "@/lib/profile-utils";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -39,7 +40,7 @@ async function getProfileAndLinks(
           .order("position", { ascending: true });
 
         return {
-          profile,
+          profile: unpackProfile(profile),
           links: links || [],
         };
       }

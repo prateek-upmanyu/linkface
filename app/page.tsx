@@ -1,19 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PhonePreview } from "@/components/PhonePreview";
 import { BrandLogo } from "@/components/BrandLogo";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
 import { ArrowUpRight } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LandingPage() {
   const router = useRouter();
+  const supabase = createClient();
   const [handle, setHandle] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setIsAuthenticated(Boolean(user));
+    }).catch(() => {
+      setIsAuthenticated(false);
+    });
+  }, []);
 
   const handleClaim = (e: React.FormEvent) => {
     e.preventDefault();
+    if (isAuthenticated) {
+      router.push("/dashboard");
+      return;
+    }
     const clean = handle.trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
     if (clean) {
       router.push(`/signup?username=${encodeURIComponent(clean)}`);
@@ -46,18 +61,29 @@ export default function LandingPage() {
             >
               Public Demo
             </Link>
-            <Link
-              href="/login"
-              className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)] hover:text-white editorial-link transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/signup"
-              className="btn-lime text-xs uppercase tracking-[0.12em]"
-            >
-              Get Started
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                href="/dashboard"
+                className="btn-lime text-xs uppercase tracking-[0.12em]"
+              >
+                Dashboard &rarr;
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)] hover:text-white editorial-link transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="btn-lime text-xs uppercase tracking-[0.12em]"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>

@@ -3,6 +3,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { DashboardClient } from "./DashboardClient";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
 import { Profile, LinkItem } from "@/types";
+import { unpackProfile } from "@/lib/profile-utils";
 
 export const dynamic = "force-dynamic";
 
@@ -53,9 +54,11 @@ export default async function DashboardPage() {
     .eq("user_id", user.id)
     .order("position", { ascending: true });
 
+  const hydratedProfile = unpackProfile(profile);
+
   return (
     <DashboardClient
-      initialProfile={profile as Profile}
+      initialProfile={hydratedProfile}
       initialLinks={(links as LinkItem[]) || []}
       isDemoMode={false}
     />

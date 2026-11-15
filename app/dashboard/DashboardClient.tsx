@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Profile, LinkItem } from "@/types";
 import { createClient } from "@/lib/supabase/client";
+import { packProfileUpdates } from "@/lib/profile-utils";
 import { BrandLogo } from "@/components/BrandLogo";
 import { LinkManager } from "@/components/dashboard/LinkManager";
 import { ThemeSelector } from "@/components/dashboard/ThemeSelector";
@@ -48,6 +49,30 @@ export function DashboardClient({
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  // Hydrate from localStorage on client mount if available
+  useEffect(() => {
+    if (typeof window !== "undefined" && initialProfile?.username) {
+      try {
+        const cached = localStorage.getItem(`linklet_profile_${initialProfile.username}`);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed && typeof parsed === "object") {
+            setProfile((prev) => {
+              const hasFeatured = Array.isArray(prev.featured_creators) && prev.featured_creators.length > 0;
+              const cachedFeatured = Array.isArray(parsed.featured_creators) && parsed.featured_creators.length > 0;
+              if (!hasFeatured && cachedFeatured) {
+                return { ...prev, featured_creators: parsed.featured_creators };
+              }
+              return prev;
+            });
+          }
+        }
+      } catch (err) {
+        console.error("Local profile hydration error:", err);
+      }
+    }
+  }, [initialProfile?.username]);
+
   const publicUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/${profile.username}`
@@ -55,13 +80,13 @@ export function DashboardClient({
 
   const handleUpdateProfile = async (updates: Partial<Profile>): Promise<void> => {
     setIsSaving(true);
-    const updated = { ...profile, ...updates };
-    setProfile(updated);
+    const { dbPayload, updatedProfile } = packProfileUpdates(updates, profile);
+    setProfile(updatedProfile);
 
     // Persist to local storage for instant sync across tabs and live preview link
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem(`linklet_profile_${profile.username}`, JSON.stringify(updated));
+        localStorage.setItem(`linklet_profile_${profile.username}`, JSON.stringify(updatedProfile));
       } catch (err) {
         console.error("Local sync error:", err);
       }
@@ -75,7 +100,7 @@ export function DashboardClient({
     try {
       const { error } = await supabase
         .from("profiles")
-        .update(updates)
+        .update(dbPayload)
         .eq("id", profile.id);
 
       if (error) {
