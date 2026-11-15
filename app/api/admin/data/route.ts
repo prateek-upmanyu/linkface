@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthorizedAdmin } from "@/lib/admin-auth";
 import { createAdminSupabaseClient, createServerSupabaseClient } from "@/lib/supabase/server";
+import { unpackProfile } from "@/lib/profile-utils";
 
 export async function GET(req: NextRequest) {
   try {
@@ -21,15 +22,16 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized access to admin console." }, { status: 401 });
     }
 
-    const supabaseAdmin = createAdminSupabaseClient();
+    // Use admin client if service role key exists, otherwise fallback to server client
+    const supabaseAdmin = createAdminSupabaseClient() || (await createServerSupabaseClient());
     if (!supabaseAdmin) {
       return NextResponse.json({ error: "Admin database service unavailable." }, { status: 503 });
     }
 
-    // 2. Fetch profiles safely
+    // 2. Fetch profiles safely with select(*) to unpack metadata from bio
     const { data: profiles, error: profileErr } = await supabaseAdmin
       .from("profiles")
-      .select("id, username, display_name, avatar_url, plan, plan_status, billing_interval, created_at, updated_at, theme")
+      .select("*")
       .order("created_at", { ascending: false });
 
     if (profileErr) {
@@ -47,7 +49,7 @@ export async function GET(req: NextRequest) {
     }
 
     const linksList = links || [];
-    const profilesList = profiles || [];
+    const profilesList = (profiles || []).map((p) => unpackProfile(p));
 
     // Map link count and clicks per user
     const linkCountByUser: Record<string, number> = {};
@@ -68,7 +70,15 @@ export async function GET(req: NextRequest) {
     const estimatedMRR = proUsers * 3; // $3/month approx
 
     const enrichedUsers = profilesList.map((p) => ({
-      ...p,
+      id: p.id,
+      username: p.username,
+      display_name: p.display_name,
+      avatar_url: p.avatar_url,
+      plan: p.plan,
+      plan_status: p.plan_status,
+      billing_interval: p.billing_interval,
+      created_at: p.created_at,
+      theme: p.theme,
       link_count: linkCountByUser[p.id] || 0,
       total_clicks: clicksByUser[p.id] || 0,
     }));

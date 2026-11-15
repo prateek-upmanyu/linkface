@@ -8,6 +8,7 @@ export interface ProfileMetadata {
   status_message?: string | null;
   status_style?: "speech" | "cloud" | "pixel" | null;
   spotlight_enabled?: boolean;
+  plan?: "free" | "pro";
 }
 
 /**
@@ -81,7 +82,10 @@ export function unpackProfile(raw: any): Profile {
       ? Boolean(raw.spotlight_enabled)
       : Boolean(metadata.spotlight_enabled ?? false);
 
-  const plan = raw.plan === "pro" ? "pro" : "free";
+  const plan =
+    raw.plan === "pro" || metadata.plan === "pro"
+      ? "pro"
+      : "free";
 
   return {
     ...raw,
@@ -130,6 +134,11 @@ export function packProfileUpdates(
       ? Boolean(updates.spotlight_enabled)
       : Boolean(currentProfile.spotlight_enabled ?? false);
 
+  const finalPlan =
+    updates.plan !== undefined
+      ? updates.plan
+      : currentProfile.plan || "free";
+
   const rawBio = updates.bio !== undefined ? updates.bio : currentProfile.bio || "";
   const cleanedBio = cleanBio(rawBio);
 
@@ -145,6 +154,9 @@ export function packProfileUpdates(
     meta.status_style = finalStatusStyle;
   }
   meta.spotlight_enabled = finalSpotlight;
+  if (finalPlan === "pro") {
+    meta.plan = "pro";
+  }
 
   // Pack metadata into bio
   let packedBio = cleanedBio;

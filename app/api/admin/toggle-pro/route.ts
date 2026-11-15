@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthorizedAdmin } from "@/lib/admin-auth";
 import { createAdminSupabaseClient, createServerSupabaseClient } from "@/lib/supabase/server";
+import { packProfileUpdates, unpackProfile } from "@/lib/profile-utils";
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,31 +28,38 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid parameters" }, { status: 400 });
     }
 
-    const supabaseAdmin = createAdminSupabaseClient();
+    const supabaseAdmin = createAdminSupabaseClient() || (await createServerSupabaseClient());
     if (!supabaseAdmin) {
       return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
     }
 
-    const updatePayload: Record<string, any> = {
-      plan,
-      plan_status: plan === "pro" ? "active" : null,
-      billing_interval: plan === "pro" ? "monthly" : null,
-      updated_at: new Date().toISOString(),
-    };
-
-    const { data, error } = await supabaseAdmin
+    // 1. Fetch current profile
+    const { data: existingProfile, error: fetchErr } = await supabaseAdmin
       .from("profiles")
-      .update(updatePayload)
+      .select("*")
       .eq("id", userId)
-      .select("id, username, plan, plan_status")
       .single();
 
-    if (error) {
-      console.error("Admin toggle-pro error:", error);
+    if (fetchErr || !existingProfile) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const currentProfile = unpackProfile(existingProfile);
+
+    // 2. Pack updates using metadata storage into bio
+    const { dbPayload, updatedProfile } = packProfileUpdates({ plan }, currentProfile);
+
+    const { error: updateErr } = await supabaseAdmin
+      .from("profiles")
+      .update(dbPayload)
+      .eq("id", userId);
+
+    if (updateErr) {
+      console.error("Admin toggle-pro error:", updateErr);
       return NextResponse.json({ error: "Failed to update user plan" }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true, user: data });
+    return NextResponse.json({ ok: true, user: updatedProfile });
   } catch (err: any) {
     console.error("Admin toggle-pro error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
