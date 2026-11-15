@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyWebhookSignature } from "@/lib/billing";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
+import { checkRateLimit, getClientIp } from "@/lib/security";
 
 export async function POST(req: NextRequest) {
   try {
+    const clientIp = getClientIp(req);
+    const rate = checkRateLimit(`rate:webhook:${clientIp}`, 60, 60000);
+    if (!rate.isAllowed) {
+      return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
+    }
+
     const rawBody = await req.text();
     const signature =
       req.headers.get("webhook-signature") ||
@@ -13,9 +20,9 @@ export async function POST(req: NextRequest) {
 
     // 1. Verify signature if webhook secret is set
     const isValid = verifyWebhookSignature(rawBody, signature);
-    // In test environment without secret configured, allow processing
-    if (!isValid && process.env.NODE_ENV === "production" && process.env.BILLING_WEBHOOK_SECRET) {
-      console.warn("Invalid webhook signature rejected.");
+    // In production with secret configured, strictly reject unauthorized requests
+    if (!isValid && process.env.BILLING_WEBHOOK_SECRET) {
+      console.warn("Invalid webhook signature rejected from IP:", clientIp);
       return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 

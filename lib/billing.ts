@@ -33,7 +33,7 @@ export const BILLING_CONFIG = {
       interval: "yearly" as const,
     },
   },
-  webhookSecret: process.env.BILLING_WEBHOOK_SECRET || process.env.DODO_PAYMENTS_WEBHOOK_SECRET || "dodo_whsec_test_secret",
+  webhookSecret: process.env.BILLING_WEBHOOK_SECRET || process.env.DODO_PAYMENTS_WEBHOOK_SECRET || "",
   apiKey: process.env.BILLING_API_KEY || process.env.DODO_PAYMENTS_API_KEY || "",
   mode: process.env.NODE_ENV === "production" ? "live" : "test",
 };

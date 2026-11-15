@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { isProTheme } from "@/lib/themes";
+import { checkRateLimit, getClientIp } from "@/lib/security";
 
 export async function PATCH(req: NextRequest) {
   try {
     const supabase = await createServerSupabaseClient();
     if (!supabase) {
-      return NextResponse.json({ error: "Database service unavailable" }, { status: 503 });
+      return NextResponse.json({ error: "Database service temporarily unavailable." }, { status: 503 });
     }
 
     const {
@@ -15,7 +16,17 @@ export async function PATCH(req: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized. Please sign in." }, { status: 401 });
+    }
+
+    // Rate Limiting: Max 30 profile updates per minute per user
+    const clientIp = getClientIp(req);
+    const rate = checkRateLimit(`rate:profile_patch:${user.id}:${clientIp}`, 30, 60000);
+    if (!rate.isAllowed) {
+      return NextResponse.json(
+        { error: "Too many updates. Please wait a moment before saving again." },
+        { status: 429, headers: { "Retry-After": String(Math.ceil(rate.resetMs / 1000)) } }
+      );
     }
 
     const { data: currentProfile } = await supabase
@@ -61,14 +72,37 @@ export async function PATCH(req: NextRequest) {
       updated_at: new Date().toISOString(),
     };
 
-    if (body.display_name !== undefined) updatePayload.display_name = body.display_name;
-    if (body.bio !== undefined) updatePayload.bio = body.bio;
-    if (body.avatar_url !== undefined) updatePayload.avatar_url = body.avatar_url;
-    if (body.theme !== undefined) updatePayload.theme = body.theme;
-    if (body.spotlight_enabled !== undefined) updatePayload.spotlight_enabled = body.spotlight_enabled;
-    if (body.status_message !== undefined) updatePayload.status_message = body.status_message;
-    if (body.status_style !== undefined) updatePayload.status_style = body.status_style;
-    if (body.featured_creators !== undefined) updatePayload.featured_creators = body.featured_creators;
+    // Strict input length validation
+    if (body.display_name !== undefined) {
+      updatePayload.display_name = String(body.display_name || "").trim().slice(0, 60);
+    }
+    if (body.bio !== undefined) {
+      updatePayload.bio = String(body.bio || "").trim().slice(0, 300);
+    }
+    if (body.avatar_url !== undefined) {
+      const avatar = String(body.avatar_url || "");
+      if (avatar.startsWith("data:image/") || avatar.startsWith("https://") || avatar === "") {
+        if (avatar.length <= 600000) {
+          updatePayload.avatar_url = avatar;
+        }
+      }
+    }
+    if (body.theme !== undefined) {
+      updatePayload.theme = String(body.theme).trim().slice(0, 40).replace(/[^a-zA-Z0-9_-]/g, "");
+    }
+    if (body.spotlight_enabled !== undefined) {
+      updatePayload.spotlight_enabled = Boolean(body.spotlight_enabled);
+    }
+    if (body.status_message !== undefined) {
+      updatePayload.status_message = String(body.status_message || "").trim().slice(0, 100);
+    }
+    if (body.status_style !== undefined) {
+      const allowedStyles = ["cloud", "dot", "sparkle"];
+      updatePayload.status_style = allowedStyles.includes(body.status_style) ? body.status_style : "cloud";
+    }
+    if (body.featured_creators !== undefined && Array.isArray(body.featured_creators)) {
+      updatePayload.featured_creators = body.featured_creators.slice(0, 6);
+    }
 
     const { data: updated, error: updateError } = await supabase
       .from("profiles")
@@ -78,12 +112,13 @@ export async function PATCH(req: NextRequest) {
       .single();
 
     if (updateError) {
-      return NextResponse.json({ error: updateError.message }, { status: 500 });
+      console.error("Supabase profile update error:", updateError);
+      return NextResponse.json({ error: "Failed to update profile. Please try again." }, { status: 500 });
     }
 
     return NextResponse.json({ profile: updated });
   } catch (err: any) {
     console.error("API profile update error:", err);
-    return NextResponse.json({ error: err.message || "Failed to update profile" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to update profile. Please try again." }, { status: 500 });
   }
 }
