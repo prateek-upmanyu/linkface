@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "Linkface — Quiet Luxury Link in Bio",
   description:
     "An editorial colophon for your digital presence. Curate destinations with architectural precision.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://linktree-livid-three.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://linkface.in"),
   openGraph: {
     title: "Linkface — Quiet Luxury Link in Bio",
     description: "Your entire presence, reduced to one link.",
@@ -35,7 +35,14 @@ export const metadata: Metadata = {
     description: "Your entire presence, reduced to one link.",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/brand-logo-64.png", sizes: "64x64", type: "image/png" },
+      { url: "/brand-logo-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/brand-logo-128.png", sizes: "128x128", type: "image/png" },
+    ],
   },
 };
 
