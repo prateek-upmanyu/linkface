@@ -16,38 +16,40 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#000000",
-          borderRadius: "50%",
-          border: "2.5px solid #FACC15",
-          boxShadow: "0 0 8px rgba(250, 204, 21, 0.4)",
+          backgroundColor: "#FFFDF9",
+          borderRadius: "12px",
+          border: "2px solid #F4D03F",
+          boxShadow: "0 2px 8px rgba(243, 156, 18, 0.2)",
         }}
       >
         <svg
-          width="28"
-          height="28"
-          viewBox="0 0 40 40"
+          width="32"
+          height="32"
+          viewBox="0 0 48 48"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Connecting diagonal center link */}
-          <path
-            d="M17 23L23 17"
-            stroke="#FACC15"
-            strokeWidth="3.8"
-            strokeLinecap="round"
-          />
           {/* Top-Right Loop */}
           <path
-            d="M20 14L23.5 10.5C25.5 8.5 28.5 8.5 30.5 10.5C32.5 12.5 32.5 15.5 30.5 17.5L27 21"
-            stroke="#FACC15"
-            strokeWidth="3.8"
+            d="M23 15L27 11C29.7 8.3 34.3 8.3 37 11C39.7 13.7 39.7 18.3 37 21L33 25C30.3 27.7 25.7 27.7 23 25"
+            stroke="#F39C12"
+            strokeWidth="4.4"
             strokeLinecap="round"
+            strokeLinejoin="round"
           />
           {/* Bottom-Left Loop */}
           <path
-            d="M20 26L16.5 29.5C14.5 31.5 11.5 31.5 9.5 29.5C7.5 27.5 7.5 24.5 9.5 22.5L13 19"
-            stroke="#FACC15"
-            strokeWidth="3.8"
+            d="M25 33L21 37C18.3 39.7 13.7 39.7 11 37C8.3 34.3 8.3 29.7 11 27L15 23C17.7 20.3 22.3 20.3 25 23"
+            stroke="#E67E22"
+            strokeWidth="4.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* Interlocking Diagonal Center */}
+          <path
+            d="M19.5 28.5L28.5 19.5"
+            stroke="#F59E0B"
+            strokeWidth="4.4"
             strokeLinecap="round"
           />
         </svg>
