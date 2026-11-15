@@ -13,18 +13,43 @@ interface FeaturedCreatorsProps {
   isDark?: boolean;
 }
 
+function normalizeUrl(url?: string | null): string {
+  if (!url) return "#";
+  const trimmed = url.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
 export function FeaturedCreators({
   creators,
   themeId = "apple",
   className = "",
   isInteractive = true,
 }: FeaturedCreatorsProps) {
-  if (!creators || creators.length === 0) return null;
+  // Parse creators if delivered as stringified JSONB
+  let parsedCreators: FeaturedCreator[] = [];
+  if (Array.isArray(creators)) {
+    parsedCreators = creators;
+  } else if (typeof creators === "string") {
+    try {
+      parsedCreators = JSON.parse(creators);
+    } catch {
+      parsedCreators = [];
+    }
+  }
 
-  const activeCreators = creators.slice(0, 3);
+  // Filter only slots that have both name and destination URL
+  const activeCreators = parsedCreators
+    .filter((c) => c && Boolean(c.name?.trim()) && Boolean(c.url?.trim()))
+    .slice(0, 3);
+
+  // If 0 creators filled, hide the section completely
+  if (activeCreators.length === 0) return null;
+
+  const count = activeCreators.length;
   const theme = getTheme(themeId);
 
-  // Card classes per theme
+  // Dynamic Card Styling per Theme
   let cardClass =
     "rounded-[14px] bg-[#2C2C2E] hover:bg-[#3A3A3C] border border-[#AAAAAA]/25 hover:border-[#007AFF]/60 text-[#F5F5F7]";
   let avatarRing = "ring-1 ring-[#AAAAAA]/30";
@@ -45,71 +70,91 @@ export function FeaturedCreators({
     subtitleClass = "font-['Silkscreen',monospace] text-[9px] text-[#55FF55]";
   }
 
+  // Dynamic grid class based on 1, 2, or 3 creators
+  let gridLayoutClass = "grid grid-cols-3 gap-2.5 w-full";
+  if (count === 1) {
+    gridLayoutClass = "grid grid-cols-1 max-w-[220px] mx-auto w-full";
+  } else if (count === 2) {
+    gridLayoutClass = "grid grid-cols-2 gap-3 max-w-[340px] mx-auto w-full";
+  }
+
   return (
     <div className={`w-full mt-7 pt-5 border-t border-white/10 ${className}`}>
-      {/* Spotlight Header */}
+      {/* Dynamic Header */}
       <div className="flex items-center justify-between mb-3 px-1 text-[10px] font-mono tracking-[0.16em] uppercase text-white/50">
-        <span>Spotlight Trio</span>
-        <span className="text-white/60">03 Slots</span>
+        <span>
+          {count === 1
+            ? "Featured Collaborator"
+            : count === 2
+            ? "Spotlight Duet"
+            : "Spotlight Trio"}
+        </span>
+        <span className="text-white/60">
+          0{count} {count === 1 ? "Slot" : "Slots"}
+        </span>
       </div>
 
-      {/* 3-Column Creator Grid */}
-      <div className="grid grid-cols-3 gap-2.5">
-        {activeCreators.map((creator) => (
-          <a
-            key={creator.id}
-            href={isInteractive ? creator.url : undefined}
-            target={isInteractive ? "_blank" : undefined}
-            rel={isInteractive ? "noopener noreferrer" : undefined}
-            onClick={(e) => {
-              if (!isInteractive) {
-                e.preventDefault();
-              }
-            }}
-            className={`p-3 flex flex-col items-center text-center transition-all duration-150 group select-none relative ${cardClass}`}
-          >
-            {/* Creator Avatar */}
-            <div className="relative mb-2 shrink-0">
-              {creator.avatar_url ? (
-                <img
-                  src={creator.avatar_url}
-                  alt={creator.name}
-                  className={`w-11 h-11 object-cover rounded-full group-hover:scale-105 transition-all ${avatarRing}`}
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = "none";
-                  }}
-                />
-              ) : (
-                <div
-                  className={`w-11 h-11 flex items-center justify-center font-heading text-sm font-semibold rounded-full bg-white/10 text-white ${avatarRing}`}
-                >
-                  {creator.name.charAt(0) || "U"}
+      {/* Dynamic Grid: 1, 2, or 3 slots */}
+      <div className={gridLayoutClass}>
+        {activeCreators.map((creator, idx) => {
+          const finalUrl = normalizeUrl(creator.url);
+
+          return (
+            <a
+              key={creator.id || idx}
+              href={isInteractive ? finalUrl : undefined}
+              target={isInteractive ? "_blank" : undefined}
+              rel={isInteractive ? "noopener noreferrer" : undefined}
+              onClick={(e) => {
+                if (!isInteractive) {
+                  e.preventDefault();
+                }
+              }}
+              className={`p-3 flex flex-col items-center text-center transition-all duration-150 group select-none relative ${cardClass}`}
+            >
+              {/* Creator Avatar */}
+              <div className="relative mb-2 shrink-0">
+                {creator.avatar_url ? (
+                  <img
+                    src={creator.avatar_url}
+                    alt={creator.name}
+                    className={`w-11 h-11 object-cover rounded-full group-hover:scale-105 transition-all ${avatarRing}`}
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = "none";
+                    }}
+                  />
+                ) : (
+                  <div
+                    className={`w-11 h-11 flex items-center justify-center font-heading text-sm font-semibold rounded-full bg-white/10 text-white ${avatarRing}`}
+                  >
+                    {creator.name.charAt(0) || "U"}
+                  </div>
+                )}
+
+                {/* Tiny arrow badge on hover */}
+                <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 text-white border border-white/20">
+                  <ArrowUpRight strokeWidth={1.5} className="w-2.5 h-2.5" />
                 </div>
-              )}
-
-              {/* Tiny arrow badge on hover */}
-              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 text-white border border-white/20">
-                <ArrowUpRight strokeWidth={1.5} className="w-2.5 h-2.5" />
               </div>
-            </div>
 
-            {/* Creator Name */}
-            <span className={`w-full truncate ${titleClass}`}>
-              {creator.name}
-            </span>
+              {/* Creator Name */}
+              <span className={`w-full truncate ${titleClass}`}>
+                {creator.name}
+              </span>
 
-            {/* Tagline / Role */}
-            {creator.tagline ? (
-              <span className={`w-full truncate mt-0.5 ${subtitleClass}`}>
-                {creator.tagline}
-              </span>
-            ) : (
-              <span className={`w-full truncate mt-0.5 ${subtitleClass}`}>
-                Visit &rarr;
-              </span>
-            )}
-          </a>
-        ))}
+              {/* Tagline / Role */}
+              {creator.tagline ? (
+                <span className={`w-full truncate mt-0.5 ${subtitleClass}`}>
+                  {creator.tagline}
+                </span>
+              ) : (
+                <span className={`w-full truncate mt-0.5 ${subtitleClass}`}>
+                  Visit &rarr;
+                </span>
+              )}
+            </a>
+          );
+        })}
       </div>
     </div>
   );

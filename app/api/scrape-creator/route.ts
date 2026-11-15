@@ -137,6 +137,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       avatarUrl,
+      avatar_url: avatarUrl,
       name: title,
     });
   } catch (err: any) {
