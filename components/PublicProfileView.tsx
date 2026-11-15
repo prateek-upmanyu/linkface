@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { Profile, LinkItem } from "@/types";
 import { getTheme, isProTheme } from "@/lib/themes";
+import { isNewProfileTheme, ProfileThemeId } from "@/lib/profile-themes-config";
+import { ThemedPublicProfileView } from "@/components/ThemedPublicProfileView";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { SoundToggle } from "@/components/SoundToggle";
@@ -42,8 +44,23 @@ export function PublicProfileView({
   const isPro = profile.plan === "pro";
 
   // Downgrade rules:
-  // 1. Free users are forced to default "midnight" theme
+  // Free users default to "midnight", Pro users unlock all bespoke 12 themes
   const activeThemeId = isPro ? profile.theme : "midnight";
+
+  // If one of the 12 bespoke themes is active, render via ThemedPublicProfileView
+  if (isNewProfileTheme(activeThemeId)) {
+    return (
+      <>
+        <PageViewTracker username={profile.username} />
+        <ThemedPublicProfileView
+          profile={profile}
+          links={links}
+          themeId={activeThemeId as ProfileThemeId}
+        />
+      </>
+    );
+  }
+
   const theme = getTheme(activeThemeId);
 
   // 2. Free users show max 3 links publicly (all others preserved safely in DB)

@@ -8,6 +8,8 @@ import { PublicLinkButton } from "@/components/PublicLinkButton";
 import { SoundToggle } from "@/components/SoundToggle";
 import { ProfileSpotlight } from "@/components/ProfileSpotlight";
 import { getTheme } from "@/lib/themes";
+import { isNewProfileTheme, ProfileThemeId } from "@/lib/profile-themes-config";
+import { ThemedPublicProfileView } from "@/components/ThemedPublicProfileView";
 import { motion } from "framer-motion";
 
 interface PhonePreviewProps {
@@ -28,6 +30,28 @@ export function PhonePreview({
 }: PhonePreviewProps) {
   const isPro = profile.plan === "pro";
   const activeThemeId = isPro ? profile.theme : "midnight";
+
+  // If one of the 12 bespoke themes, render in phone chassis
+  if (isNewProfileTheme(activeThemeId)) {
+    return (
+      <div
+        className={`relative mx-auto w-full max-w-[340px] sm:max-w-[360px] rounded-[48px] border-[6px] border-[#18181B] shadow-[0_24px_64px_rgba(0,0,0,0.5)] select-none transition-all duration-300 overflow-hidden ${
+          floating ? "animate-phone-float" : ""
+        } ${className}`}
+      >
+        {/* Dynamic Island */}
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#18181B] rounded-full z-30" />
+        <div className="max-h-[640px] overflow-y-auto no-scrollbar">
+          <ThemedPublicProfileView
+            profile={profile}
+            links={links}
+            themeId={activeThemeId as ProfileThemeId}
+          />
+        </div>
+      </div>
+    );
+  }
+
   const theme = getTheme(activeThemeId);
 
   const visibleLinks = links.filter((l) => l.is_visible);
