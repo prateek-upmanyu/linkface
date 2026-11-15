@@ -16,40 +16,33 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#18181B",
-          borderRadius: "14px",
-          border: "1.5px solid rgba(245, 158, 11, 0.6)",
+          backgroundColor: "#FFFDF9",
+          borderRadius: "12px",
+          border: "1.5px solid rgba(243, 156, 18, 0.4)",
         }}
       >
         <svg
-          width="34"
-          height="34"
-          viewBox="0 0 44 44"
+          width="32"
+          height="32"
+          viewBox="0 0 36 36"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
+          {/* Top Yellow Ribbon Stem */}
           <path
-            d="M16 11C12.7 11 10 13.7 10 17V24C10 27.3 12.7 30 16 30C19.3 30 22 27.3 22 24V17C22 13.7 19.3 11 16 11Z"
-            stroke="#F59E0B"
-            strokeWidth="3.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            d="M12 6H18C19.1 6 20 6.9 20 8V19L14 23L10 18V8C10 6.9 10.9 6 12 6Z"
+            fill="#F59E0B"
           />
+          {/* Overlapping Amber Fold */}
           <path
-            d="M27 22C23.7 22 21 24.7 21 28C21 31.3 23.7 34 27 34H31C34.3 34 37 31.3 37 28C37 24.7 34.3 22 31 22H27Z"
-            stroke="#EA580C"
-            strokeWidth="3.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            d="M14 18L20 14L26 21H18L14 18Z"
+            fill="#F97316"
           />
+          {/* Bottom Red-Orange Horizontal Loop */}
           <path
-            d="M17 25L26 21"
-            stroke="#FDE047"
-            strokeWidth="3"
-            strokeLinecap="round"
+            d="M14 23H25C27.2 23 29 24.8 29 27C29 29.2 27.2 31 25 31H14C11.8 31 10 29.2 10 27V23H14Z"
+            fill="#DC2626"
           />
-          <circle cx="21.5" cy="23" r="2.8" fill="#FDE047" />
-          <circle cx="21.5" cy="23" r="1.2" fill="#18181B" />
         </svg>
       </div>
     ),
