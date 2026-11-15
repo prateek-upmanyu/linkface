@@ -28,17 +28,24 @@ export function PublicLinkButton({ link, themeId, themeConfig }: PublicLinkButto
         }&sz=64`
       : null;
 
-  const handleClick = () => {
+  const isDemo = !link.url || link.url === "#" || link.url.startsWith("#") || link.id.startsWith("demo-");
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     playClickSound();
+    setClicked(true);
+    setTimeout(() => setClicked(false), 150);
+
+    // If demo link, prevent any navigation/redirect
+    if (isDemo) {
+      e.preventDefault();
+      return;
+    }
 
     fetch("/api/click", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ linkId: link.id }),
     }).catch((err) => console.error("Click track error:", err));
-
-    setClicked(true);
-    setTimeout(() => setClicked(false), 150);
   };
 
   // Adaptive platform icon color ensuring WCAG AA contrast against theme surface
@@ -46,9 +53,9 @@ export function PublicLinkButton({ link, themeId, themeConfig }: PublicLinkButto
 
   return (
     <a
-      href={link.url}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={isDemo ? "#" : link.url}
+      target={isDemo ? undefined : "_blank"}
+      rel={isDemo ? undefined : "noopener noreferrer"}
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

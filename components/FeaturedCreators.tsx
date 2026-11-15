@@ -140,9 +140,11 @@ export function FeaturedCreators({
             </div>
           );
 
-          if (!isInteractive) {
+          const isDemoCreator = !creator.url || creator.url === "#" || creator.url.startsWith("#") || creator.id?.startsWith("fc-");
+
+          if (!isInteractive || isDemoCreator) {
             return (
-              <div key={idx} className="min-w-0 w-full cursor-default">
+              <div key={idx} className="min-w-0 w-full cursor-default select-none">
                 {cardContent}
               </div>
             );

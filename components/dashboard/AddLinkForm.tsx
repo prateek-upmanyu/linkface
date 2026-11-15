@@ -102,9 +102,9 @@ export function AddLinkForm({
         )}
       </div>
 
-      {/* Main URL Input */}
-      <div className="relative flex items-center">
-        <div className="absolute left-3.5 flex items-center justify-center pointer-events-none">
+      {/* Main URL Input Container - 100% Contained, Perfectly Aligned */}
+      <div className="w-full min-h-[50px] p-1.5 rounded-[14px] bg-[#FFFFFF] border-2 border-[#E5E7EB] focus-within:border-[#F39C12] flex items-center gap-2 transition-all shadow-2xs box-border overflow-hidden">
+        <div className="pl-2.5 flex items-center justify-center shrink-0">
           {detected && detected.isValid ? (
             <div
               className="w-7 h-7 rounded-[6px] flex items-center justify-center"
@@ -135,13 +135,13 @@ export function AddLinkForm({
             if (error) setError("");
           }}
           placeholder="Paste URL (e.g. youtube.com/@channel, instagram.com/name, or spotify.com)"
-          className="w-full pl-12 pr-28 py-3 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm text-[#18181B] font-semibold focus:outline-none focus:border-[#F39C12] transition-colors shadow-2xs"
+          className="flex-1 min-w-0 h-full py-1.5 px-1 bg-transparent border-none text-xs sm:text-sm text-[#18181B] font-semibold focus:outline-none placeholder:text-[#9CA3AF]"
         />
 
         <button
           type="submit"
           disabled={isLoading || (!isLimitReached && !url.trim())}
-          className="absolute right-2 btn-champagne text-xs uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 px-4 py-1.5 min-h-[36px] rounded-full"
+          className="btn-champagne !min-h-0 !h-[38px] !py-0 px-4 rounded-full text-xs uppercase tracking-wider font-bold shrink-0 flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-40 disabled:cursor-not-allowed m-0"
         >
           {isLimitReached ? (
             <>

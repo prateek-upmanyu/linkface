@@ -59,8 +59,8 @@ async function getProfileAndLinks(
     console.error("Error fetching profile from Supabase:", err);
   }
 
-  // 2. Fallback for demo user 'alex' if no database record exists
-  if (cleanUsername === "alex") {
+  // 2. Fallback for demo sample users ('alex' or 'demo') if no database record exists
+  if (cleanUsername === "alex" || cleanUsername === "demo") {
     return {
       profile: DEMO_PROFILE,
       links: DEMO_LINKS,
