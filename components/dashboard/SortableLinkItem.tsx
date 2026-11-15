@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { LinkItem } from "@/types";
 import { PLATFORMS, detectPlatform, getPlatformBadgeStyle } from "@/lib/platforms";
 import { sanitizeAndValidateUrl } from "@/lib/security";
+import { processAvatarImage } from "@/lib/image-utils";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import {
   GripVertical,
@@ -18,6 +19,8 @@ import {
   ChevronUp,
   ChevronDown,
   MousePointerClick,
+  Image as ImageIcon,
+  X,
 } from "lucide-react";
 
 interface SortableLinkItemProps {
@@ -59,6 +62,8 @@ export function SortableLinkItem({
   const [editTitle, setEditTitle] = useState(link.title);
   const [editUrl, setEditUrl] = useState(link.url);
   const [editBadge, setEditBadge] = useState(link.badge || "");
+  const [editCustomIcon, setEditCustomIcon] = useState<string | null>(link.custom_icon || null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const platform = PLATFORMS.find((p) => p.id === link.platform);
   const favicon =
@@ -67,6 +72,17 @@ export function SortableLinkItem({
           link.url.replace(/^https?:\/\//i, "").split("/")[0]
         }&sz=64`
       : null;
+
+  const handleIconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const dataUri = await processAvatarImage(file);
+      setEditCustomIcon(dataUri);
+    } catch (err: any) {
+      console.error("Failed to upload custom icon:", err);
+    }
+  };
 
   const handleSaveEdit = () => {
     const validation = sanitizeAndValidateUrl(editUrl);
@@ -77,6 +93,7 @@ export function SortableLinkItem({
       url: finalUrl,
       platform: detected.platformId || link.platform,
       badge: editBadge.trim().slice(0, 20) || null,
+      custom_icon: editCustomIcon,
     });
     setIsEditing(false);
   };
@@ -129,21 +146,29 @@ export function SortableLinkItem({
           </button>
         </div>
 
-        {/* Platform Icon Badge */}
+        {/* Platform or Custom Icon Badge */}
         <div
-          className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFDF5]"
+          className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFDF5] overflow-hidden"
           style={{
             ...getPlatformBadgeStyle(platform?.brandColor),
           }}
         >
-          <PlatformIcon
-            iconName={platform?.icon}
-            platformId={link.platform}
-            faviconUrl={favicon}
-            brandColor={platform?.brandColor}
-            className="w-4 h-4"
-            size={18}
-          />
+          {link.custom_icon ? (
+            <img
+              src={link.custom_icon}
+              alt=""
+              className="w-full h-full object-cover rounded-[8px]"
+            />
+          ) : (
+            <PlatformIcon
+              iconName={platform?.icon}
+              platformId={link.platform}
+              faviconUrl={favicon}
+              brandColor={platform?.brandColor}
+              className="w-4 h-4"
+              size={18}
+            />
+          )}
         </div>
 
         {/* Title, URL, and Badge */}
@@ -258,6 +283,45 @@ export function SortableLinkItem({
               maxLength={15}
               className="w-full px-3 py-1.5 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] text-xs font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
             />
+          </div>
+
+          <div>
+            <label className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] block mb-1">
+              Custom Logo / Icon
+            </label>
+            <div className="flex items-center gap-3">
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={handleIconUpload}
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="px-3 py-1.5 rounded-full border border-[#E5E7EB] hover:border-[#F39C12] bg-[#FFFFFF] text-xs font-semibold text-[#18181B] hover:text-[#E67E22] flex items-center gap-1.5 transition-colors"
+              >
+                <ImageIcon className="w-3.5 h-3.5 text-[#F39C12]" />
+                {editCustomIcon ? "Change Custom Logo" : "Upload Custom Logo"}
+              </button>
+
+              {editCustomIcon && (
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-[8px] overflow-hidden border border-[#E5E7EB] bg-white">
+                    <img src={editCustomIcon} alt="Custom Logo" className="w-full h-full object-cover" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setEditCustomIcon(null)}
+                    className="p-1 text-[#9CA3AF] hover:text-rose-500 rounded-full"
+                    title="Remove custom logo"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center justify-end gap-2 pt-1">

@@ -20,14 +20,14 @@ export function SoundToggle({ className = "" }: { className?: string }) {
     <button
       type="button"
       onClick={handleToggle}
-      className={`p-1.5 rounded-lg border border-[var(--border-soft)] bg-[#001a3a]/80 hover:bg-[#002e62] text-[var(--color-text-offwhite)] transition-all backdrop-blur-xs select-none ${className}`}
+      className={`p-2 rounded-full border border-[#E5E7EB] bg-white/90 hover:bg-white text-[#4B5563] hover:text-[#E67E22] transition-all shadow-xs backdrop-blur-md select-none ${className}`}
       title={muted ? "Unmute sound effects" : "Mute sound effects"}
       aria-label={muted ? "Unmute sound effects" : "Mute sound effects"}
     >
       {muted ? (
         <VolumeX className="w-3.5 h-3.5 opacity-60 hover:opacity-100" />
       ) : (
-        <Volume2 className="w-3.5 h-3.5 text-[#d0f600] animate-pulse" />
+        <Volume2 className="w-3.5 h-3.5 text-[#E67E22] animate-pulse" />
       )}
     </button>
   );

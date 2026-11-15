@@ -10,7 +10,7 @@ import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
 import { createClient } from "@/lib/supabase/client";
 
 // Platform icons badges for the feature showcase
-const POPULAR_PLATFORMS = [
+const POPULAR_PLATFORMS_ROW_1 = [
   { name: "YouTube", color: "#FF0000" },
   { name: "Instagram", color: "#E4405F" },
   { name: "Spotify", color: "#1DB954" },
@@ -23,6 +23,21 @@ const POPULAR_PLATFORMS = [
   { name: "Discord", color: "#5865F2" },
   { name: "Behance", color: "#1769FF" },
   { name: "WhatsApp", color: "#25D366" },
+];
+
+const POPULAR_PLATFORMS_ROW_2 = [
+  { name: "Apple Music", color: "#FA243C" },
+  { name: "SoundCloud", color: "#FF5500" },
+  { name: "Pinterest", color: "#E60023" },
+  { name: "Patreon", color: "#FF424D" },
+  { name: "Dribbble", color: "#EA4C89" },
+  { name: "Telegram", color: "#229ED9" },
+  { name: "Medium", color: "#000000" },
+  { name: "Figma", color: "#F24E1E" },
+  { name: "Notion", color: "#000000" },
+  { name: "Threads", color: "#000000" },
+  { name: "Podcast", color: "#8E44AD" },
+  { name: "Custom Website", color: "#E67E22" },
 ];
 
 export default function LandingPage() {
@@ -126,9 +141,9 @@ export default function LandingPage() {
             {isAuthenticated ? (
               <Link
                 href="/dashboard"
-                className="btn-champagne text-xs uppercase tracking-wider px-5 py-2.5"
+                className="btn-champagne text-xs uppercase tracking-wider px-5 py-2.5 rounded-full flex items-center gap-1.5"
               >
-                Dashboard &rarr;
+                Dashboard →
               </Link>
             ) : (
               <div className="flex items-center gap-3">
@@ -140,7 +155,7 @@ export default function LandingPage() {
                 </Link>
                 <Link
                   href="/signup"
-                  className="btn-champagne text-xs uppercase tracking-wider px-5 py-2.5"
+                  className="btn-champagne text-xs uppercase tracking-wider px-5 py-2.5 rounded-full"
                 >
                   Claim Your Link
                 </Link>
@@ -199,16 +214,16 @@ export default function LandingPage() {
               Share your Instagram, YouTube, Spotify, and work in seconds. Feature your friends and track your visits without complicated settings.
             </motion.p>
 
-            {/* Input + Simple Button */}
+            {/* Input + Seamless Aligned Button */}
             <motion.form
               variants={fadeInVariants}
               initial="hidden"
               animate="visible"
               custom={3}
               onSubmit={handleClaim}
-              className="max-w-md p-1.5 rounded-[16px] bg-[#FFFFFF] border-2 border-[#E5E7EB] shadow-md flex items-center gap-2 focus-within:border-[#F39C12] transition-colors"
+              className="w-full max-w-md p-1.5 rounded-full bg-[#FFFFFF] border-2 border-[#E5E7EB] shadow-md flex items-center gap-1.5 focus-within:border-[#F39C12] transition-colors"
             >
-              <div className="flex items-center pl-3 text-[#B9770E] font-mono font-bold text-sm select-none">
+              <div className="flex items-center pl-4 text-[#B9770E] font-mono font-bold text-xs sm:text-sm select-none shrink-0">
                 <span>linklet.bio/</span>
               </div>
               <input
@@ -218,13 +233,13 @@ export default function LandingPage() {
                   setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
                 placeholder="yourname"
-                className="flex-1 py-2 px-1 text-sm bg-transparent text-[#18181B] font-body font-semibold focus:outline-none placeholder:text-[#9CA3AF]"
+                className="flex-1 min-w-0 py-2 px-1 text-xs sm:text-sm bg-transparent text-[#18181B] font-body font-semibold focus:outline-none placeholder:text-[#9CA3AF]"
               />
               <button
                 type="submit"
-                className="btn-champagne text-xs uppercase tracking-wider shrink-0 px-5 py-2.5 min-h-[40px]"
+                className="btn-champagne text-xs uppercase tracking-wider shrink-0 px-5 sm:px-6 h-10 rounded-full font-bold flex items-center justify-center gap-1 shadow-xs"
               >
-                Claim Link &rarr;
+                Claim Link →
               </button>
             </motion.form>
 
@@ -332,42 +347,71 @@ export default function LandingPage() {
       </section>
 
       {/* =========================================================================
-          4. SUPPORTED APPS / REAL INTEGRATIONS (No dummy fake people)
+          4. SUPPORTED APPS / REAL INTEGRATIONS - CONTINUOUS HORIZONTAL SCROLLING
           ========================================================================= */}
       <section
         id="integrations"
-        className="py-16 lg:py-24 border-b border-[#E5E7EB] bg-[#FFFFFF]"
+        className="py-16 lg:py-24 border-b border-[#E5E7EB] bg-[#FFFFFF] overflow-hidden"
       >
-        <div className="quiet-container text-center space-y-10">
-          <div className="max-w-2xl mx-auto space-y-3">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#F39C12] block font-body">
-              Instant Recognition
-            </span>
-            <h2 className="font-heading text-3xl sm:text-5xl font-bold tracking-tight text-[#18181B]">
-              Works with every app you <span className="italic font-bold text-[#E67E22]">love</span>.
-            </h2>
-            <p className="text-sm sm:text-base font-body font-medium text-[#4B5563]">
-              Paste any URL. Linklet automatically pulls the verified icon and colors for 50+ platforms.
-            </p>
-          </div>
+        <div className="quiet-container text-center space-y-4 mb-10">
+          <span className="text-xs uppercase font-bold tracking-wider text-[#F39C12] block font-body">
+            Instant Recognition
+          </span>
+          <h2 className="font-heading text-3xl sm:text-5xl font-bold tracking-tight text-[#18181B]">
+            Works with every app you <span className="italic font-bold text-[#E67E22]">love</span>.
+          </h2>
+          <p className="text-sm sm:text-base font-body font-medium text-[#4B5563] max-w-xl mx-auto">
+            Paste any URL. Linklet automatically pulls the verified icon and colors for 50+ platforms, or lets you upload your own custom logo for any link.
+          </p>
+        </div>
 
-          {/* Grid of Real Platforms */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 max-w-4xl mx-auto pt-4">
-            {POPULAR_PLATFORMS.map((item, idx) => (
+        {/* Continuous Infinite Horizontal Marquee Ticker */}
+        <div className="relative w-full overflow-hidden py-3">
+          {/* Left and Right Fade Masks for smooth gradient fade */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
+
+          {/* Row 1: Forward Marquee */}
+          <div className="animate-marquee flex gap-3.5 mb-3.5">
+            {[...POPULAR_PLATFORMS_ROW_1, ...POPULAR_PLATFORMS_ROW_1].map((item, idx) => (
               <div
-                key={idx}
-                className="p-3.5 rounded-[12px] bg-[#FFFDF9] border border-[#E5E7EB] hover:border-[#F39C12] hover:shadow-sm transition-all flex items-center justify-center gap-2 group"
+                key={`r1-${idx}`}
+                className="px-5 py-3 rounded-[14px] bg-[#FFFDF9] border border-[#E5E7EB] hover:border-[#F39C12] hover:shadow-xs transition-all flex items-center gap-2.5 shrink-0 group select-none"
               >
                 <span
-                  className="w-2.5 h-2.5 rounded-full"
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
                   style={{ backgroundColor: item.color }}
                 />
-                <span className="text-xs font-body font-bold text-[#18181B] group-hover:text-[#E67E22] transition-colors">
+                <span className="text-xs font-body font-bold text-[#18181B] group-hover:text-[#E67E22] transition-colors whitespace-nowrap">
                   {item.name}
                 </span>
               </div>
             ))}
           </div>
+
+          {/* Row 2: Reverse Marquee */}
+          <div className="animate-marquee-reverse flex gap-3.5">
+            {[...POPULAR_PLATFORMS_ROW_2, ...POPULAR_PLATFORMS_ROW_2].map((item, idx) => (
+              <div
+                key={`r2-${idx}`}
+                className="px-5 py-3 rounded-[14px] bg-[#FFFDF9] border border-[#E5E7EB] hover:border-[#F39C12] hover:shadow-xs transition-all flex items-center gap-2.5 shrink-0 group select-none"
+              >
+                <span
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
+                  style={{ backgroundColor: item.color }}
+                />
+                <span className="text-xs font-body font-bold text-[#18181B] group-hover:text-[#E67E22] transition-colors whitespace-nowrap">
+                  {item.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="quiet-container text-center pt-8">
+          <p className="text-xs font-body font-semibold text-[#6B7280]">
+            ⚡ Any other link or custom domain? Upload your own custom logo icon in 1-click.
+          </p>
         </div>
       </section>
 
@@ -386,9 +430,9 @@ export default function LandingPage() {
           <div className="pt-2 flex justify-center">
             <Link
               href="/signup"
-              className="btn-champagne text-xs uppercase tracking-wider px-8 py-3.5 text-sm"
+              className="btn-champagne text-xs uppercase tracking-wider px-8 py-3.5 text-sm rounded-full"
             >
-              Get Started Free &rarr;
+              Get Started Free →
             </Link>
           </div>
         </div>

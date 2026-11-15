@@ -38,7 +38,7 @@ export default function NotFound() {
 
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link href="/" className="btn-lime w-full sm:w-auto text-xs uppercase tracking-[0.14em]">
-            Return Home &rarr;
+            Return Home →
           </Link>
           <Link href="/alex" className="btn-outline w-full sm:w-auto text-xs uppercase tracking-[0.14em]">
             View Sample Showcase

@@ -410,10 +410,10 @@ export function FeaturedCreatorsManager({
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-champagne text-xs uppercase tracking-wider px-6 py-2.5 flex items-center gap-2"
+            className="btn-champagne text-xs uppercase tracking-wider px-6 py-2.5 flex items-center gap-2 rounded-full font-bold"
           >
             <Check className="w-3.5 h-3.5" />
-            Save Collaborators ({activeCount}/3 Active) &rarr;
+            Save Collaborators ({activeCount}/3 Active) →
           </button>
         </div>
       </form>

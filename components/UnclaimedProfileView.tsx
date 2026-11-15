@@ -48,7 +48,7 @@ export function UnclaimedProfileView({ username }: UnclaimedProfileViewProps) {
             href={`/signup?username=${encodeURIComponent(clean)}`}
             className="btn-lime w-full sm:w-auto text-xs uppercase tracking-[0.14em]"
           >
-            Claim @{clean} Now &rarr;
+            Claim @{clean} Now →
           </Link>
           <Link href="/" className="btn-outline w-full sm:w-auto text-xs uppercase tracking-[0.14em]">
             Learn About Linklet

@@ -79,7 +79,7 @@ export function PhonePreview({
 
           {/* Handle */}
           <p className="text-xs font-mono font-semibold text-[#F39C12] mt-0.5">
-            @{profile.username || "alex"}
+            @{(profile.username || "alex").split("@")[0].replace(/[^a-z0-9_]/gi, "").toLowerCase()}
           </p>
 
           {/* Bio in Crisp Inter */}

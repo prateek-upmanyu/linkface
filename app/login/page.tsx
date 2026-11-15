@@ -241,10 +241,10 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 btn-champagne text-xs uppercase tracking-wider disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
+              className="w-full py-3 btn-champagne text-xs uppercase tracking-wider font-bold disabled:opacity-50 flex items-center justify-center gap-2 mt-4 rounded-full"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-              {isSignUp ? "Create Free Account &rarr;" : "Sign In &rarr;"}
+              <span>{isSignUp ? "Create Free Account →" : "Sign In →"}</span>
             </button>
           </form>
         </>
@@ -252,7 +252,7 @@ function LoginForm() {
 
       <div className="mt-8 text-center text-xs text-[#6B7280] font-body font-medium">
         <Link href="/alex" className="hover:text-[#18181B] underline">
-          View public demo page &rarr;
+          View public demo page →
         </Link>
       </div>
     </div>

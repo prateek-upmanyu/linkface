@@ -60,32 +60,32 @@ export function ThemeSelector({
             <div
               key={t.id}
               onClick={() => handleSelectTheme(t.id)}
-              className={`p-4 rounded-[14px] cursor-pointer transition-all duration-200 border flex flex-col justify-between space-y-4 relative group ${
+              className={`p-4 rounded-[14px] cursor-pointer transition-all duration-200 border-2 flex flex-col justify-between space-y-4 relative group ${
                 isSelected
-                  ? "bg-[#0c1322] border-[#38bdf8] shadow-[0_0_24px_rgba(56,189,248,0.2)]"
-                  : "bg-[#001a3a] border-[var(--border-soft)] hover:border-white/30 hover:bg-[#00224a]"
+                  ? "bg-[#FFFDF9] border-[#F39C12] shadow-[0_4px_20px_rgba(243,156,18,0.15)]"
+                  : "bg-[#FFFFFF] border-[#E5E7EB] hover:border-[#F39C12]/50 hover:bg-[#FFFDF5]"
               }`}
             >
               {/* Top Row: Name + Selected Tag */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-heading font-semibold text-white">
+                  <span className="text-sm font-heading font-bold text-[#18181B]">
                     {t.name}
                   </span>
                   {isSelected && (
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#38bdf8] bg-[#38bdf8]/10 border border-[#38bdf8]/30 px-2 py-0.5 rounded-full flex items-center gap-1 font-medium">
-                      <Check className="w-3 h-3" /> Active
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#B9770E] bg-[#F9E79F]/40 border border-[#F4D03F] px-2 py-0.5 rounded-full flex items-center gap-1 font-bold">
+                      <Check className="w-3 h-3 text-[#E67E22]" /> Active
                     </span>
                   )}
                 </div>
 
                 {/* Font Indicator */}
                 <div className="flex items-center gap-1.5 mt-1">
-                  <span className="text-[10px] font-mono text-[#38bdf8] uppercase tracking-wider font-semibold">
+                  <span className="text-[10px] font-mono text-[#F39C12] uppercase tracking-wider font-bold">
                     Font:
                   </span>
                   <span
-                    className="text-xs text-white font-medium truncate"
+                    className="text-xs text-[#4B5563] font-semibold truncate"
                     style={{ fontFamily: t.fontFamily }}
                   >
                     {t.fontName}
@@ -95,7 +95,7 @@ export function ThemeSelector({
 
               {/* Color Palette Swatches */}
               <div className="space-y-1.5">
-                <span className="text-[9px] font-mono uppercase tracking-wider text-white/50 block">
+                <span className="text-[9px] font-mono uppercase tracking-wider text-[#6B7280] block font-semibold">
                   Color Palette
                 </span>
                 <div className="flex items-center gap-2">
@@ -105,11 +105,11 @@ export function ThemeSelector({
                       className="group/swatch relative flex flex-col items-center"
                     >
                       <div
-                        className="w-7 h-7 rounded-full border border-white/20 shadow-sm"
+                        className="w-7 h-7 rounded-full border border-black/10 shadow-2xs"
                         style={{ backgroundColor: hex }}
                         title={hex}
                       />
-                      <span className="text-[8px] font-mono text-white/70 mt-0.5">
+                      <span className="text-[8px] font-mono text-[#6B7280] mt-0.5 font-medium">
                         {hex}
                       </span>
                     </div>
@@ -119,10 +119,10 @@ export function ThemeSelector({
 
               {/* Mini Card Preview */}
               <div
-                className="w-full p-3 rounded-[10px] border flex items-center justify-between select-none"
+                className="w-full p-3 rounded-[10px] border flex items-center justify-between select-none shadow-2xs"
                 style={{
                   background: t.previewBg,
-                  borderColor: isSelected ? t.previewAccent : "rgba(255,255,255,0.15)",
+                  borderColor: isSelected ? t.previewAccent : "#E5E7EB",
                 }}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
@@ -140,7 +140,7 @@ export function ThemeSelector({
                       className="text-xs font-semibold truncate"
                       style={{
                         fontFamily: t.fontFamily,
-                        color: "#fff",
+                        color: t.id === "apple" ? "#1d1d1f" : "#fff",
                       }}
                     >
                       Portfolio Link
@@ -150,10 +150,10 @@ export function ThemeSelector({
                 </div>
 
                 <div
-                  className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 text-xs"
+                  className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 text-xs font-bold"
                   style={{ color: t.previewAccent }}
                 >
-                  &rarr;
+                  →
                 </div>
               </div>
 
@@ -161,10 +161,10 @@ export function ThemeSelector({
               <button
                 type="button"
                 disabled={isLoading || isSavingThis}
-                className={`w-full py-1.5 px-3 text-xs font-medium rounded-full transition-all flex items-center justify-center gap-1.5 ${
+                className={`w-full py-2 px-3 text-xs font-bold rounded-full transition-all flex items-center justify-center gap-1.5 ${
                   isSelected
-                    ? "bg-[#38bdf8] text-[#001a3a] font-semibold"
-                    : "border border-white/20 text-white/80 group-hover:border-white/40 group-hover:text-white"
+                    ? "bg-[#F39C12] text-white shadow-xs"
+                    : "border-2 border-[#E5E7EB] text-[#18181B] hover:border-[#F39C12] hover:text-[#E67E22] bg-white"
                 }`}
               >
                 {isSelected ? (
@@ -174,7 +174,7 @@ export function ThemeSelector({
                   </>
                 ) : (
                   <>
-                    Apply Theme &rarr;
+                    Apply Theme →
                   </>
                 )}
               </button>

@@ -99,7 +99,7 @@ export function PublicProfileView({
 
         {/* Handle */}
         <p className="mt-1 text-xs font-mono font-bold text-[#F39C12] tracking-wide text-center">
-          @{profile.username}
+          @{(profile.username || "").split("@")[0].replace(/[^a-z0-9_]/gi, "").toLowerCase()}
         </p>
 
         {/* Bio in Crisp Inter */}

@@ -146,20 +146,30 @@ export function DashboardClient({
         const safeUrl = urlValidation.isValid ? urlValidation.sanitizedUrl : item.url;
         const safeTitle = (item.title || "My Link").trim().slice(0, 100);
 
+        const linkData: any = {
+          user_id: profile.id,
+          url: safeUrl,
+          title: safeTitle,
+          platform: item.platform,
+          position: item.position,
+          is_visible: item.is_visible,
+          badge: item.badge ? item.badge.trim().slice(0, 20) : null,
+          custom_icon: item.custom_icon || null,
+        };
+
         if (item.id.startsWith("temp-")) {
-          const { data, error } = await supabase
+          let { data, error } = await supabase
             .from("links")
-            .insert({
-              user_id: profile.id,
-              url: safeUrl,
-              title: safeTitle,
-              platform: item.platform,
-              position: item.position,
-              is_visible: item.is_visible,
-              badge: item.badge ? item.badge.trim().slice(0, 20) : null,
-            })
+            .insert(linkData)
             .select()
             .single();
+
+          if (error && error.message?.toLowerCase().includes("custom_icon")) {
+            delete linkData.custom_icon;
+            const retry = await supabase.from("links").insert(linkData).select().single();
+            data = retry.data;
+            error = retry.error;
+          }
 
           if (data && !error) {
             setLinks((prev) =>
@@ -167,18 +177,30 @@ export function DashboardClient({
             );
           }
         } else {
-          await supabase
+          const updateData: any = {
+            url: safeUrl,
+            title: safeTitle,
+            platform: item.platform,
+            position: item.position,
+            is_visible: item.is_visible,
+            badge: item.badge ? item.badge.trim().slice(0, 20) : null,
+            custom_icon: item.custom_icon || null,
+          };
+
+          const { error } = await supabase
             .from("links")
-            .update({
-              url: safeUrl,
-              title: safeTitle,
-              platform: item.platform,
-              position: item.position,
-              is_visible: item.is_visible,
-              badge: item.badge ? item.badge.trim().slice(0, 20) : null,
-            })
+            .update(updateData)
             .eq("id", item.id)
             .eq("user_id", profile.id);
+
+          if (error && error.message?.toLowerCase().includes("custom_icon")) {
+            delete updateData.custom_icon;
+            await supabase
+              .from("links")
+              .update(updateData)
+              .eq("id", item.id)
+              .eq("user_id", profile.id);
+          }
         }
       }
     } catch (err) {
@@ -210,7 +232,7 @@ export function DashboardClient({
             href="/signup"
             className="text-[#E67E22] underline ml-1 font-bold hover:text-[#18181B]"
           >
-            Create Permanent Account &rarr;
+            Create Permanent Account →
           </Link>
         </div>
       )}

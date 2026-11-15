@@ -42,6 +42,7 @@ export interface LinkItem {
   is_visible: boolean;
   click_count: number;
   badge?: string | null;
+  custom_icon?: string | null;
   created_at: string;
 }
 

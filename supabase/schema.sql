@@ -45,6 +45,8 @@ CREATE TABLE IF NOT EXISTS public.links (
   position INTEGER NOT NULL DEFAULT 0,
   is_visible BOOLEAN NOT NULL DEFAULT true,
   click_count INTEGER NOT NULL DEFAULT 0,
+  badge TEXT,
+  custom_icon TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );

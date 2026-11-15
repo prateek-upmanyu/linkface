@@ -264,9 +264,9 @@ export function ProfileSettings({
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-champagne text-xs uppercase tracking-wider mt-2 px-6 py-2.5"
+            className="btn-champagne text-xs uppercase tracking-wider mt-2 px-6 py-2.5 rounded-full font-bold"
           >
-            Save Profile &rarr;
+            Save Profile →
           </button>
         </form>
       </div>

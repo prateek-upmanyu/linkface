@@ -55,7 +55,7 @@ export default function ErrorPage({
             Try Again
           </button>
           <Link href="/" className="btn-outline w-full sm:w-auto text-xs uppercase tracking-[0.14em]">
-            Return Home &rarr;
+            Return Home →
           </Link>
         </div>
       </main>

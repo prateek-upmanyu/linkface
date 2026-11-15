@@ -175,10 +175,10 @@ export default function OnboardingPage() {
           <button
             type="submit"
             disabled={!availability?.available || isSubmitting}
-            className="w-full py-3 btn-champagne text-xs uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
+            className="w-full py-3 btn-champagne text-xs uppercase tracking-wider font-bold disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2 rounded-full"
           >
             {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-            Continue to Dashboard &rarr;
+            Continue to Dashboard →
           </button>
         </form>
       </div>

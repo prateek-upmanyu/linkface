@@ -82,6 +82,7 @@ export function LinkManager({
     url: string;
     title: string;
     platform: string | null;
+    custom_icon?: string | null;
   }) => {
     const newLink: LinkItem = {
       id: "temp-" + Date.now().toString(),
@@ -89,6 +90,7 @@ export function LinkManager({
       url: data.url,
       title: data.title,
       platform: data.platform,
+      custom_icon: data.custom_icon || null,
       position: links.length,
       is_visible: true,
       click_count: 0,
@@ -121,20 +123,20 @@ export function LinkManager({
 
       {/* Links List */}
       <div className="space-y-3 font-body">
-        <div className="flex items-center justify-between text-[11px] text-[var(--color-text-muted)] px-1 tracking-[0.14em] uppercase">
-          <span className="font-semibold flex items-center gap-2 text-[var(--color-text-offwhite)]">
-            <Layers className="w-3.5 h-3.5 text-[#d0f600]" strokeWidth={1.5} />
+        <div className="flex items-center justify-between text-[11px] text-[#6B7280] px-1 tracking-[0.14em] uppercase">
+          <span className="font-bold flex items-center gap-2 text-[#18181B]">
+            <Layers className="w-3.5 h-3.5 text-[#F39C12]" strokeWidth={2} />
             Showcase Links ({links.length})
           </span>
-          <span className="text-[var(--color-text-subtle)] text-[10px]">Drag or arrows to reorder</span>
+          <span className="text-[#9CA3AF] text-[10px] font-semibold">Drag or arrows to reorder</span>
         </div>
 
         {links.length === 0 ? (
-          <div className="p-8 text-center bg-[#001a3a] rounded-[12px] border border-dashed border-[var(--border-soft)]">
-            <p className="text-sm font-heading font-medium text-[var(--color-text-offwhite)]">
+          <div className="p-8 text-center bg-[#FFFDF9] rounded-[16px] border-2 border-dashed border-[#F4D03F]/60 shadow-xs">
+            <p className="text-sm font-heading font-bold text-[#18181B]">
               No links created yet
             </p>
-            <p className="text-xs text-[var(--color-text-muted)] mt-1 font-body">
+            <p className="text-xs text-[#6B7280] mt-1 font-body">
               Paste a URL above to add your first verified social or custom link.
             </p>
           </div>

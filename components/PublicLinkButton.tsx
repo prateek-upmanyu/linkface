@@ -53,22 +53,30 @@ export function PublicLinkButton({ link }: PublicLinkButtonProps) {
       }`}
     >
       <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
-        {/* Platform Icon Container */}
+        {/* Platform or Custom Icon Container */}
         <div
-          className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFDF5] text-[#18181B]"
+          className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFDF5] text-[#18181B] overflow-hidden"
           style={{
             backgroundColor: platform?.brandColor ? `${platform.brandColor}12` : "#FFFDF5",
             color: iconStyle.color || "#F39C12",
           }}
         >
-          <PlatformIcon
-            iconName={platform?.icon}
-            platformId={link.platform}
-            faviconUrl={favicon}
-            brandColor={iconStyle.color}
-            className="w-4 h-4"
-            size={18}
-          />
+          {link.custom_icon ? (
+            <img
+              src={link.custom_icon}
+              alt=""
+              className="w-full h-full object-cover rounded-[8px]"
+            />
+          ) : (
+            <PlatformIcon
+              iconName={platform?.icon}
+              platformId={link.platform}
+              faviconUrl={favicon}
+              brandColor={iconStyle.color}
+              className="w-4 h-4"
+              size={18}
+            />
+          )}
         </div>
 
         {/* Title: Bold, crisp, legible */}

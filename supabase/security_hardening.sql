@@ -12,7 +12,8 @@ ALTER TABLE IF EXISTS public.profiles
   ADD COLUMN IF NOT EXISTS status_style TEXT DEFAULT 'cloud';
 
 ALTER TABLE IF EXISTS public.links
-  ADD COLUMN IF NOT EXISTS badge TEXT DEFAULT NULL;
+  ADD COLUMN IF NOT EXISTS badge TEXT DEFAULT NULL,
+  ADD COLUMN IF NOT EXISTS custom_icon TEXT DEFAULT NULL;
 
 -- 2. Enforce username constraints and block reserved system keywords
 ALTER TABLE IF EXISTS public.profiles 
