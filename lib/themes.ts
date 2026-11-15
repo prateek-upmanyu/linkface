@@ -330,12 +330,35 @@ export const THEMES: Record<string, ThemeConfig> = {
     bgTint: "radial-gradient(circle at 50% 0%, rgba(74, 165, 210, 0.08) 0%, transparent 60%)",
     paletteColors: ["#000000", "#4aa5d2", "#ffffff", "#18181b"],
   },
+
+  // 15. MINECRAFT (8-Bit Blocky Voxel, Diamond Cyan & Grass Green)
+  minecraft: {
+    id: "minecraft",
+    name: "Minecraft Voxel",
+    isDark: true,
+    isPro: true,
+    bg: "#151413",
+    surface: "#26211b",
+    surfaceRaised: "#352e25",
+    border: "rgba(85, 168, 50, 0.4)",
+    borderStrong: "#4dedf4",
+    text: "#ffffff",
+    muted: "rgba(255, 255, 255, 0.65)",
+    accent: "#4dedf4",
+    accentHover: "#2fe0d8",
+    radiusCard: "4px",
+    headingFont: "Silkscreen",
+    headingFontFamily: "'Silkscreen', 'Courier New', monospace",
+    bgTint: "radial-gradient(circle at 50% 0%, rgba(77, 237, 244, 0.07) 0%, transparent 60%)",
+    paletteColors: ["#151413", "#26211b", "#55a832", "#4dedf4"],
+  },
 };
 
 export const THEMES_LIST: ThemeConfig[] = [
   THEMES.midnight,
   THEMES.apple,
   THEMES.bmw,
+  THEMES.minecraft,
   THEMES.ivory,
   THEMES.obsidian,
   THEMES.forest,

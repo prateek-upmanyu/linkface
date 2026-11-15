@@ -372,7 +372,7 @@ export default function LandingPage() {
         </div>
 
         {/* Continuous Infinite Horizontal Marquee Ticker */}
-        <div className="relative w-full overflow-hidden py-3">
+        <div className="relative w-full overflow-x-auto no-scrollbar py-3 cursor-grab active:cursor-grabbing">
           {/* Left and Right Fade Masks for smooth gradient fade */}
           <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
           <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />

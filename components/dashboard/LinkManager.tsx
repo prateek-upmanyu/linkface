@@ -20,7 +20,7 @@ import { LinkItem, UserPlan } from "@/types";
 import { SortableLinkItem } from "@/components/dashboard/SortableLinkItem";
 import { AddLinkForm } from "@/components/dashboard/AddLinkForm";
 import { UpgradeModal } from "@/components/UpgradeModal";
-import { Layers, Sparkles, Lock, Plus, Link2 } from "lucide-react";
+import { Layers, Lock, Plus, Link2 } from "lucide-react";
 
 interface LinkManagerProps {
   links: LinkItem[];

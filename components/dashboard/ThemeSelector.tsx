@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Profile, ThemeId } from "@/types";
 import { THEMES_LIST, getTheme, ThemeConfig } from "@/lib/themes";
-import { Check, Lock, Sparkles } from "lucide-react";
+import { Check, Lock } from "lucide-react";
 import { UpgradeModal } from "@/components/UpgradeModal";
 
 interface ThemeSelectorProps {
@@ -62,10 +62,10 @@ export function ThemeSelector({
                 setTargetThemeName("All Premium Themes");
                 setModalOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#18223a] border border-[#c9a96a]/30 text-[#c9a96a] text-xs font-semibold hover:border-[#c9a96a] transition-colors self-start sm:self-auto"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#18223a] border border-[#c9a96a]/40 text-[#c9a96a] text-xs font-semibold hover:border-[#c9a96a] transition-colors self-start sm:self-auto shadow-2xs"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Unlock all themes with Pro</span>
+              <Lock className="w-3.5 h-3.5" />
+              <span>Unlock all 15 themes with Pro →</span>
             </button>
           )}
         </div>

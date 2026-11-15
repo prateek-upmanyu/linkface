@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface UnclaimedProfileViewProps {
   username: string;

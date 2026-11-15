@@ -11,7 +11,7 @@ import {
   Trash2,
   Loader2,
   MessageSquare,
-  Sparkles,
+  Zap,
   Lock,
   CreditCard,
   ShieldCheck,
@@ -135,7 +135,7 @@ export function ProfileSettings({
           <div className="p-4 rounded-[16px] bg-[#FFFDF5] border border-[#F4D03F] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-body text-[#18181B] shadow-xs">
             <div>
               <p className="font-bold text-[#B9770E] flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#E67E22]" />
+                <span className="w-2 h-2 rounded-full bg-[#E67E22]" />
                 You are currently on the Free plan.
               </p>
               <p className="text-[#6B7280] mt-0.5">
@@ -148,7 +148,7 @@ export function ProfileSettings({
                 setModalReason("general");
                 setModalOpen(true);
               }}
-              className="px-4 py-2 rounded-full bg-[#c9a96a] text-[#0a0f1c] font-bold text-xs uppercase tracking-wider shrink-0 hover:bg-[#d9bb80] transition-colors"
+              className="btn-champagne text-xs uppercase tracking-wider px-4 py-2 rounded-full font-bold shadow-xs shrink-0"
             >
               Re-Upgrade to Pro →
             </button>
@@ -212,10 +212,10 @@ export function ProfileSettings({
                   setModalReason("general");
                   setModalOpen(true);
                 }}
-                className="px-5 py-2 rounded-full bg-[#c9a96a] hover:bg-[#d9bb80] text-[#0a0f1c] font-bold text-xs uppercase tracking-wider transition-colors shrink-0 flex items-center gap-1.5"
+                className="btn-champagne font-bold text-xs uppercase tracking-wider px-5 py-2 rounded-full transition-all shrink-0 flex items-center gap-1.5 shadow-xs"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Upgrade to Pro</span>
+                <Lock className="w-3.5 h-3.5" />
+                <span>Upgrade to Pro →</span>
               </button>
             )}
           </div>
@@ -342,12 +342,12 @@ export function ProfileSettings({
             <div className="pt-2 pb-1 flex items-center justify-between p-3.5 rounded-[12px] bg-[#FFFDF9] border border-[#E5E7EB]">
               <div className="space-y-0.5">
                 <div className="flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#c9a96a]" />
+                  <Zap className="w-3.5 h-3.5 text-[#E67E22]" />
                   <span className="text-xs font-bold text-[#18181B]">
                     Interactive Spotlight Effect
                   </span>
                   {!isPro && (
-                    <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm bg-[#c9a96a]/20 text-[#B9770E] font-semibold flex items-center gap-0.5">
+                    <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm bg-[#F9E79F] text-[#B9770E] font-bold flex items-center gap-0.5">
                       <Lock className="w-2.5 h-2.5" /> Pro
                     </span>
                   )}

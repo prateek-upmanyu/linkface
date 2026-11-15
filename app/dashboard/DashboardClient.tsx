@@ -26,7 +26,6 @@ import {
   Share2,
   Eye,
   Check,
-  Sparkles,
   Lock,
 } from "lucide-react";
 
@@ -276,17 +275,16 @@ export function DashboardClient({
           {/* Action Buttons */}
           <div className="flex items-center gap-2.5 shrink-0">
             {profile.plan === "pro" ? (
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18223a] border border-[#c9a96a]/40 text-[#c9a96a] text-[10px] font-mono uppercase tracking-[0.14em] font-semibold">
-                <Sparkles className="w-3 h-3 text-[#c9a96a]" />
-                Pro Active
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFFDF5] border border-[#F4D03F] text-[#B9770E] text-[10px] font-mono uppercase tracking-[0.14em] font-bold shadow-2xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E67E22]" />
+                PRO ACTIVE
               </span>
             ) : (
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#c9a96a] hover:bg-[#d9bb80] text-[#0a0f1c] text-xs font-semibold uppercase tracking-wider transition-colors shadow-xs"
+                className="btn-champagne text-xs uppercase tracking-wider px-3.5 py-1.5 rounded-full font-bold flex items-center gap-1 shadow-xs"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Upgrade to Pro</span>
+                <span>Upgrade to Pro →</span>
               </Link>
             )}
 
