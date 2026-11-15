@@ -54,36 +54,36 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] font-body"
+      className="p-6 rounded-[16px] bg-[#FFFFFF] border border-[#E5E7EB] shadow-xs font-body"
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-[11px] font-mono tracking-[0.14em] uppercase text-[#c9a96a]">
-            Curate
+          <span className="text-[11px] font-mono tracking-wider uppercase font-bold text-[#F39C12]">
+            New
           </span>
-          <span className="text-[rgba(245,241,232,0.3)] text-xs">&mdash;</span>
-          <h3 className="font-heading text-lg font-normal text-[#f5f1e8]">
-            Add New Destination
+          <span className="text-[#D1D5DB] text-xs">&mdash;</span>
+          <h3 className="font-heading text-xl font-bold text-[#18181B]">
+            Add Link
           </h3>
         </div>
         {detected?.platformId && (
-          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#18223a] border border-[#c9a96a]/40 text-[#c9a96a] flex items-center gap-1.5 font-body">
-            <Check className="w-3 h-3 text-[#c9a96a]" />
+          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#F9E79F]/40 border border-[#F4D03F] text-[#B9770E] font-semibold flex items-center gap-1.5 font-body">
+            <Check className="w-3 h-3 text-[#E67E22]" />
             {detected.name}
           </span>
         )}
       </div>
 
-      {/* Main URL Input with live detection icon */}
+      {/* Main URL Input */}
       <div className="relative flex items-center">
         <div className="absolute left-3.5 flex items-center justify-center pointer-events-none">
           {detected && detected.isValid ? (
             <div
               className="w-7 h-7 rounded-[6px] flex items-center justify-center"
               style={{
-                backgroundColor: detected.brandColor ? `${detected.brandColor}20` : "rgba(201,169,106,0.15)",
-                color: detected.brandColor || "#ffffff",
-                border: `1px solid ${detected.brandColor || "rgba(201,169,106,0.3)"}`,
+                backgroundColor: detected.brandColor ? `${detected.brandColor}15` : "rgba(243,156,18,0.15)",
+                color: detected.brandColor || "#18181B",
+                border: `1px solid ${detected.brandColor || "rgba(243,156,18,0.3)"}`,
               }}
             >
               <PlatformIcon
@@ -95,7 +95,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
               />
             </div>
           ) : (
-            <Link2 className="w-4 h-4 text-[rgba(245,241,232,0.38)]" strokeWidth={1.5} />
+            <Link2 className="w-4 h-4 text-[#9CA3AF]" strokeWidth={2} />
           )}
         </div>
 
@@ -106,8 +106,8 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
             setUrl(e.target.value);
             if (error) setError("");
           }}
-          placeholder="Paste URL (e.g. youtube.com/@channel, spotify.com, or yoursite.com)"
-          className="w-full pl-12 pr-28 py-3 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a] transition-colors"
+          placeholder="Paste URL (e.g. youtube.com/@channel, instagram.com/name, or spotify.com)"
+          className="w-full pl-12 pr-28 py-3 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm text-[#18181B] font-semibold focus:outline-none focus:border-[#F39C12] transition-colors shadow-2xs"
         />
 
         <button
@@ -120,7 +120,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
         </button>
       </div>
 
-      {error && <p className="text-xs text-rose-400 mt-2">{error}</p>}
+      {error && <p className="text-xs text-rose-500 font-semibold mt-2">{error}</p>}
 
       {/* Optional Custom Title Expand */}
       <div className="mt-3">
@@ -128,7 +128,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
           <button
             type="button"
             onClick={() => setShowAdvanced(true)}
-            className="text-xs text-[rgba(245,241,232,0.38)] hover:text-[#f5f1e8] transition-colors underline"
+            className="text-xs font-semibold text-[#6B7280] hover:text-[#E67E22] transition-colors underline"
           >
             + Customize link title before adding
           </button>
@@ -139,7 +139,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
               value={customTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="Custom title (defaults to auto-detected platform name)"
-              className="w-full px-3.5 py-2 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+              className="w-full px-3.5 py-2 rounded-[12px] bg-[#FFFFFF] border border-[#E5E7EB] text-xs text-[#18181B] font-medium focus:outline-none focus:border-[#F39C12]"
             />
           </div>
         )}

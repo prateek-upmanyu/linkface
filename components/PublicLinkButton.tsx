@@ -42,23 +42,23 @@ export function PublicLinkButton({ link }: PublicLinkButtonProps) {
 
   const iconStyle = getPlatformBadgeStyle(platform?.brandColor, true);
 
-  // Quiet Luxury Link Button (56px tall, #121a2e background, 12px radius, 4px hover slide arrow)
   return (
     <a
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={`w-full h-[56px] px-4 flex items-center justify-between rounded-[12px] bg-[#121a2e] hover:bg-[#18223a] border border-[rgba(245,241,232,0.08)] hover:border-[#c9a96a]/60 transition-all duration-200 group text-decoration-none select-none ${
+      className={`w-full min-h-[52px] px-4 py-2.5 flex items-center justify-between rounded-[12px] bg-[#FFFFFF] hover:bg-[#FFFDF9] border border-[#E5E7EB] hover:border-[#F39C12] shadow-sm hover:shadow-[0_4px_16px_rgba(243,156,18,0.12)] transition-all duration-150 group text-decoration-none select-none ${
         clicked ? "scale-[0.99]" : ""
       }`}
     >
-      <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-3">
-        {/* Small muted icon container (18px icon size) */}
+      <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
+        {/* Platform Icon Container */}
         <div
-          className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border border-white/[0.06] bg-[#0a0f1c]/70 text-[#f5f1e8]/70 group-hover:text-[#f5f1e8] transition-colors"
+          className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFDF5] text-[#18181B]"
           style={{
-            color: iconStyle.color || "rgba(245,241,232,0.7)",
+            backgroundColor: platform?.brandColor ? `${platform.brandColor}12` : "#FFFDF5",
+            color: iconStyle.color || "#F39C12",
           }}
         >
           <PlatformIcon
@@ -66,26 +66,26 @@ export function PublicLinkButton({ link }: PublicLinkButtonProps) {
             platformId={link.platform}
             faviconUrl={favicon}
             brandColor={iconStyle.color}
-            className="w-4 h-4 opacity-80 group-hover:opacity-100 transition-opacity"
+            className="w-4 h-4"
             size={18}
           />
         </div>
 
-        {/* Title in Inter 15px */}
-        <span className="font-body font-normal text-[15px] leading-tight tracking-[-0.01em] truncate flex-1 text-[#f5f1e8] group-hover:text-white transition-colors">
+        {/* Title: Bold, crisp, legible */}
+        <span className="font-body font-semibold text-sm sm:text-[15px] leading-tight tracking-tight truncate flex-1 text-[#18181B] group-hover:text-[#E67E22] transition-colors">
           {link.title}
         </span>
 
-        {/* Optional Pill Badge */}
+        {/* Badge in Sunlit Yellow */}
         {link.badge && (
-          <span className="px-2 py-0.5 text-[10px] font-body uppercase tracking-[0.12em] rounded-full shrink-0 ml-1.5 bg-[#c9a96a]/10 text-[#c9a96a] border border-[#c9a96a]/30">
+          <span className="px-2 py-0.5 text-[10px] font-body font-bold uppercase tracking-wider rounded-full shrink-0 ml-1 bg-[#F9E79F] text-[#B9770E] border border-[#F4D03F]">
             {link.badge}
           </span>
         )}
       </div>
 
-      {/* Tiny arrow right that shifts 4px on hover */}
-      <ChevronRight className="w-4 h-4 text-[rgba(245,241,232,0.38)] group-hover:text-[#c9a96a] group-hover:translate-x-1 transition-all duration-200 shrink-0" />
+      {/* Tiny arrow right */}
+      <ChevronRight className="w-4 h-4 text-[#9CA3AF] group-hover:text-[#F39C12] group-hover:translate-x-1 transition-all duration-150 shrink-0" />
     </a>
   );
 }

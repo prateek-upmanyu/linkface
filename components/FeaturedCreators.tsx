@@ -44,18 +44,28 @@ export function FeaturedCreators({
   // If 0 creators filled, hide the section completely
   if (activeCreators.length === 0) return null;
 
+  const count = activeCreators.length;
+
   return (
-    <div className={`w-full mt-8 pt-6 border-t border-[rgba(245,241,232,0.08)] ${className}`}>
+    <div className={`w-full max-w-full overflow-hidden mt-6 pt-4 border-t border-[#E5E7EB] ${className}`}>
       {/* Subtle Label 'COLLABORATORS' */}
-      <div className="flex items-center justify-between mb-3.5 px-1 text-[11px] font-body uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)]">
+      <div className="flex items-center justify-between mb-2.5 px-0.5 text-[10px] font-body uppercase font-bold tracking-[0.14em] text-[#6B7280]">
         <span>Collaborators</span>
-        <span className="font-mono text-[10px] text-[rgba(245,241,232,0.3)]">
-          0{activeCreators.length}
+        <span className="font-mono text-[10px] text-[#9CA3AF]">
+          0{count}
         </span>
       </div>
 
-      {/* Row of Collaborators */}
-      <div className="flex items-center justify-center gap-3 w-full">
+      {/* Grid: 1, 2, or 3 columns strictly contained */}
+      <div
+        className={`w-full max-w-full grid gap-1.5 ${
+          count === 1
+            ? "grid-cols-1 max-w-[180px] mx-auto"
+            : count === 2
+            ? "grid-cols-2"
+            : "grid-cols-3"
+        }`}
+      >
         {activeCreators.map((creator, idx) => {
           const finalUrl = normalizeUrl(creator.url);
           const initials = (creator.name || "C")
@@ -66,9 +76,9 @@ export function FeaturedCreators({
             .toUpperCase();
 
           const cardContent = (
-            <div className="flex items-center gap-2.5 px-3 py-2 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] hover:border-[rgba(201,169,106,0.5)] transition-all duration-200 group">
+            <div className="w-full min-w-0 flex items-center gap-1.5 p-1.5 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] hover:border-[#F39C12] hover:bg-[#FFFDF9] shadow-sm transition-all duration-150 group">
               {/* Circular Avatar */}
-              <div className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 border border-[rgba(201,169,106,0.3)] bg-[#18223a] flex items-center justify-center">
+              <div className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 border border-[#F4D03F] bg-[#FFFDF5] flex items-center justify-center">
                 {creator.avatar_url ? (
                   <img
                     src={creator.avatar_url}
@@ -76,31 +86,31 @@ export function FeaturedCreators({
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="text-[11px] font-medium text-[#f5f1e8]">
+                  <span className="text-[9px] font-bold text-[#E67E22]">
                     {initials}
                   </span>
                 )}
               </div>
 
-              {/* Creator Name */}
-              <div className="flex flex-col text-left min-w-0 pr-1">
-                <span className="text-xs font-normal text-[#f5f1e8] truncate max-w-[90px] group-hover:text-white transition-colors">
+              {/* Creator Name & Tagline (strictly truncated) */}
+              <div className="flex flex-col text-left min-w-0 flex-1">
+                <span className="text-[11px] font-bold text-[#18181B] truncate group-hover:text-[#E67E22] transition-colors leading-tight">
                   {creator.name}
                 </span>
                 {creator.tagline && (
-                  <span className="text-[10px] text-[rgba(245,241,232,0.38)] truncate max-w-[90px]">
+                  <span className="text-[9px] text-[#6B7280] truncate leading-tight">
                     {creator.tagline}
                   </span>
                 )}
               </div>
 
-              <ArrowUpRight className="w-3 h-3 text-[rgba(245,241,232,0.38)] group-hover:text-[#c9a96a] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+              <ArrowUpRight className="w-2.5 h-2.5 text-[#9CA3AF] group-hover:text-[#F39C12] shrink-0" />
             </div>
           );
 
           if (!isInteractive) {
             return (
-              <div key={idx} className="cursor-default">
+              <div key={idx} className="min-w-0 w-full cursor-default">
                 {cardContent}
               </div>
             );
@@ -112,7 +122,7 @@ export function FeaturedCreators({
               href={finalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-decoration-none"
+              className="min-w-0 w-full text-decoration-none block"
             >
               {cardContent}
             </a>

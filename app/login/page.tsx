@@ -78,7 +78,7 @@ function LoginForm() {
         router.push("/dashboard");
       }
     } catch {
-      setError("An unexpected authentication error occurred.");
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -99,27 +99,27 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-[400px] mx-auto py-12 px-4 sm:px-0">
+    <div className="w-full max-w-[400px] mx-auto py-10 px-4 sm:px-0">
       {/* Brand Header */}
-      <div className="mb-10 text-left">
-        <Link href="/" className="inline-flex items-center gap-3 group mb-6">
-          <BrandLogo className="w-5 h-5 text-[#c9a96a]" />
-          <span className="font-heading text-xl font-normal text-[#f5f1e8]">
+      <div className="mb-8 text-left">
+        <Link href="/" className="inline-flex items-center gap-2.5 group mb-6">
+          <BrandLogo className="w-8 h-8" />
+          <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
             Linklet
           </span>
         </Link>
-        <h1 className="font-heading text-3xl sm:text-4xl font-normal text-[#f5f1e8] tracking-tight">
-          {isSignUp ? "Begin your archive." : "Return to your studio."}
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold text-[#18181B] tracking-tight">
+          {isSignUp ? "Create your free account" : "Welcome back"}
         </h1>
-        <p className="mt-2 text-xs sm:text-sm text-[rgba(245,241,232,0.62)] font-body">
+        <p className="mt-2 text-xs sm:text-sm text-[#4B5563] font-body font-medium">
           {isSignUp
-            ? "Claim your unique link and design your personal colophon."
-            : "Manage your links, collaborators, and traffic."}
+            ? "Claim your unique link and start adding your platforms."
+            : "Sign in to manage your links, profile, and stats."}
         </p>
       </div>
 
       {/* Mode Switcher */}
-      <div className="grid grid-cols-2 p-1 rounded-full bg-[#121a2e] border border-[rgba(245,241,232,0.08)] mb-8 text-xs font-body">
+      <div className="grid grid-cols-2 p-1 rounded-full bg-gray-100 border border-[#E5E7EB] mb-6 text-xs font-body font-bold">
         <button
           type="button"
           onClick={() => {
@@ -128,8 +128,8 @@ function LoginForm() {
           }}
           className={`py-2 rounded-full transition-all ${
             !isSignUp
-              ? "bg-[#18223a] text-[#c9a96a] border border-[#c9a96a]/40"
-              : "text-[rgba(245,241,232,0.62)] hover:text-white"
+              ? "bg-[#FFFFFF] text-[#18181B] shadow-xs"
+              : "text-[#6B7280] hover:text-[#18181B]"
           }`}
         >
           Sign In
@@ -142,8 +142,8 @@ function LoginForm() {
           }}
           className={`py-2 rounded-full transition-all ${
             isSignUp
-              ? "bg-[#18223a] text-[#c9a96a] border border-[#c9a96a]/40"
-              : "text-[rgba(245,241,232,0.62)] hover:text-white"
+              ? "bg-[#FFFFFF] text-[#18181B] shadow-xs"
+              : "text-[#6B7280] hover:text-[#18181B]"
           }`}
         >
           Create Account
@@ -151,14 +151,14 @@ function LoginForm() {
       </div>
 
       {magicLinkSent ? (
-        <div className="p-6 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-center space-y-3 font-body">
-          <h3 className="font-heading text-xl text-[#f5f1e8]">Check your inbox</h3>
-          <p className="text-xs text-[rgba(245,241,232,0.62)] leading-relaxed">
-            We sent a secure confirmation link to <span className="text-[#f5f1e8] font-medium">{email}</span>. Click it to verify your account and claim your address.
+        <div className="p-6 rounded-[16px] bg-[#FFFDF9] border border-[#F4D03F] text-center space-y-3 font-body shadow-xs">
+          <h3 className="font-heading text-2xl font-bold text-[#18181B]">Check your inbox</h3>
+          <p className="text-xs text-[#4B5563] leading-relaxed font-medium">
+            We sent a verification link to <span className="text-[#18181B] font-bold">{email}</span>. Click it to confirm your account.
           </p>
           <button
             onClick={() => setMagicLinkSent(false)}
-            className="text-xs text-[#c9a96a] underline mt-3 block mx-auto hover:text-white"
+            className="text-xs font-bold text-[#E67E22] underline mt-3 block mx-auto hover:text-[#18181B]"
           >
             Back to Sign In
           </button>
@@ -169,7 +169,7 @@ function LoginForm() {
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="w-full py-3 px-4 rounded-[12px] border border-[rgba(245,241,232,0.08)] bg-[#121a2e] hover:bg-[#18223a] text-[#f5f1e8] text-xs font-body flex items-center justify-center gap-3 transition-colors mb-6"
+            className="w-full py-3 px-4 rounded-[12px] border-2 border-[#E5E7EB] bg-[#FFFFFF] hover:bg-[#FFFDF9] hover:border-gray-300 text-[#18181B] text-xs font-body font-bold flex items-center justify-center gap-3 transition-colors mb-5 shadow-2xs"
           >
             <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
               <path
@@ -192,67 +192,67 @@ function LoginForm() {
             <span>Continue with Google</span>
           </button>
 
-          <div className="relative my-6 text-center">
+          <div className="relative my-5 text-center">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[rgba(245,241,232,0.08)]" />
+              <div className="w-full border-t border-[#E5E7EB]" />
             </div>
-            <span className="relative px-3 bg-[#0a0f1c] text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)]">
+            <span className="relative px-3 bg-[#FFFFFF] text-[10px] uppercase font-bold tracking-wider text-[#9CA3AF]">
               Or with Email
             </span>
           </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-[12px] bg-rose-950/40 border border-rose-900/60 text-xs text-rose-300 flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+            <div className="mb-4 p-3 rounded-[12px] bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
               <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleAuth} className="space-y-4 font-body">
             <div>
-              <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1.5">
+              <label className="text-[10px] uppercase font-bold tracking-wider text-[#6B7280] block mb-1.5">
                 Email Address
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="curator@domain.com"
+                placeholder="you@example.com"
                 required
-                className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+                className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
               />
             </div>
 
             <div>
-              <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1.5">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] block mb-1.5">
                 Password
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Minimum 8 characters"
+                placeholder="At least 8 characters"
                 required
                 minLength={8}
-                className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+                className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 btn-champagne text-xs uppercase tracking-[0.14em] disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
+              className="w-full py-3 btn-champagne text-xs uppercase tracking-wider disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-              {isSignUp ? "Create Studio Account &rarr;" : "Enter Studio &rarr;"}
+              {isSignUp ? "Create Free Account &rarr;" : "Sign In &rarr;"}
             </button>
           </form>
         </>
       )}
 
-      <div className="mt-8 text-center text-xs text-[rgba(245,241,232,0.38)] font-body">
-        <Link href="/alex" className="hover:text-white underline">
-          View public demo colophon &rarr;
+      <div className="mt-8 text-center text-xs text-[#6B7280] font-body font-medium">
+        <Link href="/alex" className="hover:text-[#18181B] underline">
+          View public demo page &rarr;
         </Link>
       </div>
     </div>
@@ -261,25 +261,27 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#0a0f1c] grid grid-cols-1 lg:grid-cols-12 selection:bg-[#18223a] selection:text-[#c9a96a]">
-      {/* Left Form (Max 400px Centered) */}
+    <div className="min-h-screen bg-[#FFFFFF] grid grid-cols-1 lg:grid-cols-12 selection:bg-[#F9E79F] selection:text-[#18181B]">
+      {/* Left Form */}
       <div className="lg:col-span-6 xl:col-span-5 flex items-center justify-center p-6 sm:p-12">
-        <Suspense fallback={<div className="text-xs text-[rgba(245,241,232,0.38)]">Loading studio...</div>}>
+        <Suspense fallback={<div className="text-xs text-[#9CA3AF]">Loading...</div>}>
           <LoginForm />
         </Suspense>
       </div>
 
-      {/* Right Phone Preview Panel on Raised Surface */}
-      <div className="hidden lg:flex lg:col-span-6 xl:col-span-7 bg-[#18223a] border-l border-[rgba(245,241,232,0.08)] p-12 items-center justify-center flex-col relative overflow-hidden">
-        <div className="relative z-10 w-full max-w-[360px] flex flex-col items-center">
+      {/* Right Phone Preview Panel on Bright Warm Surface */}
+      <div
+        className="hidden lg:flex lg:col-span-6 xl:col-span-7 border-l border-[#E5E7EB] p-12 items-center justify-center flex-col relative overflow-hidden"
+        style={{
+          background: "radial-gradient(circle at 50% 0%, rgba(249, 231, 159, 0.4) 0%, transparent 70%), #FFFDF9",
+        }}
+      >
+        <div className="relative z-10 w-full max-w-[340px] sm:max-w-[360px] flex flex-col items-center">
           <PhonePreview
             profile={DEMO_PROFILE}
             links={DEMO_LINKS}
             isInteractive={false}
           />
-          <p className="mt-8 text-center text-xs font-body text-[rgba(245,241,232,0.62)] max-w-xs leading-relaxed italic">
-            &ldquo;A personal colophon for creators who value restraint over noise.&rdquo;
-          </p>
         </div>
       </div>
     </div>

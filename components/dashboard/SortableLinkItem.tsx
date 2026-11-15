@@ -89,10 +89,10 @@ export function SortableLinkItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`group relative rounded-[12px] border transition-all duration-150 ${
+      className={`group relative rounded-[14px] border transition-all duration-150 ${
         link.is_visible
-          ? "bg-[#121a2e] border-[rgba(245,241,232,0.08)] hover:border-[#c9a96a]/50"
-          : "bg-[#0a0f1c]/70 border-white/[0.04] opacity-50"
+          ? "bg-[#FFFFFF] border-[#E5E7EB] hover:border-[#F39C12] shadow-xs hover:shadow-sm"
+          : "bg-gray-50 border-gray-200 opacity-60"
       }`}
     >
       <div className="p-4 flex items-center gap-3">
@@ -101,10 +101,10 @@ export function SortableLinkItem({
           type="button"
           {...attributes}
           {...listeners}
-          className="cursor-grab active:cursor-grabbing p-1 text-[rgba(245,241,232,0.38)] hover:text-[#f5f1e8] transition-colors"
+          className="cursor-grab active:cursor-grabbing p-1 text-[#9CA3AF] hover:text-[#18181B] transition-colors"
           title="Drag to reorder"
         >
-          <GripVertical className="w-4 h-4" strokeWidth={1.5} />
+          <GripVertical className="w-4 h-4" strokeWidth={2} />
         </button>
 
         {/* Up / Down buttons for mobile accessibility */}
@@ -113,25 +113,25 @@ export function SortableLinkItem({
             type="button"
             onClick={onMoveUp}
             disabled={isFirst}
-            className="p-0.5 text-[rgba(245,241,232,0.38)] disabled:opacity-20 hover:text-white"
+            className="p-0.5 text-[#9CA3AF] disabled:opacity-20 hover:text-[#18181B]"
             title="Move up"
           >
-            <ChevronUp className="w-3.5 h-3.5" strokeWidth={1.5} />
+            <ChevronUp className="w-3.5 h-3.5" strokeWidth={2} />
           </button>
           <button
             type="button"
             onClick={onMoveDown}
             disabled={isLast}
-            className="p-0.5 text-[rgba(245,241,232,0.38)] disabled:opacity-20 hover:text-white"
+            className="p-0.5 text-[#9CA3AF] disabled:opacity-20 hover:text-[#18181B]"
             title="Move down"
           >
-            <ChevronDown className="w-3.5 h-3.5" strokeWidth={1.5} />
+            <ChevronDown className="w-3.5 h-3.5" strokeWidth={2} />
           </button>
         </div>
 
         {/* Platform Icon Badge */}
         <div
-          className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 border border-white/[0.08] bg-[#0a0f1c]"
+          className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFDF5]"
           style={{
             ...getPlatformBadgeStyle(platform?.brandColor),
           }}
@@ -149,21 +149,21 @@ export function SortableLinkItem({
         {/* Title, URL, and Badge */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="font-body font-medium text-sm text-[#f5f1e8] truncate">
+            <span className="font-body font-bold text-sm text-[#18181B] truncate">
               {link.title}
             </span>
             {link.badge && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#c9a96a]/10 border border-[#c9a96a]/30 text-[#c9a96a] uppercase font-body tracking-wider shrink-0">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#F9E79F] border border-[#F4D03F] text-[#B9770E] font-bold uppercase tracking-wider shrink-0">
                 {link.badge}
               </span>
             )}
           </div>
           <div className="flex items-center gap-3 mt-0.5">
-            <span className="text-xs text-[rgba(245,241,232,0.62)] truncate max-w-[220px] sm:max-w-xs font-body">
+            <span className="text-xs text-[#6B7280] font-medium truncate max-w-[220px] sm:max-w-xs font-body">
               {link.url}
             </span>
-            <span className="text-[11px] text-[rgba(245,241,232,0.38)] flex items-center gap-1 shrink-0 font-mono">
-              <MousePointerClick className="w-3 h-3 text-[#c9a96a]" strokeWidth={1.5} />
+            <span className="text-[11px] text-[#B9770E] font-semibold flex items-center gap-1 shrink-0 font-mono">
+              <MousePointerClick className="w-3 h-3 text-[#F39C12]" strokeWidth={2} />
               {link.click_count || 0} clicks
             </span>
           </div>
@@ -176,87 +176,87 @@ export function SortableLinkItem({
             onClick={handleToggleVisible}
             className={`p-2 rounded-lg transition-colors ${
               link.is_visible
-                ? "text-[rgba(245,241,232,0.62)] hover:text-white hover:bg-white/5"
-                : "text-[rgba(245,241,232,0.3)] hover:text-white"
+                ? "text-[#6B7280] hover:text-[#18181B] hover:bg-gray-100"
+                : "text-gray-400 hover:text-gray-600"
             }`}
             title={link.is_visible ? "Hide link" : "Show link"}
           >
             {link.is_visible ? (
-              <Eye className="w-4 h-4" strokeWidth={1.5} />
+              <Eye className="w-4 h-4" strokeWidth={1.75} />
             ) : (
-              <EyeOff className="w-4 h-4" strokeWidth={1.5} />
+              <EyeOff className="w-4 h-4" strokeWidth={1.75} />
             )}
           </button>
 
           <button
             type="button"
             onClick={() => setIsEditing(!isEditing)}
-            className="p-2 rounded-lg text-[rgba(245,241,232,0.62)] hover:text-white hover:bg-white/5 transition-colors"
+            className="p-2 rounded-lg text-[#6B7280] hover:text-[#18181B] hover:bg-gray-100 transition-colors"
             title="Edit link details"
           >
-            <Edit2 className="w-4 h-4" strokeWidth={1.5} />
+            <Edit2 className="w-4 h-4" strokeWidth={1.75} />
           </button>
 
           <a
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-lg text-[rgba(245,241,232,0.62)] hover:text-white hover:bg-white/5 transition-colors"
-            title="Open destination"
+            className="p-2 rounded-lg text-[#6B7280] hover:text-[#18181B] hover:bg-gray-100 transition-colors"
+            title="Open link"
           >
-            <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
+            <ExternalLink className="w-4 h-4" strokeWidth={1.75} />
           </a>
 
           <button
             type="button"
             onClick={() => onDelete(link.id)}
-            className="p-2 rounded-lg text-rose-400/80 hover:text-rose-300 hover:bg-rose-950/30 transition-colors"
+            className="p-2 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition-colors"
             title="Delete link"
           >
-            <Trash2 className="w-4 h-4" strokeWidth={1.5} />
+            <Trash2 className="w-4 h-4" strokeWidth={1.75} />
           </button>
         </div>
       </div>
 
       {/* Inline Edit Panel */}
       {isEditing && (
-        <div className="p-4 pt-2 border-t border-[rgba(245,241,232,0.08)] bg-[#0a0f1c]/80 space-y-3 font-body rounded-b-[12px]">
+        <div className="p-4 pt-3 border-t border-[#E5E7EB] bg-[#FFFDF9] space-y-3 font-body rounded-b-[14px]">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] block mb-1">
                 Link Title
               </label>
               <input
                 type="text"
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-xs text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+                className="w-full px-3 py-1.5 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] text-xs font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
               />
             </div>
             <div>
-              <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] block mb-1">
                 Destination URL
               </label>
               <input
                 type="text"
                 value={editUrl}
                 onChange={(e) => setEditUrl(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-xs text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+                className="w-full px-3 py-1.5 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] text-xs font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
               />
             </div>
           </div>
 
           <div>
-            <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1">
-              Badge Label (Optional)
+            <label className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] block mb-1">
+              Badge (Optional)
             </label>
             <input
               type="text"
               value={editBadge}
               onChange={(e) => setEditBadge(e.target.value)}
-              placeholder="e.g. NEW, PODCAST, PORTFOLIO"
+              placeholder="e.g. NEW, PODCAST, 50% OFF"
               maxLength={15}
-              className="w-full px-3 py-1.5 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] text-xs text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+              className="w-full px-3 py-1.5 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] text-xs font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
             />
           </div>
 
@@ -264,7 +264,7 @@ export function SortableLinkItem({
             <button
               type="button"
               onClick={() => setIsEditing(false)}
-              className="px-3 py-1.5 text-xs text-[rgba(245,241,232,0.38)] hover:text-white"
+              className="px-3 py-1.5 text-xs font-semibold text-[#6B7280] hover:text-[#18181B]"
             >
               Cancel
             </button>

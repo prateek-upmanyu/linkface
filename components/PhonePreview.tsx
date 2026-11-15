@@ -28,68 +28,73 @@ export function PhonePreview({
 
   return (
     <div
-      className={`relative mx-auto w-full max-w-[360px] rounded-[44px] p-5 sm:p-6 border border-[rgba(245,241,232,0.12)] bg-[#0a0f1c] shadow-[0_24px_64px_rgba(0,0,0,0.6)] select-none transition-all duration-300 ${
+      className={`relative mx-auto w-full max-w-[340px] sm:max-w-[360px] rounded-[48px] p-4 sm:p-5 border-[6px] border-[#18181B] bg-[#FFFDF9] shadow-[0_24px_64px_rgba(243,156,18,0.18),0_8px_24px_rgba(0,0,0,0.06)] select-none transition-all duration-300 overflow-hidden ${
         floating ? "animate-phone-float" : ""
       } ${className}`}
       style={{
-        background: "radial-gradient(circle at 50% 0%, rgba(201, 169, 106, 0.05) 0%, transparent 55%), #0a0f1c",
+        background: "radial-gradient(circle at 50% 0%, rgba(249, 231, 159, 0.25) 0%, transparent 60%), #FFFDF9",
       }}
     >
       {/* Speaker / Dynamic Island Pill */}
-      <div className="flex items-center justify-between mb-6 px-3">
-        <div className="w-18 h-3.5 rounded-full bg-[#121a2e] border border-[rgba(245,241,232,0.06)] mx-auto flex items-center justify-center">
-          <div className="w-2 h-2 rounded-full bg-[#18223a]" />
+      <div className="flex items-center justify-between mb-5 px-3">
+        <div className="w-20 h-4 rounded-full bg-[#18181B] mx-auto flex items-center justify-center">
+          <div className="w-2 h-2 rounded-full bg-[#27272A]" />
         </div>
-        <div className="absolute right-7 top-6">
+        <div className="absolute right-6 top-5">
           <SoundToggle />
         </div>
       </div>
 
-      <div className="flex flex-col justify-between min-h-[500px]">
+      <div className="flex flex-col justify-between min-h-[480px] w-full max-w-full overflow-hidden">
         {/* Profile Header */}
-        <div className="flex flex-col items-center text-center px-1 mb-6 shrink-0">
+        <div className="flex flex-col items-center text-center px-1 mb-5 shrink-0">
           {/* Status Message / Thought Bubble */}
           <SpeechBubble
             message={profile.status_message}
             styleType={profile.status_style}
           />
 
-          {/* Avatar with thin 1px Champagne Ring */}
-          <div className="relative mb-4">
+          {/* Avatar with Vibrant Orange-Gold Ring */}
+          <div className="relative mb-3.5">
             {profile.avatar_url ? (
               <img
                 src={profile.avatar_url}
                 alt={profile.display_name || "Profile"}
-                className="w-20 h-20 sm:w-22 sm:h-22 object-cover rounded-full ring-1 ring-[#c9a96a]/50 p-0.5"
+                className="w-20 h-20 sm:w-22 sm:h-22 object-cover rounded-full ring-2 ring-[#F39C12] p-0.5 shadow-sm"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = "none";
                 }}
               />
             ) : (
-              <div className="w-20 h-20 sm:w-22 sm:h-22 flex items-center justify-center text-2xl font-serif text-[#f5f1e8] bg-[#121a2e] rounded-full ring-1 ring-[#c9a96a]/50">
+              <div className="w-20 h-20 sm:w-22 sm:h-22 flex items-center justify-center text-2xl font-heading font-bold text-[#FFFFFF] bg-gradient-to-tr from-[#F39C12] to-[#F4D03F] rounded-full ring-2 ring-[#F39C12] shadow-sm">
                 {profile.display_name?.charAt(0) || profile.username?.charAt(0) || "U"}
               </div>
             )}
           </div>
 
-          {/* Name in Instrument Serif */}
-          <h2 className="font-heading text-2xl sm:text-3xl font-normal tracking-tight text-[#f5f1e8] leading-tight">
-            {profile.display_name || profile.username || "Elena Rostova"}
+          {/* Name in Bold Instrument Serif */}
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-[#18181B] leading-tight">
+            {profile.display_name || profile.username || "Alex Rivera"}
           </h2>
 
-          {/* Bio in Muted Inter */}
+          {/* Handle */}
+          <p className="text-xs font-mono font-semibold text-[#F39C12] mt-0.5">
+            @{profile.username || "alex"}
+          </p>
+
+          {/* Bio in Crisp Inter */}
           {profile.bio && (
-            <p className="mt-2 text-xs text-[rgba(245,241,232,0.62)] max-w-[260px] leading-relaxed line-clamp-3 font-body">
+            <p className="mt-2 text-xs sm:text-[13px] text-[#4B5563] max-w-[280px] leading-relaxed line-clamp-3 font-body font-medium">
               {profile.bio}
             </p>
           )}
         </div>
 
-        {/* Links List with 80ms Stagger */}
-        <div className="flex-1 w-full flex flex-col gap-2.5">
+        {/* Links List with Stagger */}
+        <div className="flex-1 w-full max-w-full flex flex-col gap-2.5">
           {visibleLinks.length === 0 ? (
-            <div className="p-6 text-center text-xs text-[rgba(245,241,232,0.38)] rounded-[12px] border border-dashed border-[rgba(245,241,232,0.08)] bg-[#121a2e]/30">
-              No destinations curated yet.
+            <div className="p-6 text-center text-xs text-[#9CA3AF] rounded-[12px] border border-dashed border-[#E5E7EB] bg-white">
+              No links shared yet.
             </div>
           ) : (
             visibleLinks.map((link, idx) => (
@@ -98,10 +103,11 @@ export function PhonePreview({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.4,
-                  delay: idx * 0.08,
+                  duration: 0.35,
+                  delay: idx * 0.06,
                   ease: [0.16, 1, 0.3, 1],
                 }}
+                className="w-full min-w-0"
               >
                 <PublicLinkButton link={link} themeId={profile.theme} />
               </motion.div>
@@ -109,8 +115,8 @@ export function PhonePreview({
           )}
         </div>
 
-        {/* Featured Collaborators Trio */}
-        <div className="shrink-0 mt-4">
+        {/* Featured Collaborators (Strictly contained inside phone) */}
+        <div className="w-full max-w-full shrink-0">
           <FeaturedCreators
             creators={profile.featured_creators}
             themeId={profile.theme}
@@ -119,8 +125,8 @@ export function PhonePreview({
         </div>
 
         {/* Quiet Footer */}
-        <div className="mt-6 pt-3 text-center border-t border-[rgba(245,241,232,0.06)]">
-          <span className="text-[10px] tracking-[0.14em] uppercase text-[rgba(245,241,232,0.38)]">
+        <div className="mt-5 pt-3 text-center border-t border-[#E5E7EB]">
+          <span className="text-[10px] tracking-[0.14em] uppercase font-bold text-[#9CA3AF]">
             Made with Linklet
           </span>
         </div>

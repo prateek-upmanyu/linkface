@@ -86,28 +86,28 @@ export function ProfileSettings({
   return (
     <div className="space-y-6 font-body">
       {/* Profile Details Card */}
-      <div className="p-6 rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] space-y-6">
-        <div className="flex items-center justify-between border-b border-[rgba(245,241,232,0.08)] pb-3">
+      <div className="p-6 rounded-[16px] bg-[#FFFFFF] border border-[#E5E7EB] shadow-xs space-y-6">
+        <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono tracking-[0.14em] uppercase text-[#c9a96a]">
-              Identity
+            <span className="text-[11px] font-mono tracking-wider uppercase font-bold text-[#F39C12]">
+              Profile
             </span>
-            <span className="text-[rgba(245,241,232,0.3)] text-xs">&mdash;</span>
-            <h3 className="font-heading text-lg font-normal text-[#f5f1e8]">
-              Profile Details
+            <span className="text-[#D1D5DB] text-xs">&mdash;</span>
+            <h3 className="font-heading text-xl font-bold text-[#18181B]">
+              Edit Profile
             </h3>
           </div>
           {isSaved && (
-            <span className="text-xs text-[#c9a96a] font-normal flex items-center gap-1 bg-[#c9a96a]/10 border border-[#c9a96a]/30 px-3 py-1 rounded-full">
-              <Check className="w-3.5 h-3.5" /> Saved
+            <span className="text-xs text-[#B9770E] font-bold flex items-center gap-1 bg-[#F9E79F]/40 border border-[#F4D03F] px-3 py-1 rounded-full">
+              <Check className="w-3.5 h-3.5 text-[#E67E22]" /> Saved
             </span>
           )}
         </div>
 
         {/* Avatar Upload Section */}
         <div>
-          <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-3">
-            Profile Portrait (96px Circular)
+          <label className="text-[10px] uppercase font-bold tracking-wider text-[#6B7280] block mb-3">
+            Profile Picture
           </label>
           <div className="flex items-center gap-5">
             <div className="relative shrink-0">
@@ -115,17 +115,17 @@ export function ProfileSettings({
                 <img
                   src={avatarUrl}
                   alt="Profile"
-                  className="w-16 h-16 rounded-full object-cover border border-[#c9a96a]/40"
+                  className="w-16 h-16 rounded-full object-cover ring-2 ring-[#F4D03F] shadow-sm"
                 />
               ) : (
-                <div className="w-16 h-16 rounded-full bg-[#18223a] text-[#f5f1e8] flex items-center justify-center text-xl font-heading font-normal border border-[#c9a96a]/40">
+                <div className="w-16 h-16 rounded-full bg-[#FFFDF5] text-[#18181B] flex items-center justify-center text-xl font-heading font-bold ring-2 ring-[#F4D03F] shadow-sm">
                   {displayName.charAt(0) || profile.username.charAt(0) || "U"}
                 </div>
               )}
 
               {isProcessingImage && (
-                <div className="absolute inset-0 bg-[#0a0f1c]/80 rounded-full flex items-center justify-center">
-                  <Loader2 className="w-5 h-5 text-[#c9a96a] animate-spin" />
+                <div className="absolute inset-0 bg-white/80 rounded-full flex items-center justify-center">
+                  <Loader2 className="w-5 h-5 text-[#F39C12] animate-spin" />
                 </div>
               )}
             </div>
@@ -145,38 +145,38 @@ export function ProfileSettings({
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isProcessingImage}
-                  className="btn-outline text-xs py-1.5 px-3 flex items-center gap-1.5 min-h-[36px]"
+                  className="btn-outline text-xs py-1.5 px-3 flex items-center gap-1.5 min-h-[36px] font-semibold"
                 >
-                  <Upload className="w-3.5 h-3.5 text-[#c9a96a]" strokeWidth={1.5} />
-                  Upload from Device
+                  <Upload className="w-3.5 h-3.5 text-[#F39C12]" strokeWidth={2} />
+                  Upload Photo
                 </button>
 
                 {avatarUrl && (
                   <button
                     type="button"
                     onClick={handleRemovePhoto}
-                    className="p-2 rounded-full border border-rose-900/40 text-rose-300 hover:text-white hover:bg-rose-950/40 transition-colors"
-                    title="Remove portrait"
+                    className="p-2 rounded-full border border-rose-200 text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition-colors"
+                    title="Remove photo"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
-              <p className="text-[11px] text-[rgba(245,241,232,0.38)]">
-                JPEG, PNG, or WebP. Automatically optimized for retina displays.
+              <p className="text-[11px] text-[#9CA3AF] font-medium">
+                JPG, PNG, or WebP. Automatically optimized.
               </p>
             </div>
           </div>
 
           {imageError && (
-            <p className="text-xs text-rose-400 mt-2">{imageError}</p>
+            <p className="text-xs text-rose-500 font-semibold mt-2">{imageError}</p>
           )}
         </div>
 
         {/* Details Form */}
         <form onSubmit={handleSaveInfo} className="space-y-4 pt-1">
           <div>
-            <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1.5">
+            <label className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] block mb-1.5">
               Display Name
             </label>
             <input
@@ -184,32 +184,32 @@ export function ProfileSettings({
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="e.g. Alex Rivera"
-              className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+              className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
             />
           </div>
 
           <div>
-            <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1.5">
-              Bio (Max 3 lines on profile)
+            <label className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] block mb-1.5">
+              Bio
             </label>
             <textarea
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               rows={3}
-              placeholder="A brief sentence about your practice, studio, or archive..."
-              className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a] resize-none"
+              placeholder="A short sentence about you..."
+              className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-medium text-[#18181B] focus:outline-none focus:border-[#F39C12] resize-none"
             />
           </div>
 
-          {/* Floating Status Message / Note */}
-          <div className="pt-3 border-t border-[rgba(245,241,232,0.08)] space-y-3">
+          {/* Floating Status Message */}
+          <div className="pt-3 border-t border-[#E5E7EB] space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-[10px] uppercase tracking-[0.14em] text-[#f5f1e8] flex items-center gap-1.5">
-                <MessageSquare className="w-3.5 h-3.5 text-[#c9a96a]" strokeWidth={1.5} />
-                Status Note
+              <label className="text-[10px] font-bold uppercase tracking-wider text-[#18181B] flex items-center gap-1.5">
+                <MessageSquare className="w-3.5 h-3.5 text-[#F39C12]" strokeWidth={2} />
+                Status Bubble
               </label>
-              <span className="text-[10px] font-mono text-[rgba(245,241,232,0.38)] uppercase tracking-wider">
-                Renders above portrait
+              <span className="text-[10px] font-mono text-[#9CA3AF] uppercase font-semibold">
+                Shows above photo
               </span>
             </div>
 
@@ -217,21 +217,21 @@ export function ProfileSettings({
               type="text"
               value={statusMessage}
               onChange={(e) => setStatusMessage(e.target.value)}
-              placeholder="e.g. Selected links & recent projects"
+              placeholder="e.g. Latest projects & links"
               maxLength={60}
-              className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+              className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
             />
 
-            {/* Shape Picker */}
+            {/* Bubble Style Picker */}
             <div className="flex items-center gap-2 pt-1">
-              <span className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)]">Style:</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280]">Style:</span>
               <button
                 type="button"
                 onClick={() => setStatusStyle("cloud")}
-                className={`px-3 py-1 text-xs rounded-full transition-all ${
+                className={`px-3 py-1 text-xs rounded-full font-bold transition-all ${
                   statusStyle === "cloud"
-                    ? "bg-[#c9a96a] text-[#0a0f1c] font-medium"
-                    : "border border-[rgba(245,241,232,0.08)] text-[rgba(245,241,232,0.62)] hover:text-white"
+                    ? "bg-[#F39C12] text-white"
+                    : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:text-[#18181B]"
                 }`}
               >
                 Cloud
@@ -239,10 +239,10 @@ export function ProfileSettings({
               <button
                 type="button"
                 onClick={() => setStatusStyle("speech")}
-                className={`px-3 py-1 text-xs rounded-full transition-all ${
+                className={`px-3 py-1 text-xs rounded-full font-bold transition-all ${
                   statusStyle === "speech"
-                    ? "bg-[#c9a96a] text-[#0a0f1c] font-medium"
-                    : "border border-[rgba(245,241,232,0.08)] text-[rgba(245,241,232,0.62)] hover:text-white"
+                    ? "bg-[#F39C12] text-white"
+                    : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:text-[#18181B]"
                 }`}
               >
                 Speech
@@ -250,13 +250,13 @@ export function ProfileSettings({
               <button
                 type="button"
                 onClick={() => setStatusStyle("pixel")}
-                className={`px-3 py-1 text-xs rounded-full transition-all ${
+                className={`px-3 py-1 text-xs rounded-full font-bold transition-all ${
                   statusStyle === "pixel"
-                    ? "bg-[#c9a96a] text-[#0a0f1c] font-medium"
-                    : "border border-[rgba(245,241,232,0.08)] text-[rgba(245,241,232,0.62)] hover:text-white"
+                    ? "bg-[#F39C12] text-white"
+                    : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:text-[#18181B]"
                 }`}
               >
-                Plaque
+                Pill
               </button>
             </div>
           </div>
@@ -264,7 +264,7 @@ export function ProfileSettings({
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-champagne text-xs uppercase tracking-[0.14em] mt-2 px-6 py-2.5"
+            className="btn-champagne text-xs uppercase tracking-wider mt-2 px-6 py-2.5"
           >
             Save Profile &rarr;
           </button>

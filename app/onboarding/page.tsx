@@ -82,31 +82,36 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f1c] flex flex-col justify-center items-center p-4 font-body selection:bg-[#18223a] selection:text-[#c9a96a]">
-      <div className="max-w-md w-full rounded-[12px] bg-[#121a2e] p-8 border border-[rgba(245,241,232,0.08)] shadow-[0_24px_64px_rgba(0,0,0,0.8)]">
+    <div
+      className="min-h-screen bg-[#FFFDF9] flex flex-col justify-center items-center p-4 font-body selection:bg-[#F9E79F] selection:text-[#18181B]"
+      style={{
+        background: "radial-gradient(circle at 50% 0%, rgba(249, 231, 159, 0.45) 0%, transparent 60%), #FFFDF9",
+      }}
+    >
+      <div className="max-w-md w-full rounded-[16px] bg-[#FFFFFF] p-8 border border-[#E5E7EB] shadow-md">
         <div className="flex justify-center mb-5">
-          <BrandLogo className="w-8 h-8 text-[#c9a96a]" />
+          <BrandLogo className="w-9 h-9" />
         </div>
 
         <div className="text-center mb-6">
-          <h1 className="text-2xl sm:text-3xl font-heading font-normal text-[#f5f1e8] tracking-tight">
-            Claim Your Unique Handle
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-[#18181B] tracking-tight">
+            Choose Your Username
           </h1>
-          <p className="text-xs text-[rgba(245,241,232,0.62)] mt-1.5 font-body">
-            Your permanent address:{" "}
-            <span className="text-[#c9a96a] font-mono">
-              linklet.bio/{username || "handle"}
+          <p className="text-xs text-[#4B5563] mt-1.5 font-body font-medium">
+            Your permanent link URL will be:{" "}
+            <span className="text-[#E67E22] font-mono font-bold">
+              linklet.bio/{username || "username"}
             </span>
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1.5">
-              Handle / Username
+            <label className="text-[10px] uppercase font-bold tracking-wider text-[#6B7280] block mb-1.5">
+              Username
             </label>
             <div className="relative flex items-center">
-              <span className="absolute left-3.5 text-[rgba(245,241,232,0.38)] text-xs font-mono select-none">
+              <span className="absolute left-3.5 text-[#9CA3AF] text-xs font-mono font-bold select-none">
                 @
               </span>
               <input
@@ -115,39 +120,39 @@ export default function OnboardingPage() {
                 onChange={(e) =>
                   setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
-                placeholder="handle"
+                placeholder="yourname"
                 required
                 maxLength={20}
-                className="w-full pl-8 pr-10 py-2.5 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+                className="w-full pl-8 pr-10 py-2.5 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
               />
 
               <div className="absolute right-3.5 flex items-center">
                 {isChecking && (
-                  <Loader2 className="w-4 h-4 text-[#c9a96a] animate-spin" />
+                  <Loader2 className="w-4 h-4 text-[#F39C12] animate-spin" />
                 )}
                 {!isChecking && availability?.available && (
-                  <Check className="w-4 h-4 text-[#c9a96a]" />
+                  <Check className="w-4 h-4 text-[#E67E22]" />
                 )}
                 {!isChecking && availability && !availability.available && (
-                  <X className="w-4 h-4 text-rose-400" />
+                  <X className="w-4 h-4 text-rose-500" />
                 )}
               </div>
             </div>
 
             {availability && (
               <p
-                className={`text-xs mt-1.5 ${
-                  availability.available ? "text-[#c9a96a]" : "text-rose-400"
+                className={`text-xs mt-1.5 font-semibold ${
+                  availability.available ? "text-[#E67E22]" : "text-rose-500"
                 }`}
               >
                 {availability.message ||
-                  (availability.available ? "Username is available." : "Username is taken.")}
+                  (availability.available ? "Username is available!" : "Username is already taken.")}
               </p>
             )}
           </div>
 
           <div>
-            <label className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block mb-1.5">
+            <label className="text-[10px] uppercase font-bold tracking-wider text-[#6B7280] block mb-1.5">
               Display Name (Optional)
             </label>
             <input
@@ -156,13 +161,13 @@ export default function OnboardingPage() {
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="e.g. Alex Rivera"
               maxLength={40}
-              className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#0a0f1c] border border-[rgba(245,241,232,0.08)] text-xs sm:text-sm text-[#f5f1e8] focus:outline-none focus:border-[#c9a96a]"
+              className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
             />
           </div>
 
           {submitError && (
-            <div className="p-3 rounded-[12px] bg-rose-950/40 border border-rose-900/60 text-xs text-rose-300 flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 shrink-0 text-rose-400" />
+            <div className="p-3 rounded-[12px] bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold flex items-center gap-2">
+              <ShieldAlert className="w-4 h-4 shrink-0 text-rose-500" />
               <span>{submitError}</span>
             </div>
           )}
@@ -170,10 +175,10 @@ export default function OnboardingPage() {
           <button
             type="submit"
             disabled={!availability?.available || isSubmitting}
-            className="w-full py-3 btn-champagne text-xs uppercase tracking-[0.14em] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
+            className="w-full py-3 btn-champagne text-xs uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
           >
             {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-            Continue to Studio &rarr;
+            Continue to Dashboard &rarr;
           </button>
         </form>
       </div>

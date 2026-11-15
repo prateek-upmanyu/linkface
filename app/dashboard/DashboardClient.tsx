@@ -127,7 +127,7 @@ export function DashboardClient({
     if (isDemoMode) return;
 
     try {
-      // 1. Process deletions with strict user_id scoping to prevent ID-tampering
+      // 1. Process deletions
       const currentIds = updatedLinks.map((l) => l.id).filter((id) => !id.startsWith("temp-"));
       const originalIds = links.map((l) => l.id).filter((id) => !id.startsWith("temp-"));
       const deletedIds = originalIds.filter((id) => !currentIds.includes(id));
@@ -140,7 +140,7 @@ export function DashboardClient({
           .eq("user_id", profile.id);
       }
 
-      // 2. Process upserts with server-grade URL sanitization and user scoping
+      // 2. Process upserts
       for (const item of updatedLinks) {
         const urlValidation = sanitizeAndValidateUrl(item.url);
         const safeUrl = urlValidation.isValid ? urlValidation.sanitizedUrl : item.url;
@@ -200,49 +200,49 @@ export function DashboardClient({
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f1c] text-[#f5f1e8] flex flex-col font-body selection:bg-[#18223a] selection:text-[#c9a96a]">
+    <div className="min-h-screen bg-[#FFFDF9] text-[#18181B] flex flex-col font-body selection:bg-[#F9E79F] selection:text-[#18181B]">
       {/* Demo Mode Notice */}
       {isDemoMode && (
-        <div className="bg-[#121a2e] border-b border-[rgba(245,241,232,0.08)] py-2 px-4 text-xs text-center flex items-center justify-center gap-2 text-[#f5f1e8]">
-          <AlertTriangle className="w-3.5 h-3.5 text-[#c9a96a]" />
-          <span>Studio Preview Mode. Changes are previewed live.</span>
+        <div className="bg-[#FFFDF5] border-b border-[#F4D03F] py-2 px-4 text-xs text-center flex items-center justify-center gap-2 text-[#B9770E] font-medium">
+          <AlertTriangle className="w-3.5 h-3.5 text-[#E67E22]" />
+          <span>Preview Mode. Edits are visible in live preview.</span>
           <Link
             href="/signup"
-            className="text-[#c9a96a] underline ml-1 font-medium hover:text-white"
+            className="text-[#E67E22] underline ml-1 font-bold hover:text-[#18181B]"
           >
-            Create Permanent Colophon &rarr;
+            Create Permanent Account &rarr;
           </Link>
         </div>
       )}
 
       {/* Top Header */}
-      <header className="sticky top-0 z-40 bg-[#0a0f1c]/95 border-b border-[rgba(245,241,232,0.08)] px-4 sm:px-8 py-3.5 backdrop-blur-md">
+      <header className="sticky top-0 z-40 bg-[#FFFFFF]/95 border-b border-[#E5E7EB] px-4 sm:px-8 py-3.5 backdrop-blur-md shadow-xs">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Brand & Link */}
           <div className="flex items-center gap-4 min-w-0">
             <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-              <BrandLogo className="w-5 h-5 text-[#c9a96a]" />
+              <BrandLogo className="w-7 h-7 shadow-none" />
               <div className="hidden sm:block">
-                <span className="font-heading font-normal text-base text-[#f5f1e8] block leading-tight">
+                <span className="font-heading font-bold text-base text-[#18181B] block leading-tight">
                   Linklet
                 </span>
-                <span className="text-[10px] uppercase tracking-[0.14em] text-[rgba(245,241,232,0.38)] block">
-                  Studio
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#6B7280] block">
+                  Dashboard
                 </span>
               </div>
             </Link>
 
             {/* Public Link Pill */}
-            <div className="flex items-center gap-2 pl-3 border-l border-[rgba(245,241,232,0.08)] text-xs text-[rgba(245,241,232,0.62)] min-w-0">
-              <span className="hidden md:inline text-[rgba(245,241,232,0.38)] text-[10px] uppercase tracking-[0.14em]">Live:</span>
+            <div className="flex items-center gap-2 pl-3 border-l border-[#E5E7EB] text-xs min-w-0">
+              <span className="hidden md:inline text-[#6B7280] text-[10px] uppercase font-bold tracking-wider">Your Link:</span>
               <a
                 href={publicUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-normal text-[#f5f1e8] hover:text-[#c9a96a] flex items-center gap-1.5 transition-colors truncate text-xs"
+                className="font-semibold text-[#18181B] hover:text-[#E67E22] flex items-center gap-1.5 transition-colors truncate text-xs"
               >
                 <span className="truncate max-w-[140px] sm:max-w-none">linklet.bio/{profile.username}</span>
-                <ExternalLink className="w-3 h-3 text-[rgba(245,241,232,0.38)] shrink-0" />
+                <ExternalLink className="w-3 h-3 text-[#9CA3AF] shrink-0" />
               </a>
             </div>
           </div>
@@ -251,25 +251,25 @@ export function DashboardClient({
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handleCopyLink}
-              className="px-3 py-1.5 rounded-full border border-[rgba(245,241,232,0.08)] bg-[#121a2e] hover:bg-[#18223a] text-xs flex items-center gap-1.5 text-[#f5f1e8] transition-colors"
+              className="px-3.5 py-1.5 rounded-full border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#F39C12] hover:bg-[#FFFDF9] text-xs font-semibold flex items-center gap-1.5 text-[#18181B] transition-all shadow-xs"
               title="Copy public link"
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-[#c9a96a]" />
-                  <span className="hidden sm:inline text-[#c9a96a]">Copied</span>
+                  <Check className="w-3.5 h-3.5 text-[#E67E22]" />
+                  <span className="hidden sm:inline text-[#E67E22]">Copied!</span>
                 </>
               ) : (
                 <>
-                  <Share2 className="w-3.5 h-3.5 text-[rgba(245,241,232,0.62)]" />
-                  <span className="hidden sm:inline">Share</span>
+                  <Share2 className="w-3.5 h-3.5 text-[#6B7280]" />
+                  <span className="hidden sm:inline">Copy Link</span>
                 </>
               )}
             </button>
 
             <button
               onClick={() => setIsQrOpen(true)}
-              className="p-2 rounded-full border border-[rgba(245,241,232,0.08)] bg-[#121a2e] hover:bg-[#18223a] text-[rgba(245,241,232,0.62)] hover:text-white transition-colors"
+              className="p-2 rounded-full border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#F39C12] text-[#4B5563] hover:text-[#18181B] transition-colors shadow-xs"
               title="QR Code"
             >
               <QrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -277,8 +277,8 @@ export function DashboardClient({
 
             <button
               onClick={handleSignOut}
-              className="p-2 rounded-full border border-rose-900/30 text-rose-300 hover:text-white hover:bg-rose-950/40 transition-colors"
-              title="Sign out"
+              className="p-2 rounded-full border border-rose-200 bg-white text-rose-500 hover:bg-rose-50 transition-colors shadow-xs"
+              title="Sign Out"
             >
               <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
@@ -290,26 +290,26 @@ export function DashboardClient({
       <main className="max-w-7xl mx-auto w-full flex-1 p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Editor & Navigation Tabs */}
         <div className="lg:col-span-7 space-y-6">
-          {/* Navigation Tabs - Calm & restrained (Themes tab hidden per design specs) */}
-          <div className="flex items-center gap-2 border-b border-[rgba(245,241,232,0.08)] pb-3 overflow-x-auto no-scrollbar">
+          {/* Navigation Tabs (Theme Switcher hidden as requested) */}
+          <div className="flex items-center gap-2 border-b border-[#E5E7EB] pb-3 overflow-x-auto no-scrollbar">
             <button
               onClick={() => setActiveTab("links")}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-normal tracking-wide transition-all shrink-0 ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wide transition-all shrink-0 ${
                 activeTab === "links"
-                  ? "bg-[#18223a] text-[#c9a96a] border border-[#c9a96a]/50"
-                  : "border border-[rgba(245,241,232,0.08)] text-[rgba(245,241,232,0.62)] hover:text-white hover:border-white/20"
+                  ? "bg-[#F9E79F]/60 text-[#B9770E] border-2 border-[#F4D03F]"
+                  : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:text-[#18181B] hover:border-gray-300"
               }`}
             >
               <Link2 className="w-3.5 h-3.5" />
-              Destinations
+              Links
             </button>
 
             <button
               onClick={() => setActiveTab("profile")}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-normal tracking-wide transition-all shrink-0 ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wide transition-all shrink-0 ${
                 activeTab === "profile"
-                  ? "bg-[#18223a] text-[#c9a96a] border border-[#c9a96a]/50"
-                  : "border border-[rgba(245,241,232,0.08)] text-[rgba(245,241,232,0.62)] hover:text-white hover:border-white/20"
+                  ? "bg-[#F9E79F]/60 text-[#B9770E] border-2 border-[#F4D03F]"
+                  : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:text-[#18181B] hover:border-gray-300"
               }`}
             >
               <User className="w-3.5 h-3.5" />
@@ -318,10 +318,10 @@ export function DashboardClient({
 
             <button
               onClick={() => setActiveTab("analytics")}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-normal tracking-wide transition-all shrink-0 ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wide transition-all shrink-0 ${
                 activeTab === "analytics"
-                  ? "bg-[#18223a] text-[#c9a96a] border border-[#c9a96a]/50"
-                  : "border border-[rgba(245,241,232,0.08)] text-[rgba(245,241,232,0.62)] hover:text-white hover:border-white/20"
+                  ? "bg-[#F9E79F]/60 text-[#B9770E] border-2 border-[#F4D03F]"
+                  : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:text-[#18181B] hover:border-gray-300"
               }`}
             >
               <BarChart3 className="w-3.5 h-3.5" />
@@ -331,14 +331,14 @@ export function DashboardClient({
             {/* Mobile-Only Live Preview Tab */}
             <button
               onClick={() => setActiveTab("preview")}
-              className={`lg:hidden flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-normal tracking-wide transition-all shrink-0 ${
+              className={`lg:hidden flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wide transition-all shrink-0 ${
                 activeTab === "preview"
-                  ? "bg-[#18223a] text-[#c9a96a] border border-[#c9a96a]/50"
-                  : "border border-[rgba(245,241,232,0.08)] text-[rgba(245,241,232,0.62)] hover:text-white hover:border-white/20"
+                  ? "bg-[#F9E79F]/60 text-[#B9770E] border-2 border-[#F4D03F]"
+                  : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:text-[#18181B]"
               }`}
             >
               <Eye className="w-3.5 h-3.5" />
-              Live Preview
+              Preview
             </button>
           </div>
 
@@ -374,13 +374,13 @@ export function DashboardClient({
 
         {/* Right Column: Live Phone Preview (Desktop Sticky) */}
         <div className="lg:col-span-5 hidden lg:flex flex-col items-center sticky top-24 pb-8">
-          <div className="mb-3 flex items-center justify-between w-full max-w-[360px] px-2 text-xs text-[rgba(245,241,232,0.38)]">
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em]">
-              Real-time Preview
+          <div className="mb-3 flex items-center justify-between w-full max-w-[340px] sm:max-w-[360px] px-2 text-xs font-medium text-[#6B7280]">
+            <span className="font-mono text-[10px] uppercase font-bold tracking-wider">
+              Live Preview
             </span>
-            <span className="flex items-center gap-1.5 text-[11px] font-mono text-[rgba(245,241,232,0.62)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#c9a96a]" />
-              Synced
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold text-[#B9770E]">
+              <span className="w-2 h-2 rounded-full bg-[#F39C12] animate-pulse" />
+              Real-time
             </span>
           </div>
 

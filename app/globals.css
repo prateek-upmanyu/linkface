@@ -1,55 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
   /* =========================================================================
-     QUIET LUXURY DESIGN TOKENS
-     - Background: #0a0f1c
-     - Surface: #121a2e, Raised: #18223a
-     - Borders: rgba(245,241,232,0.08), Strong: rgba(245,241,232,0.16)
-     - Text: #f5f1e8, Muted: rgba(245,241,232,0.62), Faint: rgba(245,241,232,0.38)
-     - Accent: Champagne #c9a96a, Hover: #d9bb80 (Max 2-3 accent elements visible)
-     - Fonts: Instrument Serif (headings), Inter (body/UI)
-     - Spacing Scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 160
-     - Radii: 12px for cards & inputs, 999px for buttons
+     BRIGHT SUNLIT WARM THEME TOKENS (from palette: #F9E79F, #F4D03F, #FFFFFF, #F39C12, #E67E22)
      ========================================================================= */
 
   /* Palette */
-  --color-bg: #0a0f1c;
-  --color-surface: #121a2e;
-  --color-raised: #18223a;
+  --color-bg: #FFFFFF;
+  --color-bg-warm: #FFFDF9;
+  --color-surface: #FFFFFF;
+  --color-raised: #FFFDF5;
+  --color-card: #FFFFFF;
 
-  --border-subtle: rgba(245, 241, 232, 0.08);
-  --border-strong: rgba(245, 241, 232, 0.16);
-  --border-focus: #c9a96a;
+  --color-butter: #F9E79F;
+  --color-sun: #F4D03F;
+  --color-amber: #F39C12;
+  --color-orange: #E67E22;
 
-  --color-text: #f5f1e8;
-  --color-text-muted: rgba(245, 241, 232, 0.62);
-  --color-text-faint: rgba(245, 241, 232, 0.38);
+  --border-subtle: #F0ECE1;
+  --border-medium: #E5E7EB;
+  --border-strong: #F4D03F;
+  --border-focus: #F39C12;
 
-  --color-champagne: #c9a96a;
-  --color-champagne-hover: #d9bb80;
-  --color-text-on-champagne: #0a0f1c;
+  --color-text: #18181B;
+  --color-text-muted: #4B5563;
+  --color-text-faint: #9CA3AF;
 
-  /* Aliases for backward system compatibility */
-  --color-heritage-deep: #0a0f1c;
-  --color-heritage-dark: #121a2e;
-  --color-heritage-surface: #18223a;
-  --color-heritage-card: #121a2e;
-  --color-heritage-blue: #121a2e;
-  --color-acid-lime: #c9a96a;
-  --color-acid-lime-hover: #d9bb80;
-  --color-text-on-lime: #0a0f1c;
-  --color-text-offwhite: #f5f1e8;
-  --color-text-subtle: rgba(245, 241, 232, 0.38);
-  --border-soft: rgba(245, 241, 232, 0.08);
-  --border-medium: rgba(245, 241, 232, 0.16);
+  --color-primary-btn: #F39C12;
+  --color-primary-hover: #E67E22;
+  --color-text-on-primary: #FFFFFF;
 
-  /* Strict Radii (2 sizes only) */
-  --radius-card: 12px;
+  /* Aliases for system compatibility */
+  --color-heritage-deep: #FFFFFF;
+  --color-heritage-dark: #FFFDF9;
+  --color-heritage-surface: #FFFDF5;
+  --color-heritage-card: #FFFFFF;
+  --color-heritage-blue: #FFFDF5;
+  --color-acid-lime: #F39C12;
+  --color-acid-lime-hover: #E67E22;
+  --color-text-on-lime: #FFFFFF;
+  --color-text-offwhite: #18181B;
+  --color-text-subtle: #6B7280;
+  --border-soft: #EFECE6;
+
+  /* Radii */
+  --radius-card: 14px;
   --radius-input: 12px;
   --radius-button: 999px;
-  --radius-surface: 12px;
+  --radius-surface: 14px;
 
   /* Typography */
   --font-heading: 'Instrument Serif', Georgia, serif;
@@ -69,43 +68,43 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--color-bg);
+  background-color: #FFFFFF;
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: #FFFFFF;
+  color: #18181B;
   font-family: var(--font-body);
   min-height: 100vh;
-  line-height: 1.65;
+  line-height: 1.6;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle Champagne Selection Color */
+/* Vibrant Selection */
 ::selection {
-  background-color: var(--color-raised);
-  color: var(--color-champagne);
+  background-color: #F9E79F;
+  color: #18181B;
 }
 
 /* Minimalist Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg);
+  background: #FFFFFF;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-surface);
+  background: #F4D03F;
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-champagne);
+  background: #E67E22;
 }
 
 /* Typography Classes */
@@ -118,29 +117,31 @@ body {
 }
 
 /* =========================================================================
-   BUTTONS (Only 2 styles: Champagne Solid & Fine Outline)
+   BUTTONS (Bright Sunlit Theme: Vibrant Warm Orange-Gold)
    ========================================================================= */
 
-/* Primary Button: Champagne with Dark Slate text */
+/* Primary Button */
 .btn-champagne,
 .btn-lime,
 .luxury-btn-lime,
-.luxury-btn-gold {
-  background-color: var(--color-champagne);
-  color: var(--color-text-on-champagne);
+.luxury-btn-gold,
+.btn-primary {
+  background: linear-gradient(135deg, #F39C12 0%, #E67E22 100%);
+  color: #FFFFFF;
   font-family: var(--font-body);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.875rem;
   line-height: 1;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.6rem;
   border-radius: var(--radius-button);
-  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s ease;
+  box-shadow: 0 4px 14px rgba(230, 126, 34, 0.28);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 1px solid var(--color-champagne);
+  border: 1px solid transparent;
   user-select: none;
   min-height: 44px;
 }
@@ -148,37 +149,42 @@ body {
 .btn-champagne:hover,
 .btn-lime:hover,
 .luxury-btn-lime:hover,
-.luxury-btn-gold:hover {
-  background-color: var(--color-champagne-hover);
-  border-color: var(--color-champagne-hover);
+.luxury-btn-gold:hover,
+.btn-primary:hover {
+  background: linear-gradient(135deg, #E67E22 0%, #D35400 100%);
+  box-shadow: 0 6px 20px rgba(230, 126, 34, 0.38);
+  transform: translateY(-1px);
 }
 
 .btn-champagne:active,
 .btn-lime:active,
 .luxury-btn-lime:active,
-.luxury-btn-gold:active {
+.luxury-btn-gold:active,
+.btn-primary:active {
   transform: scale(0.98);
 }
 
 .btn-champagne:focus-visible,
-.btn-lime:focus-visible {
+.btn-lime:focus-visible,
+.btn-primary:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-champagne);
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #F39C12;
 }
 
-/* Secondary Button: Thin Outline */
+/* Secondary Button: Clean Crisp Outline */
 .btn-outline,
 .luxury-btn-outline {
-  background: transparent;
-  color: var(--color-text);
+  background: #FFFFFF;
+  color: #18181B;
   font-family: var(--font-body);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.875rem;
   line-height: 1;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.6rem;
   border-radius: var(--radius-button);
-  border: 1px solid var(--border-subtle);
-  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+  border: 1.5px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -190,9 +196,11 @@ body {
 
 .btn-outline:hover,
 .luxury-btn-outline:hover {
-  border-color: var(--border-strong);
-  color: #ffffff;
-  background-color: rgba(245, 241, 232, 0.04);
+  border-color: #F39C12;
+  color: #E67E22;
+  background-color: #FFFDF9;
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.12);
+  transform: translateY(-1px);
 }
 
 .btn-outline:active,
@@ -202,45 +210,48 @@ body {
 
 .btn-outline:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-champagne);
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #F39C12;
 }
 
 /* =========================================================================
-   SURFACES & INPUTS (12px Radius, 1px Border, Zero Drop Shadows)
+   CARDS & INPUTS
    ========================================================================= */
 
 .luxury-card {
-  background: var(--color-surface);
-  border: 1px solid var(--border-subtle);
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
   border-radius: var(--radius-card);
-  transition: border-color 0.25s ease, background-color 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
 }
 
 .luxury-card:hover {
-  border-color: var(--border-strong);
+  border-color: #F4D03F;
+  box-shadow: 0 8px 30px rgba(243, 156, 18, 0.1);
 }
 
 .luxury-input {
-  background: var(--color-bg);
-  border: 1px solid var(--border-subtle);
+  background: #FFFFFF;
+  border: 1.5px solid #E5E7EB;
   border-radius: var(--radius-input);
-  color: var(--color-text);
+  color: #18181B;
   font-family: var(--font-body);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-weight: 500;
+  transition: all 0.2s ease;
   min-height: 44px;
 }
 
 .luxury-input:focus {
   outline: none;
-  border-color: var(--color-champagne);
-  box-shadow: 0 0 0 1px var(--color-champagne);
+  border-color: #F39C12;
+  box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.18);
 }
 
 .luxury-input::placeholder {
-  color: var(--color-text-faint);
+  color: #9CA3AF;
 }
 
-/* Slide-in Animated Underline for Links */
+/* Link Underline Animation */
 .editorial-link {
   position: relative;
   display: inline-block;
@@ -251,10 +262,10 @@ body {
   position: absolute;
   width: 100%;
   transform: scaleX(0);
-  height: 1px;
+  height: 2px;
   bottom: -2px;
   left: 0;
-  background-color: var(--color-champagne);
+  background-color: #F39C12;
   transform-origin: bottom left;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -263,7 +274,7 @@ body {
   transform: scaleX(1);
 }
 
-/* Phone Mockup Floating Keyframe */
+/* Phone Floating Animation */
 @keyframes phoneFloat {
   0%, 100% {
     transform: translateY(0px);
@@ -277,7 +288,7 @@ body {
   animation: phoneFloat 6s ease-in-out infinite;
 }
 
-/* Responsive Container */
+/* Container */
 .quiet-container {
   width: 100%;
   max-width: 1200px;
@@ -294,7 +305,7 @@ body {
   }
 }
 
-/* Respect user's motion preferences */
+/* Motion Preferences */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

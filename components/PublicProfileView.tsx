@@ -22,7 +22,7 @@ export function PublicProfileView({
   const [profile, setProfile] = useState<Profile>(initialProfile);
   const [links, setLinks] = useState<LinkItem[]>(initialLinks);
 
-  // Sync with latest studio edits from localStorage on this device
+  // Sync with studio edits from localStorage on this device
   useEffect(() => {
     if (typeof window !== "undefined") {
       try {
@@ -56,11 +56,16 @@ export function PublicProfileView({
     .toUpperCase();
 
   return (
-    <div className="min-h-screen bg-[#0a0f1c] text-[#f5f1e8] flex flex-col justify-between items-center px-6 py-16 selection:bg-[#18223a] selection:text-[#c9a96a]">
+    <div
+      className="min-h-screen bg-[#FFFDF9] text-[#18181B] flex flex-col justify-between items-center px-4 sm:px-6 py-12 sm:py-16 selection:bg-[#F9E79F] selection:text-[#18181B]"
+      style={{
+        background: "radial-gradient(circle at 50% 0%, rgba(249, 231, 159, 0.35) 0%, transparent 60%), #FFFDF9",
+      }}
+    >
       <PageViewTracker username={profile.username} />
 
-      {/* Floating Sound Control (Subtle top right) */}
-      <div className="fixed top-6 right-6 z-40">
+      {/* Floating Sound Control */}
+      <div className="fixed top-5 right-5 z-40">
         <SoundToggle />
       </div>
 
@@ -72,43 +77,43 @@ export function PublicProfileView({
           styleType={profile.status_style}
         />
 
-        {/* 96px Avatar with 1px #c9a96a 40% border */}
-        <div className="relative mb-5">
+        {/* 96px Avatar with Vibrant Sunlit Ring */}
+        <div className="relative mb-4">
           {profile.avatar_url ? (
             <img
               src={profile.avatar_url}
               alt={profile.display_name || profile.username}
-              className="w-24 h-24 rounded-full object-cover border border-[#c9a96a]/40"
+              className="w-24 h-24 rounded-full object-cover ring-2 ring-[#F39C12] p-0.5 shadow-md"
             />
           ) : (
-            <div className="w-24 h-24 rounded-full flex items-center justify-center font-heading text-3xl font-normal bg-[#121a2e] text-[#f5f1e8] border border-[#c9a96a]/40">
+            <div className="w-24 h-24 rounded-full flex items-center justify-center font-heading text-3xl font-bold bg-gradient-to-tr from-[#F39C12] to-[#F4D03F] text-white ring-2 ring-[#F39C12] shadow-md">
               {initials}
             </div>
           )}
         </div>
 
-        {/* Name in Instrument Serif 32px */}
-        <h1 className="font-heading text-[32px] font-normal leading-tight tracking-tight text-[#f5f1e8] text-center">
+        {/* Name in Bold Instrument Serif */}
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold leading-tight tracking-tight text-[#18181B] text-center">
           {profile.display_name || profile.username}
         </h1>
 
-        {/* Faint @handle below (NEVER showing raw email) */}
-        <p className="mt-1 text-xs font-body text-[rgba(245,241,232,0.38)] tracking-wide text-center">
+        {/* Handle */}
+        <p className="mt-1 text-xs font-mono font-bold text-[#F39C12] tracking-wide text-center">
           @{profile.username}
         </p>
 
-        {/* Bio in Inter 14px, muted, max 3 lines */}
+        {/* Bio in Crisp Inter */}
         {profile.bio && (
-          <p className="mt-3 text-sm font-body text-[rgba(245,241,232,0.62)] leading-relaxed max-w-[400px] text-center line-clamp-3">
+          <p className="mt-2.5 text-sm font-body font-medium text-[#4B5563] leading-relaxed max-w-[380px] text-center line-clamp-3">
             {profile.bio}
           </p>
         )}
 
-        {/* Links Stack (56px tall buttons with #121a2e surface) */}
-        <div className="w-full space-y-3 mt-8">
+        {/* Links Stack */}
+        <div className="w-full space-y-2.5 mt-7">
           {visibleLinks.length === 0 ? (
-            <div className="py-12 text-center rounded-[12px] border border-dashed border-[rgba(245,241,232,0.12)]">
-              <p className="text-xs text-[rgba(245,241,232,0.38)] font-body">No links published yet.</p>
+            <div className="py-12 text-center rounded-[14px] border border-dashed border-[#E5E7EB] bg-white">
+              <p className="text-xs text-[#9CA3AF] font-body font-medium">No links published yet.</p>
             </div>
           ) : (
             visibleLinks.map((link) => (
@@ -128,13 +133,13 @@ export function PublicProfileView({
         />
       </main>
 
-      {/* Tiny Footer: 'Made with Linklet' in faint 12px Inter */}
-      <footer className="mt-16 text-center">
+      {/* Footer */}
+      <footer className="mt-12 text-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs font-body text-[rgba(245,241,232,0.38)] hover:text-[#f5f1e8] transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-body font-bold text-[#9CA3AF] hover:text-[#E67E22] transition-colors"
         >
-          <BrandLogo className="w-3.5 h-3.5 opacity-60" />
+          <BrandLogo className="w-4 h-4 shadow-none" />
           <span>Made with Linklet</span>
         </Link>
       </footer>

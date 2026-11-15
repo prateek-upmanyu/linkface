@@ -21,7 +21,7 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
         width: 240,
         margin: 2,
         color: {
-          dark: "#0a0f1c",
+          dark: "#18181B",
           light: "#ffffff",
         },
       }).catch((err) => console.error("QR Code rendering failed:", err));
@@ -49,26 +49,26 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in font-body">
-      <div className="p-6 sm:p-8 max-w-sm w-full relative text-center rounded-[12px] bg-[#121a2e] border border-[rgba(245,241,232,0.08)] shadow-[0_24px_64px_rgba(0,0,0,0.8)]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in font-body">
+      <div className="p-6 sm:p-8 max-w-sm w-full relative text-center rounded-[16px] bg-[#FFFFFF] border border-[#E5E7EB] shadow-xl">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-[rgba(245,241,232,0.38)] hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-4 right-4 p-1.5 rounded-full text-[#9CA3AF] hover:text-[#18181B] hover:bg-gray-100 transition-colors"
           aria-label="Close modal"
         >
           <X className="w-4 h-4" />
         </button>
 
-        <h3 className="font-heading font-normal text-xl text-[#f5f1e8] mb-1">
-          Share Your Colophon
+        <h3 className="font-heading font-bold text-2xl text-[#18181B] mb-1">
+          Share Your Link
         </h3>
-        <p className="text-xs text-[rgba(245,241,232,0.62)] mb-5 font-body">
+        <p className="text-xs text-[#6B7280] mb-5 font-body font-medium">
           Scan to visit linklet.bio/{username}
         </p>
 
         {/* QR Code Canvas */}
-        <div className="bg-white p-3.5 rounded-[12px] inline-block shadow-inner mb-5">
+        <div className="bg-[#FFFDF9] p-3.5 rounded-[14px] inline-block border border-[#E5E7EB] shadow-xs mb-5">
           <canvas ref={canvasRef} className="block mx-auto rounded-[8px]" />
         </div>
 
@@ -76,7 +76,7 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
         <div className="space-y-2.5">
           <button
             onClick={handleDownload}
-            className="w-full py-2.5 btn-champagne text-xs uppercase tracking-[0.12em] flex items-center justify-center gap-2"
+            className="w-full py-2.5 btn-champagne text-xs uppercase tracking-wider flex items-center justify-center gap-2"
           >
             <Download className="w-4 h-4" />
             Download QR Code
@@ -84,17 +84,17 @@ export function QrModal({ isOpen, onClose, username, url }: QrModalProps) {
 
           <button
             onClick={handleCopy}
-            className="w-full py-2.5 btn-outline text-xs uppercase tracking-[0.12em] flex items-center justify-center gap-2"
+            className="w-full py-2.5 btn-outline text-xs uppercase tracking-wider flex items-center justify-center gap-2"
           >
             {copied ? (
               <>
-                <Check className="w-4 h-4 text-[#c9a96a]" />
-                <span className="text-[#c9a96a]">Copied URL</span>
+                <Check className="w-4 h-4 text-[#E67E22]" />
+                <span className="text-[#E67E22]">Copied URL!</span>
               </>
             ) : (
               <>
-                <Copy className="w-4 h-4 text-[rgba(245,241,232,0.62)]" />
-                <span>Copy Profile URL</span>
+                <Copy className="w-4 h-4 text-[#6B7280]" />
+                <span>Copy Link</span>
               </>
             )}
           </button>
