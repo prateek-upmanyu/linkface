@@ -249,7 +249,7 @@ export function DashboardClient({
               <BrandLogo className="w-7 h-7 shadow-none" />
               <div className="hidden sm:block">
                 <span className="font-heading font-bold text-base text-[#18181B] block leading-tight">
-                  Linklet
+                  Link<span className="text-[#F39C12]">let</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#6B7280] block">
                   Dashboard

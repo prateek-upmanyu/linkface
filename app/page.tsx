@@ -111,7 +111,7 @@ export default function LandingPage() {
           <Link href="/" className="flex items-center gap-2.5 group">
             <BrandLogo className="w-8 h-8" />
             <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
-              Linklet
+              Link<span className="text-[#F39C12]">let</span>
             </span>
           </Link>
 
@@ -447,7 +447,7 @@ export default function LandingPage() {
         <div className="quiet-container mt-20 pt-8 border-t border-[#E5E7EB] flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-body font-medium text-[#6B7280]">
           <div className="flex items-center gap-3">
             <BrandLogo className="w-5 h-5 shadow-none" />
-            <span className="font-heading text-lg font-bold text-[#18181B]">Linklet</span>
+            <span className="font-heading text-lg font-bold text-[#18181B]">Link<span className="text-[#F39C12]">let</span></span>
             <span className="text-[#D1D5DB]">&mdash;</span>
             <span>Simple Link in Bio</span>
           </div>

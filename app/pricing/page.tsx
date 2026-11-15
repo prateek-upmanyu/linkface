@@ -63,7 +63,7 @@ export default function PricingPage() {
           <Link href="/" className="flex items-center gap-2.5 group">
             <BrandLogo className="w-8 h-8" />
             <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
-              Linklet
+              Link<span className="text-[#F39C12]">let</span>
             </span>
           </Link>
 

@@ -16,32 +16,39 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#FFFDF9",
-          borderRadius: "12px",
-          border: "1.5px solid rgba(243, 156, 18, 0.4)",
+          backgroundColor: "#000000",
+          borderRadius: "50%",
+          border: "2.5px solid #FACC15",
+          boxShadow: "0 0 8px rgba(250, 204, 21, 0.4)",
         }}
       >
         <svg
-          width="32"
-          height="32"
-          viewBox="0 0 36 36"
+          width="28"
+          height="28"
+          viewBox="0 0 40 40"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Top Yellow Ribbon Stem */}
+          {/* Connecting diagonal center link */}
           <path
-            d="M12 6H18C19.1 6 20 6.9 20 8V19L14 23L10 18V8C10 6.9 10.9 6 12 6Z"
-            fill="#F59E0B"
+            d="M17 23L23 17"
+            stroke="#FACC15"
+            strokeWidth="3.8"
+            strokeLinecap="round"
           />
-          {/* Overlapping Amber Fold */}
+          {/* Top-Right Loop */}
           <path
-            d="M14 18L20 14L26 21H18L14 18Z"
-            fill="#F97316"
+            d="M20 14L23.5 10.5C25.5 8.5 28.5 8.5 30.5 10.5C32.5 12.5 32.5 15.5 30.5 17.5L27 21"
+            stroke="#FACC15"
+            strokeWidth="3.8"
+            strokeLinecap="round"
           />
-          {/* Bottom Red-Orange Horizontal Loop */}
+          {/* Bottom-Left Loop */}
           <path
-            d="M14 23H25C27.2 23 29 24.8 29 27C29 29.2 27.2 31 25 31H14C11.8 31 10 29.2 10 27V23H14Z"
-            fill="#DC2626"
+            d="M20 26L16.5 29.5C14.5 31.5 11.5 31.5 9.5 29.5C7.5 27.5 7.5 24.5 9.5 22.5L13 19"
+            stroke="#FACC15"
+            strokeWidth="3.8"
+            strokeLinecap="round"
           />
         </svg>
       </div>
