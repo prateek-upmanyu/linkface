@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -19,20 +20,58 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Linkface — Quiet Luxury Link in Bio",
+  title: {
+    default: "Linkface — Quiet Luxury Link in Bio for Creators & Brands",
+    template: "%s | Linkface",
+  },
   description:
-    "An editorial colophon for your digital presence. Curate destinations with architectural precision.",
+    "Curate your digital destinations with architectural precision. The fastest, cleanest link in bio platform with high-conversion landing pages, real-time analytics, and custom themes.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://linkface.in"),
+  keywords: [
+    "link in bio",
+    "linkface",
+    "creator links",
+    "biolink",
+    "social links",
+    "linktree alternative",
+    "creator portfolio",
+    "custom domain biolink",
+  ],
+  authors: [{ name: "Linkface Studio" }],
+  creator: "Linkface",
+  publisher: "Linkface",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     title: "Linkface — Quiet Luxury Link in Bio",
-    description: "Your entire presence, reduced to one link.",
+    description: "Curate your digital presence. The modern, editorial biolink platform for creators, musicians, and brands.",
     type: "website",
+    url: "https://linkface.in",
     siteName: "Linkface",
+    locale: "en_US",
+    images: [
+      {
+        url: "/brand-logo-128.png",
+        width: 128,
+        height: 128,
+        alt: "Linkface Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Linkface — Quiet Luxury Link in Bio",
-    description: "Your entire presence, reduced to one link.",
+    description: "Curate your digital presence. The modern, editorial biolink platform for creators, musicians, and brands.",
+    images: ["/brand-logo-128.png"],
   },
   icons: {
     icon: [
@@ -50,6 +89,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({
@@ -62,8 +102,9 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSerif.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-body bg-[#0a0f1c] text-[#f5f1e8]">
+      <body className="min-h-full flex flex-col font-body bg-[#FFFFFF] text-[#18181B]">
         <SmoothScroll>{children}</SmoothScroll>
+        <CookieConsentBanner />
       </body>
     </html>
   );

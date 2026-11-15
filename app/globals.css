@@ -24,8 +24,8 @@
   --border-focus: #F39C12;
 
   --color-text: #18181B;
-  --color-text-muted: #4B5563;
-  --color-text-faint: #9CA3AF;
+  --color-text-muted: #374151; /* Enhanced for WCAG AA (>= 4.5:1 on #FFFFFF) */
+  --color-text-faint: #6B7280; /* Enhanced for WCAG AA (>= 4.5:1 on #FFFFFF) */
 
   --color-primary-btn: #F39C12;
   --color-primary-hover: #E67E22;
@@ -69,6 +69,28 @@
 html {
   scroll-behavior: smooth;
   background-color: #FFFFFF;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
@@ -76,16 +98,25 @@ body {
   color: #18181B;
   font-family: var(--font-body);
   min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: visible;
   line-height: 1.6;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Vibrant Selection */
-::selection {
-  background-color: #F9E79F;
-  color: #18181B;
+/* Text contrast accessibility overrides for WCAG AA compliance (4.5:1 ratio on light surfaces) */
+.text-\[\#9CA3AF\] {
+  color: #6B7280 !important;
+}
+
+.text-\[\#6B7280\] {
+  color: #4B5563 !important;
+}
+
+.text-\[\#4B5563\] {
+  color: #374151 !important;
 }
 
 /* Minimalist Scrollbar */
