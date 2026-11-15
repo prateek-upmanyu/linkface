@@ -86,9 +86,9 @@ export function SortableLinkItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`group relative rounded-2xl border transition-all duration-200 ${
+      className={`group relative rounded-[12px] border transition-all duration-150 ${
         link.is_visible
-          ? "luxury-card border-[var(--border-soft)] hover:border-[#d0f600]"
+          ? "bg-[#002e62] border-[var(--border-soft)] hover:border-[#d0f600]"
           : "bg-[#00142b]/70 border-zinc-800/80 opacity-60"
       }`}
     >
@@ -101,7 +101,7 @@ export function SortableLinkItem({
           className="cursor-grab active:cursor-grabbing p-1 text-[var(--color-text-subtle)] hover:text-white transition-colors"
           title="Drag to reorder"
         >
-          <GripVertical className="w-4 h-4" />
+          <GripVertical className="w-4 h-4" strokeWidth={1.5} />
         </button>
 
         {/* Up / Down buttons for mobile accessibility */}
@@ -113,7 +113,7 @@ export function SortableLinkItem({
             className="p-0.5 text-[var(--color-text-subtle)] disabled:opacity-20 hover:text-white"
             title="Move up"
           >
-            <ChevronUp className="w-3.5 h-3.5" />
+            <ChevronUp className="w-3.5 h-3.5" strokeWidth={1.5} />
           </button>
           <button
             type="button"
@@ -122,13 +122,13 @@ export function SortableLinkItem({
             className="p-0.5 text-[var(--color-text-subtle)] disabled:opacity-20 hover:text-white"
             title="Move down"
           >
-            <ChevronDown className="w-3.5 h-3.5" />
+            <ChevronDown className="w-3.5 h-3.5" strokeWidth={1.5} />
           </button>
         </div>
 
         {/* Platform Icon Badge */}
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border border-white/10 shadow-xs"
+          className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 border border-white/10"
           style={{
             ...getPlatformBadgeStyle(platform?.brandColor),
           }}
@@ -150,7 +150,7 @@ export function SortableLinkItem({
               {link.title}
             </span>
             {link.badge && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[rgba(208,246,0,0.12)] border border-[#d0f600]/40 text-[#d0f600] uppercase font-body font-semibold tracking-wider shrink-0">
+              <span className="text-[9px] px-2 py-0.5 rounded-full bg-[rgba(208,246,0,0.1)] border border-[#d0f600]/30 text-[#d0f600] uppercase font-body font-semibold tracking-wider shrink-0">
                 {link.badge}
               </span>
             )}
@@ -160,7 +160,7 @@ export function SortableLinkItem({
               {link.url}
             </span>
             <span className="text-[11px] text-[var(--color-text-subtle)] flex items-center gap-1 shrink-0 font-body">
-              <MousePointerClick className="w-3 h-3 text-[var(--color-acid-lime)]" />
+              <MousePointerClick className="w-3 h-3 text-[#d0f600]" strokeWidth={1.5} />
               {link.click_count || 0} clicks
             </span>
           </div>
@@ -171,7 +171,7 @@ export function SortableLinkItem({
           <button
             type="button"
             onClick={handleToggleVisible}
-            className={`p-2 rounded-xl transition-colors ${
+            className={`p-2 rounded-lg transition-colors ${
               link.is_visible
                 ? "text-[var(--color-text-muted)] hover:text-white hover:bg-white/5"
                 : "text-zinc-500 hover:text-zinc-300"
@@ -179,38 +179,38 @@ export function SortableLinkItem({
             title={link.is_visible ? "Hide link" : "Show link"}
           >
             {link.is_visible ? (
-              <Eye className="w-4 h-4" />
+              <Eye className="w-4 h-4" strokeWidth={1.5} />
             ) : (
-              <EyeOff className="w-4 h-4" />
+              <EyeOff className="w-4 h-4" strokeWidth={1.5} />
             )}
           </button>
 
           <button
             type="button"
             onClick={() => setIsEditing(!isEditing)}
-            className="p-2 rounded-xl text-[var(--color-text-muted)] hover:text-white hover:bg-white/5 transition-colors"
+            className="p-2 rounded-lg text-[var(--color-text-muted)] hover:text-white hover:bg-white/5 transition-colors"
             title="Edit link details"
           >
-            <Edit2 className="w-4 h-4" />
+            <Edit2 className="w-4 h-4" strokeWidth={1.5} />
           </button>
 
           <a
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-xl text-[var(--color-text-muted)] hover:text-white hover:bg-white/5 transition-colors"
+            className="p-2 rounded-lg text-[var(--color-text-muted)] hover:text-white hover:bg-white/5 transition-colors"
             title="Open destination"
           >
-            <ExternalLink className="w-4 h-4" />
+            <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
           </a>
 
           <button
             type="button"
             onClick={() => onDelete(link.id)}
-            className="p-2 rounded-xl text-rose-400 hover:text-white hover:bg-rose-950/40 transition-colors"
+            className="p-2 rounded-lg text-rose-400 hover:text-white hover:bg-rose-950/40 transition-colors"
             title="Delete link"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-4 h-4" strokeWidth={1.5} />
           </button>
         </div>
       </div>
@@ -220,7 +220,7 @@ export function SortableLinkItem({
         <div className="p-4 pt-1 border-t border-[var(--border-soft)] bg-[#00142b]/60 space-y-3 font-body">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)] block mb-1">
+              <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-muted)] block mb-1">
                 Link Title
               </label>
               <input
@@ -231,7 +231,7 @@ export function SortableLinkItem({
               />
             </div>
             <div>
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)] block mb-1">
+              <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-muted)] block mb-1">
                 Destination URL
               </label>
               <input
@@ -244,8 +244,8 @@ export function SortableLinkItem({
           </div>
 
           <div>
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)] block mb-1">
-              Badge Label (Optional, e.g. &ldquo;New&rdquo; or &ldquo;Featured&rdquo;)
+            <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-muted)] block mb-1">
+              Badge Label (Optional)
             </label>
             <input
               type="text"
@@ -268,7 +268,7 @@ export function SortableLinkItem({
             <button
               type="button"
               onClick={handleSaveEdit}
-              className="px-4 py-1.5 luxury-btn-lime text-xs font-semibold uppercase tracking-wider flex items-center gap-1"
+              className="btn-lime text-xs uppercase tracking-wider flex items-center gap-1"
             >
               <Check className="w-3.5 h-3.5" />
               Save

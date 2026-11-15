@@ -52,17 +52,22 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-5 sm:p-6 luxury-card border border-[var(--border-soft)] shadow-[0_10px_30px_rgba(0,15,35,0.5)] font-body"
+      className="p-6 luxury-card border border-[var(--border-soft)] font-body"
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-heading text-base font-semibold text-[var(--color-text-offwhite)] flex items-center gap-2">
-          <Link2 className="w-4 h-4 text-[var(--color-acid-lime)]" />
-          Add New Link
-        </h3>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#d0f600]">
+            Input
+          </span>
+          <span className="text-[var(--color-text-subtle)] text-xs">&mdash;</span>
+          <h3 className="font-heading text-base font-medium text-[var(--color-text-offwhite)]">
+            Add New Link
+          </h3>
+        </div>
         {detected?.platformId && (
-          <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#001a3a] border border-[#d0f600]/40 text-[var(--color-text-offwhite)] flex items-center gap-1.5 font-body font-medium">
-            <Check className="w-3 h-3 text-[var(--color-acid-lime)]" />
-            Detected: {detected.name}
+          <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#001a3a] border border-[#d0f600]/40 text-[#d0f600] flex items-center gap-1.5 font-body font-medium">
+            <Check className="w-3 h-3 text-[#d0f600]" />
+            {detected.name}
           </span>
         )}
       </div>
@@ -72,7 +77,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
         <div className="absolute left-3.5 flex items-center justify-center pointer-events-none">
           {detected && detected.isValid ? (
             <div
-              className="w-7 h-7 rounded-lg flex items-center justify-center shadow-xs"
+              className="w-7 h-7 rounded-[6px] flex items-center justify-center"
               style={{
                 backgroundColor: detected.brandColor ? `${detected.brandColor}25` : "rgba(208,246,0,0.15)",
                 color: detected.brandColor || "#ffffff",
@@ -88,7 +93,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
               />
             </div>
           ) : (
-            <Link2 className="w-4 h-4 text-[var(--color-text-subtle)]" />
+            <Link2 className="w-4 h-4 text-[var(--color-text-subtle)]" strokeWidth={1.5} />
           )}
         </div>
 
@@ -106,7 +111,7 @@ export function AddLinkForm({ onAdd, isLoading = false }: AddLinkFormProps) {
         <button
           type="submit"
           disabled={isLoading || !url.trim()}
-          className="absolute right-2 px-4 py-1.5 luxury-btn-lime text-xs font-semibold uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+          className="absolute right-2 btn-lime text-xs uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
         >
           <Plus className="w-3.5 h-3.5" />
           Add

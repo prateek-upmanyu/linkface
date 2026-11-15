@@ -130,7 +130,10 @@ export default async function PublicProfilePage({ params }: PageProps) {
       {/* Main Profile Canvas */}
       <main className="w-full max-w-md mx-auto flex flex-col items-center">
         {/* Status Message */}
-        <SpeechBubble message={profile.status_message} />
+        <SpeechBubble
+          message={profile.status_message}
+          styleType={profile.status_style}
+        />
 
         {/* Avatar */}
         <div className="relative mb-5">

@@ -18,7 +18,6 @@ import {
   ExternalLink,
   QrCode,
   LogOut,
-  Sparkles,
   AlertTriangle,
   Share2,
 } from "lucide-react";

@@ -4,12 +4,12 @@ import React, { useState, useRef } from "react";
 import { FeaturedCreator, Profile } from "@/types";
 import { processAvatarImage } from "@/lib/image-utils";
 import {
-  Star,
   Check,
   Trash2,
   Upload,
   Loader2,
   Camera,
+  ArrowUpRight,
 } from "lucide-react";
 
 interface FeaturedCreatorsManagerProps {
@@ -61,7 +61,7 @@ export function FeaturedCreatorsManager({
   const handleAutoScrape = async (index: number) => {
     const targetUrl = creators[index]?.url?.trim();
     if (!targetUrl) {
-      setSlotError((prev) => ({ ...prev, [index]: "Enter a destination URL first." }));
+      setSlotError((prev) => ({ ...prev, [index]: "Enter a destination URL below first." }));
       return;
     }
 
@@ -95,7 +95,7 @@ export function FeaturedCreatorsManager({
     } catch (err: any) {
       setSlotError((prev) => ({
         ...prev,
-        [index]: err.message || "Could not retrieve image automatically. Upload from device below.",
+        [index]: err.message || "Could not retrieve image automatically. Upload from device instead.",
       }));
     } finally {
       setScrapingIndex(null);
@@ -156,28 +156,34 @@ export function FeaturedCreatorsManager({
   };
 
   return (
-    <div className="p-5 sm:p-6 luxury-card border border-[var(--border-soft)] shadow-[0_10px_30px_rgba(0,15,35,0.5)] space-y-6 font-body">
-      {/* Header */}
+    <div className="p-6 luxury-card border border-[var(--border-soft)] space-y-6 font-body">
+      {/* Editorial Header */}
       <div className="flex items-center justify-between border-b border-[var(--border-soft)] pb-4">
         <div>
-          <h3 className="font-heading text-base font-semibold text-[var(--color-text-offwhite)] flex items-center gap-2">
-            <Star className="w-4 h-4 text-[var(--color-acid-lime)]" />
-            Featured Trio Spotlight
-          </h3>
-          <p className="text-xs text-[var(--color-text-muted)] mt-1 leading-relaxed">
-            Feature up to 3 collaborators, clients, or sponsors below your link showcase. Photos can be <strong>auto-scraped from any link</strong> or <strong>uploaded from your device</strong>.
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#d0f600]">
+              03 Slots
+            </span>
+            <span className="text-[var(--color-text-subtle)] text-xs">&mdash;</span>
+            <h3 className="font-heading text-base font-medium text-[var(--color-text-offwhite)]">
+              Trio Spotlight
+            </h3>
+          </div>
+          <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
+            Feature up to three collaborators, sponsors, or clients below your link list.
           </p>
         </div>
 
         {isSaved && (
-          <span className="text-xs text-[var(--color-acid-lime)] font-semibold flex items-center gap-1 shrink-0 bg-[rgba(208,246,0,0.12)] border border-[#d0f600]/40 px-3 py-1 rounded-full">
+          <span className="text-xs text-[#d0f600] font-semibold flex items-center gap-1 shrink-0 bg-[rgba(208,246,0,0.1)] border border-[#d0f600]/30 px-3 py-1 rounded-full">
             <Check className="w-3.5 h-3.5" /> Saved
           </span>
         )}
       </div>
 
-      <form onSubmit={handleSave} className="space-y-5">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <form onSubmit={handleSave} className="space-y-6">
+        {/* 3 Slots Grid - Perfectly Responsive and Spacious */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {creators.map((creator, idx) => {
             const hasData = Boolean(creator.name || creator.url || creator.avatar_url);
             const isScraping = scrapingIndex === idx;
@@ -186,100 +192,106 @@ export function FeaturedCreatorsManager({
             return (
               <div
                 key={creator.id || idx}
-                className="p-4 rounded-2xl bg-[#001a3a]/80 border border-[var(--border-soft)] hover:border-[#d0f600] transition-colors space-y-3.5 relative flex flex-col justify-between"
+                className="p-4 rounded-[12px] bg-[#001a3a] border border-[var(--border-soft)] hover:border-[#d0f600]/60 transition-colors flex flex-col justify-between space-y-4"
               >
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {/* Slot Top Header */}
-                  <div className="flex items-center justify-between border-b border-[var(--border-soft)] pb-2">
-                    <span className="text-[11px] uppercase font-semibold text-[var(--color-acid-lime)] tracking-wider flex items-center gap-1.5">
-                      Spotlight Slot {idx + 1}
+                  <div className="flex items-center justify-between border-b border-[var(--border-soft)] pb-2 text-[10px] font-mono tracking-[0.16em] uppercase">
+                    <span className="text-[#d0f600]">
+                      Slot 0{idx + 1}
                     </span>
                     {hasData && (
                       <button
                         type="button"
                         onClick={() => handleClearSlot(idx)}
-                        className="text-rose-400 hover:text-rose-300 text-[10px] uppercase font-semibold flex items-center gap-1 transition-colors"
+                        className="text-[var(--color-text-subtle)] hover:text-rose-400 transition-colors"
                         title="Clear slot"
                       >
-                        <Trash2 className="w-3 h-3" /> Clear
+                        Clear
                       </button>
                     )}
                   </div>
 
-                  {/* Avatar Preview & Photo Controls */}
+                  {/* Avatar & Info Row */}
                   <div className="flex items-center gap-3">
                     <div className="relative shrink-0">
                       {creator.avatar_url ? (
                         <img
                           src={creator.avatar_url}
-                          alt={creator.name || `Creator ${idx + 1}`}
-                          className="w-12 h-12 rounded-full object-cover ring-1 ring-[var(--border-soft)] shadow-sm"
+                          alt={creator.name || `Slot ${idx + 1}`}
+                          className="w-12 h-12 rounded-full object-cover ring-1 ring-[var(--border-soft)]"
                         />
                       ) : (
                         <div className="w-12 h-12 rounded-full bg-[#002e62] text-[var(--color-text-offwhite)] flex items-center justify-center font-heading text-sm font-semibold ring-1 ring-[var(--border-soft)]">
-                          {creator.name.charAt(0) || `P${idx + 1}`}
+                          {creator.name.charAt(0) || `0${idx + 1}`}
                         </div>
                       )}
 
                       {(isScraping || isUploading) && (
-                        <div className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center">
-                          <Loader2 className="w-4 h-4 text-[var(--color-acid-lime)] animate-spin" />
+                        <div className="absolute inset-0 bg-[#001a3a]/80 rounded-full flex items-center justify-center">
+                          <Loader2 className="w-4 h-4 text-[#d0f600] animate-spin" />
                         </div>
                       )}
                     </div>
 
-                    <div className="flex-1 min-w-0 flex flex-col gap-1">
-                      <input
-                        ref={(el) => {
-                          fileInputRefs.current[idx] = el;
-                        }}
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp,image/gif"
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) handleFileUpload(idx, file);
-                        }}
-                      />
-
-                      <div className="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => fileInputRefs.current[idx]?.click()}
-                          disabled={isUploading || isScraping}
-                          className="px-2 py-1 luxury-btn-outline text-[10px] flex items-center gap-1 shrink-0"
-                          title="Upload image directly"
-                        >
-                          <Upload className="w-2.5 h-2.5 text-[var(--color-acid-lime)]" />
-                          Device
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => handleAutoScrape(idx)}
-                          disabled={isUploading || isScraping || !creator.url}
-                          className="px-2 py-1 luxury-btn-outline text-[10px] flex items-center gap-1 shrink-0 disabled:opacity-40"
-                          title="Fetch profile picture from URL"
-                        >
-                          <Camera className="w-2.5 h-2.5 text-[var(--color-acid-lime)]" />
-                          Scrape
-                        </button>
-
-                        {creator.avatar_url && (
-                          <button
-                            type="button"
-                            onClick={() => handleRemovePhoto(idx)}
-                            className="p-1 rounded-md text-rose-400 hover:text-white"
-                            title="Remove photo"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                          </button>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-[var(--color-text-subtle)]">
-                        Scrape from link or upload
-                      </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-heading font-medium text-[var(--color-text-offwhite)] truncate">
+                        {creator.name || `Collaborator 0${idx + 1}`}
+                      </p>
+                      <p className="text-[10px] text-[var(--color-text-muted)] truncate font-body">
+                        {creator.tagline || "No role specified"}
+                      </p>
                     </div>
+                  </div>
+
+                  {/* Hidden File Input */}
+                  <input
+                    ref={(el) => {
+                      fileInputRefs.current[idx] = el;
+                    }}
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) handleFileUpload(idx, file);
+                    }}
+                  />
+
+                  {/* Full-Width 2-Button Row (Guaranteed Never Overflows) */}
+                  <div className="space-y-1.5">
+                    <div className="grid grid-cols-2 gap-2 w-full">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRefs.current[idx]?.click()}
+                        disabled={isUploading || isScraping}
+                        className="btn-outline text-[11px] py-1.5 px-2 w-full justify-center flex items-center gap-1.5 tracking-wider"
+                      >
+                        <Upload className="w-3 h-3 text-[#d0f600]" strokeWidth={1.5} />
+                        Upload
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleAutoScrape(idx)}
+                        disabled={isUploading || isScraping || !creator.url}
+                        className="btn-outline text-[11px] py-1.5 px-2 w-full justify-center flex items-center gap-1.5 disabled:opacity-30 tracking-wider"
+                        title="Auto-fetch profile picture from URL"
+                      >
+                        <Camera className="w-3 h-3 text-[#d0f600]" strokeWidth={1.5} />
+                        Fetch URL
+                      </button>
+                    </div>
+
+                    {creator.avatar_url && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemovePhoto(idx)}
+                        className="text-[10px] text-rose-400 hover:underline block text-center w-full pt-0.5"
+                      >
+                        Remove portrait
+                      </button>
+                    )}
                   </div>
 
                   {slotError[idx] && (
@@ -289,9 +301,9 @@ export function FeaturedCreatorsManager({
                   )}
 
                   {/* Input Fields */}
-                  <div className="space-y-2 pt-1">
+                  <div className="space-y-2.5 pt-1">
                     <div>
-                      <label className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)] block mb-1">
+                      <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-muted)] block mb-1">
                         Name *
                       </label>
                       <input
@@ -299,46 +311,47 @@ export function FeaturedCreatorsManager({
                         value={creator.name}
                         onChange={(e) => handleFieldChange(idx, "name", e.target.value)}
                         placeholder="e.g. Elena Rostova"
-                        className="w-full px-2.5 py-1.5 luxury-input text-xs text-[var(--color-text-offwhite)] focus:outline-none"
+                        className="w-full px-3 py-1.5 luxury-input text-xs text-[var(--color-text-offwhite)] focus:outline-none"
                       />
                     </div>
 
                     <div>
-                      <label className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)] block mb-1">
-                        Profile / Channel URL *
+                      <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-muted)] block mb-1">
+                        Profile URL *
                       </label>
                       <input
                         type="text"
                         value={creator.url}
                         onChange={(e) => handleFieldChange(idx, "url", e.target.value)}
                         placeholder="e.g. instagram.com/elena"
-                        className="w-full px-2.5 py-1.5 luxury-input text-xs text-[var(--color-text-offwhite)] focus:outline-none"
+                        className="w-full px-3 py-1.5 luxury-input text-xs text-[var(--color-text-offwhite)] focus:outline-none"
                       />
                     </div>
 
                     <div>
-                      <label className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)] block mb-1">
-                        Tagline / Role (Optional)
+                      <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-muted)] block mb-1">
+                        Tagline / Role
                       </label>
                       <input
                         type="text"
                         value={creator.tagline || ""}
                         onChange={(e) => handleFieldChange(idx, "tagline", e.target.value)}
-                        placeholder="e.g. Co-founder or Art Director"
+                        placeholder="e.g. Art Director"
                         maxLength={40}
-                        className="w-full px-2.5 py-1.5 luxury-input text-xs text-[var(--color-text-offwhite)] focus:outline-none"
+                        className="w-full px-3 py-1.5 luxury-input text-xs text-[var(--color-text-offwhite)] focus:outline-none"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-2 text-[10px] text-[var(--color-text-subtle)] text-right">
+                <div className="pt-2 border-t border-[var(--border-soft)] text-[10px] font-mono tracking-[0.16em] uppercase flex items-center justify-between">
+                  <span className="text-[var(--color-text-subtle)]">Status</span>
                   {creator.name && creator.url ? (
-                    <span className="text-[var(--color-acid-lime)] font-semibold flex items-center justify-end gap-1">
+                    <span className="text-[#d0f600] font-semibold flex items-center gap-1">
                       <Check className="w-3 h-3" /> Ready
                     </span>
                   ) : (
-                    <span>Inactive</span>
+                    <span className="text-[var(--color-text-subtle)]">Empty</span>
                   )}
                 </div>
               </div>
@@ -348,10 +361,9 @@ export function FeaturedCreatorsManager({
 
         <button
           type="submit"
-          className="px-5 py-2.5 luxury-btn-lime text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5"
+          className="btn-lime text-xs uppercase tracking-[0.14em]"
         >
-          <Check className="w-4 h-4" />
-          Save Spotlight Trio
+          Save Spotlight Trio &rarr;
         </button>
       </form>
     </div>

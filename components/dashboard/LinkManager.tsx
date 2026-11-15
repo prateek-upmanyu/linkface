@@ -120,22 +120,22 @@ export function LinkManager({
       <AddLinkForm onAdd={handleAdd} isLoading={isLoading} />
 
       {/* Links List */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-zinc-400 px-1">
-          <span className="font-semibold uppercase tracking-wider flex items-center gap-1.5">
-            <Layers className="w-4 h-4 text-slate-400" />
-            Your Links ({links.length})
+      <div className="space-y-3 font-body">
+        <div className="flex items-center justify-between text-[11px] text-[var(--color-text-muted)] px-1 tracking-[0.14em] uppercase">
+          <span className="font-semibold flex items-center gap-2 text-[var(--color-text-offwhite)]">
+            <Layers className="w-3.5 h-3.5 text-[#d0f600]" strokeWidth={1.5} />
+            Showcase Links ({links.length})
           </span>
-          <span>Drag or use arrows to reorder</span>
+          <span className="text-[var(--color-text-subtle)] text-[10px]">Drag or arrows to reorder</span>
         </div>
 
         {links.length === 0 ? (
-          <div className="p-8 text-center bg-white dark:bg-zinc-900 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-800">
-            <p className="text-sm font-medium text-slate-700 dark:text-zinc-300">
+          <div className="p-8 text-center bg-[#001a3a] rounded-[12px] border border-dashed border-[var(--border-soft)]">
+            <p className="text-sm font-heading font-medium text-[var(--color-text-offwhite)]">
               No links created yet
             </p>
-            <p className="text-xs text-slate-400 dark:text-zinc-500 mt-1">
-              Paste a URL above to add your first social or custom link.
+            <p className="text-xs text-[var(--color-text-muted)] mt-1 font-body">
+              Paste a URL above to add your first verified social or custom link.
             </p>
           </div>
         ) : (
