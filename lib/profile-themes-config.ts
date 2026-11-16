@@ -50,7 +50,7 @@ export interface ProfileThemeConfig {
 
 export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   // 1. CASSETTE (FREE THEME - Replaces Receipt)
-  // Retro mixtape cassette. Deck bg #1c1a17, tape shell cream #f0e6cf, label orange #f26b21, label teal #2a9d8f, ink #1a1a1a
+  // Retro mixtape cassette. Deck bg #1c1a17, tape shell cream #f0e6cf, label orange #9c3400 (WCAG AA 5.8:1), ink #1a1a1a
   cassette: {
     id: "cassette",
     name: "Cassette",
@@ -65,7 +65,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#f0e6cf",
     text: "#1a1a1a",
     muted: "#524d45",
-    accent: "#f26b21",
+    accent: "#9c3400",
     border: "#1a1a1a",
     chipBg: "#ffffff",
     chipBorder: "#2a9d8f",
@@ -76,7 +76,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 2. PRESS (Pro)
-  // Tabloid newspaper front page. Newsprint #ece4d3, ink #141414, red #c1121f.
+  // Tabloid newspaper front page. Newsprint #ece4d3, ink #141414, red #b30f1b (WCAG AA 5.5:1).
   press: {
     id: "press",
     name: "Press",
@@ -91,7 +91,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#ece4d3",
     text: "#141414",
     muted: "#3d3a36",
-    accent: "#c1121f",
+    accent: "#b30f1b",
     border: "#141414",
     chipBg: "#ffffff",
     chipBorder: "#141414",
@@ -102,7 +102,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 3. VINYL (Pro - Fixed Avatar 68% & 24s spin)
-  // Record sleeve and turntable. Shrikhand, DM Mono, Inter. Cream #f1e6d0, black #111, orange #ff6b1a, mustard #f2b134.
+  // Record sleeve and turntable. Shrikhand, DM Mono, Inter. Cream #f1e6d0, black #111, rich rust #a83800 (WCAG AA 5.1:1).
   vinyl: {
     id: "vinyl",
     name: "Vinyl",
@@ -117,7 +117,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#f1e6d0",
     text: "#111111",
     muted: "#474136",
-    accent: "#ff6b1a",
+    accent: "#a83800",
     border: "#292621",
     chipBg: "#ffffff",
     chipBorder: "#111111",
@@ -128,7 +128,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 4. POSTAGE (Pro)
-  // Airmail and postage stamps. Playfair Display, Special Elite, Lato. Envelope #f5efe2, red #d62839, blue #1d4e89, ink #1c1c1c.
+  // Airmail and postage stamps. Playfair Display, Special Elite, Lato. Envelope #f5efe2, crimson #b81d2c (WCAG AA 5.6:1), ink #1c1c1c.
   postage: {
     id: "postage",
     name: "Postage",
@@ -143,7 +143,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#f5efe2",
     text: "#1c1c1c",
     muted: "#45433e",
-    accent: "#d62839",
+    accent: "#b81d2c",
     border: "#d5cbba",
     chipBg: "#ffffff",
     chipBorder: "#1d4e89",
@@ -180,7 +180,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 6. ARCHIVE (Pro)
-  // Library card catalog drawer. Young Serif, Courier Prime. Dark wood #2a1d14, card cream #f3ead6, ink #1b1b1b, red rule #c1403a.
+  // Library card catalog drawer. Young Serif, Courier Prime. Dark wood #2a1d14, card cream #f3ead6, ink #1b1b1b, red rule #a82c26 (WCAG AA 5.7:1).
   archive: {
     id: "archive",
     name: "Archive",
@@ -195,7 +195,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#f3ead6",
     text: "#1b1b1b",
     muted: "#453f38",
-    accent: "#c1403a",
+    accent: "#a82c26",
     border: "#cfc1aa",
     chipBg: "#ffffff",
     chipBorder: "#1b1b1b",
@@ -232,7 +232,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 8. RISO (Pro)
-  // Two-color risograph print misregistration. Rubik Mono One, Archivo Black, Space Grotesk. Paper #f2efe6, pink #ff48b0, blue #0078bf.
+  // Two-color risograph print misregistration. Rubik Mono One, Archivo Black, Space Grotesk. Paper #f2efe6, deep magenta #b8006b (WCAG AA 5.6:1), blue #0078bf.
   riso: {
     id: "riso",
     name: "Riso",
@@ -247,7 +247,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#f2efe6",
     text: "#1a1a1a",
     muted: "#3d3b38",
-    accent: "#ff48b0",
+    accent: "#b8006b",
     border: "#1a1a1a",
     chipBg: "#ffffff",
     chipBorder: "#1a1a1a",
@@ -258,7 +258,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 9. COMIC (Pro)
-  // Pop-art comic book page. Bangers, Comic Neue. Paper #fff8e7, ink #111, yellow #ffd400, red #e63946, blue #1d70f5.
+  // Pop-art comic book page. Bangers, Comic Neue. Paper #fff8e7, ink #111, yellow #ffd400, bold red #c21827 (WCAG AA 6.0:1), blue #1d70f5.
   comic: {
     id: "comic",
     name: "Comic",
@@ -273,7 +273,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#fff8e7",
     text: "#111111",
     muted: "#3d3930",
-    accent: "#e63946",
+    accent: "#c21827",
     border: "#111111",
     chipBg: "#ffffff",
     chipBorder: "#111111",
@@ -284,7 +284,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 10. BAUHAUS (Pro)
-  // Bauhaus geometric poster. Jost, Archivo Black. Paper #f3ede0, black #151515, red #d7261e, yellow #f2b705, blue #1f4fa3.
+  // Bauhaus geometric poster. Jost, Archivo Black. Paper #f3ede0, black #151515, rich crimson #b81912 (WCAG AA 5.6:1), yellow #f2b705, blue #1f4fa3.
   bauhaus: {
     id: "bauhaus",
     name: "Bauhaus",
@@ -299,7 +299,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#f3ede0",
     text: "#151515",
     muted: "#47433c",
-    accent: "#d7261e",
+    accent: "#b81912",
     border: "#151515",
     chipBg: "#ffffff",
     chipBorder: "#151515",
@@ -310,7 +310,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 11. HERBARIUM (Pro - Replaces Star Chart)
-  // Pressed flowers on archival paper. Cormorant Garamond, Lora, Inter. Paper #f4efe3, ink #2b2a26, sage #7a8f6b, rose #c98a8a.
+  // Pressed flowers on archival paper. Cormorant Garamond, Lora, Inter. Paper #f4efe3, ink #2b2a26, deep forest sage #3e5c32 (WCAG AA 6.6:1), rose #c98a8a.
   herbarium: {
     id: "herbarium",
     name: "Herbarium",
@@ -325,7 +325,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#f4efe3",
     text: "#2b2a26",
     muted: "#5e5b52",
-    accent: "#7a8f6b",
+    accent: "#3e5c32",
     border: "rgba(43, 42, 38, 0.15)",
     chipBg: "#ffffff",
     chipBorder: "#7a8f6b",
@@ -351,7 +351,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     cardBg: "#2b2d42",
     text: "#fffdf7",
     muted: "#d8dae6",
-    accent: "#ef476f",
+    accent: "#ff6584",
     border: "transparent",
     chipBg: "#fffdf7",
     chipBorder: "#ef476f",

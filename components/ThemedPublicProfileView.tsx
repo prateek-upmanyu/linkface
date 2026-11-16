@@ -788,16 +788,20 @@ export function ThemedPublicProfileView({
         </div>
 
         {/* Name Header */}
-        <div className="text-center space-y-1 mb-6">
+        <div className="text-center space-y-1.5 mb-6 max-w-full overflow-hidden px-1">
           <h1
-            className="text-2xl sm:text-4xl font-bold leading-tight tracking-tight text-current"
-            style={{ fontFamily: theme.headingFont }}
+            className="text-xl sm:text-3xl md:text-4xl font-bold leading-snug tracking-tight text-current break-words hyphens-auto"
+            style={{
+              fontFamily: theme.headingFont,
+              wordBreak: "break-word",
+              overflowWrap: "anywhere",
+            }}
           >
             {displayName}
           </h1>
 
           <p
-            className="text-xs font-mono font-semibold tracking-wider opacity-80"
+            className="text-xs sm:text-sm font-mono font-bold tracking-wider truncate max-w-full px-2"
             style={{ color: theme.accent }}
           >
             @{cleanHandle}
@@ -805,7 +809,7 @@ export function ThemedPublicProfileView({
 
           {profile.bio && (
             <p
-              className="text-xs sm:text-sm font-medium leading-relaxed max-w-sm mx-auto mt-2"
+              className="text-xs sm:text-sm font-medium leading-relaxed max-w-sm mx-auto mt-2 break-words"
               style={{
                 color: theme.muted,
                 fontFamily: theme.bodyFont,
