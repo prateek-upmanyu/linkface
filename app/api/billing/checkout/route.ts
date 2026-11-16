@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { createCheckoutSession } from "@/lib/billing";
 import { checkRateLimit, getClientIp } from "@/lib/security";
+import { unpackProfile } from "@/lib/profile-utils";
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,16 +20,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized. Please sign in to upgrade." }, { status: 401 });
     }
 
-    // Guard: Prevent double-charging if user is already an active Pro subscriber
-    const { data: userProfile } = await supabase
+    // Guard: Prevent double-charging if user is already an active Pro subscriber (checks both column & metadata)
+    const { data: userRawProfile } = await supabase
       .from("profiles")
-      .select("plan")
+      .select("*")
       .eq("id", user.id)
       .maybeSingle();
 
+    const userProfile = unpackProfile(userRawProfile);
+
     if (userProfile?.plan === "pro") {
       return NextResponse.json(
-        { error: "You are already a Pro member! Manage your subscription from Dashboard settings." },
+        {
+          error: "You are already a Pro member! Manage your subscription from Dashboard settings.",
+          isAlreadyPro: true,
+        },
         { status: 400 }
       );
     }

@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
-import { Check, ArrowRight, Loader2, HelpCircle } from "lucide-react";
+import { Check, ArrowRight, Loader2, HelpCircle, AlertCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { unpackProfile } from "@/lib/profile-utils";
 
 export default function PricingPage() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function PricingPage() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [isLoadingCheckout, setIsLoadingCheckout] = useState(false);
+  const [alreadyProError, setAlreadyProError] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -21,10 +23,14 @@ export default function PricingPage() {
       if (user) {
         supabase
           .from("profiles")
-          .select("plan, plan_status, billing_interval")
+          .select("*")
           .eq("id", user.id)
           .single()
-          .then(({ data }) => setProfile(data));
+          .then(({ data }) => {
+            if (data) {
+              setProfile(unpackProfile(data));
+            }
+          });
       }
     });
   }, [supabase]);
@@ -37,6 +43,11 @@ export default function PricingPage() {
       return;
     }
 
+    if (isPro) {
+      setAlreadyProError(true);
+      return;
+    }
+
     setIsLoadingCheckout(true);
     try {
       const res = await fetch("/api/billing/checkout", {
@@ -45,6 +56,11 @@ export default function PricingPage() {
         body: JSON.stringify({ interval: billingInterval }),
       });
       const data = await res.json();
+      if (data.isAlreadyPro || res.status === 400) {
+        setAlreadyProError(true);
+        setProfile((prev: any) => ({ ...prev, plan: "pro" }));
+        return;
+      }
       if (data.url) {
         window.location.href = data.url;
       }
@@ -245,11 +261,23 @@ export default function PricingPage() {
             </div>
 
             <div className="pt-8">
+              {alreadyProError && (
+                <div className="mb-4 p-3.5 rounded-xl bg-[#FFFDF5] border border-[#F4D03F] text-xs text-[#B9770E] flex flex-col gap-1.5 shadow-2xs">
+                  <div className="flex items-center gap-2 font-bold">
+                    <AlertCircle className="w-4 h-4 text-[#E67E22] shrink-0" />
+                    <span>You are already a Pro member!</span>
+                  </div>
+                  <p className="text-[11px] text-[#4B5563]">
+                    Your subscription is already active. You don't need to pay again.
+                  </p>
+                </div>
+              )}
+
               {isPro ? (
                 <div className="space-y-3">
                   <div className="w-full h-12 rounded-full bg-[#FFFDF5] border border-[#F4D03F] text-[#B9770E] text-xs uppercase tracking-[0.14em] font-bold flex items-center justify-center gap-2 shadow-xs">
                     <Check className="w-4 h-4 text-[#E67E22]" />
-                    <span>Your Current Plan (Active)</span>
+                    <span>Your Current Plan (Pro Active)</span>
                   </div>
                   <Link
                     href="/dashboard"

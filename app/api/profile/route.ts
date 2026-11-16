@@ -29,12 +29,14 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const { data: currentProfile } = await supabase
+    const { data: currentRawProfile } = await supabase
       .from("profiles")
-      .select("plan")
+      .select("*")
       .eq("id", user.id)
       .single();
 
+    const { unpackProfile } = await import("@/lib/profile-utils");
+    const currentProfile = unpackProfile(currentRawProfile);
     const isPro = currentProfile?.plan === "pro";
     const body = await req.json().catch(() => ({}));
 
