@@ -21,26 +21,31 @@ export const BILLING_CONFIG = {
   currency: "USD",
   products: {
     monthly: {
-      priceId: process.env.BILLING_PRICE_ID_MONTHLY || "p_monthly_3usd",
+      priceId: process.env.BILLING_PRICE_ID_MONTHLY || "pdt_0Ns4Sep1Oa8wrtkguU3bZ",
       amount: 300, // $3.00
       displayPrice: "$3",
       interval: "monthly" as const,
     },
     yearly: {
-      priceId: process.env.BILLING_PRICE_ID_YEARLY || "p_yearly_29usd",
+      priceId: process.env.BILLING_PRICE_ID_YEARLY || "pdt_0Ns4Sp6tVOY6INeOiKGI3",
       amount: 2900, // $29.00
       displayPrice: "$29",
       interval: "yearly" as const,
     },
   },
-  webhookSecret: process.env.BILLING_WEBHOOK_SECRET || process.env.DODO_PAYMENTS_WEBHOOK_SECRET || "",
-  apiKey: process.env.BILLING_API_KEY || process.env.DODO_PAYMENTS_API_KEY || "",
+  webhookSecret:
+    process.env.BILLING_WEBHOOK_SECRET ||
+    process.env.DODO_PAYMENTS_WEBHOOK_SECRET ||
+    "whsec_Pno2pc8TMc4eCnxd/iBTHV0qr7kDfCRF",
+  apiKey:
+    process.env.BILLING_API_KEY ||
+    process.env.DODO_PAYMENTS_API_KEY ||
+    "dodo_live_F3ABUjgKK9_DEmEg.FOiFPreCWltjf5P4pb9apRqsiXOxI4BTarIkkStRMfzjYbL0",
   mode: process.env.NODE_ENV === "production" ? "live" : "test",
 };
 
 /**
- * Creates a hosted checkout session for Pro Monthly or Pro Yearly.
- * Works seamlessly with Dodo Payments / Lemon Squeezy, with built-in instant test-mode fallback.
+ * Creates a hosted checkout session for Pro Monthly or Pro Yearly via Dodo Payments.
  */
 export async function createCheckoutSession({
   userId,
@@ -49,23 +54,33 @@ export async function createCheckoutSession({
   returnUrl,
 }: CreateCheckoutParams): Promise<CheckoutResult> {
   const product = interval === "yearly" ? BILLING_CONFIG.products.yearly : BILLING_CONFIG.products.monthly;
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://linktree-livid-three.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://linkface.in";
   const successUrl = `${baseUrl}/pricing/success?interval=${interval}&session_id={CHECKOUT_SESSION_ID}`;
 
-  // If live Dodo Payments API key is provided, call their hosted checkout API
+  // Call Dodo Payments Live Checkouts API
   if (BILLING_CONFIG.apiKey && !BILLING_CONFIG.apiKey.startsWith("mock_")) {
     try {
-      const response = await fetch("https://api.dodopayments.com/subscriptions", {
+      const isLive = BILLING_CONFIG.apiKey.startsWith("dodo_live_");
+      const endpoint = isLive
+        ? "https://live.dodopayments.com/checkouts"
+        : "https://test.dodopayments.com/checkouts";
+
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${BILLING_CONFIG.apiKey}`,
         },
         body: JSON.stringify({
-          product_id: product.priceId,
+          product_cart: [
+            {
+              product_id: product.priceId,
+              quantity: 1,
+            },
+          ],
           customer: {
             email: userEmail,
-            metadata: { user_id: userId },
+            name: userEmail.split("@")[0],
           },
           return_url: successUrl,
           metadata: {
@@ -78,11 +93,14 @@ export async function createCheckoutSession({
       if (response.ok) {
         const data = await response.json();
         if (data.checkout_url) {
-          return { url: data.checkout_url, sessionId: data.subscription_id };
+          return { url: data.checkout_url, sessionId: data.session_id || data.payment_id };
         }
+      } else {
+        const errText = await response.text();
+        console.error("Dodo Payments checkout API returned error:", response.status, errText);
       }
     } catch (err) {
-      console.error("Dodo Payments API error, falling back to hosted checkout portal:", err);
+      console.error("Dodo Payments API error, falling back to mock:", err);
     }
   }
 
@@ -122,26 +140,56 @@ export async function createCustomerPortalSession(customerId: string): Promise<s
 }
 
 /**
- * Verifies the authenticity of an incoming webhook event.
+ * Verifies the authenticity of an incoming webhook event from Dodo Payments (Standard Webhooks format or standard HMAC-SHA256).
  */
-export function verifyWebhookSignature(payload: string, signature: string | null): boolean {
+export function verifyWebhookSignature(
+  payload: string,
+  signature: string | null,
+  headers?: { id?: string | null; timestamp?: string | null }
+): boolean {
   if (!signature) return false;
   const secret = BILLING_CONFIG.webhookSecret;
   if (!secret) return false;
 
-  try {
-    const hmac = crypto.createHmac("sha256", secret);
-    const digest = hmac.update(payload).digest("hex");
-    return crypto.timingSafeEqual(Buffer.from(digest), Buffer.from(signature));
-  } catch {
-    // If signature formats differ (e.g. prefixed with sha256=), extract hash
+  // 1. Try Dodo Standard Webhooks format: id.timestamp.rawBody with base64 secret bytes
+  if (headers?.id && headers?.timestamp) {
     try {
-      const cleanSignature = signature.replace(/^sha256=/, "");
-      const hmac = crypto.createHmac("sha256", secret);
-      const digest = hmac.update(payload).digest("hex");
-      return crypto.timingSafeEqual(Buffer.from(digest), Buffer.from(cleanSignature));
-    } catch {
-      return false;
+      const cleanSecret = secret.replace(/^whsec_/, "");
+      const secretBytes = Buffer.from(cleanSecret, "base64");
+      const signedContent = `${headers.id}.${headers.timestamp}.${payload}`;
+      const expectedBase64 = crypto
+        .createHmac("sha256", secretBytes)
+        .update(signedContent)
+        .digest("base64");
+
+      const signatures = signature.split(" ");
+      for (const sig of signatures) {
+        const [version, hash] = sig.split(",");
+        const targetHash = hash || version;
+        if (targetHash) {
+          const givenBuf = Buffer.from(targetHash);
+          const expectedBuf = Buffer.from(expectedBase64);
+          if (givenBuf.length === expectedBuf.length && crypto.timingSafeEqual(givenBuf, expectedBuf)) {
+            return true;
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Standard webhook check error:", err);
     }
   }
+
+  // 2. Direct HMAC-SHA256 fallback (hex or base64)
+  try {
+    const cleanSecret = secret.replace(/^whsec_/, "");
+    const hmacHex = crypto.createHmac("sha256", secret).update(payload).digest("hex");
+    const cleanSig = signature.replace(/^sha256=/, "").replace(/^v1,/, "");
+    if (crypto.timingSafeEqual(Buffer.from(hmacHex), Buffer.from(cleanSig))) {
+      return true;
+    }
+  } catch {
+    // continue
+  }
+
+  return false;
 }

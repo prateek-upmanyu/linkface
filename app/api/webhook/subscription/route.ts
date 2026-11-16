@@ -17,9 +17,14 @@ export async function POST(req: NextRequest) {
       req.headers.get("x-signature") ||
       req.headers.get("dodo-signature") ||
       "";
+    const webhookId = req.headers.get("webhook-id") || null;
+    const webhookTimestamp = req.headers.get("webhook-timestamp") || null;
 
     // 1. Verify signature if webhook secret is set
-    const isValid = verifyWebhookSignature(rawBody, signature);
+    const isValid = verifyWebhookSignature(rawBody, signature, {
+      id: webhookId,
+      timestamp: webhookTimestamp,
+    });
     // In production with secret configured, strictly reject unauthorized requests
     if (!isValid && process.env.BILLING_WEBHOOK_SECRET) {
       console.warn("Invalid webhook signature rejected from IP:", clientIp);
