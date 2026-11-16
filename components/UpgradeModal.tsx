@@ -143,8 +143,8 @@ export function UpgradeModal({
                     : "text-[#6B7280] hover:text-[#18181B]"
                 }`}
               >
-                <span>Yearly • $29/yr</span>
-                <span className="text-[10px] text-[#FFFFFF] bg-[#E67E22] px-1.5 py-0.2 rounded-full font-mono font-bold">
+                <span className="truncate">Yearly • $29/yr</span>
+                <span className="text-[10px] text-[#FFFFFF] bg-[#E67E22] px-1.5 py-0.5 rounded-full font-mono font-bold shrink-0">
                   -19%
                 </span>
               </button>

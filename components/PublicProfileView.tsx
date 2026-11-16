@@ -138,7 +138,7 @@ export function PublicProfileView({
 
         {/* Display Name with Theme Heading Font */}
         <h1
-          className="text-3xl sm:text-4xl font-normal leading-tight tracking-tight text-center"
+          className="text-3xl sm:text-4xl font-normal leading-tight tracking-tight text-center break-words hyphens-auto max-w-full"
           style={{
             fontFamily: theme.headingFontFamily,
             color: theme.text,

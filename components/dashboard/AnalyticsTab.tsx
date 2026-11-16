@@ -367,14 +367,14 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
                   key={`${s.name}_${s.country}`}
                   className="p-3 rounded-xl bg-[#FFFDF9] border border-[#E5E7EB] flex items-center justify-between"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
                     <MapPin className="w-3.5 h-3.5 text-[#E67E22] shrink-0" />
                     <span className="text-xs font-bold text-[#18181B] truncate">
                       {s.name}
                     </span>
-                    <span className="text-[11px] text-[#9CA3AF]">({s.country})</span>
+                    <span className="text-[11px] text-[#9CA3AF] shrink-0">({s.country})</span>
                   </div>
-                  <span className="font-heading font-bold text-xs text-[#18181B] font-mono">
+                  <span className="font-heading font-bold text-xs text-[#18181B] font-mono shrink-0">
                     {s.count} clicks
                   </span>
                 </div>
@@ -415,7 +415,7 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
                   const time = formatClickTime(click.timestamp);
                   return (
                     <tr key={click.id} className="hover:bg-amber-50/30 transition-colors">
-                      <td className="py-3 pr-4 font-bold text-[#18181B]">
+                      <td className="py-3 pr-4 font-bold text-[#18181B] max-w-[140px] sm:max-w-[200px] truncate" title={click.linkTitle}>
                         {click.linkTitle}
                       </td>
                       <td className="py-3 pr-4 text-[#4B5563]">

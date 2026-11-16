@@ -1044,14 +1044,21 @@ export function ThemedPublicProfileView({
         )}
         {/* Console Editor Header Bar */}
         {themeId === "console" && (
-          <div className="w-full bg-[#20242d] rounded-t-xl px-4 py-2.5 border border-[#2b303c] flex items-center justify-between mb-5 select-none font-mono text-xs">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#4b5563]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#4b5563]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#4b5563]" />
+          <div className="w-full bg-[#20242d] rounded-t-xl px-3 sm:px-4 py-2 border border-[#2b303c] flex items-center justify-between gap-2 mb-5 select-none font-mono text-xs overflow-hidden">
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
             </div>
-            <span className="text-[11px] text-[#e6e9ef] font-bold">~/@{cleanHandle}.sh</span>
-            <span className="text-[10px] text-[#4ade80] font-bold">● READY</span>
+            <div className="min-w-0 flex-1 text-center px-1">
+              <span className="text-[11px] text-[#e6e9ef] font-bold truncate block">
+                ~/@{cleanHandle}.sh
+              </span>
+            </div>
+            <span className="text-[10px] text-[#4ade80] font-bold shrink-0 whitespace-nowrap flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80] animate-pulse" />
+              READY
+            </span>
           </div>
         )}
 

@@ -143,7 +143,7 @@ export function PhonePreview({
 
           {/* Display Name with Theme Heading Font */}
           <h2
-            className="text-2xl sm:text-3xl font-normal tracking-tight leading-tight"
+            className="text-2xl sm:text-3xl font-normal tracking-tight leading-tight break-words hyphens-auto max-w-full text-center"
             style={{
               fontFamily: theme.headingFontFamily,
               color: theme.text,

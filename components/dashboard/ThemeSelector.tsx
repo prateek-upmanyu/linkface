@@ -136,31 +136,21 @@ export function ThemeSelector({
           color: t.text,
         }}
       >
-        {/* Top Info Bar */}
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <span
-              className="font-bold text-base tracking-tight truncate max-w-[120px] sm:max-w-[140px]"
-              style={{
-                fontFamily: t.headingFont,
-              }}
-            >
-              {t.name}
-            </span>
-            <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm bg-black/10 text-current font-bold">
-              {t.isDark ? "Dark" : "Light"}
-            </span>
-            {!t.isPro && (
-              <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm bg-[#4ade80]/20 text-[#166534] font-bold">
-                Free
-              </span>
-            )}
-          </div>
+        {/* Top Info Bar: Name on left, Status Icon on right */}
+        <div className="flex items-center justify-between gap-2 mb-1.5">
+          <span
+            className="font-bold text-base tracking-tight truncate min-w-0"
+            style={{
+              fontFamily: t.headingFont,
+            }}
+          >
+            {t.name}
+          </span>
 
           {/* Status Indicator */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 shrink-0">
             {isSavedActive && (
-              <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-[#166534] text-white">
+              <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#166534] text-white shrink-0 shadow-2xs">
                 Live
               </span>
             )}
@@ -177,6 +167,40 @@ export function ThemeSelector({
               </span>
             ) : null}
           </div>
+        </div>
+
+        {/* Badges Row: Clear separation, zero crowding */}
+        <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
+          <span
+            className={`text-[9px] font-mono uppercase px-2 py-0.5 rounded-sm font-bold ${
+              t.isDark
+                ? "bg-white/15 text-white border border-white/20"
+                : "bg-black/10 text-[#18181B] border border-black/10"
+            }`}
+          >
+            {t.isDark ? "Dark" : "Light"}
+          </span>
+          {!t.isPro ? (
+            <span
+              className={`text-[9px] font-mono uppercase px-2 py-0.5 rounded-sm font-bold ${
+                t.isDark
+                  ? "bg-[#22c55e]/20 text-[#4ade80] border border-[#22c55e]/30"
+                  : "bg-[#4ade80]/20 text-[#166534] border border-[#166534]/20"
+              }`}
+            >
+              Free
+            </span>
+          ) : (
+            <span
+              className={`text-[9px] font-mono uppercase px-2 py-0.5 rounded-sm font-bold ${
+                t.isDark
+                  ? "bg-[#F39C12]/20 text-[#fbbf24] border border-[#F39C12]/30"
+                  : "bg-[#F9E79F]/40 text-[#B9770E] border border-[#F4D03F]"
+              }`}
+            >
+              Pro
+            </span>
+          )}
         </div>
 
         <p className="text-[11px] leading-tight mb-3 line-clamp-1 opacity-80">
