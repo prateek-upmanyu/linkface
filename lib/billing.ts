@@ -135,7 +135,7 @@ export async function createCustomerPortalSession(customerId: string): Promise<s
     }
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://linktree-livid-three.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://linkface.in";
   return `${baseUrl}/dashboard?portal=manage`;
 }
 
