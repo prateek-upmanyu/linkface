@@ -20,7 +20,7 @@ import { LinkItem, UserPlan } from "@/types";
 import { SortableLinkItem } from "@/components/dashboard/SortableLinkItem";
 import { AddLinkForm } from "@/components/dashboard/AddLinkForm";
 import { UpgradeModal } from "@/components/UpgradeModal";
-import { Layers, Lock, Plus, Link2 } from "lucide-react";
+import { Layers, Lock, Plus, Link2, ExternalLink, Loader2 } from "lucide-react";
 
 interface LinkManagerProps {
   links: LinkItem[];
@@ -28,6 +28,7 @@ interface LinkManagerProps {
   onSaveLinks: (updated: LinkItem[]) => Promise<void>;
   isLoading?: boolean;
   plan?: UserPlan;
+  username?: string;
 }
 
 export function LinkManager({
@@ -36,6 +37,7 @@ export function LinkManager({
   onSaveLinks,
   isLoading = false,
   plan = "free",
+  username,
 }: LinkManagerProps) {
   const isPro = plan === "pro";
   const [modalOpen, setModalOpen] = useState(false);
@@ -114,6 +116,44 @@ export function LinkManager({
   return (
     <>
       <div className="space-y-6">
+        {/* Live Status Reassurance Banner */}
+        <div className="p-3.5 sm:p-4 rounded-[16px] bg-[#FFFFFF] border border-[#E5E7EB] shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2.5 min-w-0">
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 text-[#E67E22] animate-spin shrink-0" />
+            ) : (
+              <span className="w-2.5 h-2.5 rounded-full bg-[#16a34a] animate-pulse shrink-0" />
+            )}
+            <div className="min-w-0">
+              <p className="font-bold text-[#18181B] truncate flex items-center gap-1.5">
+                {isLoading ? "Saving changes..." : "Links Live & Synced"}
+                {!isLoading && (
+                  <span className="text-[10px] font-mono uppercase px-1.5 py-0.2 rounded-full bg-[#dcfce7] text-[#166534] font-bold">
+                    Active
+                  </span>
+                )}
+              </p>
+              <p className="text-[#6B7280] text-[11px] truncate">
+                {isLoading
+                  ? "Writing updates to your database..."
+                  : `Your links are immediately live for visitors on linkface.in/${username || "your-profile"}`}
+              </p>
+            </div>
+          </div>
+
+          {username && (
+            <a
+              href={`/${username}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#E5E7EB] hover:border-[#F4D03F] bg-[#FFFDF9] hover:bg-white text-[11px] font-bold text-[#18181B] hover:text-[#B9770E] transition-all shadow-2xs shrink-0 self-start sm:self-auto"
+            >
+              <span>View Live Profile</span>
+              <ExternalLink className="w-3 h-3 text-[#9CA3AF]" />
+            </a>
+          )}
+        </div>
+
         {/* Add New Link input form */}
         <AddLinkForm
           onAdd={handleAdd}

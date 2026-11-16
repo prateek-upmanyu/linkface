@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Profile, LinkItem } from "@/types";
+import { Profile, LinkItem, ThemeId } from "@/types";
 import { createClient } from "@/lib/supabase/client";
 import { packProfileUpdates } from "@/lib/profile-utils";
 import { sanitizeAndValidateUrl } from "@/lib/security";
@@ -48,6 +48,7 @@ export function DashboardClient({
   const [links, setLinks] = useState<LinkItem[]>(initialLinks);
   const [activeTab, setActiveTab] = useState<TabType>("links");
   const [isSaving, setIsSaving] = useState(false);
+  const [previewThemeOverride, setPreviewThemeOverride] = useState<ThemeId | undefined>(undefined);
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -82,6 +83,9 @@ export function DashboardClient({
 
   const handleUpdateProfile = async (updates: Partial<Profile>): Promise<void> => {
     setIsSaving(true);
+    if (updates.theme) {
+      setPreviewThemeOverride(undefined);
+    }
     const { dbPayload, updatedProfile } = packProfileUpdates(updates, profile);
     setProfile(updatedProfile);
 
@@ -402,6 +406,7 @@ export function DashboardClient({
               onSaveLinks={handleSaveLinks}
               isLoading={isSaving}
               plan={profile.plan}
+              username={profile.username}
             />
           )}
 
@@ -410,6 +415,7 @@ export function DashboardClient({
               profile={profile}
               onUpdateProfile={handleUpdateProfile}
               isLoading={isSaving}
+              onPreviewTheme={(themeId) => setPreviewThemeOverride(themeId)}
             />
           )}
 
@@ -428,7 +434,13 @@ export function DashboardClient({
           {/* Mobile Preview View */}
           {activeTab === "preview" && (
             <div className="lg:hidden flex flex-col items-center py-4">
-              <PhonePreview profile={profile} links={links} />
+              <PhonePreview
+                profile={{
+                  ...profile,
+                  theme: previewThemeOverride || profile.theme,
+                }}
+                links={links}
+              />
             </div>
           )}
         </div>
@@ -445,7 +457,13 @@ export function DashboardClient({
             </span>
           </div>
 
-          <PhonePreview profile={profile} links={links} />
+          <PhonePreview
+            profile={{
+              ...profile,
+              theme: previewThemeOverride || profile.theme,
+            }}
+            links={links}
+          />
         </div>
       </main>
 
