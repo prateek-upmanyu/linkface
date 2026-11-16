@@ -257,10 +257,11 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
         </div>
 
         <h3
-          className="text-base sm:text-lg font-extrabold leading-tight mt-3 line-clamp-2 tracking-tight"
+          className="text-base sm:text-lg font-black leading-snug mt-2 line-clamp-2 tracking-tight text-[#111111]"
           style={{
             fontFamily: "'Bagel Fat One', cursive",
             color: s.text,
+            textShadow: s.text === "#ffffff" ? "0 1px 2px rgba(0,0,0,0.5)" : "none",
           }}
         >
           {link.title}
