@@ -1,10 +1,11 @@
 import crypto from "crypto";
 import { cookies } from "next/headers";
 
-export const ADMIN_PASS = process.env.ADMIN_SECRET_KEY || "researchandinnovationstudios";
+export const ADMIN_PASS = process.env.ADMIN_SECRET_KEY || "";
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "learner.prateek.upmanyu@gmail.com";
 
 export function getAdminSessionToken(): string {
+  if (!ADMIN_PASS) return "";
   return crypto
     .createHash("sha256")
     .update(`${ADMIN_PASS}_linkface_secure_admin_salt_2026`)
@@ -12,7 +13,7 @@ export function getAdminSessionToken(): string {
 }
 
 export function verifyAdminPassword(pass: string): boolean {
-  if (!pass) return false;
+  if (!pass || !ADMIN_PASS) return false;
   return pass.trim() === ADMIN_PASS;
 }
 
@@ -20,7 +21,11 @@ export async function isAuthorizedAdmin(req?: Request | null, userEmail?: string
   // 1. Direct authorization via header
   if (req) {
     const headerKey = req.headers.get("x-admin-key");
-    if (headerKey && (headerKey.trim() === ADMIN_PASS || headerKey.trim() === getAdminSessionToken())) {
+    if (
+      headerKey &&
+      ADMIN_PASS &&
+      (headerKey.trim() === ADMIN_PASS || headerKey.trim() === getAdminSessionToken())
+    ) {
       return true;
     }
   }

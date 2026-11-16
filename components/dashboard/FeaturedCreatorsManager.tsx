@@ -44,12 +44,12 @@ export function FeaturedCreatorsManager({
   };
 
   const [creators, setCreators] = useState<FeaturedCreator[]>(() =>
-    buildInitialSlots(profile.featured_creators)
+    buildInitialSlots(profile.spotlight_creators || profile.featured_creators)
   );
 
   useEffect(() => {
-    setCreators(buildInitialSlots(profile.featured_creators));
-  }, [profile.featured_creators]);
+    setCreators(buildInitialSlots(profile.spotlight_creators || profile.featured_creators));
+  }, [profile.spotlight_creators, profile.featured_creators]);
 
   const [isSaved, setIsSaved] = useState(false);
   const [scrapingIndex, setScrapingIndex] = useState<number | null>(null);
@@ -179,6 +179,7 @@ export function FeaturedCreatorsManager({
 
     await onUpdateProfile({
       featured_creators: validCreators,
+      spotlight_creators: validCreators,
     });
 
     setIsSaved(true);
