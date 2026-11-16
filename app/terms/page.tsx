@@ -61,7 +61,7 @@ export default function TermsPage() {
           </p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
-              <strong>Free Tier:</strong> Free of charge forever. Allows up to 3 showcase links on your public profile and access to the default Midnight theme.
+              <strong>Free Tier:</strong> Free of charge forever. Allows up to 3 showcase links on your public profile and access to 3 clean Free themes (Notebook, Pastel, Console, defaulting to Notebook).
             </li>
             <li>
               <strong>Pro Tier:</strong> Available as a monthly subscription ($3.00 USD / month) or yearly subscription ($29.00 USD / year). Grants unlimited showcase links, full access to all 12 bespoke themes, interactive spotlight effects, custom icon uploads, and comprehensive analytics.

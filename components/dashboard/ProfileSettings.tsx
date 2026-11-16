@@ -139,7 +139,7 @@ export function ProfileSettings({
                 You are currently on the Free plan.
               </p>
               <p className="text-[#6B7280] mt-0.5">
-                Only your top 3 links and Midnight theme are active publicly. All your data is saved.
+                Only your top 3 links and Free themes (Notebook, Pastel, Console) are active publicly. All your data is saved.
               </p>
             </div>
             <button
@@ -180,7 +180,7 @@ export function ProfileSettings({
               <p className="font-semibold text-[#18181B]">
                 {isPro
                   ? `Pro Membership (${profile.billing_interval === "yearly" ? "Billed yearly • $29/yr" : "Billed monthly • $3/mo"})`
-                  : "Free Tier • 3 links limit, Midnight theme"}
+                  : "Free Tier • 3 links limit, 3 Free themes (Notebook default)"}
               </p>
               <p className="text-[#6B7280]">
                 {isPro

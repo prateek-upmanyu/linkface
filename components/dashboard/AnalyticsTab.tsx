@@ -240,7 +240,7 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
                 Not currently featured in anyone's Spotlight yet
               </p>
               <p className="text-xs text-[#6B7280] max-w-xl">
-                Collaborate with other Linkface creators and invite them to add your handle{" "}
+                Connect with other Linkface creators and invite them to feature your handle{" "}
                 <span className="font-mono font-bold text-[#B9770E]">
                   linkface.in/{profile.username || "username"}
                 </span>{" "}

@@ -168,7 +168,7 @@ export default function PricingPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-[#E67E22] shrink-0" strokeWidth={2.2} />
-                  <span>Default Midnight theme</span>
+                  <span>3 Clean Free Themes (Notebook, Pastel, Console)</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-[#E67E22] shrink-0" strokeWidth={2.2} />

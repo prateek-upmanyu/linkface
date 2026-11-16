@@ -4,7 +4,7 @@ export const DEMO_PROFILE: Profile = {
   id: "demo-user-123",
   username: "alex",
   display_name: "Sample Showcase",
-  bio: "Sample creator page. Showcase your links, recent work, and featured collaborations in one place.",
+  bio: "Sample creator page. Showcase your links, recent work, and featured spotlight in one place.",
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
   theme: "notebook",
   page_views: 1240,
