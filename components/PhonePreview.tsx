@@ -29,7 +29,11 @@ export function PhonePreview({
   floating = false,
 }: PhonePreviewProps) {
   const isPro = profile.plan === "pro";
-  const activeThemeId = isPro ? profile.theme : (profile.theme === "cassette" || !profile.theme ? "cassette" : "cassette");
+  const activeThemeId = isPro
+    ? (profile.theme || "notebook")
+    : (profile.theme === "notebook" || profile.theme === "pastel" || profile.theme === "console")
+    ? profile.theme
+    : "notebook";
 
   // If one of the 12 bespoke themes, render in phone chassis with natural scrolling
   if (isNewProfileTheme(activeThemeId)) {

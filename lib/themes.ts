@@ -24,7 +24,70 @@ export interface ThemeConfig {
 }
 
 export const THEMES: Record<string, ThemeConfig> = {
-  // 1. MIDNIGHT (Free, Default)
+  // FREE 1. NOTEBOOK (Default Free)
+  notebook: {
+    id: "notebook",
+    name: "Notebook",
+    isDark: false,
+    isPro: false,
+    bg: "#fbf8ef",
+    surface: "#ffffff",
+    surfaceRaised: "#fbf8ef",
+    border: "rgba(38, 48, 59, 0.15)",
+    borderStrong: "rgba(47, 111, 219, 0.4)",
+    text: "#26303b",
+    muted: "rgba(38, 48, 59, 0.65)",
+    accent: "#2f6fdb",
+    accentHover: "#1d58ba",
+    radiusCard: "16px",
+    headingFont: "Caveat",
+    headingFontFamily: "'Caveat', cursive",
+    paletteColors: ["#fbf8ef", "#c9d8ee", "#e07a7a", "#26303b", "#2f6fdb"],
+  },
+
+  // FREE 2. PASTEL
+  pastel: {
+    id: "pastel",
+    name: "Pastel",
+    isDark: false,
+    isPro: false,
+    bg: "#faf7f5",
+    surface: "#ffffff",
+    surfaceRaised: "#faf7f5",
+    border: "rgba(45, 42, 50, 0.08)",
+    borderStrong: "rgba(45, 42, 50, 0.2)",
+    text: "#2d2a32",
+    muted: "rgba(45, 42, 50, 0.65)",
+    accent: "#2d2a32",
+    accentHover: "#1b191e",
+    radiusCard: "20px",
+    headingFont: "Poppins",
+    headingFontFamily: "'Poppins', sans-serif",
+    paletteColors: ["#faf7f5", "#ffd9e0", "#d7ecff", "#e2f5d8", "#fff0c7"],
+  },
+
+  // FREE 3. CONSOLE
+  console: {
+    id: "console",
+    name: "Console",
+    isDark: true,
+    isPro: false,
+    bg: "#0f1115",
+    surface: "#171a21",
+    surfaceRaised: "#20242d",
+    border: "#20242d",
+    borderStrong: "#4ade80",
+    text: "#e6e9ef",
+    muted: "rgba(230, 233, 239, 0.6)",
+    accent: "#4ade80",
+    accentHover: "#22c55e",
+    radiusCard: "10px",
+    headingFont: "JetBrains Mono",
+    headingFontFamily: "'JetBrains Mono', monospace",
+    paletteColors: ["#0f1115", "#171a21", "#20242d", "#e6e9ef", "#4ade80"],
+  },
+
+  // 1. MIDNIGHT
   midnight: {
     id: "midnight",
     name: "Midnight",
@@ -384,16 +447,17 @@ export function getTheme(id?: string | null): ThemeConfig {
 
 /**
  * Determines whether a theme requires a Pro subscription.
- * Note: CASSETTE and MIDNIGHT are free; all other 11 themes require Pro.
+ * Note: NOTEBOOK, PASTEL, and CONSOLE are the 3 Free themes.
+ * All 12 bespoke luxury themes (including Cassette) require Pro.
  */
 export function isProTheme(id?: string | null): boolean {
   if (!id) return false;
-  if (id === "cassette" || id === "midnight") return false;
+  if (id === "notebook" || id === "pastel" || id === "console") return false;
   if (isNewProfileTheme(id)) {
     return getProfileTheme(id).isPro;
   }
   const theme = THEMES[id];
-  return Boolean(theme?.isPro);
+  return Boolean(theme?.isPro ?? true);
 }
 
 /**

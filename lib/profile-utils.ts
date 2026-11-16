@@ -90,9 +90,14 @@ export function unpackProfile(raw: any): Profile {
       ? "pro"
       : "free";
 
+  const isFree = plan !== "pro";
+  const resolvedTheme = isFree
+    ? (raw.theme === "notebook" || raw.theme === "pastel" || raw.theme === "console" ? raw.theme : "notebook")
+    : (raw.theme || "notebook");
+
   return {
     ...raw,
-    theme: raw.theme || "midnight",
+    theme: resolvedTheme,
     plan,
     plan_status: raw.plan_status || (plan === "pro" ? "active" : null),
     billing_interval: raw.billing_interval || null,

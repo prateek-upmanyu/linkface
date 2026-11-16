@@ -1,4 +1,7 @@
 export type ThemeId =
+  | "notebook"
+  | "pastel"
+  | "console"
   | "cassette"
   | "press"
   | "vinyl"

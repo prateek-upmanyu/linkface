@@ -140,13 +140,13 @@ export async function POST(req: NextRequest) {
       case "subscription_expired":
       case "subscription.deleted":
       case "refund.created": {
-        // Downgrade to Free: keep links in DB, reset theme to midnight, turn off spotlight
+        // Downgrade to Free: keep links in DB, reset default theme to notebook, turn off spotlight
         await supabaseAdmin
           .from("profiles")
           .update({
             plan: "free",
             plan_status: "expired",
-            theme: "midnight",
+            theme: "notebook",
             spotlight_enabled: false,
             updated_at: new Date().toISOString(),
           })

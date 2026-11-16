@@ -144,9 +144,9 @@ BEGIN
     NEW.provider_customer_id := OLD.provider_customer_id;
     NEW.provider_subscription_id := OLD.provider_subscription_id;
 
-    -- Enforce: Free users cannot set Pro themes (default fallback to midnight)
-    IF OLD.plan = 'free' AND NEW.theme NOT IN ('midnight') THEN
-      NEW.theme := 'midnight';
+    -- Enforce: Free users cannot set Pro themes (default fallback to notebook)
+    IF OLD.plan = 'free' AND NEW.theme NOT IN ('notebook', 'pastel', 'console') THEN
+      NEW.theme := 'notebook';
     END IF;
 
     -- Enforce: Free users cannot enable spotlight

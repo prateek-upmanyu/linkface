@@ -66,7 +66,135 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     </div>
   );
 
-  // 1. CASSETTE (Free): Mini cassette tape link with reel chip on left, track code, colored stripe
+  // ==========================================
+  // FREE THEME 1: NOTEBOOK (Light)
+  // Rows on ruled lines with hand-drawn underline, Patrick Hand label, logo chip left
+  // ==========================================
+  if (themeId === "notebook") {
+    return (
+      <a
+        href={isDemo ? "#" : link.url}
+        target={isDemo ? undefined : "_blank"}
+        rel={isDemo ? undefined : "noopener noreferrer"}
+        onClick={handleClick}
+        style={{
+          animation: "notebookSlideIn 0.35s ease-out backwards",
+          animationDelay: `${Math.min(index * 50, 400)}ms`,
+        }}
+        className="w-full py-2.5 px-3 flex items-center justify-between gap-3 group select-none text-[#26303b] border-b-2 border-b-[#c9d8ee] hover:border-b-[#2f6fdb] hover:border-b-[3px] hover:translate-x-1 transition-all duration-150 relative bg-transparent"
+      >
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          {renderLogoChip("rounded-lg border border-[#26303b]/20 shadow-xs")}
+          <div className="min-w-0 flex-1 text-left">
+            <span
+              className="text-lg sm:text-xl font-bold tracking-normal block truncate text-[#26303b] leading-tight"
+              style={{ fontFamily: "'Patrick Hand', cursive" }}
+            >
+              {link.title}
+            </span>
+            <span
+              className="text-xs text-[#5a6878] font-mono block truncate"
+              style={{ fontFamily: "'Patrick Hand', cursive" }}
+            >
+              {platform?.name || "link"} &rarr;
+            </span>
+          </div>
+        </div>
+        <ArrowUpRight className="w-4 h-4 text-[#2f6fdb] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+      </a>
+    );
+  }
+
+  // ==========================================
+  // FREE THEME 2: PASTEL (Light)
+  // Large rounded blocks (radius 20px), alternating pastel fills, white circle chip, dark bold label
+  // ==========================================
+  if (themeId === "pastel") {
+    const PASTEL_BLOCKS = ["#ffd9e0", "#d7ecff", "#e2f5d8", "#fff0c7"];
+    const blockBg = PASTEL_BLOCKS[index % PASTEL_BLOCKS.length];
+
+    return (
+      <a
+        href={isDemo ? "#" : link.url}
+        target={isDemo ? undefined : "_blank"}
+        rel={isDemo ? undefined : "noopener noreferrer"}
+        onClick={handleClick}
+        style={{
+          backgroundColor: blockBg,
+          animation: "pastelRise 0.4s ease-out backwards",
+          animationDelay: `${Math.min(index * 60, 450)}ms`,
+        }}
+        className="w-full p-3.5 rounded-[20px] shadow-xs hover:shadow-md hover:-translate-y-[3px] transition-all duration-200 flex items-center justify-between gap-3 group select-none text-[#2d2a32]"
+      >
+        <div className="flex items-center gap-3.5 min-w-0 flex-1">
+          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 shadow-xs">
+            {renderLogoChip("w-10 h-10 min-w-[40px] rounded-full shadow-none")}
+          </div>
+          <div className="min-w-0 flex-1 text-left">
+            <span
+              className="text-sm sm:text-base font-bold tracking-tight block truncate text-[#2d2a32]"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              {link.title}
+            </span>
+            <span
+              className="text-xs font-semibold text-[#635f69] block truncate"
+              style={{ fontFamily: "'Nunito', sans-serif" }}
+            >
+              {platform?.name || "Visit"}
+            </span>
+          </div>
+        </div>
+        <div className="w-8 h-8 rounded-full bg-white/70 flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
+          <ArrowUpRight className="w-4 h-4 text-[#2d2a32] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+        </div>
+      </a>
+    );
+  }
+
+  // ==========================================
+  // FREE THEME 3: CONSOLE (Dark)
+  // Rows like code lines with line numbers (01, 02), logo chip, JetBrains Mono label, green highlight on hover
+  // ==========================================
+  if (themeId === "console") {
+    const lineNum = String(index + 1).padStart(2, "0");
+    return (
+      <a
+        href={isDemo ? "#" : link.url}
+        target={isDemo ? undefined : "_blank"}
+        rel={isDemo ? undefined : "noopener noreferrer"}
+        onClick={handleClick}
+        style={{
+          animation: "consoleTypeIn 0.25s ease-out backwards",
+          animationDelay: `${Math.min(index * 45, 350)}ms`,
+        }}
+        className="w-full p-3 rounded-lg bg-[#171a21] border border-[#20242d] hover:border-l-4 hover:border-l-[#4ade80] hover:bg-[#1c202a] transition-all duration-150 flex items-center justify-between gap-3 group select-none text-[#e6e9ef] font-mono"
+      >
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <span className="text-xs font-mono font-bold text-[#64748b] select-none w-5 text-right shrink-0">
+            {lineNum}
+          </span>
+          {renderLogoChip("rounded-md border border-[#20242d]")}
+          <div className="min-w-0 flex-1 text-left">
+            <span
+              className="text-xs sm:text-sm font-bold tracking-tight block truncate text-[#e6e9ef]"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              {link.title}
+            </span>
+            <span className="text-[10px] text-[#94a3b8] font-mono block truncate">
+              {platform?.name ? `// ${platform.name.toLowerCase()}` : "// external link"}
+            </span>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 shrink-0 text-[#4ade80] group-hover:translate-x-1 transition-transform">
+          <span className="text-xs font-bold">&rarr;</span>
+        </div>
+      </a>
+    );
+  }
+
+  // 1. CASSETTE (Pro Theme): Mini cassette tape link with reel chip on left, track code, colored stripe
   if (themeId === "cassette") {
     const trackCode = `A${index + 1}`;
     return (

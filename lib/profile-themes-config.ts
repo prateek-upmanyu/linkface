@@ -1,4 +1,7 @@
 export type ProfileThemeId =
+  | "notebook"
+  | "pastel"
+  | "console"
   | "cassette"
   | "press"
   | "vinyl"
@@ -32,6 +35,9 @@ export interface ProfileThemeConfig {
   chipBorder: string;
   chipText: string;
   avatarShape:
+    | "notebook-tape"
+    | "pastel-ring"
+    | "console-square"
     | "cassette-window"
     | "press-square"
     | "vinyl-disc"
@@ -49,14 +55,92 @@ export interface ProfileThemeConfig {
 }
 
 export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
-  // 1. CASSETTE (FREE THEME - Replaces Receipt)
+  // FREE THEME 1 (DEFAULT): NOTEBOOK (Light)
+  // School notebook page with ruled lines & tape strip
+  notebook: {
+    id: "notebook",
+    name: "Notebook",
+    concept: "School notebook page with ruled lines",
+    isDark: false,
+    isPro: false,
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&family=Inter:wght@400;500;600;700&display=swap",
+    headingFont: "'Caveat', cursive",
+    bodyFont: "'Inter', sans-serif",
+    monoFont: "'Patrick Hand', cursive",
+    bg: "#fbf8ef",
+    cardBg: "#fbf8ef",
+    text: "#26303b",
+    muted: "#5a6878",
+    accent: "#2f6fdb",
+    border: "rgba(38, 48, 59, 0.15)",
+    chipBg: "#ffffff",
+    chipBorder: "#2f6fdb",
+    chipText: "#26303b",
+    avatarShape: "notebook-tape",
+    linkLayout: "stack",
+    paletteColors: ["#fbf8ef", "#c9d8ee", "#e07a7a", "#26303b", "#2f6fdb"],
+  },
+
+  // FREE THEME 2: PASTEL (Light)
+  // Soft pastel blocks, friendly and calm
+  pastel: {
+    id: "pastel",
+    name: "Pastel",
+    concept: "Soft pastel blocks, friendly and calm",
+    isDark: false,
+    isPro: false,
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap",
+    headingFont: "'Poppins', sans-serif",
+    bodyFont: "'Nunito', sans-serif",
+    monoFont: "'Poppins', sans-serif",
+    bg: "#faf7f5",
+    cardBg: "#ffffff",
+    text: "#2d2a32",
+    muted: "#635f69",
+    accent: "#2d2a32",
+    border: "transparent",
+    chipBg: "#ffffff",
+    chipBorder: "transparent",
+    chipText: "#2d2a32",
+    avatarShape: "pastel-ring",
+    linkLayout: "stack",
+    paletteColors: ["#faf7f5", "#ffd9e0", "#d7ecff", "#e2f5d8", "#fff0c7"],
+  },
+
+  // FREE THEME 3: CONSOLE (Dark)
+  // Friendly code editor window
+  console: {
+    id: "console",
+    name: "Console",
+    concept: "Friendly code editor window",
+    isDark: true,
+    isPro: false,
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600&display=swap",
+    headingFont: "'JetBrains Mono', monospace",
+    bodyFont: "'Inter', sans-serif",
+    monoFont: "'JetBrains Mono', monospace",
+    bg: "#0f1115",
+    cardBg: "#171a21",
+    text: "#e6e9ef",
+    muted: "#94a3b8",
+    accent: "#4ade80",
+    border: "#20242d",
+    chipBg: "#20242d",
+    chipBorder: "#4ade80",
+    chipText: "#e6e9ef",
+    avatarShape: "console-square",
+    linkLayout: "stack",
+    paletteColors: ["#0f1115", "#171a21", "#20242d", "#e6e9ef", "#4ade80"],
+  },
+
+  // 1. CASSETTE (Pro Theme)
   // Retro mixtape cassette. Deck bg #1c1a17, tape shell cream #f0e6cf, label orange #9c3400 (WCAG AA 5.8:1), ink #1a1a1a
   cassette: {
     id: "cassette",
     name: "Cassette",
     concept: "Retro mixtape cassette",
     isDark: true,
-    isPro: false, // FREE THEME
+    isPro: true,
     googleFontsUrl: "https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&display=swap",
     headingFont: "'DM Mono', monospace",
     bodyFont: "'Inter', sans-serif",
@@ -362,7 +446,13 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 };
 
-export const PROFILE_THEMES_ORDER: ProfileThemeId[] = [
+export const FREE_THEME_IDS: ProfileThemeId[] = [
+  "notebook",
+  "pastel",
+  "console",
+];
+
+export const PRO_THEME_IDS: ProfileThemeId[] = [
   "cassette",
   "press",
   "vinyl",
@@ -377,15 +467,26 @@ export const PROFILE_THEMES_ORDER: ProfileThemeId[] = [
   "papercut",
 ];
 
+export const PROFILE_THEMES_ORDER: ProfileThemeId[] = [
+  ...FREE_THEME_IDS,
+  ...PRO_THEME_IDS,
+];
+
+export const DEFAULT_FREE_THEME: ProfileThemeId = "notebook";
+
 export function isNewProfileTheme(themeId?: string | null): themeId is ProfileThemeId {
   if (!themeId) return false;
   return themeId in PROFILE_THEMES;
+}
+
+export function isFreeProfileTheme(themeId?: string | null): boolean {
+  return themeId === "notebook" || themeId === "pastel" || themeId === "console";
 }
 
 export function getProfileTheme(themeId?: string | null): ProfileThemeConfig {
   if (themeId && isNewProfileTheme(themeId)) {
     return PROFILE_THEMES[themeId];
   }
-  // Default free theme is Cassette
-  return PROFILE_THEMES["cassette"];
+  // Default free theme is Notebook
+  return PROFILE_THEMES["notebook"];
 }

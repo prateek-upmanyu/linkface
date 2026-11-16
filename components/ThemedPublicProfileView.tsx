@@ -44,6 +44,81 @@ export function ThemedPublicProfileView({
 
   // 1. DEDICATED AVATAR RENDERER PER THEME
   const renderThemedAvatar = () => {
+    // FREE 1. NOTEBOOK: Circle avatar with CSS tape strip on top
+    if (themeId === "notebook") {
+      return (
+        <div className="relative inline-block select-none my-1">
+          {/* Tape strip on top (CSS) */}
+          <div
+            className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-5.5 z-20 pointer-events-none rounded-xs border-t border-b border-white/60 shadow-xs"
+            style={{
+              backgroundColor: "rgba(238, 230, 210, 0.85)",
+              transform: "translateX(-50%) rotate(-4deg)",
+              backdropFilter: "blur(1px)",
+            }}
+          />
+          {/* Circle Avatar */}
+          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#26303b]/20 bg-white shadow-md flex items-center justify-center relative z-10">
+            {profile.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt={displayName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="font-bold text-[#26303b] text-2xl" style={{ fontFamily: "'Caveat', cursive" }}>
+                {initials}
+              </span>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // FREE 2. PASTEL: Circle avatar with thick pastel ring
+    if (themeId === "pastel") {
+      return (
+        <div className="relative inline-block select-none my-1">
+          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1.5 bg-[#ffd9e0] shadow-sm flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden border-2 border-white bg-white flex items-center justify-center">
+              {profile.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt={displayName}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="font-bold text-[#2d2a32] text-xl" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  {initials}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // FREE 3. CONSOLE: Square avatar with small radius
+    if (themeId === "console") {
+      return (
+        <div className="relative inline-block select-none my-1">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 border-[#20242d] bg-[#171a21] shadow-md flex items-center justify-center">
+            {profile.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt={displayName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="font-bold text-[#4ade80] text-xl font-mono">
+                {initials}
+              </span>
+            )}
+          </div>
+        </div>
+      );
+    }
+
     // 1. VINYL (FIXED): Avatar fills 65% of the disc diameter (label area). Whole disc spins together slowly (24s linear), pauses on hover and touch. Grooves and center hole visible.
     if (themeId === "vinyl") {
       return (
@@ -338,6 +413,45 @@ export function ThemedPublicProfileView({
     if (!profile.status_message?.trim()) return null;
     const msg = profile.status_message.trim();
 
+    // FREE 1. NOTEBOOK: Sticky note
+    if (themeId === "notebook") {
+      return (
+        <div
+          className="mb-3 px-4 py-2 bg-[#fff8b8] text-[#26303b] text-xs sm:text-sm font-bold shadow-[2px_3px_8px_rgba(0,0,0,0.1)] border border-[#e6db74] max-w-[280px] text-center"
+          style={{
+            fontFamily: "'Patrick Hand', cursive",
+            transform: "rotate(-1.5deg)",
+          }}
+        >
+          {msg}
+        </div>
+      );
+    }
+
+    // FREE 2. PASTEL: Rounded pastel bubble
+    if (themeId === "pastel") {
+      return (
+        <div
+          className="mb-3 px-4 py-1.5 rounded-2xl bg-[#fff0c7] text-[#2d2a32] text-xs font-semibold shadow-xs border border-[#f3dfa2] text-center max-w-[280px]"
+          style={{ fontFamily: "'Nunito', sans-serif" }}
+        >
+          {msg}
+        </div>
+      );
+    }
+
+    // FREE 3. CONSOLE: Comment line style ("// hello")
+    if (themeId === "console") {
+      return (
+        <div
+          className="mb-3 px-3 py-1 rounded bg-[#171a21] border border-[#20242d] text-xs font-mono text-[#60a5fa] text-center max-w-[280px] truncate"
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          <span className="text-[#94a3b8]">//</span> {msg}
+        </div>
+      );
+    }
+
     if (themeId === "cassette") {
       return (
         <div className="mb-3 px-3 py-1 rounded-sm bg-[#f26b21] text-white text-[11px] font-mono font-bold uppercase tracking-wider shadow-xs rotate-[-1deg] border border-[#1a1a1a]">
@@ -442,6 +556,131 @@ export function ThemedPublicProfileView({
   const renderThemedSpotlight = () => {
     if (activeCreators.length === 0) return null;
 
+    // FREE 1. NOTEBOOK: Star sticker style chips
+    if (themeId === "notebook") {
+      return (
+        <section className="w-full mt-8 pt-6 border-t border-[#c9d8ee] text-center select-none">
+          <h4
+            className="text-xs uppercase font-bold tracking-widest text-[#5a6878] mb-3"
+            style={{ fontFamily: "'Patrick Hand', cursive" }}
+          >
+            ★ SPOTLIGHT ★
+          </h4>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {activeCreators.map((c, i) => (
+              <a
+                key={c.id || i}
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  try {
+                    fetch("/api/click", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ spotlightId: c.id || c.url }),
+                      keepalive: true,
+                    }).catch(() => {});
+                  } catch {}
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[#26303b]/25 bg-white text-xs font-bold text-[#26303b] shadow-xs hover:border-[#2f6fdb] hover:shadow-sm transition-all"
+                style={{ fontFamily: "'Patrick Hand', cursive" }}
+              >
+                <span className="text-[#2f6fdb]">★</span>
+                {c.avatar_url ? (
+                  <img src={c.avatar_url} alt={c.name} className="w-4 h-4 rounded-full object-cover shrink-0" />
+                ) : null}
+                <span className="truncate max-w-[120px]">{c.name}</span>
+                <ExternalLink className="w-3 h-3 text-[#2f6fdb]" />
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    // FREE 2. PASTEL: Small pastel pills
+    if (themeId === "pastel") {
+      const PASTEL_PILLS = ["#ffd9e0", "#d7ecff", "#e2f5d8", "#fff0c7"];
+      return (
+        <section className="w-full mt-8 pt-6 border-t border-black/5 text-center select-none">
+          <h4
+            className="text-[11px] uppercase font-bold tracking-wider text-[#635f69] mb-3"
+            style={{ fontFamily: "'Poppins', sans-serif" }}
+          >
+            Spotlight
+          </h4>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {activeCreators.map((c, i) => (
+              <a
+                key={c.id || i}
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  try {
+                    fetch("/api/click", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ spotlightId: c.id || c.url }),
+                      keepalive: true,
+                    }).catch(() => {});
+                  } catch {}
+                }}
+                style={{ backgroundColor: PASTEL_PILLS[i % PASTEL_PILLS.length] }}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold text-[#2d2a32] shadow-2xs hover:shadow-xs hover:-translate-y-0.5 transition-all"
+              >
+                {c.avatar_url ? (
+                  <img src={c.avatar_url} alt={c.name} className="w-4 h-4 rounded-full object-cover shrink-0 border border-white" />
+                ) : null}
+                <span className="truncate max-w-[120px]" style={{ fontFamily: "'Poppins', sans-serif" }}>{c.name}</span>
+                <ExternalLink className="w-3 h-3 opacity-60" />
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    // FREE 3. CONSOLE: Featured list with small tags
+    if (themeId === "console") {
+      return (
+        <section className="w-full mt-8 pt-6 border-t border-[#20242d] text-center font-mono select-none">
+          <h4 className="text-[10px] uppercase font-bold tracking-widest text-[#94a3b8] mb-3">
+            <span className="text-[#4ade80]">&lt;</span>Spotlight /<span className="text-[#4ade80]">&gt;</span>
+          </h4>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {activeCreators.map((c, i) => (
+              <a
+                key={c.id || i}
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  try {
+                    fetch("/api/click", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ spotlightId: c.id || c.url }),
+                      keepalive: true,
+                    }).catch(() => {});
+                  } catch {}
+                }}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#171a21] border border-[#20242d] hover:border-[#4ade80] text-xs font-mono text-[#e6e9ef] transition-colors"
+              >
+                <span className="text-[#4ade80] text-[10px]">[feat]</span>
+                {c.avatar_url ? (
+                  <img src={c.avatar_url} alt={c.name} className="w-4 h-4 rounded-xs object-cover shrink-0" />
+                ) : null}
+                <span className="truncate max-w-[120px]">{c.name}</span>
+                <ExternalLink className="w-3 h-3 text-[#60a5fa]" />
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section className="w-full mt-8 pt-6 border-t border-current/20 text-center">
         <h4 className="text-[10px] uppercase font-mono font-bold tracking-widest opacity-80 mb-3">
@@ -502,6 +741,24 @@ export function ThemedPublicProfileView({
   const renderThemedFooter = () => {
     return (
       <footer className="w-full mt-10 pt-6 border-t border-dashed border-current/25 flex flex-col items-center gap-2 text-center select-none">
+        {themeId === "notebook" && (
+          <div className="text-xs text-[#5a6878] font-bold" style={{ fontFamily: "'Patrick Hand', cursive" }}>
+            Made with Linkface
+          </div>
+        )}
+
+        {themeId === "pastel" && (
+          <div className="text-xs font-bold text-[#635f69]" style={{ fontFamily: "'Poppins', sans-serif" }}>
+            Made with Linkface
+          </div>
+        )}
+
+        {themeId === "console" && (
+          <div className="text-[11px] font-mono text-[#64748b]">
+            <span className="text-[#4ade80]">//</span> Made with Linkface
+          </div>
+        )}
+
         {themeId === "cassette" && (
           <div className="px-3 py-1 rounded bg-[#f0e6cf] border border-[#1a1a1a] text-[10px] font-mono font-bold tracking-wider text-[#1a1a1a] uppercase shadow-2xs">
             MADE WITH LINKFACE • STEREO MIXTAPE
@@ -578,6 +835,47 @@ export function ThemedPublicProfileView({
     >
       {/* Dynamic Google Fonts Loader for this specific theme */}
       <link rel="stylesheet" href={theme.googleFontsUrl} />
+
+      {/* Global CSS Keyframes for Motion (Respects reduced motion) */}
+      <style>{`
+        @keyframes notebookSlideIn {
+          from { opacity: 0; transform: translateX(-10px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pastelRise {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes consoleTypeIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      `}</style>
+
+      {/* Notebook Ruled Lines & Red Left Margin (Behind content only) */}
+      {themeId === "notebook" && (
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
+          {/* Repeating horizontal ruled lines */}
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: "linear-gradient(transparent 31px, #c9d8ee 31px, #c9d8ee 32px)",
+              backgroundSize: "100% 32px",
+            }}
+          />
+          {/* Vertical red margin line on the left */}
+          <div
+            className="absolute top-0 bottom-0 w-[2px] bg-[#e07a7a] opacity-80"
+            style={{ left: "max(24px, calc(50% - 216px))" }}
+          />
+        </div>
+      )}
 
       {/* Comic Halftone Background Accents (Behind content only) */}
       {themeId === "comic" && (
@@ -744,6 +1042,19 @@ export function ThemedPublicProfileView({
             </svg>
           </div>
         )}
+        {/* Console Editor Header Bar */}
+        {themeId === "console" && (
+          <div className="w-full bg-[#20242d] rounded-t-xl px-4 py-2.5 border border-[#2b303c] flex items-center justify-between mb-5 select-none font-mono text-xs">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#4b5563]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#4b5563]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#4b5563]" />
+            </div>
+            <span className="text-[11px] text-[#e6e9ef] font-bold">~/@{cleanHandle}.sh</span>
+            <span className="text-[10px] text-[#4ade80] font-bold">● READY</span>
+          </div>
+        )}
+
         {/* Cassette Tape Header Strip */}
         {themeId === "cassette" && (
           <div className="w-full text-center pb-3 border-b-2 border-[#1a1a1a] mb-5">

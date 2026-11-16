@@ -44,8 +44,13 @@ export function PublicProfileView({
   const isPro = profile.plan === "pro";
 
   // Downgrade rules:
-  // Free users default to "cassette" (free mixtape theme), Pro users unlock all bespoke 12 themes
-  const activeThemeId = isPro ? profile.theme : (profile.theme === "cassette" || !profile.theme ? "cassette" : "cassette");
+  // Free users are strictly restricted to "notebook", "pastel", or "console" (defaulting to "notebook").
+  // Pro users unlock all 12 bespoke luxury themes + free themes.
+  const activeThemeId = isPro
+    ? (profile.theme || "notebook")
+    : (profile.theme === "notebook" || profile.theme === "pastel" || profile.theme === "console")
+    ? profile.theme
+    : "notebook";
 
   // If one of the 12 bespoke themes is active, render via ThemedPublicProfileView
   if (isNewProfileTheme(activeThemeId)) {
