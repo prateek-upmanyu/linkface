@@ -9,7 +9,7 @@ export type ThemeId =
   | "riso"
   | "comic"
   | "bauhaus"
-  | "star-chart"
+  | "herbarium"
   | "papercut"
   | "midnight"
   | "receipt"

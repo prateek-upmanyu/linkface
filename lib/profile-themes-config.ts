@@ -9,7 +9,7 @@ export type ProfileThemeId =
   | "riso"
   | "comic"
   | "bauhaus"
-  | "star-chart"
+  | "herbarium"
   | "papercut";
 
 export interface ProfileThemeConfig {
@@ -42,7 +42,7 @@ export interface ProfileThemeConfig {
     | "riso-circle"
     | "comic-burst"
     | "bauhaus-quad"
-    | "celestial-orbit"
+    | "herbarium-oval"
     | "papercut-ring";
   linkLayout: "stack" | "grid-2";
   paletteColors: string[];
@@ -76,7 +76,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
   },
 
   // 2. PRESS (Pro)
-  // Tabloid newspaper front page. Abril Fatface, Libre Franklin, Special Elite. Newsprint #ece4d3, ink #141414, red #c1121f.
+  // Tabloid newspaper front page. Newsprint #ece4d3, ink #141414, red #c1121f.
   press: {
     id: "press",
     name: "Press",
@@ -101,7 +101,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#ece4d3", "#141414", "#c1121f", "#3d3a36"],
   },
 
-  // 3. VINYL (Pro - Fixed Avatar & Disc)
+  // 3. VINYL (Pro - Fixed Avatar 68% & 24s spin)
   // Record sleeve and turntable. Shrikhand, DM Mono, Inter. Cream #f1e6d0, black #111, orange #ff6b1a, mustard #f2b134.
   vinyl: {
     id: "vinyl",
@@ -153,7 +153,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#f5efe2", "#d62839", "#1d4e89", "#1c1c1c"],
   },
 
-  // 5. STICKER BOMB (Pro)
+  // 5. STICKER BOMB (Pro - FIXED WCAG AA contrast & 2px dark border on chips)
   // Die-cut vinyl stickers on a laptop lid. Bagel Fat One, Inter.
   "sticker-bomb": {
     id: "sticker-bomb",
@@ -172,8 +172,8 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     accent: "#ffd23f",
     border: "#373a42",
     chipBg: "#ffffff",
-    chipBorder: "#18181b",
-    chipText: "#18181b",
+    chipBorder: "#111111",
+    chipText: "#111111",
     avatarShape: "sticker",
     linkLayout: "grid-2",
     paletteColors: ["#1d1f24", "#ffd23f", "#ff5d8f", "#3ddc97", "#4cc9f0"],
@@ -257,7 +257,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#f2efe6", "#ff48b0", "#0078bf", "#1a1a1a"],
   },
 
-  // 9. COMIC (Pro - NEW)
+  // 9. COMIC (Pro)
   // Pop-art comic book page. Bangers, Comic Neue. Paper #fff8e7, ink #111, yellow #ffd400, red #e63946, blue #1d70f5.
   comic: {
     id: "comic",
@@ -283,7 +283,7 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#fff8e7", "#111111", "#ffd400", "#e63946", "#1d70f5"],
   },
 
-  // 10. BAUHAUS (Pro - NEW)
+  // 10. BAUHAUS (Pro)
   // Bauhaus geometric poster. Jost, Archivo Black. Paper #f3ede0, black #151515, red #d7261e, yellow #f2b705, blue #1f4fa3.
   bauhaus: {
     id: "bauhaus",
@@ -309,33 +309,33 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#f3ede0", "#151515", "#d7261e", "#f2b705", "#1f4fa3"],
   },
 
-  // 11. STAR CHART (Pro - NEW)
-  // Celestial map and observatory poster. Cinzel, Josefin Sans, Inter. Space #070b18, ink blue #0e1630, gold #e6c36a, off-white #eef1fa.
-  "star-chart": {
-    id: "star-chart",
-    name: "Star Chart",
-    concept: "Celestial map and observatory poster",
-    isDark: true,
+  // 11. HERBARIUM (Pro - Replaces Star Chart)
+  // Pressed flowers on archival paper. Cormorant Garamond, Lora, Inter. Paper #f4efe3, ink #2b2a26, sage #7a8f6b, rose #c98a8a.
+  herbarium: {
+    id: "herbarium",
+    name: "Herbarium",
+    concept: "Pressed flowers on archival paper",
+    isDark: false,
     isPro: true,
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Josefin+Sans:wght@400;600;700&family=Inter:wght@400;500&display=swap",
-    headingFont: "'Cinzel', serif",
-    bodyFont: "'Josefin Sans', sans-serif",
-    monoFont: "'Josefin Sans', sans-serif",
-    bg: "#040710",
-    cardBg: "#070b18",
-    text: "#eef1fa",
-    muted: "#9fb4e8",
-    accent: "#e6c36a",
-    border: "rgba(159, 180, 232, 0.4)",
-    chipBg: "#0e1630",
-    chipBorder: "#e6c36a",
-    chipText: "#eef1fa",
-    avatarShape: "celestial-orbit",
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@500;600&display=swap",
+    headingFont: "'Cormorant Garamond', Georgia, serif",
+    bodyFont: "'Lora', Georgia, serif",
+    monoFont: "'Inter', sans-serif",
+    bg: "#e8e2d4",
+    cardBg: "#f4efe3",
+    text: "#2b2a26",
+    muted: "#5e5b52",
+    accent: "#7a8f6b",
+    border: "rgba(43, 42, 38, 0.15)",
+    chipBg: "#ffffff",
+    chipBorder: "#7a8f6b",
+    chipText: "#2b2a26",
+    avatarShape: "herbarium-oval",
     linkLayout: "stack",
-    paletteColors: ["#070b18", "#0e1630", "#e6c36a", "#9fb4e8", "#eef1fa"],
+    paletteColors: ["#f4efe3", "#2b2a26", "#7a8f6b", "#c98a8a"],
   },
 
-  // 12. PAPERCUT (Pro - NEW)
+  // 12. PAPERCUT (Pro)
   // Layered paper-cut art. Fredoka, Nunito. Base #2b2d42, layers #ef476f, #ffd166, #06d6a0, #118ab2, paper white #fffdf7.
   papercut: {
     id: "papercut",
@@ -373,7 +373,7 @@ export const PROFILE_THEMES_ORDER: ProfileThemeId[] = [
   "riso",
   "comic",
   "bauhaus",
-  "star-chart",
+  "herbarium",
   "papercut",
 ];
 

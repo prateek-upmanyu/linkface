@@ -6,7 +6,7 @@ import { PLATFORMS } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { playClickSound } from "@/lib/sound-fx";
 import { ProfileThemeId, getProfileTheme } from "@/lib/profile-themes-config";
-import { ArrowRight, ArrowUpRight, Star } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Leaf } from "lucide-react";
 
 interface ThemedLinkButtonProps {
   link: LinkItem;
@@ -80,7 +80,6 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
       >
         <div className="p-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            {/* Reel style logo chip */}
             {renderLogoChip("border-2 border-[#1a1a1a] rounded-full")}
             <div className="min-w-0 flex-1">
               <span
@@ -101,7 +100,6 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
           </div>
         </div>
 
-        {/* Bottom Dual Color Magnetic Tape Stripe */}
         <div className="h-1.5 w-full flex">
           <div className="h-full flex-1 bg-[#f26b21]" />
           <div className="h-full flex-1 bg-[#2a9d8f]" />
@@ -176,7 +174,6 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
           </div>
         </div>
 
-        {/* 3 Equalizer Bars on Hover */}
         <div className="flex items-end gap-1 h-5 shrink-0 pl-2">
           <span className="w-1 bg-[#111111] group-hover:bg-[#ffffff] h-2 group-hover:h-5 transition-all duration-150 rounded-full animate-pulse" />
           <span className="w-1 bg-[#111111] group-hover:bg-[#ffffff] h-4 group-hover:h-3 transition-all duration-200 rounded-full animate-pulse delay-75" />
@@ -218,10 +215,18 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 5. STICKER BOMB: Die-cut sticker with thick white outline & rotated slap
+  // 5. STICKER BOMB (FIXED):
+  // Rule: every label and logo must contrast with its own sticker fill. Dark ink #111 on light fills (yellow, mint, sky).
+  // Logo chips get a 2px dark ink border so they never blend into white outline or light fill.
+  // Nothing sits white-on-white.
   if (themeId === "sticker-bomb") {
-    const stickerColors = ["#ffd23f", "#ff5d8f", "#3ddc97", "#4cc9f0"];
-    const stickerBg = stickerColors[index % stickerColors.length];
+    const stickerPalette = [
+      { bg: "#ffd23f", text: "#111111", tagBg: "#111111", tagText: "#ffd23f" }, // Vibrant yellow
+      { bg: "#3ddc97", text: "#111111", tagBg: "#111111", tagText: "#3ddc97" }, // Mint
+      { bg: "#4cc9f0", text: "#111111", tagBg: "#111111", tagText: "#4cc9f0" }, // Sky
+      { bg: "#ff5d8f", text: "#ffffff", tagBg: "#ffffff", tagText: "#ff5d8f" }, // Deep pink (white text passes AA)
+    ];
+    const s = stickerPalette[index % stickerPalette.length];
     const rot = (index % 2 === 0 ? 1 : -1) * (1.5 + (index % 3) * 0.8);
 
     return (
@@ -230,22 +235,33 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
         target={isDemo ? undefined : "_blank"}
         rel={isDemo ? undefined : "noopener noreferrer"}
         onClick={handleClick}
-        className="w-full p-3.5 rounded-2xl border-[3px] border-white shadow-[0_6px_0px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_0px_rgba(0,0,0,0.5)] hover:rotate-0 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between select-none text-[#18181b]"
+        className="w-full p-3.5 rounded-2xl border-[3px] border-white shadow-[0_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[0_8px_0px_rgba(0,0,0,0.65)] hover:rotate-0 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between select-none"
         style={{
-          backgroundColor: stickerBg,
+          backgroundColor: s.bg,
+          color: s.text,
           transform: `rotate(${rot}deg)`,
         }}
       >
         <div className="flex items-center justify-between">
-          {renderLogoChip("border-2 border-white rounded-2xl shadow-sm")}
-          <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-white/80 text-[#18181b]">
-            ★ PEEL
+          {/* Logo chip with solid 2px dark ink border to prevent white-on-white blending */}
+          {renderLogoChip("border-2 border-[#111111] rounded-2xl shadow-sm")}
+          <span
+            className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full border border-[#111111] shadow-2xs"
+            style={{
+              backgroundColor: s.tagBg,
+              color: s.tagText,
+            }}
+          >
+            ★ STICKER
           </span>
         </div>
 
         <h3
-          className="text-base sm:text-lg font-extrabold leading-tight mt-3 line-clamp-2 tracking-tight text-[#18181b]"
-          style={{ fontFamily: "'Bagel Fat One', cursive" }}
+          className="text-base sm:text-lg font-extrabold leading-tight mt-3 line-clamp-2 tracking-tight"
+          style={{
+            fontFamily: "'Bagel Fat One', cursive",
+            color: s.text,
+          }}
         >
           {link.title}
         </h3>
@@ -364,7 +380,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 9. COMIC (NEW): Pop-art panel with thick border (3px), hard offset shadow 4px, action tag "GO!"
+  // 9. COMIC: Pop-art panel with thick border (3.5px), hard offset shadow 4px, action tag "GO!"
   if (themeId === "comic") {
     const friendlyWords = ["GO!", "WOW!", "NEW!", "YES!"];
     const actionWord = friendlyWords[index % friendlyWords.length];
@@ -404,7 +420,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 10. BAUHAUS (NEW): Bold rectangles in alternating red, yellow, blue, black with hard shift shadow
+  // 10. BAUHAUS: Bold rectangles in alternating red, yellow, blue, black with hard shift shadow
   if (themeId === "bauhaus") {
     const colors = [
       { bg: "#d7261e", text: "#ffffff" },
@@ -448,48 +464,50 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 11. STAR CHART (NEW): Observatory celestial frame with thin ticks, off-white label, coordinate "N 01"
-  if (themeId === "star-chart") {
-    const coord = `N 0${index + 1}° ${((index + 2) * 14) % 60}'`;
-
+  // 11. HERBARIUM (Pro - NEW):
+  // Cream rows with 1px hairline border, radius 6px, logo chip left in solid color circle, serif label, small botanical-name tag ("No. 01")
+  if (themeId === "herbarium") {
     return (
       <a
         href={isDemo ? "#" : link.url}
         target={isDemo ? undefined : "_blank"}
         rel={isDemo ? undefined : "noopener noreferrer"}
         onClick={handleClick}
-        className="w-full min-h-[60px] p-3 rounded-lg bg-[#0e1630]/80 border border-[#9fb4e8]/40 hover:border-[#e6c36a] shadow-[0_4px_16px_rgba(7,11,24,0.6)] hover:shadow-[0_0_20px_rgba(230,195,106,0.3)] transition-all duration-200 flex items-center justify-between group select-none text-[#eef1fa] relative"
+        className="w-full min-h-[60px] p-3 rounded-[6px] bg-[#fdfbf7] border border-[rgba(43,42,38,0.18)] hover:border-[#7a8f6b] shadow-2xs hover:shadow-[0_4px_16px_rgba(122,143,107,0.15)] hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-between group select-none text-[#2b2a26]"
       >
-        {/* Subtle Frame Corner Ticks */}
-        <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-[#e6c36a]" />
-        <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-[#e6c36a]" />
-        <div className="absolute bottom-0 left-0 w-1.5 h-1.5 border-b border-l border-[#e6c36a]" />
-        <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-[#e6c36a]" />
-
         <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-3">
-          {renderLogoChip("border border-[#e6c36a]/50 rounded-full")}
+          {/* Logo chip in a solid color circle with 2px sage ring */}
+          {renderLogoChip("border-2 border-[#7a8f6b] rounded-full")}
           <div className="min-w-0 flex-1">
             <span
-              className="text-sm sm:text-base font-semibold tracking-wider block truncate text-[#eef1fa] group-hover:text-[#e6c36a] transition-colors"
-              style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+              className="text-base sm:text-lg font-semibold leading-tight block truncate text-[#2b2a26] group-hover:text-[#7a8f6b] transition-colors"
+              style={{ fontFamily: "'Lora', Georgia, serif" }}
             >
               {link.title}
             </span>
-            <span className="text-[10px] font-mono tracking-widest text-[#9fb4e8] uppercase block truncate">
-              SECTOR • {coord}
+            <span
+              className="text-[11px] font-medium text-[#5e5b52] block truncate"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              {platform?.name || "Botanical Reference"}
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 shrink-0 text-[#e6c36a] font-mono text-xs">
-          <span className="text-[10px] opacity-75">{coord.split(" ")[0]}</span>
-          <Star className="w-3.5 h-3.5 fill-[#e6c36a]" />
+        <div className="shrink-0 flex items-center gap-1.5 pl-2">
+          <span
+            className="text-[10px] font-mono tracking-widest text-[#7a8f6b] uppercase"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            No. 0{index + 1}
+          </span>
+          <Leaf className="w-3.5 h-3.5 text-[#7a8f6b] group-hover:rotate-12 transition-transform" />
         </div>
       </a>
     );
   }
 
-  // 12. PAPERCUT (NEW): Layered paper strip with irregular cut edges (clip-path), paper-white fill, soft stacked shadow
+  // 12. PAPERCUT: Layered paper strip with irregular cut edges (clip-path), paper-white fill, soft stacked shadow
   if (themeId === "papercut") {
     const cutAngles = [
       "polygon(0% 2px, 100% 0%, 100% calc(100% - 2px), 0% 100%)",

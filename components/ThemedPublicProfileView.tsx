@@ -158,29 +158,22 @@ export function ThemedPublicProfileView({
       );
     }
 
-    // 5. STAR CHART: Circle inside concentric thin orbit rings with moving dot
-    if (themeId === "star-chart") {
+    // 5. HERBARIUM: Oval frame with a thin sage border
+    if (themeId === "herbarium") {
       return (
-        <div className="relative w-32 h-32 rounded-full border border-[#9fb4e8]/30 flex items-center justify-center">
-          {/* Orbiting dot */}
-          <div className="absolute inset-0 animate-[spin_16s_linear_infinite] pointer-events-none">
-            <div className="w-2 h-2 rounded-full bg-[#e6c36a] shadow-[0_0_8px_#e6c36a] absolute top-1 left-1/2 -translate-x-1/2" />
-          </div>
-
-          <div className="w-24 h-24 rounded-full border border-[#e6c36a]/60 p-1 flex items-center justify-center">
-            <div className="w-full h-full rounded-full overflow-hidden bg-[#0e1630] flex items-center justify-center">
-              {profile.avatar_url ? (
-                <img
-                  src={profile.avatar_url}
-                  alt={displayName}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-2xl font-bold text-[#e6c36a]" style={{ fontFamily: "'Cinzel', serif" }}>
-                  {initials}
-                </span>
-              )}
-            </div>
+        <div className="relative w-28 h-36 rounded-[50%/60%] border-2 border-[#7a8f6b] p-1 flex items-center justify-center bg-[#fdfbf7] shadow-sm">
+          <div className="w-full h-full rounded-[50%/60%] overflow-hidden bg-[#efebe1] flex items-center justify-center">
+            {profile.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt={displayName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-2xl font-normal italic text-[#2b2a26]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+                {initials}
+              </span>
+            )}
           </div>
         </div>
       );
@@ -373,10 +366,10 @@ export function ThemedPublicProfileView({
       );
     }
 
-    if (themeId === "star-chart") {
+    if (themeId === "herbarium") {
       return (
-        <div className="mb-3 px-3.5 py-1 rounded-full bg-[#0e1630] text-[#eef1fa] text-[10px] font-mono tracking-widest uppercase border border-[#e6c36a]/80 shadow-[0_0_12px_rgba(230,195,106,0.3)]">
-          ORBIT: {msg}
+        <div className="mb-3 px-3 py-0.5 rounded-sm bg-[#fdfbf7] text-[#2b2a26] text-[11px] tracking-wide border border-[#7a8f6b] shadow-2xs italic font-serif">
+          {msg}
         </div>
       );
     }
@@ -447,7 +440,7 @@ export function ThemedPublicProfileView({
           {themeId === "cassette" && "MIX BY / COLLABORATORS"}
           {themeId === "comic" && "FEATURING IN THIS ISSUE"}
           {themeId === "bauhaus" && "COLLECTIVE FELLOWS"}
-          {themeId === "star-chart" && "CONSTELLATION ALLIES"}
+          {themeId === "herbarium" && "BOTANICAL SPECIMEN CONTRIBUTORS"}
           {themeId === "papercut" && "LAYER COLLABORATORS"}
           {themeId === "press" && "EDITORIAL CONTRIBUTORS"}
           {themeId === "vinyl" && "FEATURING CREDITS"}
@@ -509,9 +502,9 @@ export function ThemedPublicProfileView({
           </div>
         )}
 
-        {themeId === "star-chart" && (
-          <div className="text-[10px] font-mono tracking-[0.25em] text-[#e6c36a] uppercase">
-            ✦ CELESTIAL HORIZON • MADE WITH LINKFACE ✦
+        {themeId === "herbarium" && (
+          <div className="text-xs italic text-[#7a8f6b] tracking-wider" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            Pressed Specimen Archive • Made with Linkface
           </div>
         )}
 
@@ -579,18 +572,20 @@ export function ThemedPublicProfileView({
         />
       )}
 
-      {/* Star Chart Constellation Lines (Behind content only) */}
-      {themeId === "star-chart" && (
-        <div className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
-          <svg className="w-full h-full text-[#9fb4e8]" viewBox="0 0 600 800" fill="none" stroke="currentColor">
-            <circle cx="120" cy="180" r="2" fill="currentColor" />
-            <circle cx="340" cy="120" r="3" fill="#e6c36a" />
-            <circle cx="480" cy="240" r="2" fill="currentColor" />
-            <circle cx="200" cy="450" r="2.5" fill="currentColor" />
-            <circle cx="420" cy="600" r="3" fill="#e6c36a" />
-            <line x1="120" y1="180" x2="340" y2="120" strokeWidth="0.8" strokeDasharray="3 3" />
-            <line x1="340" y1="120" x2="480" y2="240" strokeWidth="0.8" strokeDasharray="3 3" />
-            <line x1="200" y1="450" x2="420" y2="600" strokeWidth="0.8" strokeDasharray="3 3" />
+      {/* Herbarium Pressed Flower & Leaf Botanical SVG Accents (Behind content only) */}
+      {themeId === "herbarium" && (
+        <div className="absolute inset-0 pointer-events-none opacity-25 overflow-hidden">
+          <svg className="w-full h-full text-[#7a8f6b]" viewBox="0 0 600 800" fill="none" stroke="currentColor">
+            {/* Top-left botanical branch */}
+            <path d="M 40 40 Q 90 90 120 180" strokeWidth="1.5" />
+            <path d="M 65 65 Q 110 50 125 75 Q 100 90 65 65 Z" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
+            <path d="M 95 125 Q 140 115 150 140 Q 120 155 95 125 Z" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
+            
+            {/* Bottom-right pressed flower / fern */}
+            <path d="M 560 760 Q 510 710 470 620" strokeWidth="1.5" />
+            <path d="M 535 735 Q 490 745 480 720 Q 510 705 535 735 Z" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
+            <path d="M 500 670 Q 450 675 445 650 Q 480 640 500 670 Z" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
+            <circle cx="470" cy="620" r="4" fill="currentColor" fillOpacity="0.3" />
           </svg>
         </div>
       )}
@@ -613,8 +608,8 @@ export function ThemedPublicProfileView({
             ? "border-[3.5px] border-[#111111] shadow-[8px_8px_0_#111111] rounded-3xl"
             : themeId === "bauhaus"
             ? "border-[3px] border-[#151515] shadow-[8px_8px_0_#151515] rounded-none"
-            : themeId === "star-chart"
-            ? "border border-[#9fb4e8]/40 shadow-[0_0_32px_rgba(14,22,48,0.9)] rounded-3xl"
+            : themeId === "herbarium"
+            ? "border border-[#7a8f6b]/40 shadow-sm rounded-2xl"
             : "rounded-3xl shadow-lg"
         }`}
         style={{
