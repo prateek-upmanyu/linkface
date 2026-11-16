@@ -21,13 +21,13 @@ export const BILLING_CONFIG = {
   currency: "USD",
   products: {
     monthly: {
-      priceId: process.env.BILLING_PRICE_ID_MONTHLY || "pdt_0Ns4Sep1Oa8wrtkguU3bZ",
+      priceId: process.env.BILLING_PRICE_ID_MONTHLY || "",
       amount: 300, // $3.00
       displayPrice: "$3",
       interval: "monthly" as const,
     },
     yearly: {
-      priceId: process.env.BILLING_PRICE_ID_YEARLY || "pdt_0Ns4Sp6tVOY6INeOiKGI3",
+      priceId: process.env.BILLING_PRICE_ID_YEARLY || "",
       amount: 2900, // $29.00
       displayPrice: "$29",
       interval: "yearly" as const,
@@ -36,11 +36,11 @@ export const BILLING_CONFIG = {
   webhookSecret:
     process.env.BILLING_WEBHOOK_SECRET ||
     process.env.DODO_PAYMENTS_WEBHOOK_SECRET ||
-    "whsec_Pno2pc8TMc4eCnxd/iBTHV0qr7kDfCRF",
+    "",
   apiKey:
     process.env.BILLING_API_KEY ||
     process.env.DODO_PAYMENTS_API_KEY ||
-    "dodo_live_F3ABUjgKK9_DEmEg.FOiFPreCWltjf5P4pb9apRqsiXOxI4BTarIkkStRMfzjYbL0",
+    "",
   mode: process.env.NODE_ENV === "production" ? "live" : "test",
 };
 

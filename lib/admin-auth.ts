@@ -1,8 +1,8 @@
 import crypto from "crypto";
 import { cookies } from "next/headers";
 
-export const ADMIN_PASS = "researchandinnovationstudios";
-export const ADMIN_EMAIL = "learner.prateek.upmanyu@gmail.com";
+export const ADMIN_PASS = process.env.ADMIN_SECRET_KEY || "researchandinnovationstudios";
+export const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "learner.prateek.upmanyu@gmail.com";
 
 export function getAdminSessionToken(): string {
   return crypto
