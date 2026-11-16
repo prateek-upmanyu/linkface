@@ -44,6 +44,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ linkId: link.id }),
+      keepalive: true,
     }).catch(() => {});
   };
 

@@ -45,6 +45,7 @@ export function PublicLinkButton({ link, themeId, themeConfig }: PublicLinkButto
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ linkId: link.id }),
+      keepalive: true,
     }).catch((err) => console.error("Click track error:", err));
   };
 

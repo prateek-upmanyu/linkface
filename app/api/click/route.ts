@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createServerSupabaseClient, createAdminSupabaseClient } from "@/lib/supabase/server";
 import { checkRateLimit, getClientIp } from "@/lib/security";
 import { extractGeoFromRequest } from "@/lib/geo";
 
@@ -22,7 +22,8 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}));
     const { linkId, spotlightId, profileUsername } = body;
 
-    const supabase = await createServerSupabaseClient();
+    const adminSupabase = createAdminSupabaseClient();
+    const supabase = adminSupabase || (await createServerSupabaseClient());
     if (!supabase) {
       return NextResponse.json({ success: true });
     }
