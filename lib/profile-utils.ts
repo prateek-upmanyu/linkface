@@ -5,6 +5,7 @@ const META_SUFFIX = "-->";
 
 export interface ProfileMetadata {
   featured_creators?: FeaturedCreator[];
+  spotlight_creators?: FeaturedCreator[];
   status_message?: string | null;
   status_style?: "speech" | "cloud" | "pixel" | null;
   spotlight_enabled?: boolean;
@@ -51,9 +52,11 @@ export function unpackProfile(raw: any): Profile {
   const metadata = extractMetadataFromBio(raw.bio);
   const cleaned = cleanBio(raw.bio);
 
-  let featured = raw.featured_creators;
+  let featured = raw.spotlight_creators || raw.featured_creators;
   if (!featured || (Array.isArray(featured) && featured.length === 0)) {
-    if (metadata.featured_creators && Array.isArray(metadata.featured_creators)) {
+    if (metadata.spotlight_creators && Array.isArray(metadata.spotlight_creators)) {
+      featured = metadata.spotlight_creators;
+    } else if (metadata.featured_creators && Array.isArray(metadata.featured_creators)) {
       featured = metadata.featured_creators;
     }
   }
@@ -98,6 +101,7 @@ export function unpackProfile(raw: any): Profile {
     provider_subscription_id: raw.provider_subscription_id || null,
     spotlight_enabled,
     bio: cleaned,
+    spotlight_creators: Array.isArray(featured) ? featured : [],
     featured_creators: Array.isArray(featured) ? featured : [],
     status_message,
     status_style,
@@ -115,9 +119,11 @@ export function packProfileUpdates(
 ): { dbPayload: Record<string, any>; updatedProfile: Profile } {
   // Determine final values for all fields
   const finalFeatured =
-    updates.featured_creators !== undefined
+    updates.spotlight_creators !== undefined
+      ? updates.spotlight_creators
+      : updates.featured_creators !== undefined
       ? updates.featured_creators
-      : currentProfile.featured_creators || [];
+      : currentProfile.spotlight_creators || currentProfile.featured_creators || [];
 
   const finalStatusMessage =
     updates.status_message !== undefined
@@ -145,6 +151,7 @@ export function packProfileUpdates(
   // Construct metadata object
   const meta: ProfileMetadata = {};
   if (Array.isArray(finalFeatured) && finalFeatured.length > 0) {
+    meta.spotlight_creators = finalFeatured;
     meta.featured_creators = finalFeatured;
   }
   if (finalStatusMessage) {
@@ -170,6 +177,7 @@ export function packProfileUpdates(
     ...currentProfile,
     ...updates,
     bio: cleanedBio,
+    spotlight_creators: finalFeatured,
     featured_creators: finalFeatured,
     status_message: finalStatusMessage,
     status_style: finalStatusStyle,
@@ -187,6 +195,13 @@ export function packProfileUpdates(
   if (updates.avatar_url !== undefined) dbPayload.avatar_url = updates.avatar_url;
   if (updates.theme !== undefined) dbPayload.theme = updates.theme;
   if (updates.spotlight_enabled !== undefined) dbPayload.spotlight_enabled = updates.spotlight_enabled;
+  if (updates.spotlight_creators !== undefined) {
+    dbPayload.spotlight_creators = updates.spotlight_creators;
+    dbPayload.featured_creators = updates.spotlight_creators;
+  } else if (updates.featured_creators !== undefined) {
+    dbPayload.spotlight_creators = updates.featured_creators;
+    dbPayload.featured_creators = updates.featured_creators;
+  }
 
   return { dbPayload, updatedProfile };
 }

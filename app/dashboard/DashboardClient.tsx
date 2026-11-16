@@ -365,7 +365,7 @@ export function DashboardClient({
               }`}
             >
               <User className="w-3.5 h-3.5" />
-              Profile & Collaborators
+              Profile & Spotlight
             </button>
 
             <button

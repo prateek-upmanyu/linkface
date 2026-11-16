@@ -206,7 +206,7 @@ export function PhonePreview({
           </p>
         )}
 
-        {/* Featured Collaborators */}
+        {/* Spotlight Showcase */}
         <div className="w-full max-w-full shrink-0 mt-3">
           <FeaturedCreators
             creators={profile.featured_creators}

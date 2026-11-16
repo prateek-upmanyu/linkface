@@ -191,7 +191,7 @@ export function PublicProfileView({
           </p>
         )}
 
-        {/* Featured Collaborators */}
+        {/* Spotlight Showcase */}
         <FeaturedCreators
           creators={profile.featured_creators}
           themeId={theme.id}

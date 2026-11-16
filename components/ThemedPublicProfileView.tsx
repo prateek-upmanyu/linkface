@@ -438,18 +438,18 @@ export function ThemedPublicProfileView({
     );
   };
 
-  // 3. DEDICATED COLLABORATORS ROW PER THEME
-  const renderThemedCollaborators = () => {
+  // 3. DEDICATED SPOTLIGHT ROW PER THEME
+  const renderThemedSpotlight = () => {
     if (activeCreators.length === 0) return null;
 
     return (
       <section className="w-full mt-8 pt-6 border-t border-current/20 text-center">
         <h4 className="text-[10px] uppercase font-mono font-bold tracking-widest opacity-80 mb-3">
-          {themeId === "cassette" && "MIX BY / COLLABORATORS"}
+          {themeId === "cassette" && "MIX BY / SPOTLIGHT"}
           {themeId === "comic" && "FEATURING IN THIS ISSUE"}
           {themeId === "bauhaus" && "COLLECTIVE FELLOWS"}
           {themeId === "herbarium" && "BOTANICAL SPECIMEN CONTRIBUTORS"}
-          {themeId === "papercut" && "LAYER COLLABORATORS"}
+          {themeId === "papercut" && "LAYER SPOTLIGHT"}
           {themeId === "press" && "EDITORIAL CONTRIBUTORS"}
           {themeId === "vinyl" && "FEATURING CREDITS"}
           {themeId === "postage" && "ADDRESSED CO-PILOTS"}
@@ -466,6 +466,16 @@ export function ThemedPublicProfileView({
               href={c.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                try {
+                  fetch("/api/click", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ spotlightId: c.id || c.url }),
+                    keepalive: true,
+                  }).catch(() => {});
+                } catch {}
+              }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-current/30 hover:border-current bg-current/5 hover:bg-current/10 transition-all text-xs font-semibold select-none group"
             >
               {c.avatar_url ? (
@@ -846,8 +856,8 @@ export function ThemedPublicProfileView({
           )}
         </div>
 
-        {/* Collaborators Row */}
-        {renderThemedCollaborators()}
+        {/* Spotlight Row */}
+        {renderThemedSpotlight()}
 
         {/* Custom Themed Footer */}
         {renderThemedFooter()}

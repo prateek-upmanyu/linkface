@@ -200,11 +200,11 @@ export function FeaturedCreatorsManager({
             </span>
             <span className="text-[#D1D5DB] text-xs">&mdash;</span>
             <h3 className="font-heading text-xl font-bold text-[#18181B]">
-              Collaborators & Friends
+              Spotlight Showcase
             </h3>
           </div>
           <p className="text-xs text-[#4B5563] leading-relaxed font-medium">
-            Spotlight <strong>1, 2, or 3</strong> collaborators on your page. Adding all 3 is not required — unfilled slots are hidden automatically.
+            Feature <strong>1, 2, or 3</strong> creators in your Spotlight. Adding all 3 is not required — unfilled slots are hidden automatically.
           </p>
         </div>
 
@@ -274,7 +274,7 @@ export function FeaturedCreatorsManager({
 
                     <div className="min-w-0 flex-1">
                       <p className="text-xs font-body font-bold text-[#18181B] truncate">
-                        {creator.name || `Collaborator 0${idx + 1}`}
+                        {creator.name || `Spotlight 0${idx + 1}`}
                       </p>
                       <p className="text-[11px] text-[#6B7280] truncate font-body">
                         {creator.tagline || (isFilled ? "Ready" : "Empty slot")}
@@ -401,10 +401,10 @@ export function FeaturedCreatorsManager({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-3 border-t border-[#E5E7EB]">
           <p className="text-xs text-[#4B5563] font-medium">
             {activeCount === 0
-              ? "All slots are empty. Collaborators section is hidden on your page."
+              ? "All slots are empty. Spotlight section is hidden on your page."
               : activeCount === 1
-              ? "1 collaborator will be shown on your page."
-              : `${activeCount} collaborators will be shown on your page.`}
+              ? "1 creator in your Spotlight will be shown on your page."
+              : `${activeCount} creators in your Spotlight will be shown on your page.`}
           </p>
 
           <button
@@ -413,7 +413,7 @@ export function FeaturedCreatorsManager({
             className="btn-champagne text-xs uppercase tracking-wider px-6 py-2.5 flex items-center gap-2 rounded-full font-bold"
           >
             <Check className="w-3.5 h-3.5" />
-            Save Collaborators ({activeCount}/3 Active) →
+            Save Spotlight ({activeCount}/3 Active) →
           </button>
         </div>
       </form>

@@ -40,7 +40,7 @@ export function UnclaimedProfileView({ username }: UnclaimedProfileViewProps) {
         </div>
 
         <p className="text-sm sm:text-base text-[var(--color-text-muted)] leading-relaxed font-body max-w-md mx-auto">
-          No curator has reserved this address yet. Claim it now to bring your work, links, and collaborators under one permanent home.
+          No curator has reserved this address yet. Claim it now to bring your work, links, and spotlight under one permanent home.
         </p>
 
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">

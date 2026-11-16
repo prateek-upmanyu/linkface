@@ -255,7 +255,7 @@ export default function PricingPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-[#E67E22] shrink-0" strokeWidth={2.5} />
-                  <span>Collaborators footer showcase</span>
+                  <span>Spotlight footer showcase</span>
                 </div>
               </div>
             </div>

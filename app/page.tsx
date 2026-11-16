@@ -329,10 +329,10 @@ export default function LandingPage() {
                 02
               </span>
               <h3 className="font-heading text-2xl font-bold text-[#18181B] tracking-tight">
-                Spotlight friends & collaborators.
+                Feature friends in your Spotlight.
               </h3>
               <p className="text-sm font-body font-medium text-[#4B5563] leading-relaxed max-w-xl">
-                Share your audience by adding 1, 2, or 3 collaborators, clients, or friends in your footer. Adding all 3 is optional, and unfilled slots hide automatically.
+                Share your audience by adding 1, 2, or 3 creators, clients, or friends in your Spotlight showcase. Adding all 3 is optional, and unfilled slots hide automatically.
               </p>
             </div>
 

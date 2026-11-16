@@ -43,13 +43,15 @@ export type UserPlan = "free" | "pro";
 export type PlanStatus = "active" | "cancelled" | "past_due" | "expired";
 export type BillingInterval = "monthly" | "yearly";
 
-export interface FeaturedCreator {
+export interface SpotlightCreator {
   id: string;
   name: string;
   url: string;
   avatar_url?: string | null;
   tagline?: string | null;
+  clicks?: number;
 }
+export type FeaturedCreator = SpotlightCreator;
 
 export interface Profile {
   id: string; // uuid matches auth.users.id
@@ -61,7 +63,8 @@ export interface Profile {
   page_views: number;
   status_message?: string | null;
   status_style?: "speech" | "cloud" | "pixel" | null;
-  featured_creators?: FeaturedCreator[] | null;
+  spotlight_creators?: SpotlightCreator[] | null;
+  featured_creators?: SpotlightCreator[] | null;
   plan: UserPlan;
   plan_status?: PlanStatus | null;
   billing_interval?: BillingInterval | null;

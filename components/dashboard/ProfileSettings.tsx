@@ -344,7 +344,7 @@ export function ProfileSettings({
                 <div className="flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5 text-[#E67E22]" />
                   <span className="text-xs font-bold text-[#18181B]">
-                    Interactive Spotlight Effect
+                    Interactive Cursor Glow Effect
                   </span>
                   {!isPro && (
                     <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm bg-[#F9E79F] text-[#B9770E] font-bold flex items-center gap-0.5">
@@ -353,7 +353,7 @@ export function ProfileSettings({
                   )}
                 </div>
                 <p className="text-[11px] text-[#6B7280]">
-                  Smooth 60fps radial light that follows visitor cursor or finger touch.
+                  Smooth 60fps ambient radial glow that follows visitor cursor or finger touch.
                 </p>
               </div>
 

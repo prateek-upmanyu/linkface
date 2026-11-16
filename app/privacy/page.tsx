@@ -54,7 +54,7 @@ export default function PrivacyPage() {
             2. Information We Collect
           </h2>
           <p>
-            When you register for a Linkface account, we collect your email address and authentication credentials. If you choose to personalize your profile, you may optionally provide a display name, bio description, avatar image, social destination links, and collaborator information.
+            When you register for a Linkface account, we collect your email address and authentication credentials. If you choose to personalize your profile, you may optionally provide a display name, bio description, avatar image, social destination links, and spotlight showcase information.
           </p>
         </section>
 

@@ -53,7 +53,7 @@ export function ThemeSelector({
               </h3>
             </div>
             <p className="text-xs text-[#4B5563] leading-relaxed">
-              Every theme restyles the whole card: avatar shape, typography, speech bubble, link shape, collaborators row, and custom footer.
+              Every theme restyles the whole card: avatar shape, typography, speech bubble, link shape, spotlight showcase, and custom footer.
             </p>
           </div>
 

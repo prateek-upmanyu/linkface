@@ -54,9 +54,9 @@ export function FeaturedCreators({
       className={`w-full max-w-full overflow-hidden mt-6 pt-4 border-t ${className}`}
       style={{ borderColor: theme.border }}
     >
-      {/* Subtle Label 'COLLABORATORS' */}
+      {/* Subtle Label 'SPOTLIGHT' */}
       <div className="flex items-center justify-between mb-2.5 px-0.5 text-[10px] font-body uppercase font-bold tracking-[0.14em]">
-        <span style={{ color: theme.muted }}>Collaborators</span>
+        <span style={{ color: theme.muted }}>Spotlight</span>
         <span className="font-mono text-[10px]" style={{ color: theme.muted }}>
           0{count}
         </span>
@@ -150,12 +150,24 @@ export function FeaturedCreators({
             );
           }
 
+          const handleSpotlightClick = () => {
+            try {
+              fetch("/api/click", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ spotlightId: creator.id || creator.url }),
+                keepalive: true,
+              }).catch(() => {});
+            } catch {}
+          };
+
           return (
             <a
               key={idx}
               href={finalUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={handleSpotlightClick}
               className="min-w-0 w-full text-decoration-none block"
             >
               {cardContent}
