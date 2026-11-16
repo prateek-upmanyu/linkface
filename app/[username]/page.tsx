@@ -45,7 +45,7 @@ async function getProfileAndLinks(
         const displayedLinks = isPro ? visibleLinks : visibleLinks.slice(0, 3);
         const safeProfile: Profile = {
           ...unpacked,
-          theme: isPro ? unpacked.theme : "midnight",
+          theme: isPro ? unpacked.theme : "cassette",
           spotlight_enabled: isPro ? unpacked.spotlight_enabled : false,
         };
 
