@@ -422,9 +422,17 @@ export function ThemedPublicProfileView({
       );
     }
 
+    if (themeId === "sticker-bomb") {
+      return (
+        <div className="mb-3 px-3.5 py-1 rounded-full bg-[#111111] text-[#ffffff] border-2 border-white shadow-[0_4px_0_rgba(0,0,0,0.4)] text-xs font-black tracking-wide rotate-[-2deg]">
+          ★ {msg} ★
+        </div>
+      );
+    }
+
     // Default bubble
     return (
-      <div className="mb-3 px-3.5 py-1 rounded-lg bg-white border border-current text-xs font-mono">
+      <div className="mb-3 px-3.5 py-1 rounded-lg bg-[#18181b] text-white border border-white/20 text-xs font-mono shadow-xs">
         {msg}
       </div>
     );
@@ -572,20 +580,105 @@ export function ThemedPublicProfileView({
         />
       )}
 
-      {/* Herbarium Pressed Flower & Leaf Botanical SVG Accents (Behind content only) */}
+      {/* Herbarium Pressed Flower & Leaf Botanical SVG Accents (Realistic Pressed Florals, Behind content only) */}
       {themeId === "herbarium" && (
-        <div className="absolute inset-0 pointer-events-none opacity-25 overflow-hidden">
-          <svg className="w-full h-full text-[#7a8f6b]" viewBox="0 0 600 800" fill="none" stroke="currentColor">
-            {/* Top-left botanical branch */}
-            <path d="M 40 40 Q 90 90 120 180" strokeWidth="1.5" />
-            <path d="M 65 65 Q 110 50 125 75 Q 100 90 65 65 Z" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
-            <path d="M 95 125 Q 140 115 150 140 Q 120 155 95 125 Z" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
-            
-            {/* Bottom-right pressed flower / fern */}
-            <path d="M 560 760 Q 510 710 470 620" strokeWidth="1.5" />
-            <path d="M 535 735 Q 490 745 480 720 Q 510 705 535 735 Z" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
-            <path d="M 500 670 Q 450 675 445 650 Q 480 640 500 670 Z" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
-            <circle cx="470" cy="620" r="4" fill="currentColor" fillOpacity="0.3" />
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+          <svg className="w-full h-full" viewBox="0 0 600 900" fill="none" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="herbPetalRose" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#e5a9a9" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="#b26d6d" stopOpacity="0.55" />
+              </linearGradient>
+              <linearGradient id="herbPetalAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#edd892" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#cfa152" stopOpacity="0.5" />
+              </linearGradient>
+              <linearGradient id="herbStemSage" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#8da37d" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#5a6e4d" stopOpacity="0.6" />
+              </linearGradient>
+            </defs>
+
+            {/* TOP-LEFT PRESSED WILDFLOWER SPECIMEN */}
+            <g transform="translate(10, 20) rotate(8)">
+              {/* Stem with leaf nodes */}
+              <path d="M 40 220 Q 55 130 90 40" stroke="url(#herbStemSage)" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M 52 160 Q 30 145 20 152 Q 32 165 52 160 Z" fill="url(#herbStemSage)" />
+              <path d="M 68 110 Q 95 95 105 105 Q 85 118 68 110 Z" fill="url(#herbStemSage)" />
+              <path d="M 58 135 Q 38 120 28 126 Q 40 138 58 135 Z" fill="url(#herbStemSage)" />
+
+              {/* Realistic 5-Petal Pressed Rose Anemone Flower */}
+              <g transform="translate(90, 40)">
+                {/* Petals with delicate pressed texture */}
+                <path d="M 0 0 C -15 -25, -28 -28, -20 -42 C -12 -54, 12 -54, 20 -42 C 28 -28, 15 -25, 0 0 Z" fill="url(#herbPetalRose)" stroke="#8e5353" strokeWidth="0.7" strokeOpacity="0.4" />
+                <path d="M 0 0 C 22 -15, 32 -10, 44 -2 C 55 8, 48 30, 36 34 C 20 38, 14 20, 0 0 Z" fill="url(#herbPetalRose)" stroke="#8e5353" strokeWidth="0.7" strokeOpacity="0.4" transform="rotate(72)" />
+                <path d="M 0 0 C 22 -15, 32 -10, 44 -2 C 55 8, 48 30, 36 34 C 20 38, 14 20, 0 0 Z" fill="url(#herbPetalRose)" stroke="#8e5353" strokeWidth="0.7" strokeOpacity="0.4" transform="rotate(144)" />
+                <path d="M 0 0 C 22 -15, 32 -10, 44 -2 C 55 8, 48 30, 36 34 C 20 38, 14 20, 0 0 Z" fill="url(#herbPetalRose)" stroke="#8e5353" strokeWidth="0.7" strokeOpacity="0.4" transform="rotate(216)" />
+                <path d="M 0 0 C 22 -15, 32 -10, 44 -2 C 55 8, 48 30, 36 34 C 20 38, 14 20, 0 0 Z" fill="url(#herbPetalRose)" stroke="#8e5353" strokeWidth="0.7" strokeOpacity="0.4" transform="rotate(288)" />
+                {/* Flower center pistil & pressed stamens */}
+                <circle cx="0" cy="0" r="7" fill="#6d5830" opacity="0.6" />
+                <circle cx="0" cy="0" r="4.5" fill="#3f3219" opacity="0.7" />
+                <circle cx="-2" cy="-2" r="1" fill="#fff" opacity="0.5" />
+              </g>
+            </g>
+
+            {/* TOP-RIGHT PRESSED CHAMOMILE / DAISY SPECIMEN */}
+            <g transform="translate(480, 40) rotate(-12)">
+              <path d="M 60 200 Q 40 120 20 30" stroke="url(#herbStemSage)" strokeWidth="2" strokeLinecap="round" />
+              <path d="M 45 140 Q 65 125 75 130 Q 60 145 45 140 Z" fill="url(#herbStemSage)" />
+              <g transform="translate(20, 30)">
+                {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => (
+                  <ellipse
+                    key={deg}
+                    cx="0"
+                    cy="-22"
+                    rx="4.5"
+                    ry="15"
+                    fill="url(#herbPetalAmber)"
+                    stroke="#99732a"
+                    strokeWidth="0.5"
+                    strokeOpacity="0.3"
+                    transform={`rotate(${deg})`}
+                  />
+                ))}
+                <circle cx="0" cy="0" r="9" fill="#b0842f" opacity="0.7" />
+                <circle cx="0" cy="0" r="6" fill="#755315" opacity="0.8" />
+              </g>
+            </g>
+
+            {/* BOTTOM-LEFT BOTANICAL FERN FROND */}
+            <g transform="translate(20, 660) rotate(-15)">
+              <path d="M 10 200 Q 60 110 120 10" stroke="url(#herbStemSage)" strokeWidth="2.5" strokeLinecap="round" />
+              {[
+                { x: 30, y: 160, rot: -40, w: 22 },
+                { x: 36, y: 155, rot: 35, w: 22 },
+                { x: 55, y: 125, rot: -45, w: 26 },
+                { x: 62, y: 120, rot: 35, w: 26 },
+                { x: 80, y: 85, rot: -45, w: 24 },
+                { x: 86, y: 80, rot: 40, w: 24 },
+                { x: 102, y: 45, rot: -40, w: 18 },
+                { x: 108, y: 40, rot: 35, w: 18 },
+              ].map((pin, i) => (
+                <path
+                  key={i}
+                  d={`M ${pin.x} ${pin.y} Q ${pin.x + pin.w} ${pin.y - 12} ${pin.x + pin.w * 1.2} ${pin.y - 4} Q ${pin.x + pin.w * 0.5} ${pin.y + 4} ${pin.x} ${pin.y} Z`}
+                  fill="url(#herbStemSage)"
+                  transform={`rotate(${pin.rot} ${pin.x} ${pin.y})`}
+                />
+              ))}
+            </g>
+
+            {/* BOTTOM-RIGHT PRESSED ROSEBUD & LAVENDER SPECIMEN */}
+            <g transform="translate(460, 680) rotate(10)">
+              <path d="M 60 210 Q 45 130 30 30" stroke="url(#herbStemSage)" strokeWidth="2.2" strokeLinecap="round" />
+              <path d="M 52 150 Q 25 140 18 146 Q 30 156 52 150 Z" fill="url(#herbStemSage)" />
+              <g transform="translate(30, 30)">
+                <path d="M 0 0 C -12 -18, -18 -22, -14 -35 C -8 -45, 8 -45, 14 -35 C 18 -22, 12 -18, 0 0 Z" fill="url(#herbPetalRose)" stroke="#8e5353" strokeWidth="0.6" strokeOpacity="0.4" />
+                <path d="M 0 0 C 18 -12, 25 -8, 28 2 C 30 14, 18 22, 0 0 Z" fill="url(#herbPetalRose)" stroke="#8e5353" strokeWidth="0.6" strokeOpacity="0.4" transform="rotate(60)" />
+                <path d="M 0 0 C -18 -12, -25 -8, -28 2 C -30 14, -18 22, 0 0 Z" fill="url(#herbPetalRose)" stroke="#8e5353" strokeWidth="0.6" strokeOpacity="0.4" transform="rotate(-60)" />
+                <circle cx="0" cy="0" r="5" fill="#5c441b" opacity="0.65" />
+              </g>
+            </g>
           </svg>
         </div>
       )}
