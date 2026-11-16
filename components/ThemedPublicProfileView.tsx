@@ -783,14 +783,14 @@ export function ThemedPublicProfileView({
         </div>
 
         {/* Avatar */}
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-5">
           {renderThemedAvatar()}
         </div>
 
         {/* Name Header */}
-        <div className="text-center space-y-1.5 mb-6 max-w-full overflow-hidden px-1">
+        <div className="text-center space-y-2.5 mb-7 max-w-full overflow-hidden px-2">
           <h1
-            className="text-xl sm:text-3xl md:text-4xl font-bold leading-snug tracking-tight text-current break-words hyphens-auto"
+            className="text-xl sm:text-3xl md:text-4xl font-bold leading-normal tracking-tight text-current break-words hyphens-auto"
             style={{
               fontFamily: theme.headingFont,
               wordBreak: "break-word",
@@ -800,16 +800,18 @@ export function ThemedPublicProfileView({
             {displayName}
           </h1>
 
-          <p
-            className="text-xs sm:text-sm font-mono font-bold tracking-wider truncate max-w-full px-2"
-            style={{ color: theme.accent }}
-          >
-            @{cleanHandle}
-          </p>
+          <div className="pt-0.5">
+            <span
+              className="inline-block text-xs sm:text-sm font-mono font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-current/5 border border-current/15 max-w-full truncate"
+              style={{ color: theme.accent }}
+            >
+              @{cleanHandle}
+            </span>
+          </div>
 
           {profile.bio && (
             <p
-              className="text-xs sm:text-sm font-medium leading-relaxed max-w-sm mx-auto mt-2 break-words"
+              className="text-xs sm:text-sm font-medium leading-relaxed max-w-sm mx-auto pt-1 break-words opacity-90"
               style={{
                 color: theme.muted,
                 fontFamily: theme.bodyFont,

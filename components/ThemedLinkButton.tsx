@@ -242,11 +242,11 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
           transform: `rotate(${rot}deg)`,
         }}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-1">
           {/* Logo chip with solid 2px dark ink border to prevent white-on-white blending */}
           {renderLogoChip("border-2 border-[#111111] rounded-2xl shadow-sm")}
           <span
-            className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full border border-[#111111] shadow-2xs"
+            className="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full border border-[#111111] shadow-2xs tracking-wider"
             style={{
               backgroundColor: s.tagBg,
               color: s.tagText,
@@ -257,7 +257,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
         </div>
 
         <h3
-          className="text-base sm:text-lg font-black leading-snug mt-2 line-clamp-2 tracking-tight text-[#111111]"
+          className="text-base sm:text-lg font-black leading-snug mt-3 mb-1 line-clamp-2 tracking-tight text-[#111111]"
           style={{
             fontFamily: "'Bagel Fat One', cursive",
             color: s.text,
