@@ -90,7 +90,7 @@ export default function PricingPage() {
             <span className="italic font-bold text-[#E67E22]">serious</span> creators.
           </h1>
           <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed font-body font-medium max-w-lg mx-auto">
-            Start free with up to 3 links, or unlock all 15 handcrafted themes, interactive spotlight, and unlimited links with Pro.
+            Start free with up to 3 links, or unlock all 12 bespoke themes, interactive spotlight, and unlimited links with Pro.
           </p>
 
           {/* Monthly / Yearly Toggle */}
@@ -164,7 +164,7 @@ export default function PricingPage() {
                 </div>
                 <div className="flex items-center gap-3 text-[#9CA3AF]">
                   <span className="w-4 text-center font-bold">—</span>
-                  <span>All 15 luxury themes (Pro only)</span>
+                  <span>All 12 bespoke themes (Herbarium, Comic, Bauhaus, Vinyl)</span>
                 </div>
                 <div className="flex items-center gap-3 text-[#9CA3AF]">
                   <span className="w-4 text-center font-bold">—</span>
@@ -223,7 +223,7 @@ export default function PricingPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-[#E67E22] shrink-0" strokeWidth={2.5} />
-                  <span>All 15 handcrafted luxury themes (Apple, BMW, Minecraft)</span>
+                  <span>All 12 bespoke profile themes (Herbarium, Comic, Bauhaus, Vinyl)</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-[#E67E22] shrink-0" strokeWidth={2.5} />

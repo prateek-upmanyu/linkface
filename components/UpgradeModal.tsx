@@ -30,8 +30,8 @@ export function UpgradeModal({
     },
     locked_theme: {
       tag: "Pro Theme Locked",
-      title: `Unlock "${themeName || "All Luxury Themes"}" with Pro.`,
-      subtitle: "Express your identity with all 15 handcrafted themes (Apple Modern, BMW, Minecraft, Ivory, and more).",
+      title: `Unlock "${themeName || "All 12 Bespoke Themes"}" with Pro.`,
+      subtitle: "Express your identity with all 12 bespoke themes (Herbarium, Comic, Bauhaus, Vinyl, and more).",
     },
     spotlight: {
       tag: "Interactive Spotlight",
@@ -118,7 +118,7 @@ export function UpgradeModal({
             <div className="my-5 space-y-2.5 pt-4 border-t border-[#E5E7EB]">
               {[
                 "Unlimited links on your public profile (more than 3)",
-                "Full access to all 15 handcrafted themes (Apple, BMW, Minecraft)",
+                "Full access to all 12 bespoke themes (Herbarium, Comic, Bauhaus, Vinyl)",
                 "Subtle 60fps cursor & touch spotlight effect",
                 "Advanced click & visitor analytics",
                 "Custom logo upload on any custom link",

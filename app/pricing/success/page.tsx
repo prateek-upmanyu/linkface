@@ -60,7 +60,7 @@ function SuccessContent() {
       </h1>
 
       <p className="mt-3 text-xs sm:text-sm text-[#4B5563] leading-relaxed font-medium">
-        Your subscription is now active. All 15 luxury themes, interactive spotlight, and unlimited showcase links are unlocked.
+        Your subscription is now active. All 12 bespoke themes, interactive spotlight, and unlimited showcase links are unlocked.
       </p>
 
       <div className="my-6 p-4 rounded-[14px] bg-[#FFFDF9] border border-[#E5E7EB] text-left space-y-2 text-xs text-[#18181B] font-semibold">
@@ -70,7 +70,7 @@ function SuccessContent() {
         </div>
         <div className="flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-[#E67E22] shrink-0" />
-          <span>All 15 profile themes unlocked (Apple, BMW, Minecraft)</span>
+          <span>All 12 bespoke profile themes unlocked (Herbarium, Comic, Bauhaus, Vinyl)</span>
         </div>
         <div className="flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-[#E67E22] shrink-0" />
