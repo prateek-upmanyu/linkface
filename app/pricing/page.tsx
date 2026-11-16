@@ -246,8 +246,17 @@ export default function PricingPage() {
 
             <div className="pt-8">
               {isPro ? (
-                <div className="w-full h-12 rounded-full bg-[#FFFDF5] border border-[#F4D03F] text-[#B9770E] text-xs uppercase tracking-[0.14em] font-bold flex items-center justify-center">
-                  Your Current Plan (Active)
+                <div className="space-y-3">
+                  <div className="w-full h-12 rounded-full bg-[#FFFDF5] border border-[#F4D03F] text-[#B9770E] text-xs uppercase tracking-[0.14em] font-bold flex items-center justify-center gap-2 shadow-xs">
+                    <Check className="w-4 h-4 text-[#E67E22]" />
+                    <span>Your Current Plan (Active)</span>
+                  </div>
+                  <Link
+                    href="/dashboard"
+                    className="w-full h-10 rounded-full border border-[#E5E7EB] hover:border-[#c9a96a] bg-white text-xs font-semibold text-[#18181B] hover:text-[#c9a96a] flex items-center justify-center gap-1.5 transition-all text-center block"
+                  >
+                    Go to Creator Dashboard →
+                  </Link>
                 </div>
               ) : (
                 <button

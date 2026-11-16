@@ -19,6 +19,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized. Please sign in to upgrade." }, { status: 401 });
     }
 
+    // Guard: Prevent double-charging if user is already an active Pro subscriber
+    const { data: userProfile } = await supabase
+      .from("profiles")
+      .select("plan")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (userProfile?.plan === "pro") {
+      return NextResponse.json(
+        { error: "You are already a Pro member! Manage your subscription from Dashboard settings." },
+        { status: 400 }
+      );
+    }
+
     // Rate Limiting: Max 10 checkout attempts per minute per user
     const clientIp = getClientIp(req);
     const rate = checkRateLimit(`rate:checkout:${user.id}:${clientIp}`, 10, 60000);
