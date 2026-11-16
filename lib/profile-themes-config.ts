@@ -1,18 +1,16 @@
-import { ThemeId } from "@/types";
-
 export type ProfileThemeId =
-  | "receipt"
+  | "cassette"
   | "press"
-  | "ticket"
   | "vinyl"
   | "postage"
-  | "gothic"
   | "sticker-bomb"
   | "archive"
   | "truck-art"
-  | "deco"
   | "riso"
-  | "y2k-chrome";
+  | "comic"
+  | "bauhaus"
+  | "star-chart"
+  | "papercut";
 
 export interface ProfileThemeConfig {
   id: ProfileThemeId;
@@ -33,38 +31,52 @@ export interface ProfileThemeConfig {
   chipBg: string;
   chipBorder: string;
   chipText: string;
-  avatarShape: "square" | "circle" | "ticket" | "vinyl" | "stamp" | "gothic-arch" | "sticker" | "catalog" | "truck-medallion" | "deco-octagon" | "riso-circle" | "chrome-ring";
+  avatarShape:
+    | "cassette-window"
+    | "press-square"
+    | "vinyl-disc"
+    | "stamp"
+    | "sticker"
+    | "catalog"
+    | "truck-medallion"
+    | "riso-circle"
+    | "comic-burst"
+    | "bauhaus-quad"
+    | "celestial-orbit"
+    | "papercut-ring";
   linkLayout: "stack" | "grid-2";
   paletteColors: string[];
 }
 
 export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
-  // 1. RECEIPT: Thermal shop receipt on a dark desk
-  receipt: {
-    id: "receipt",
-    name: "Receipt",
-    concept: "Thermal shop receipt on dark desk",
+  // 1. CASSETTE (FREE THEME - Replaces Receipt)
+  // Retro mixtape cassette. Deck bg #1c1a17, tape shell cream #f0e6cf, label orange #f26b21, label teal #2a9d8f, ink #1a1a1a
+  cassette: {
+    id: "cassette",
+    name: "Cassette",
+    concept: "Retro mixtape cassette",
     isDark: true,
-    isPro: true,
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap",
+    isPro: false, // FREE THEME
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&display=swap",
     headingFont: "'DM Mono', monospace",
-    bodyFont: "'DM Mono', monospace",
+    bodyFont: "'Inter', sans-serif",
     monoFont: "'DM Mono', monospace",
-    bg: "#1b1b1d",
-    cardBg: "#f4f1e8",
+    bg: "#1c1a17",
+    cardBg: "#f0e6cf",
     text: "#1a1a1a",
-    muted: "#55524b",
-    accent: "#d62828",
-    border: "#d9d5c9",
+    muted: "#524d45",
+    accent: "#f26b21",
+    border: "#1a1a1a",
     chipBg: "#ffffff",
-    chipBorder: "#1a1a1a",
+    chipBorder: "#2a9d8f",
     chipText: "#1a1a1a",
-    avatarShape: "square",
+    avatarShape: "cassette-window",
     linkLayout: "stack",
-    paletteColors: ["#1b1b1d", "#f4f1e8", "#1a1a1a", "#d62828"],
+    paletteColors: ["#1c1a17", "#f0e6cf", "#f26b21", "#2a9d8f", "#1a1a1a"],
   },
 
-  // 2. PRESS: Tabloid newspaper front page
+  // 2. PRESS (Pro)
+  // Tabloid newspaper front page. Abril Fatface, Libre Franklin, Special Elite. Newsprint #ece4d3, ink #141414, red #c1121f.
   press: {
     id: "press",
     name: "Press",
@@ -84,44 +96,20 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     chipBg: "#ffffff",
     chipBorder: "#141414",
     chipText: "#141414",
-    avatarShape: "square",
+    avatarShape: "press-square",
     linkLayout: "grid-2",
     paletteColors: ["#ece4d3", "#141414", "#c1121f", "#3d3a36"],
   },
 
-  // 3. TICKET: Concert and cinema ticket stubs
-  ticket: {
-    id: "ticket",
-    name: "Ticket",
-    concept: "Concert and cinema ticket stubs",
-    isDark: true,
-    isPro: true,
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap",
-    headingFont: "'Anton', sans-serif",
-    bodyFont: "'Space Mono', monospace",
-    monoFont: "'Space Mono', monospace",
-    bg: "#09090b",
-    cardBg: "#0f0f12",
-    text: "#f3e9d2",
-    muted: "#a89f8b",
-    accent: "#e4572e",
-    border: "rgba(243, 233, 210, 0.2)",
-    chipBg: "#1e1e24",
-    chipBorder: "#e4572e",
-    chipText: "#f3e9d2",
-    avatarShape: "ticket",
-    linkLayout: "stack",
-    paletteColors: ["#0f0f12", "#f3e9d2", "#e4572e", "#2a9d8f"],
-  },
-
-  // 4. VINYL: Record sleeve and turntable
+  // 3. VINYL (Pro - Fixed Avatar & Disc)
+  // Record sleeve and turntable. Shrikhand, DM Mono, Inter. Cream #f1e6d0, black #111, orange #ff6b1a, mustard #f2b134.
   vinyl: {
     id: "vinyl",
     name: "Vinyl",
     concept: "Record sleeve and turntable",
     isDark: false,
     isPro: true,
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Shrikhand&family=DM+Mono:wght@400;500&family=Inter:wght@400;600&display=swap",
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Shrikhand&family=DM+Mono:wght@400;500&family=Inter:wght@400;600;700&display=swap",
     headingFont: "'Shrikhand', cursive",
     bodyFont: "'Inter', sans-serif",
     monoFont: "'DM Mono', monospace",
@@ -134,12 +122,13 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     chipBg: "#ffffff",
     chipBorder: "#111111",
     chipText: "#111111",
-    avatarShape: "vinyl",
+    avatarShape: "vinyl-disc",
     linkLayout: "stack",
     paletteColors: ["#f1e6d0", "#111111", "#ff6b1a", "#f2b134"],
   },
 
-  // 5. POSTAGE: Airmail and postage stamps
+  // 4. POSTAGE (Pro)
+  // Airmail and postage stamps. Playfair Display, Special Elite, Lato. Envelope #f5efe2, red #d62839, blue #1d4e89, ink #1c1c1c.
   postage: {
     id: "postage",
     name: "Postage",
@@ -164,32 +153,8 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#f5efe2", "#d62839", "#1d4e89", "#1c1c1c"],
   },
 
-  // 6. GOTHIC: Blackletter tattoo flash and manuscripts
-  gothic: {
-    id: "gothic",
-    name: "Gothic",
-    concept: "Blackletter tattoo flash and manuscripts",
-    isDark: true,
-    isPro: true,
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Pirata+One&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap",
-    headingFont: "'UnifrakturCook', cursive",
-    bodyFont: "'Cormorant Garamond', serif",
-    monoFont: "'Pirata One', cursive",
-    bg: "#050404",
-    cardBg: "#0a0908",
-    text: "#e9e0cf",
-    muted: "#a89f91",
-    accent: "#9b1d20",
-    border: "#b08d57",
-    chipBg: "#1a1614",
-    chipBorder: "#b08d57",
-    chipText: "#e9e0cf",
-    avatarShape: "gothic-arch",
-    linkLayout: "stack",
-    paletteColors: ["#0a0908", "#e9e0cf", "#9b1d20", "#b08d57"],
-  },
-
-  // 7. STICKER BOMB: Die-cut vinyl stickers on a laptop lid
+  // 5. STICKER BOMB (Pro)
+  // Die-cut vinyl stickers on a laptop lid. Bagel Fat One, Inter.
   "sticker-bomb": {
     id: "sticker-bomb",
     name: "Sticker Bomb",
@@ -214,7 +179,8 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#1d1f24", "#ffd23f", "#ff5d8f", "#3ddc97", "#4cc9f0"],
   },
 
-  // 8. ARCHIVE: Library card catalog drawer
+  // 6. ARCHIVE (Pro)
+  // Library card catalog drawer. Young Serif, Courier Prime. Dark wood #2a1d14, card cream #f3ead6, ink #1b1b1b, red rule #c1403a.
   archive: {
     id: "archive",
     name: "Archive",
@@ -239,7 +205,8 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#2a1d14", "#f3ead6", "#1b1b1b", "#c1403a", "#6fa1c9"],
   },
 
-  // 9. TRUCK ART: Indian highway truck art and painted signboards
+  // 7. TRUCK ART (Pro)
+  // Indian highway truck art. Rozha One, Yatra One, Baloo 2. Marigold #f9a602, magenta #d81b60, teal #00897b, cream #fff4d6.
   "truck-art": {
     id: "truck-art",
     name: "Truck Art",
@@ -264,32 +231,8 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#0e0e0e", "#f9a602", "#d81b60", "#00897b", "#fff4d6"],
   },
 
-  // 10. DECO: 1920s Art Deco luxury
-  deco: {
-    id: "deco",
-    name: "Deco",
-    concept: "1920s Art Deco luxury",
-    isDark: true,
-    isPro: true,
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Limelight&family=Poiret+One&family=Josefin+Sans:wght@400;600;700&display=swap",
-    headingFont: "'Limelight', cursive",
-    bodyFont: "'Josefin Sans', sans-serif",
-    monoFont: "'Poiret One', cursive",
-    bg: "#040907",
-    cardBg: "#07110e",
-    text: "#f2e2b3",
-    muted: "#c7b88e",
-    accent: "#d4af37",
-    border: "#d4af37",
-    chipBg: "#07110e",
-    chipBorder: "#d4af37",
-    chipText: "#f2e2b3",
-    avatarShape: "deco-octagon",
-    linkLayout: "stack",
-    paletteColors: ["#07110e", "#d4af37", "#f2e2b3", "#0f3b2e"],
-  },
-
-  // 11. RISO: Two-color risograph print with misregistration
+  // 8. RISO (Pro)
+  // Two-color risograph print misregistration. Rubik Mono One, Archivo Black, Space Grotesk. Paper #f2efe6, pink #ff48b0, blue #0078bf.
   riso: {
     id: "riso",
     name: "Riso",
@@ -314,45 +257,124 @@ export const PROFILE_THEMES: Record<ProfileThemeId, ProfileThemeConfig> = {
     paletteColors: ["#f2efe6", "#ff48b0", "#0078bf", "#1a1a1a"],
   },
 
-  // 12. Y2K CHROME: Early-2000s liquid chrome tech
-  "y2k-chrome": {
-    id: "y2k-chrome",
-    name: "Y2K Chrome",
-    concept: "Early-2000s liquid chrome tech",
+  // 9. COMIC (Pro - NEW)
+  // Pop-art comic book page. Bangers, Comic Neue. Paper #fff8e7, ink #111, yellow #ffd400, red #e63946, blue #1d70f5.
+  comic: {
+    id: "comic",
+    name: "Comic",
+    concept: "Pop-art comic book page",
+    isDark: false,
+    isPro: true,
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap",
+    headingFont: "'Bangers', cursive",
+    bodyFont: "'Comic Neue', cursive, sans-serif",
+    monoFont: "'Bangers', cursive",
+    bg: "#ece4ce",
+    cardBg: "#fff8e7",
+    text: "#111111",
+    muted: "#3d3930",
+    accent: "#e63946",
+    border: "#111111",
+    chipBg: "#ffffff",
+    chipBorder: "#111111",
+    chipText: "#111111",
+    avatarShape: "comic-burst",
+    linkLayout: "stack",
+    paletteColors: ["#fff8e7", "#111111", "#ffd400", "#e63946", "#1d70f5"],
+  },
+
+  // 10. BAUHAUS (Pro - NEW)
+  // Bauhaus geometric poster. Jost, Archivo Black. Paper #f3ede0, black #151515, red #d7261e, yellow #f2b705, blue #1f4fa3.
+  bauhaus: {
+    id: "bauhaus",
+    name: "Bauhaus",
+    concept: "Bauhaus geometric poster",
+    isDark: false,
+    isPro: true,
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Jost:wght@400;600;700;800;900&display=swap",
+    headingFont: "'Archivo Black', sans-serif",
+    bodyFont: "'Jost', sans-serif",
+    monoFont: "'Jost', sans-serif",
+    bg: "#ded7c8",
+    cardBg: "#f3ede0",
+    text: "#151515",
+    muted: "#47433c",
+    accent: "#d7261e",
+    border: "#151515",
+    chipBg: "#ffffff",
+    chipBorder: "#151515",
+    chipText: "#151515",
+    avatarShape: "bauhaus-quad",
+    linkLayout: "stack",
+    paletteColors: ["#f3ede0", "#151515", "#d7261e", "#f2b705", "#1f4fa3"],
+  },
+
+  // 11. STAR CHART (Pro - NEW)
+  // Celestial map and observatory poster. Cinzel, Josefin Sans, Inter. Space #070b18, ink blue #0e1630, gold #e6c36a, off-white #eef1fa.
+  "star-chart": {
+    id: "star-chart",
+    name: "Star Chart",
+    concept: "Celestial map and observatory poster",
     isDark: true,
     isPro: true,
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Space+Grotesk:wght@400;600;700&display=swap",
-    headingFont: "'Unbounded', sans-serif",
-    bodyFont: "'Space Grotesk', sans-serif",
-    monoFont: "'Unbounded', sans-serif",
-    bg: "#050512",
-    cardBg: "#0b0b1e",
-    text: "#e6e8f0",
-    muted: "#9ba0be",
-    accent: "#3d5afe",
-    border: "rgba(230, 232, 240, 0.25)",
-    chipBg: "#ffffff",
-    chipBorder: "#3d5afe",
-    chipText: "#0b0b1e",
-    avatarShape: "chrome-ring",
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Josefin+Sans:wght@400;600;700&family=Inter:wght@400;500&display=swap",
+    headingFont: "'Cinzel', serif",
+    bodyFont: "'Josefin Sans', sans-serif",
+    monoFont: "'Josefin Sans', sans-serif",
+    bg: "#040710",
+    cardBg: "#070b18",
+    text: "#eef1fa",
+    muted: "#9fb4e8",
+    accent: "#e6c36a",
+    border: "rgba(159, 180, 232, 0.4)",
+    chipBg: "#0e1630",
+    chipBorder: "#e6c36a",
+    chipText: "#eef1fa",
+    avatarShape: "celestial-orbit",
     linkLayout: "stack",
-    paletteColors: ["#0b0b1e", "#e6e8f0", "#9aa0b4", "#3d5afe"],
+    paletteColors: ["#070b18", "#0e1630", "#e6c36a", "#9fb4e8", "#eef1fa"],
+  },
+
+  // 12. PAPERCUT (Pro - NEW)
+  // Layered paper-cut art. Fredoka, Nunito. Base #2b2d42, layers #ef476f, #ffd166, #06d6a0, #118ab2, paper white #fffdf7.
+  papercut: {
+    id: "papercut",
+    name: "Papercut",
+    concept: "Layered paper-cut art",
+    isDark: true,
+    isPro: true,
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap",
+    headingFont: "'Fredoka', cursive, sans-serif",
+    bodyFont: "'Nunito', sans-serif",
+    monoFont: "'Fredoka', cursive, sans-serif",
+    bg: "#1e202f",
+    cardBg: "#2b2d42",
+    text: "#fffdf7",
+    muted: "#d8dae6",
+    accent: "#ef476f",
+    border: "transparent",
+    chipBg: "#fffdf7",
+    chipBorder: "#ef476f",
+    chipText: "#1b1b2f",
+    avatarShape: "papercut-ring",
+    linkLayout: "stack",
+    paletteColors: ["#2b2d42", "#ef476f", "#ffd166", "#06d6a0", "#118ab2"],
   },
 };
 
 export const PROFILE_THEMES_ORDER: ProfileThemeId[] = [
-  "receipt",
+  "cassette",
   "press",
-  "ticket",
   "vinyl",
   "postage",
-  "gothic",
   "sticker-bomb",
   "archive",
   "truck-art",
-  "deco",
   "riso",
-  "y2k-chrome",
+  "comic",
+  "bauhaus",
+  "star-chart",
+  "papercut",
 ];
 
 export function isNewProfileTheme(themeId?: string | null): themeId is ProfileThemeId {
@@ -364,6 +386,6 @@ export function getProfileTheme(themeId?: string | null): ProfileThemeConfig {
   if (themeId && isNewProfileTheme(themeId)) {
     return PROFILE_THEMES[themeId];
   }
-  // Default to receipt or midnight
-  return PROFILE_THEMES["receipt"];
+  // Default free theme is Cassette
+  return PROFILE_THEMES["cassette"];
 }

@@ -6,7 +6,7 @@ import { PLATFORMS } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { playClickSound } from "@/lib/sound-fx";
 import { ProfileThemeId, getProfileTheme } from "@/lib/profile-themes-config";
-import { ArrowRight, ArrowUpRight, Barcode } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Star } from "lucide-react";
 
 interface ThemedLinkButtonProps {
   link: LinkItem;
@@ -47,7 +47,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     }).catch(() => {});
   };
 
-  // Dedicated Platform Chip: 44-50px Solid Contrasting Chip in Real Brand Colors
+  // Dedicated Platform Chip: 44-50px Solid Contrasting Chip in Real Brand Colors (Strict Standard)
   const renderLogoChip = (extraClass = "") => (
     <div
       className={`w-11 h-11 min-w-[44px] rounded-xl flex items-center justify-center shrink-0 shadow-sm relative z-10 transition-transform duration-200 group-hover:scale-105 ${extraClass}`}
@@ -65,8 +65,9 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     </div>
   );
 
-  // 1. RECEIPT: Line item with dotted leader and "OPEN >"
-  if (themeId === "receipt") {
+  // 1. CASSETTE (Free): Mini cassette tape link with reel chip on left, track code, colored stripe
+  if (themeId === "cassette") {
+    const trackCode = `A${index + 1}`;
     return (
       <a
         href={isDemo ? "#" : link.url}
@@ -75,30 +76,35 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="w-full min-h-[58px] p-2.5 flex items-center justify-between border-b border-dashed border-[#1a1a1a]/40 text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-[#f4f1e8] transition-colors duration-150 group font-mono select-none"
-        style={{
-          fontFamily: theme.monoFont,
-        }}
+        className="w-full min-h-[62px] rounded-xl bg-[#f0e6cf] border-2 border-[#1a1a1a] shadow-[0_4px_0_#1a1a1a] hover:shadow-[0_6px_0_#1a1a1a] hover:-translate-y-0.5 transition-all duration-150 flex flex-col justify-between overflow-hidden group select-none text-[#1a1a1a]"
       >
-        <div className="flex items-center gap-3 min-w-0 flex-1 mr-2">
-          {renderLogoChip("border border-[#1a1a1a]")}
-          <div className="min-w-0 flex-1">
-            <span className="text-sm font-bold uppercase tracking-tight block truncate">
-              {link.title}
-            </span>
-            <span className="text-[10px] opacity-70 block truncate">
-              ITEM #{String(index + 1).padStart(2, "0")} • {platform?.name || "LINK"}
-            </span>
+        <div className="p-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            {/* Reel style logo chip */}
+            {renderLogoChip("border-2 border-[#1a1a1a] rounded-full")}
+            <div className="min-w-0 flex-1">
+              <span
+                className="text-sm sm:text-base font-bold uppercase tracking-tight block truncate text-[#1a1a1a]"
+                style={{ fontFamily: "'DM Mono', monospace" }}
+              >
+                {link.title}
+              </span>
+              <span className="text-[10px] font-mono tracking-wider text-[#524d45] uppercase block truncate">
+                TAPE #{trackCode} • {platform?.name || "SIDE A TRACK"}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1.5 shrink-0 pr-1">
+            <span className="text-[11px] font-mono font-bold text-[#f26b21] uppercase">PLAY</span>
+            <ArrowRight className="w-4 h-4 text-[#1a1a1a] group-hover:translate-x-1 transition-transform" />
           </div>
         </div>
 
-        <div className="hidden sm:flex flex-1 mx-2 items-center overflow-hidden opacity-40">
-          <span className="truncate tracking-widest text-xs">. . . . . . . . . . . . . . . . . . . .</span>
-        </div>
-
-        <div className="flex items-center gap-1 shrink-0 text-xs font-bold uppercase tracking-wider pl-2">
-          <span>OPEN</span>
-          <span className="group-hover:translate-x-1 transition-transform">&gt;</span>
+        {/* Bottom Dual Color Magnetic Tape Stripe */}
+        <div className="h-1.5 w-full flex">
+          <div className="h-full flex-1 bg-[#f26b21]" />
+          <div className="h-full flex-1 bg-[#2a9d8f]" />
         </div>
       </a>
     );
@@ -141,53 +147,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 3. TICKET: Notched concert stub with perforated dashed rule and seat code
-  if (themeId === "ticket") {
-    const seatRow = String.fromCharCode(65 + (index % 6));
-    const seatNum = String((index + 1) * 7).padStart(2, "0");
-
-    return (
-      <a
-        href={isDemo ? "#" : link.url}
-        target={isDemo ? undefined : "_blank"}
-        rel={isDemo ? undefined : "noopener noreferrer"}
-        onClick={handleClick}
-        className="w-full relative min-h-[64px] bg-[#0f0f12] text-[#f3e9d2] border border-[#f3e9d2]/30 rounded-2xl flex items-center justify-between overflow-hidden group hover:rotate-1 hover:-translate-y-1 transition-all duration-200 select-none shadow-[0_8px_24px_rgba(0,0,0,0.6)]"
-      >
-        {/* Notched Semicircle Cutouts */}
-        <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[#09090b] border border-[#f3e9d2]/30" />
-        <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[#09090b] border border-[#f3e9d2]/30" />
-
-        <div className="pl-6 pr-4 py-3 flex items-center gap-3.5 min-w-0 flex-1">
-          {renderLogoChip("border border-[#e4572e]")}
-          <div className="min-w-0 flex-1">
-            <span
-              className="text-sm sm:text-base font-bold uppercase tracking-wider block truncate text-[#f3e9d2] group-hover:text-[#e4572e] transition-colors"
-              style={{ fontFamily: "'Anton', sans-serif" }}
-            >
-              {link.title}
-            </span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#a89f8b]">
-              ROW {seatRow} • SEAT {seatNum}
-            </span>
-          </div>
-        </div>
-
-        {/* Perforated Vertical Divider */}
-        <div className="h-full border-l-2 border-dashed border-[#f3e9d2]/25 mx-2" />
-
-        {/* Stub Barcode Side */}
-        <div className="pr-6 pl-3 py-3 shrink-0 flex flex-col items-center justify-center text-[#e4572e]">
-          <span className="text-[9px] font-mono font-bold tracking-widest uppercase mb-1">
-            ADMIT
-          </span>
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </div>
-      </a>
-    );
-  }
-
-  // 4. VINYL: Tracklist row (A1, A2) with equalizer visualizer on hover
+  // 3. VINYL: Tracklist row (A1, A2) with equalizer visualizer on hover
   if (themeId === "vinyl") {
     const trackLabel = `A${index + 1}`;
     return (
@@ -226,7 +186,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 5. POSTAGE: Scalloped airmail stamp with denomination in the corner
+  // 4. POSTAGE: Scalloped airmail stamp with denomination in the corner
   if (themeId === "postage") {
     return (
       <a
@@ -236,7 +196,6 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
         onClick={handleClick}
         className="w-full p-4 rounded-xl bg-[#f5efe2] border-2 border-[#1d4e89] shadow-[3px_3px_0_#d62839] hover:-translate-y-1 hover:rotate-1 transition-all duration-150 flex flex-col items-center justify-center text-center relative group select-none text-[#1c1c1c]"
       >
-        {/* Corner Airmail Denomination */}
         <div className="absolute top-2 right-2 text-[10px] font-mono font-bold text-[#d62839]">
           ${(index + 1) * 25}¢
         </div>
@@ -259,46 +218,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 6. GOTHIC: Engraved plaque with notched corners and gold flourishes
-  if (themeId === "gothic") {
-    return (
-      <a
-        href={isDemo ? "#" : link.url}
-        target={isDemo ? undefined : "_blank"}
-        rel={isDemo ? undefined : "noopener noreferrer"}
-        onClick={handleClick}
-        className="w-full min-h-[60px] px-5 py-3 rounded-none bg-[#0a0908] border border-[#b08d57] text-[#e9e0cf] hover:border-[#9b1d20] hover:bg-[#140b0c] transition-all duration-200 flex items-center justify-between group select-none shadow-[0_4px_16px_rgba(0,0,0,0.8)] relative"
-      >
-        {/* Corner Gold Notches */}
-        <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-[#b08d57] group-hover:border-[#9b1d20] transition-colors" />
-        <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-[#b08d57] group-hover:border-[#9b1d20] transition-colors" />
-        <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-[#b08d57] group-hover:border-[#9b1d20] transition-colors" />
-        <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-[#b08d57] group-hover:border-[#9b1d20] transition-colors" />
-
-        <div className="flex items-center gap-4 min-w-0 flex-1 mr-3">
-          {renderLogoChip("border border-[#b08d57] rounded-none")}
-          <div className="min-w-0 flex-1">
-            <span
-              className="text-base sm:text-lg font-bold block truncate tracking-wide text-[#e9e0cf] group-hover:text-[#ffffff] transition-colors"
-              style={{ fontFamily: "'Pirata One', cursive" }}
-            >
-              {link.title}
-            </span>
-            <div className="h-[1px] w-12 bg-[#9b1d20] mt-0.5 group-hover:w-full transition-all duration-300" />
-          </div>
-        </div>
-
-        <span
-          className="text-lg text-[#b08d57] group-hover:text-[#9b1d20] transition-colors"
-          style={{ fontFamily: "'Pirata One', cursive" }}
-        >
-          †
-        </span>
-      </a>
-    );
-  }
-
-  // 7. STICKER BOMB: Die-cut sticker with thick white outline & rotated slap
+  // 5. STICKER BOMB: Die-cut sticker with thick white outline & rotated slap
   if (themeId === "sticker-bomb") {
     const stickerColors = ["#ffd23f", "#ff5d8f", "#3ddc97", "#4cc9f0"];
     const stickerBg = stickerColors[index % stickerColors.length];
@@ -333,7 +253,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 8. ARCHIVE: Index library card with tabs & typed call number
+  // 6. ARCHIVE: Index library card with tabs & typed call number
   if (themeId === "archive") {
     const callNum = `00${index + 1}.${(index + 3) * 12}`;
     return (
@@ -344,7 +264,6 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
         onClick={handleClick}
         className="w-full min-h-[62px] p-3 rounded-lg bg-[#f3ead6] border-2 border-[#cfc1aa] shadow-[2px_3px_0_#2a1d14] hover:-translate-y-2 hover:shadow-[4px_6px_0_#2a1d14] transition-all duration-200 flex items-center justify-between group select-none text-[#1b1b1b] relative overflow-hidden"
       >
-        {/* Top Red & Blue Ruled Lines */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c1403a]" />
         <div className="absolute top-[4px] left-0 right-0 h-[1px] bg-[#6fa1c9]/40" />
 
@@ -370,7 +289,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 9. TRUCK ART: Painted signboard plaque with scalloped ends & marigold border
+  // 7. TRUCK ART: Painted signboard plaque with scalloped ends & marigold border
   if (themeId === "truck-art") {
     return (
       <a
@@ -403,43 +322,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 10. DECO: Chamfered emerald bar with thin gold outline & chevron ornament
-  if (themeId === "deco") {
-    return (
-      <a
-        href={isDemo ? "#" : link.url}
-        target={isDemo ? undefined : "_blank"}
-        rel={isDemo ? undefined : "noopener noreferrer"}
-        onClick={handleClick}
-        className="w-full min-h-[60px] px-5 py-3 rounded-none bg-[#07110e] border border-[#d4af37] shadow-[0_4px_16px_rgba(0,0,0,0.6)] hover:bg-[#0f3b2e] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-200 flex items-center justify-between group select-none text-[#f2e2b3]"
-        style={{
-          clipPath: "polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px)",
-        }}
-      >
-        <div className="flex items-center gap-4 min-w-0 flex-1 mr-3">
-          {renderLogoChip("border border-[#d4af37] rounded-none")}
-          <div className="min-w-0 flex-1">
-            <span
-              className="text-base sm:text-lg font-normal tracking-wider block truncate text-[#f2e2b3] group-hover:text-[#ffffff] transition-colors"
-              style={{ fontFamily: "'Poiret One', cursive" }}
-            >
-              {link.title}
-            </span>
-            <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-[#d4af37]">
-              DELUXE EDITION
-            </span>
-          </div>
-        </div>
-
-        <div className="shrink-0 flex items-center gap-1 text-[#d4af37]">
-          <span className="text-sm">◆</span>
-          <span className="text-sm group-hover:translate-x-1 transition-transform">›</span>
-        </div>
-      </a>
-    );
-  }
-
-  // 11. RISO: Two-color risograph print block with 3px offset misregistration shadow
+  // 8. RISO: Two-color risograph print block with 3px offset misregistration shadow
   if (themeId === "riso") {
     const isPinkBlock = index % 2 === 0;
     const blockBg = isPinkBlock ? "#ff48b0" : "#0078bf";
@@ -481,36 +364,168 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     );
   }
 
-  // 12. Y2K CHROME: Glossy liquid chrome capsule with bevel & glint
-  if (themeId === "y2k-chrome") {
+  // 9. COMIC (NEW): Pop-art panel with thick border (3px), hard offset shadow 4px, action tag "GO!"
+  if (themeId === "comic") {
+    const friendlyWords = ["GO!", "WOW!", "NEW!", "YES!"];
+    const actionWord = friendlyWords[index % friendlyWords.length];
+
     return (
       <a
         href={isDemo ? "#" : link.url}
         target={isDemo ? undefined : "_blank"}
         rel={isDemo ? undefined : "noopener noreferrer"}
         onClick={handleClick}
-        className="w-full min-h-[62px] px-5 py-3 rounded-full bg-gradient-to-b from-[#ffffff] via-[#e6e8f0] to-[#b0b5c8] border-2 border-white/80 shadow-[0_8px_20px_rgba(0,0,0,0.5),inset_0_2px_4px_rgba(255,255,255,0.9)] hover:shadow-[0_0_25px_rgba(61,90,254,0.6)] hover:scale-[1.01] transition-all duration-200 flex items-center justify-between group select-none text-[#0b0b1e] relative overflow-hidden"
+        className="w-full min-h-[64px] p-3.5 rounded-2xl bg-[#fff8e7] border-[3px] border-[#111111] shadow-[4px_4px_0_#111111] hover:shadow-[6px_6px_0_#111111] hover:-translate-y-1 transition-all duration-150 flex items-center justify-between group select-none text-[#111111]"
       >
-        {/* Subtle Glint Arc */}
-        <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-white/70 to-transparent pointer-events-none rounded-t-full" />
-
-        <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-3 relative z-10">
-          {renderLogoChip("border-2 border-white shadow-md")}
+        <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-2">
+          {renderLogoChip("border-2 border-[#111111]")}
           <div className="min-w-0 flex-1">
             <span
-              className="text-sm sm:text-base font-bold tracking-tight block truncate text-[#0b0b1e] group-hover:text-[#3d5afe] transition-colors"
-              style={{ fontFamily: "'Unbounded', sans-serif" }}
+              className="text-base sm:text-lg font-bold tracking-wide uppercase leading-tight block truncate group-hover:text-[#e63946] transition-colors"
+              style={{ fontFamily: "'Bangers', cursive" }}
             >
               {link.title}
             </span>
-            <span className="text-[9px] font-mono tracking-widest text-[#3d5afe] uppercase font-bold block">
-              // HYPERLINK.0{index + 1}
+            <span className="text-[11px] font-bold text-[#1d70f5] uppercase block truncate" style={{ fontFamily: "'Comic Neue', cursive" }}>
+              PANEL #{index + 1} • {platform?.name || "ADVENTURE"}
             </span>
           </div>
         </div>
 
-        <div className="relative z-10 w-7 h-7 rounded-full bg-white flex items-center justify-center text-[#3d5afe] shrink-0 shadow-xs group-hover:translate-x-1 transition-transform">
-          <ArrowRight className="w-3.5 h-3.5" strokeWidth={3} />
+        <div className="shrink-0 px-2.5 py-1 rounded-lg bg-[#ffd400] border-2 border-[#111111] shadow-[2px_2px_0_#111111] rotate-[-2deg] group-hover:rotate-0 transition-transform">
+          <span
+            className="text-xs sm:text-sm font-black text-[#111111] uppercase tracking-wider block"
+            style={{ fontFamily: "'Bangers', cursive" }}
+          >
+            {actionWord}
+          </span>
+        </div>
+      </a>
+    );
+  }
+
+  // 10. BAUHAUS (NEW): Bold rectangles in alternating red, yellow, blue, black with hard shift shadow
+  if (themeId === "bauhaus") {
+    const colors = [
+      { bg: "#d7261e", text: "#ffffff" },
+      { bg: "#f2b705", text: "#151515" },
+      { bg: "#1f4fa3", text: "#ffffff" },
+      { bg: "#151515", text: "#ffffff" },
+    ];
+    const c = colors[index % colors.length];
+
+    return (
+      <a
+        href={isDemo ? "#" : link.url}
+        target={isDemo ? undefined : "_blank"}
+        rel={isDemo ? undefined : "noopener noreferrer"}
+        onClick={handleClick}
+        className="w-full min-h-[60px] p-3.5 rounded-none border-[3px] border-[#151515] shadow-[4px_4px_0_#151515] hover:shadow-[6px_6px_0_#151515] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-150 flex items-center justify-between group select-none"
+        style={{
+          backgroundColor: c.bg,
+          color: c.text,
+        }}
+      >
+        <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-3">
+          {renderLogoChip("border-2 border-[#151515] rounded-none")}
+          <div className="min-w-0 flex-1">
+            <span
+              className="text-sm sm:text-base font-black uppercase tracking-wider block truncate"
+              style={{ fontFamily: "'Jost', sans-serif" }}
+            >
+              {link.title}
+            </span>
+            <span className="text-[10px] font-mono tracking-widest uppercase opacity-85 block truncate">
+              FORM + FUNCTION • NO. 0{index + 1}
+            </span>
+          </div>
+        </div>
+
+        <div className="w-7 h-7 bg-white text-[#151515] border-2 border-[#151515] flex items-center justify-center shrink-0 group-hover:rotate-45 transition-transform">
+          <ArrowRight className="w-4 h-4 stroke-[3]" />
+        </div>
+      </a>
+    );
+  }
+
+  // 11. STAR CHART (NEW): Observatory celestial frame with thin ticks, off-white label, coordinate "N 01"
+  if (themeId === "star-chart") {
+    const coord = `N 0${index + 1}° ${((index + 2) * 14) % 60}'`;
+
+    return (
+      <a
+        href={isDemo ? "#" : link.url}
+        target={isDemo ? undefined : "_blank"}
+        rel={isDemo ? undefined : "noopener noreferrer"}
+        onClick={handleClick}
+        className="w-full min-h-[60px] p-3 rounded-lg bg-[#0e1630]/80 border border-[#9fb4e8]/40 hover:border-[#e6c36a] shadow-[0_4px_16px_rgba(7,11,24,0.6)] hover:shadow-[0_0_20px_rgba(230,195,106,0.3)] transition-all duration-200 flex items-center justify-between group select-none text-[#eef1fa] relative"
+      >
+        {/* Subtle Frame Corner Ticks */}
+        <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-[#e6c36a]" />
+        <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-[#e6c36a]" />
+        <div className="absolute bottom-0 left-0 w-1.5 h-1.5 border-b border-l border-[#e6c36a]" />
+        <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-[#e6c36a]" />
+
+        <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-3">
+          {renderLogoChip("border border-[#e6c36a]/50 rounded-full")}
+          <div className="min-w-0 flex-1">
+            <span
+              className="text-sm sm:text-base font-semibold tracking-wider block truncate text-[#eef1fa] group-hover:text-[#e6c36a] transition-colors"
+              style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+            >
+              {link.title}
+            </span>
+            <span className="text-[10px] font-mono tracking-widest text-[#9fb4e8] uppercase block truncate">
+              SECTOR • {coord}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1 shrink-0 text-[#e6c36a] font-mono text-xs">
+          <span className="text-[10px] opacity-75">{coord.split(" ")[0]}</span>
+          <Star className="w-3.5 h-3.5 fill-[#e6c36a]" />
+        </div>
+      </a>
+    );
+  }
+
+  // 12. PAPERCUT (NEW): Layered paper strip with irregular cut edges (clip-path), paper-white fill, soft stacked shadow
+  if (themeId === "papercut") {
+    const cutAngles = [
+      "polygon(0% 2px, 100% 0%, 100% calc(100% - 2px), 0% 100%)",
+      "polygon(0% 0%, 100% 3px, 100% 100%, 0% calc(100% - 3px))",
+      "polygon(0% 1px, 100% 0%, 100% 100%, 0% calc(100% - 2px))",
+    ];
+    const cut = cutAngles[index % cutAngles.length];
+
+    return (
+      <a
+        href={isDemo ? "#" : link.url}
+        target={isDemo ? undefined : "_blank"}
+        rel={isDemo ? undefined : "noopener noreferrer"}
+        onClick={handleClick}
+        className="w-full min-h-[62px] p-3.5 bg-[#fffdf7] text-[#1b1b2f] shadow-[0_8px_16px_rgba(0,0,0,0.35)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.5)] hover:-translate-y-1 transition-all duration-200 flex items-center justify-between group select-none relative"
+        style={{
+          clipPath: cut,
+        }}
+      >
+        <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-3">
+          {renderLogoChip("border-2 border-[#ef476f] rounded-full")}
+          <div className="min-w-0 flex-1">
+            <span
+              className="text-base sm:text-lg font-bold leading-tight block truncate text-[#1b1b2f] group-hover:text-[#ef476f] transition-colors"
+              style={{ fontFamily: "'Fredoka', cursive, sans-serif" }}
+            >
+              {link.title}
+            </span>
+            <span className="text-[11px] font-semibold text-[#118ab2] block truncate">
+              LAYER #{index + 1} • {platform?.name || "PAPER LINK"}
+            </span>
+          </div>
+        </div>
+
+        <div className="w-7 h-7 rounded-full bg-[#ef476f] text-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+          <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
         </div>
       </a>
     );

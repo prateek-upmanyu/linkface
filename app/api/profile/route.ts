@@ -50,7 +50,7 @@ export async function PATCH(req: NextRequest) {
     if (!isPro && body.theme && isProTheme(body.theme)) {
       return NextResponse.json(
         {
-          error: `The theme "${body.theme}" requires a Pro subscription. Free accounts are limited to the Midnight theme.`,
+          error: `The theme "${body.theme}" requires a Pro subscription. Free accounts can use the Cassette theme.`,
           code: "UPGRADE_REQUIRED",
         },
         { status: 403 }

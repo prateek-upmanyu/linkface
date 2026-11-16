@@ -6,7 +6,7 @@ import { ProfileThemeId, getProfileTheme } from "@/lib/profile-themes-config";
 import { ThemedLinkButton } from "@/components/ThemedLinkButton";
 import { BrandLogo } from "@/components/BrandLogo";
 import Link from "next/link";
-import { ExternalLink, Star } from "lucide-react";
+import { ExternalLink, Star, Sparkles } from "lucide-react";
 
 interface ThemedPublicProfileViewProps {
   profile: Profile;
@@ -20,7 +20,7 @@ export function ThemedPublicProfileView({
   themeId,
 }: ThemedPublicProfileViewProps) {
   const theme = getProfileTheme(themeId);
-  const [vinylSpinning, setVinylSpinning] = useState(true);
+  const [vinylPaused, setVinylPaused] = useState(false);
 
   const cleanHandle = (profile.username || "creator")
     .split("@")[0]
@@ -44,22 +44,26 @@ export function ThemedPublicProfileView({
 
   // 1. DEDICATED AVATAR RENDERER PER THEME
   const renderThemedAvatar = () => {
-    // A. VINYL: Spinning vinyl disc
+    // 1. VINYL (FIXED): Avatar fills 65% of the disc diameter (label area). Whole disc spins together slowly (24s linear), pauses on hover and touch. Grooves and center hole visible.
     if (themeId === "vinyl") {
       return (
         <div
-          onMouseEnter={() => setVinylSpinning(false)}
-          onMouseLeave={() => setVinylSpinning(true)}
-          className="relative w-32 h-32 rounded-full bg-[#111111] p-1 shadow-[0_12px_32px_rgba(0,0,0,0.4)] flex items-center justify-center cursor-pointer transition-transform hover:scale-105"
+          onMouseEnter={() => setVinylPaused(true)}
+          onMouseLeave={() => setVinylPaused(false)}
+          onTouchStart={() => setVinylPaused(true)}
+          onTouchEnd={() => setVinylPaused(false)}
+          className="relative w-36 h-36 rounded-full bg-[#111111] p-2 shadow-[0_12px_36px_rgba(0,0,0,0.5)] flex items-center justify-center cursor-pointer select-none group"
         >
-          {/* Subtle Grooves */}
+          {/* Subtle Outer Grooves (Spinning Together) */}
           <div
-            className={`w-full h-full rounded-full border-4 border-[#222222] border-dashed flex items-center justify-center transition-transform duration-700 ${
-              vinylSpinning ? "animate-[spin_10s_linear_infinite]" : ""
-            }`}
+            className="w-full h-full rounded-full border-4 border-[#222222] border-dashed flex items-center justify-center"
+            style={{
+              animation: "spin 24s linear infinite",
+              animationPlayState: vinylPaused ? "paused" : "running",
+            }}
           >
-            {/* Center Label with Avatar */}
-            <div className="w-16 h-16 rounded-full border-2 border-[#ff6b1a] overflow-hidden bg-[#ff6b1a] relative flex items-center justify-center">
+            {/* 65% Diameter Center Label with Large Avatar */}
+            <div className="w-[68%] h-[68%] rounded-full border-2 border-[#ff6b1a] overflow-hidden bg-[#ff6b1a] relative flex items-center justify-center shadow-inner">
               {profile.avatar_url ? (
                 <img
                   src={profile.avatar_url}
@@ -67,39 +71,61 @@ export function ThemedPublicProfileView({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="font-bold text-[#111111] text-lg font-mono">
+                <span className="font-bold text-[#111111] text-2xl font-mono">
                   {initials}
                 </span>
               )}
-              {/* Spindle Center Hole */}
-              <div className="absolute w-3.5 h-3.5 rounded-full bg-[#111111] border border-white/50" />
+              {/* Spindle Center Hole dot over the avatar */}
+              <div className="absolute w-3.5 h-3.5 rounded-full bg-[#111111] border border-white/60 shadow-sm pointer-events-none" />
             </div>
           </div>
         </div>
       );
     }
 
-    // B. GOTHIC: Pointed-arch window shape
-    if (themeId === "gothic") {
+    // 2. CASSETTE (Free): Avatar sits in the cassette window with rotating reels on both sides
+    if (themeId === "cassette") {
       return (
-        <div
-          className="w-24 h-32 bg-[#0a0908] border-2 border-[#b08d57] shadow-[0_0_24px_rgba(155,29,32,0.6)] p-1 flex items-center justify-center relative overflow-hidden"
-          style={{
-            borderRadius: "48px 48px 0 0",
-          }}
-        >
-          <div
-            className="w-full h-full border border-[#9b1d20] overflow-hidden flex items-center justify-center"
-            style={{ borderRadius: "44px 44px 0 0" }}
-          >
+        <div className="relative w-full max-w-[280px] h-24 rounded-2xl bg-[#1c1a17] border-4 border-[#1a1a1a] shadow-inner p-1.5 flex items-center justify-between mx-auto overflow-hidden">
+          {/* Left Rotating Reel */}
+          <div className="w-10 h-10 rounded-full border-2 border-[#f0e6cf] bg-white flex items-center justify-center animate-[spin_8s_linear_infinite] shrink-0">
+            <div className="w-4 h-4 rounded-full border border-[#1a1a1a] bg-[#1c1a17]" />
+          </div>
+
+          {/* Center Clear Window with Avatar */}
+          <div className="w-20 h-20 rounded-xl border-2 border-[#f26b21] overflow-hidden bg-white/90 flex items-center justify-center shadow-md relative z-10">
             {profile.avatar_url ? (
               <img
                 src={profile.avatar_url}
                 alt={displayName}
-                className="w-full h-full object-cover grayscale contrast-125"
+                className="w-full h-full object-cover"
               />
             ) : (
-              <span className="text-2xl font-bold text-[#b08d57]" style={{ fontFamily: "'Pirata One', cursive" }}>
+              <span className="text-xl font-bold text-[#1a1a1a] font-mono">{initials}</span>
+            )}
+          </div>
+
+          {/* Right Rotating Reel */}
+          <div className="w-10 h-10 rounded-full border-2 border-[#f0e6cf] bg-white flex items-center justify-center animate-[spin_8s_linear_infinite] shrink-0">
+            <div className="w-4 h-4 rounded-full border border-[#1a1a1a] bg-[#1c1a17]" />
+          </div>
+        </div>
+      );
+    }
+
+    // 3. COMIC: Circle with thick black outline & pop halftone shadow
+    if (themeId === "comic") {
+      return (
+        <div className="relative p-1 bg-[#ffd400] rounded-full border-[3px] border-[#111111] shadow-[5px_5px_0_#111111] rotate-[-1.5deg]">
+          <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#111111] bg-white flex items-center justify-center">
+            {profile.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt={displayName}
+                className="w-full h-full object-cover contrast-125"
+              />
+            ) : (
+              <span className="text-3xl font-black text-[#111111]" style={{ fontFamily: "'Bangers', cursive" }}>
                 {initials}
               </span>
             )}
@@ -108,7 +134,82 @@ export function ThemedPublicProfileView({
       );
     }
 
-    // C. STAMP: Scalloped postage stamp
+    // 4. BAUHAUS: Circle cropped inside square with colored quarter-circle corner
+    if (themeId === "bauhaus") {
+      return (
+        <div className="relative w-28 h-28 bg-[#f3ede0] border-[3px] border-[#151515] shadow-[6px_6px_0_#d7261e] p-2 flex items-center justify-center">
+          {/* Quarter Circle Corner Accent */}
+          <div className="absolute top-0 right-0 w-8 h-8 bg-[#1f4fa3] rounded-bl-full pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-8 h-8 bg-[#f2b705] rounded-tr-full pointer-events-none" />
+          <div className="w-20 h-20 rounded-full border-2 border-[#151515] overflow-hidden bg-white flex items-center justify-center relative z-10">
+            {profile.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt={displayName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-2xl font-black text-[#151515]" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
+                {initials}
+              </span>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // 5. STAR CHART: Circle inside concentric thin orbit rings with moving dot
+    if (themeId === "star-chart") {
+      return (
+        <div className="relative w-32 h-32 rounded-full border border-[#9fb4e8]/30 flex items-center justify-center">
+          {/* Orbiting dot */}
+          <div className="absolute inset-0 animate-[spin_16s_linear_infinite] pointer-events-none">
+            <div className="w-2 h-2 rounded-full bg-[#e6c36a] shadow-[0_0_8px_#e6c36a] absolute top-1 left-1/2 -translate-x-1/2" />
+          </div>
+
+          <div className="w-24 h-24 rounded-full border border-[#e6c36a]/60 p-1 flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden bg-[#0e1630] flex items-center justify-center">
+              {profile.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt={displayName}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-2xl font-bold text-[#e6c36a]" style={{ fontFamily: "'Cinzel', serif" }}>
+                  {initials}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // 6. PAPERCUT: Layered paper ring of two paper colors with soft shadows
+    if (themeId === "papercut") {
+      return (
+        <div className="relative p-2 rounded-full bg-[#ef476f] shadow-[0_8px_20px_rgba(0,0,0,0.3)]">
+          <div className="p-1.5 rounded-full bg-[#ffd166] shadow-sm">
+            <div className="w-22 h-22 rounded-full border-[3px] border-[#fffdf7] overflow-hidden bg-white flex items-center justify-center">
+              {profile.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt={displayName}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-2xl font-bold text-[#1b1b2f]" style={{ fontFamily: "'Fredoka', cursive" }}>
+                  {initials}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // 7. POSTAGE: Scalloped postage stamp
     if (themeId === "postage") {
       return (
         <div className="relative p-2 bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] border-2 border-dashed border-[#1d4e89] rotate-[-2deg]">
@@ -135,7 +236,7 @@ export function ThemedPublicProfileView({
       );
     }
 
-    // D. TRUCK ART: Scalloped medallion with marigold petals
+    // 8. TRUCK ART: Scalloped medallion with marigold petals
     if (themeId === "truck-art") {
       return (
         <div className="relative w-28 h-28 rounded-full bg-[#f9a602] p-1.5 shadow-[0_8px_0_#d81b60] border-2 border-[#fff4d6] flex items-center justify-center">
@@ -158,63 +259,10 @@ export function ThemedPublicProfileView({
       );
     }
 
-    // E. DECO: Octagonal frame with double gold border
-    if (themeId === "deco") {
-      return (
-        <div
-          className="w-28 h-28 bg-[#07110e] border-2 border-[#d4af37] p-1.5 flex items-center justify-center shadow-[0_0_24px_rgba(212,175,55,0.4)]"
-          style={{
-            clipPath: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-          }}
-        >
-          <div
-            className="w-full h-full border border-[#d4af37] flex items-center justify-center overflow-hidden"
-            style={{
-              clipPath: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-            }}
-          >
-            {profile.avatar_url ? (
-              <img
-                src={profile.avatar_url}
-                alt={displayName}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <span className="text-2xl text-[#f2e2b3]" style={{ fontFamily: "'Limelight', cursive" }}>
-                {initials}
-              </span>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    // F. Y2K CHROME: Thick polished chrome ring with glint
-    if (themeId === "y2k-chrome") {
-      return (
-        <div className="relative w-28 h-28 rounded-full p-2 bg-gradient-to-tr from-[#9aa0b4] via-[#ffffff] to-[#6f7592] shadow-[0_8px_32px_rgba(61,90,254,0.4)] flex items-center justify-center">
-          <div className="w-full h-full rounded-full bg-[#0b0b1e] p-1 border border-white/50 flex items-center justify-center overflow-hidden">
-            {profile.avatar_url ? (
-              <img
-                src={profile.avatar_url}
-                alt={displayName}
-                className="w-full h-full rounded-full object-cover"
-              />
-            ) : (
-              <span className="text-xl font-black text-white" style={{ fontFamily: "'Unbounded', sans-serif" }}>
-                {initials}
-              </span>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    // G. RISO: Halftone circle with offset duplicate ring
+    // 9. RISO: Halftone circle with offset duplicate ring
     if (themeId === "riso") {
       return (
         <div className="relative w-24 h-24 mb-1">
-          {/* Offset Cyan Ring */}
           <div className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-full border-4 border-[#0078bf] pointer-events-none" />
           <div className="relative w-full h-full rounded-full border-4 border-[#ff48b0] overflow-hidden bg-white flex items-center justify-center">
             {profile.avatar_url ? (
@@ -233,7 +281,7 @@ export function ThemedPublicProfileView({
       );
     }
 
-    // H. PRESS: Halftone newsprint square photo with caption
+    // 10. PRESS: Halftone newsprint photo with caption
     if (themeId === "press") {
       return (
         <div className="p-1.5 bg-white border-2 border-[#141414] shadow-[4px_4px_0_#141414] rotate-[-1deg]">
@@ -255,7 +303,7 @@ export function ThemedPublicProfileView({
       );
     }
 
-    // I. STICKER BOMB: Peeling round laptop sticker
+    // 11. STICKER BOMB: Peeling round laptop sticker
     if (themeId === "sticker-bomb") {
       return (
         <div className="relative w-26 h-26 rounded-full border-[4px] border-white shadow-[0_8px_0_rgba(0,0,0,0.35)] overflow-hidden bg-[#ffd23f] p-1 flex items-center justify-center rotate-[3deg] hover:rotate-0 transition-transform">
@@ -276,7 +324,7 @@ export function ThemedPublicProfileView({
       );
     }
 
-    // J. Default (Receipt, Ticket, Archive): Crisp square / framed
+    // 12. ARCHIVE: Clean catalog square
     return (
       <div className="w-24 h-24 rounded-none border-2 border-current p-1 flex items-center justify-center bg-white shadow-xs">
         {profile.avatar_url ? (
@@ -297,10 +345,46 @@ export function ThemedPublicProfileView({
     if (!profile.status_message?.trim()) return null;
     const msg = profile.status_message.trim();
 
-    if (themeId === "receipt") {
+    if (themeId === "cassette") {
       return (
-        <div className="mb-3 px-3 py-1 bg-[#d62828] text-white text-[11px] font-mono font-bold uppercase tracking-wider shadow-xs rotate-[-1deg]">
-          STAMP: {msg}
+        <div className="mb-3 px-3 py-1 rounded-sm bg-[#f26b21] text-white text-[11px] font-mono font-bold uppercase tracking-wider shadow-xs rotate-[-1deg] border border-[#1a1a1a]">
+          SIDE A: {msg}
+        </div>
+      );
+    }
+
+    if (themeId === "comic") {
+      return (
+        <div className="mb-3 relative px-4 py-1.5 rounded-2xl bg-white border-2 border-[#111111] shadow-[3px_3px_0_#111111] text-center max-w-[280px]">
+          <span className="text-xs font-bold text-[#111111]" style={{ fontFamily: "'Comic Neue', cursive" }}>
+            {msg}
+          </span>
+          {/* Comic speech tail */}
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b-2 border-r-2 border-[#111111] rotate-45" />
+        </div>
+      );
+    }
+
+    if (themeId === "bauhaus") {
+      return (
+        <div className="mb-3 px-4 py-1.5 bg-[#d7261e] text-white text-xs font-black uppercase tracking-wider border-2 border-[#151515] shadow-[3px_3px_0_#151515]">
+          {msg}
+        </div>
+      );
+    }
+
+    if (themeId === "star-chart") {
+      return (
+        <div className="mb-3 px-3.5 py-1 rounded-full bg-[#0e1630] text-[#eef1fa] text-[10px] font-mono tracking-widest uppercase border border-[#e6c36a]/80 shadow-[0_0_12px_rgba(230,195,106,0.3)]">
+          ORBIT: {msg}
+        </div>
+      );
+    }
+
+    if (themeId === "papercut") {
+      return (
+        <div className="mb-3 px-3.5 py-1 rounded-md bg-[#ffd166] text-[#1b1b2f] text-xs font-bold shadow-md rotate-1">
+          {msg}
         </div>
       );
     }
@@ -309,14 +393,6 @@ export function ThemedPublicProfileView({
       return (
         <div className="mb-3 px-3 py-1 bg-[#c1121f] text-white text-xs font-mono font-bold uppercase tracking-widest border border-[#141414] shadow-[2px_2px_0_#141414] animate-pulse">
           BREAKING: {msg}
-        </div>
-      );
-    }
-
-    if (themeId === "ticket") {
-      return (
-        <div className="mb-3 px-3.5 py-1 rounded-full bg-[#e4572e] text-[#f3e9d2] text-[10px] font-mono font-bold uppercase tracking-widest border border-white/20">
-          ★ ADMIT ONE: {msg} ★
         </div>
       );
     }
@@ -337,14 +413,6 @@ export function ThemedPublicProfileView({
       );
     }
 
-    if (themeId === "gothic") {
-      return (
-        <div className="mb-3 px-4 py-1.5 border border-[#b08d57] bg-[#140b0c] text-[#e9e0cf] text-xs font-serif italic text-center max-w-xs">
-          &ldquo;{msg}&rdquo;
-        </div>
-      );
-    }
-
     if (themeId === "truck-art") {
       return (
         <div className="mb-3 px-4 py-1 rounded-xl bg-[#d81b60] text-[#fff4d6] text-xs font-bold uppercase tracking-wider border-2 border-[#f9a602] shadow-[0_3px_0_#00897b]">
@@ -353,29 +421,10 @@ export function ThemedPublicProfileView({
       );
     }
 
-    if (themeId === "deco") {
-      return (
-        <div
-          className="mb-3 px-4 py-1 bg-[#0f3b2e] border border-[#d4af37] text-[#f2e2b3] text-xs font-mono uppercase tracking-[0.2em]"
-          style={{ clipPath: "polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px)" }}
-        >
-          {msg}
-        </div>
-      );
-    }
-
     if (themeId === "riso") {
       return (
         <div className="mb-3 px-3 py-1 bg-[#ff48b0] text-[#1a1a1a] text-xs font-mono font-black uppercase tracking-wider border-2 border-[#1a1a1a] shadow-[3px_3px_0_#0078bf]">
           {msg}
-        </div>
-      );
-    }
-
-    if (themeId === "y2k-chrome") {
-      return (
-        <div className="mb-3 px-4 py-1 rounded-full bg-gradient-to-r from-[#ffffff] via-[#e6e8f0] to-[#b0b5c8] border border-white text-[#0b0b1e] text-[10px] font-mono font-black uppercase tracking-widest shadow-md">
-          // STATUS: {msg}
         </div>
       );
     }
@@ -395,18 +444,18 @@ export function ThemedPublicProfileView({
     return (
       <section className="w-full mt-8 pt-6 border-t border-current/20 text-center">
         <h4 className="text-[10px] uppercase font-mono font-bold tracking-widest opacity-80 mb-3">
-          {themeId === "receipt" && "SERVED BY / COLLABORATORS"}
+          {themeId === "cassette" && "MIX BY / COLLABORATORS"}
+          {themeId === "comic" && "FEATURING IN THIS ISSUE"}
+          {themeId === "bauhaus" && "COLLECTIVE FELLOWS"}
+          {themeId === "star-chart" && "CONSTELLATION ALLIES"}
+          {themeId === "papercut" && "LAYER COLLABORATORS"}
           {themeId === "press" && "EDITORIAL CONTRIBUTORS"}
-          {themeId === "ticket" && "GUEST LIST & VIP"}
           {themeId === "vinyl" && "FEATURING CREDITS"}
           {themeId === "postage" && "ADDRESSED CO-PILOTS"}
-          {themeId === "gothic" && "HONORED GUILD MEMBERS"}
           {themeId === "sticker-bomb" && "CREW STICKERS"}
           {themeId === "archive" && "SEE ALSO / REFERENCES"}
           {themeId === "truck-art" && "HUMSAFAR / CREW"}
-          {themeId === "deco" && "PATRONS OF HONOR"}
           {themeId === "riso" && "PRINT EDITION CO-AUTHORS"}
-          {themeId === "y2k-chrome" && "NETWORK ALLIES"}
         </h4>
 
         <div className="flex flex-wrap items-center justify-center gap-2.5">
@@ -442,58 +491,39 @@ export function ThemedPublicProfileView({
   const renderThemedFooter = () => {
     return (
       <footer className="w-full mt-10 pt-6 border-t border-dashed border-current/25 flex flex-col items-center gap-2 text-center select-none">
-        {themeId === "receipt" && (
-          <>
-            <div className="text-[10px] font-mono tracking-widest uppercase">
-              TOTAL DESTINATIONS: {String(visibleLinks.length).padStart(2, "0")}
-            </div>
-            {/* SVG Barcode */}
-            <div className="py-1">
-              <svg className="w-48 h-8 mx-auto" viewBox="0 0 160 30" fill="currentColor">
-                <rect x="0" y="0" width="3" height="30" />
-                <rect x="5" y="0" width="2" height="30" />
-                <rect x="9" y="0" width="5" height="30" />
-                <rect x="16" y="0" width="2" height="30" />
-                <rect x="20" y="0" width="4" height="30" />
-                <rect x="26" y="0" width="2" height="30" />
-                <rect x="31" y="0" width="6" height="30" />
-                <rect x="40" y="0" width="3" height="30" />
-                <rect x="45" y="0" width="2" height="30" />
-                <rect x="50" y="0" width="5" height="30" />
-                <rect x="57" y="0" width="3" height="30" />
-                <rect x="62" y="0" width="6" height="30" />
-                <rect x="71" y="0" width="2" height="30" />
-                <rect x="75" y="0" width="4" height="30" />
-                <rect x="81" y="0" width="3" height="30" />
-                <rect x="86" y="0" width="5" height="30" />
-                <rect x="93" y="0" width="2" height="30" />
-                <rect x="98" y="0" width="4" height="30" />
-                <rect x="105" y="0" width="3" height="30" />
-                <rect x="110" y="0" width="6" height="30" />
-                <rect x="118" y="0" width="2" height="30" />
-                <rect x="122" y="0" width="5" height="30" />
-                <rect x="130" y="0" width="3" height="30" />
-                <rect x="135" y="0" width="4" height="30" />
-                <rect x="142" y="0" width="2" height="30" />
-                <rect x="146" y="0" width="6" height="30" />
-                <rect x="155" y="0" width="3" height="30" />
-              </svg>
-            </div>
-            <div className="text-[10px] font-mono tracking-widest uppercase">
-              *** THANK YOU, COME AGAIN ***
-            </div>
-          </>
+        {themeId === "cassette" && (
+          <div className="px-3 py-1 rounded bg-[#f0e6cf] border border-[#1a1a1a] text-[10px] font-mono font-bold tracking-wider text-[#1a1a1a] uppercase shadow-2xs">
+            MADE WITH LINKFACE • STEREO MIXTAPE
+          </div>
+        )}
+
+        {themeId === "comic" && (
+          <div className="px-3 py-1 rounded-lg bg-[#ffd400] border-2 border-[#111111] shadow-[2px_2px_0_#111111] text-[11px] font-black uppercase text-[#111111]" style={{ fontFamily: "'Bangers', cursive" }}>
+            MADE WITH LINKFACE • END OF CHAPTER!
+          </div>
+        )}
+
+        {themeId === "bauhaus" && (
+          <div className="text-[10px] font-mono font-black tracking-[0.2em] text-[#151515] uppercase border-t-2 border-[#151515] pt-2 w-full">
+            FORM FOLLOWS FUNCTION • MADE WITH LINKFACE
+          </div>
+        )}
+
+        {themeId === "star-chart" && (
+          <div className="text-[10px] font-mono tracking-[0.25em] text-[#e6c36a] uppercase">
+            ✦ CELESTIAL HORIZON • MADE WITH LINKFACE ✦
+          </div>
+        )}
+
+        {themeId === "papercut" && (
+          <div className="px-4 py-1 rounded bg-[#fffdf7] text-[#1b1b2f] text-xs font-bold shadow-sm" style={{ fontFamily: "'Fredoka', cursive" }}>
+            Crafted with layers • Made with Linkface
+          </div>
         )}
 
         {themeId === "press" && (
           <div className="text-[10px] font-mono tracking-wider uppercase text-[#3d3a36]">
             VOL. CIV • NO. 42 • PUBLISHED DAILY IN LUXURY INK
-          </div>
-        )}
-
-        {themeId === "ticket" && (
-          <div className="text-[10px] font-mono tracking-widest uppercase text-[#a89f8b]">
-            ★ NO REFUNDS • NON-TRANSFERABLE • VALID FOR ONE ENTRY ★
           </div>
         )}
 
@@ -503,33 +533,15 @@ export function ThemedPublicProfileView({
           </div>
         )}
 
-        {themeId === "gothic" && (
-          <div className="text-xs font-serif italic text-[#b08d57]">
-            ✦ IN NOMINE VERITAS • SANCTUM ✦
-          </div>
-        )}
-
         {themeId === "truck-art" && (
           <div className="text-xs font-bold text-[#f9a602] tracking-wider" style={{ fontFamily: "'Yatra One', cursive" }}>
             बुरी नज़र वाले तेरा मुँह काला • LINKFACE
           </div>
         )}
 
-        {themeId === "deco" && (
-          <div className="text-[10px] font-mono tracking-[0.25em] text-[#d4af37] uppercase">
-            ◆ ART DECO LUXURY • EDITION MMXXVI ◆
-          </div>
-        )}
-
         {themeId === "riso" && (
           <div className="text-[10px] font-mono font-bold tracking-widest text-[#1a1a1a] uppercase">
             PRINTED IN 2 SPOT COLORS: CYAN & MAGENTA
-          </div>
-        )}
-
-        {themeId === "y2k-chrome" && (
-          <div className="text-[9px] font-mono tracking-widest text-[#3d5afe] uppercase">
-            [ CYBERNETIC LINKFACE OS v2.006 // SECURE ONLINE ]
           </div>
         )}
 
@@ -556,17 +568,53 @@ export function ThemedPublicProfileView({
       {/* Dynamic Google Fonts Loader for this specific theme */}
       <link rel="stylesheet" href={theme.googleFontsUrl} />
 
-      {/* Main Container Card (Narrow Receipt / Poster / Masthead) */}
+      {/* Comic Halftone Background Accents (Behind content only) */}
+      {themeId === "comic" && (
+        <div
+          className="absolute inset-0 pointer-events-none opacity-20"
+          style={{
+            backgroundImage: "radial-gradient(#111 1.5px, transparent 1.5px)",
+            backgroundSize: "16px 16px",
+          }}
+        />
+      )}
+
+      {/* Star Chart Constellation Lines (Behind content only) */}
+      {themeId === "star-chart" && (
+        <div className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
+          <svg className="w-full h-full text-[#9fb4e8]" viewBox="0 0 600 800" fill="none" stroke="currentColor">
+            <circle cx="120" cy="180" r="2" fill="currentColor" />
+            <circle cx="340" cy="120" r="3" fill="#e6c36a" />
+            <circle cx="480" cy="240" r="2" fill="currentColor" />
+            <circle cx="200" cy="450" r="2.5" fill="currentColor" />
+            <circle cx="420" cy="600" r="3" fill="#e6c36a" />
+            <line x1="120" y1="180" x2="340" y2="120" strokeWidth="0.8" strokeDasharray="3 3" />
+            <line x1="340" y1="120" x2="480" y2="240" strokeWidth="0.8" strokeDasharray="3 3" />
+            <line x1="200" y1="450" x2="420" y2="600" strokeWidth="0.8" strokeDasharray="3 3" />
+          </svg>
+        </div>
+      )}
+
+      {/* Papercut Wavy Stacked Layers Background (Behind content only) */}
+      {themeId === "papercut" && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+          <div className="absolute top-0 left-0 right-0 h-40 bg-[#ef476f] rounded-b-[60px]" />
+          <div className="absolute top-24 left-0 right-0 h-40 bg-[#ffd166] rounded-b-[80px]" />
+          <div className="absolute top-48 left-0 right-0 h-40 bg-[#06d6a0] rounded-b-[100px]" />
+        </div>
+      )}
+
+      {/* Main Container Card */}
       <main
         className={`w-full max-w-[460px] mx-auto p-6 sm:p-8 relative z-10 transition-all duration-300 ${
-          themeId === "receipt"
-            ? "shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
-            : themeId === "press"
+          themeId === "press"
             ? "border-4 border-[#141414] shadow-[8px_8px_0_#141414]"
-            : themeId === "gothic"
-            ? "border border-[#b08d57] shadow-[0_0_36px_rgba(0,0,0,0.9)]"
-            : themeId === "deco"
-            ? "border-2 border-[#d4af37] shadow-[0_0_32px_rgba(212,175,55,0.25)]"
+            : themeId === "comic"
+            ? "border-[3.5px] border-[#111111] shadow-[8px_8px_0_#111111] rounded-3xl"
+            : themeId === "bauhaus"
+            ? "border-[3px] border-[#151515] shadow-[8px_8px_0_#151515] rounded-none"
+            : themeId === "star-chart"
+            ? "border border-[#9fb4e8]/40 shadow-[0_0_32px_rgba(14,22,48,0.9)] rounded-3xl"
             : "rounded-3xl shadow-lg"
         }`}
         style={{
@@ -574,15 +622,17 @@ export function ThemedPublicProfileView({
           color: theme.text,
         }}
       >
-        {/* Receipt Zig-Zag Mask or Border details */}
-        {themeId === "receipt" && (
-          <div className="w-full text-center pb-4 border-b-2 border-dashed border-[#1a1a1a]/40 mb-5">
-            <span className="text-[11px] font-mono tracking-widest uppercase block font-bold text-[#1a1a1a]">
-              *** OFFICIAL RECEIPT ***
-            </span>
-            <span className="text-[9px] font-mono text-[#55524b] block mt-0.5">
-              REGISTER #01 • {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-            </span>
+        {/* Cassette Tape Header Strip */}
+        {themeId === "cassette" && (
+          <div className="w-full text-center pb-3 border-b-2 border-[#1a1a1a] mb-5">
+            <div className="inline-block px-4 py-1 rounded bg-[#ffffff] border-2 border-[#1a1a1a] shadow-xs">
+              <span
+                className="text-xs font-mono font-bold tracking-widest uppercase text-[#1a1a1a]"
+                style={{ fontFamily: "'DM Mono', monospace" }}
+              >
+                ★ MIXTAPE // STEREO CASSETTE ★
+              </span>
+            </div>
           </div>
         )}
 
@@ -603,20 +653,15 @@ export function ThemedPublicProfileView({
           </div>
         )}
 
-        {/* Deco Fan Sunburst Lines Background (SVG) */}
-        {themeId === "deco" && (
-          <div className="absolute top-0 left-0 right-0 h-40 pointer-events-none opacity-20 overflow-hidden">
-            <svg className="w-full h-full text-[#d4af37]" viewBox="0 0 400 160" fill="none" stroke="currentColor">
-              <line x1="200" y1="160" x2="0" y2="0" strokeWidth="1" />
-              <line x1="200" y1="160" x2="50" y2="0" strokeWidth="1" />
-              <line x1="200" y1="160" x2="100" y2="0" strokeWidth="1" />
-              <line x1="200" y1="160" x2="150" y2="0" strokeWidth="1" />
-              <line x1="200" y1="160" x2="200" y2="0" strokeWidth="1" />
-              <line x1="200" y1="160" x2="250" y2="0" strokeWidth="1" />
-              <line x1="200" y1="160" x2="300" y2="0" strokeWidth="1" />
-              <line x1="200" y1="160" x2="350" y2="0" strokeWidth="1" />
-              <line x1="200" y1="160" x2="400" y2="0" strokeWidth="1" />
-            </svg>
+        {/* Comic Title Burst */}
+        {themeId === "comic" && (
+          <div className="w-full text-center mb-4">
+            <span
+              className="inline-block px-4 py-1 bg-[#ffd400] text-[#111111] border-2 border-[#111111] shadow-[3px_3px_0_#111111] text-xs font-black uppercase tracking-widest rotate-[-1deg]"
+              style={{ fontFamily: "'Bangers', cursive" }}
+            >
+              ★ ACTION ISSUE #01 ★
+            </span>
           </div>
         )}
 

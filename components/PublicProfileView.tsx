@@ -44,8 +44,8 @@ export function PublicProfileView({
   const isPro = profile.plan === "pro";
 
   // Downgrade rules:
-  // Free users default to "midnight", Pro users unlock all bespoke 12 themes
-  const activeThemeId = isPro ? profile.theme : "midnight";
+  // Free users default to "cassette" (free mixtape theme), Pro users unlock all bespoke 12 themes
+  const activeThemeId = isPro ? profile.theme : (profile.theme === "cassette" || !profile.theme ? "cassette" : "cassette");
 
   // If one of the 12 bespoke themes is active, render via ThemedPublicProfileView
   if (isNewProfileTheme(activeThemeId)) {

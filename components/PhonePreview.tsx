@@ -29,9 +29,9 @@ export function PhonePreview({
   floating = false,
 }: PhonePreviewProps) {
   const isPro = profile.plan === "pro";
-  const activeThemeId = isPro ? profile.theme : "midnight";
+  const activeThemeId = isPro ? profile.theme : (profile.theme === "cassette" || !profile.theme ? "cassette" : "cassette");
 
-  // If one of the 12 bespoke themes, render in phone chassis
+  // If one of the 12 bespoke themes, render in phone chassis with natural scrolling
   if (isNewProfileTheme(activeThemeId)) {
     return (
       <div
@@ -40,8 +40,17 @@ export function PhonePreview({
         } ${className}`}
       >
         {/* Dynamic Island */}
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#18181B] rounded-full z-30" />
-        <div className="max-h-[640px] overflow-y-auto no-scrollbar">
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#18181B] rounded-full z-30 pointer-events-none" />
+        
+        {/* Inner Device Screen with smooth native vertical scroll */}
+        <div
+          tabIndex={0}
+          className="h-[640px] max-h-[640px] overflow-y-auto overflow-x-hidden focus:outline-none scroll-smooth touch-pan-y"
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "rgba(150,150,150,0.3) transparent",
+          }}
+        >
           <ThemedPublicProfileView
             profile={profile}
             links={links}

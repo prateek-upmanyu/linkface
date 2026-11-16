@@ -1,4 +1,5 @@
 import { ThemeId } from "@/types";
+import { isNewProfileTheme, getProfileTheme } from "@/lib/profile-themes-config";
 
 export interface ThemeConfig {
   id: ThemeId;
@@ -383,9 +384,14 @@ export function getTheme(id?: string | null): ThemeConfig {
 
 /**
  * Determines whether a theme requires a Pro subscription.
+ * Note: CASSETTE and MIDNIGHT are free; all other 11 themes require Pro.
  */
 export function isProTheme(id?: string | null): boolean {
   if (!id) return false;
+  if (id === "cassette" || id === "midnight") return false;
+  if (isNewProfileTheme(id)) {
+    return getProfileTheme(id).isPro;
+  }
   const theme = THEMES[id];
   return Boolean(theme?.isPro);
 }
