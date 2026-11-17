@@ -24,6 +24,7 @@ function getAudioContext(): AudioContext | null {
 export function isAudioMuted(): boolean {
   if (typeof window === "undefined") return true;
   return (
+    localStorage.getItem("linkface_sound_muted") === "true" ||
     localStorage.getItem("linklet_sound_muted") === "true" ||
     localStorage.getItem("aurum_sound_muted") === "true" ||
     localStorage.getItem("craftlink_sound_muted") === "true"
@@ -34,6 +35,7 @@ export function toggleAudioMuted(): boolean {
   if (typeof window === "undefined") return true;
   const current = isAudioMuted();
   const next = !current;
+  localStorage.setItem("linkface_sound_muted", next ? "true" : "false");
   localStorage.setItem("linklet_sound_muted", next ? "true" : "false");
   if (!next) {
     playLevelUpSound();

@@ -1,6 +1,7 @@
 import { Profile, FeaturedCreator } from "@/types";
 
-const META_PREFIX = "<!--LINKLET_META:";
+const META_PREFIX = "<!--LINKFACE_META:";
+const LEGACY_META_PREFIX = "<!--LINKLET_META:";
 const META_SUFFIX = "-->";
 
 export interface ProfileMetadata {
@@ -17,7 +18,7 @@ export interface ProfileMetadata {
  */
 export function cleanBio(bio?: string | null): string {
   if (!bio) return "";
-  const regex = new RegExp(`${META_PREFIX}[\\s\\S]*?${META_SUFFIX}`, "g");
+  const regex = new RegExp(`<!--(?:LINKFACE_META|LINKLET_META):[\\s\\S]*?-->`, "g");
   return bio.replace(regex, "").trim();
 }
 
@@ -26,10 +27,15 @@ export function cleanBio(bio?: string | null): string {
  */
 export function extractMetadataFromBio(bio?: string | null): ProfileMetadata {
   if (!bio) return {};
-  const startIndex = bio.indexOf(META_PREFIX);
+  let startIndex = bio.indexOf(META_PREFIX);
+  let prefixLength = META_PREFIX.length;
+  if (startIndex === -1) {
+    startIndex = bio.indexOf(LEGACY_META_PREFIX);
+    prefixLength = LEGACY_META_PREFIX.length;
+  }
   if (startIndex === -1) return {};
 
-  const jsonStart = startIndex + META_PREFIX.length;
+  const jsonStart = startIndex + prefixLength;
   const endIndex = bio.indexOf(META_SUFFIX, jsonStart);
   if (endIndex === -1) return {};
 

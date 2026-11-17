@@ -1,5 +1,5 @@
 -- ==============================================================================
--- LINKLET ROW LEVEL SECURITY (RLS) & RPC HARDENING
+-- LINKFACE ROW LEVEL SECURITY (RLS) & RPC HARDENING
 -- ==============================================================================
 -- Run this in your Supabase Dashboard -> SQL Editor
 -- All functions use explicit tags ($click_body$, $view_body$) to prevent parser errors.
@@ -30,7 +30,7 @@ ALTER TABLE IF EXISTS public.profiles
     'admin', 'administrator', 'root', 'system', 'security', 'login', 'logout', 
     'signup', 'signin', 'auth', 'callback', 'api', 'dashboard', 'settings', 
     'account', 'profile', 'user', 'users', 'help', 'support', 'terms', 
-    'privacy', 'explore', 'about', 'contact', 'billing', 'pricing', 'alex', 'linklet'
+    'privacy', 'explore', 'about', 'contact', 'billing', 'pricing', 'alex', 'linkface', 'linklet'
   ));
 
 -- 3. ENABLE ROW LEVEL SECURITY ON EVERY TABLE

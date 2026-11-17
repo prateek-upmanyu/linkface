@@ -1,5 +1,5 @@
 -- ==============================================================================
--- LINKLET FREE VS PRO PAYWALL & 12 THEMES SECURITY MIGRATION
+-- LINKFACE FREE VS PRO PAYWALL & 12 THEMES SECURITY MIGRATION
 -- ==============================================================================
 -- Execute this script in your Supabase Dashboard -> SQL Editor
 -- Enforces server-side limits, RLS policies, and prevents tampering with subscription plans.

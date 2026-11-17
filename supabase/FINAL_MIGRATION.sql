@@ -1,5 +1,5 @@
 -- ==============================================================================
--- LINKLET COMPLETE SUPABASE DATABASE MIGRATION & HARDENING SCRIPT
+-- LINKFACE COMPLETE SUPABASE DATABASE MIGRATION & HARDENING SCRIPT
 -- ==============================================================================
 -- Copy and run this entire file in your Supabase Dashboard -> SQL Editor -> Run
 -- All functions use explicit named tags ($...$) so no "unterminated dollar-quoted string"
@@ -39,7 +39,7 @@ ALTER TABLE IF EXISTS public.profiles
     'admin', 'administrator', 'root', 'system', 'security', 'login', 'logout', 
     'signup', 'signin', 'auth', 'callback', 'api', 'dashboard', 'settings', 
     'account', 'profile', 'user', 'users', 'help', 'support', 'terms', 
-    'privacy', 'explore', 'about', 'contact', 'billing', 'pricing', 'alex', 'linklet'
+    'privacy', 'explore', 'about', 'contact', 'billing', 'pricing', 'alex', 'linkface', 'linklet'
   ));
 
 -- 4. ENABLE ROW LEVEL SECURITY (RLS)
