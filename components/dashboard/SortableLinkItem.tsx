@@ -70,7 +70,7 @@ export function SortableLinkItem({
     link.url && !platform
       ? `https://www.google.com/s2/favicons?domain=${
           link.url.replace(/^https?:\/\//i, "").split("/")[0]
-        }&sz=64`
+        }&sz=128`
       : null;
 
   const handleIconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,12 +88,13 @@ export function SortableLinkItem({
     const validation = sanitizeAndValidateUrl(editUrl);
     const finalUrl = validation.isValid ? validation.sanitizedUrl : editUrl;
     const detected = detectPlatform(finalUrl);
+    const autoIcon = editCustomIcon || (!detected.platformId && detected.faviconUrl ? detected.faviconUrl : null);
     onUpdate(link.id, {
       title: editTitle.trim().slice(0, 100) || link.title,
       url: finalUrl,
       platform: detected.platformId || link.platform,
       badge: editBadge.trim().slice(0, 20) || null,
-      custom_icon: editCustomIcon,
+      custom_icon: autoIcon,
     });
     setIsEditing(false);
   };
@@ -148,7 +149,7 @@ export function SortableLinkItem({
 
         {/* Platform or Custom Icon Badge */}
         <div
-          className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFDF5] overflow-hidden"
+          className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 border border-gray-100 bg-[#FFFFFF] overflow-hidden"
           style={{
             ...getPlatformBadgeStyle(platform?.brandColor),
           }}
@@ -157,7 +158,7 @@ export function SortableLinkItem({
             <img
               src={link.custom_icon}
               alt=""
-              className="w-full h-full object-cover rounded-[8px]"
+              className={`w-full h-full ${link.custom_icon.startsWith("data:") ? "object-cover" : "object-contain p-1"} rounded-[8px]`}
             />
           ) : (
             <PlatformIcon
@@ -165,7 +166,7 @@ export function SortableLinkItem({
               platformId={link.platform}
               faviconUrl={favicon}
               brandColor={platform?.brandColor}
-              className="w-4 h-4"
+              className="w-4 h-4 object-contain"
               size={18}
             />
           )}

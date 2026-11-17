@@ -236,7 +236,7 @@ function LoginForm() {
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="w-full py-3 px-4 rounded-[12px] border-2 border-[#E5E7EB] bg-[#FFFFFF] hover:bg-[#FFFDF9] hover:border-gray-300 text-[#18181B] text-xs font-body font-bold flex items-center justify-center gap-3 transition-colors mb-5 shadow-2xs"
+            className="w-full py-3 px-4 rounded-[12px] border-2 border-[#E5E7EB] bg-[#FFFFFF] hover:bg-[#FFFDF9] hover:border-[#F39C12]/50 text-[#18181B] text-xs font-body font-bold flex items-center justify-center gap-3 transition-all mb-5 shadow-2xs hover:shadow-sm hover:-translate-y-0.5 active:scale-95 cursor-pointer"
           >
             <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
               <path
@@ -339,7 +339,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 btn-champagne text-xs uppercase tracking-wider font-bold disabled:opacity-50 flex items-center justify-center gap-2 mt-4 rounded-full"
+              className="w-full py-3 btn-champagne text-xs uppercase tracking-wider font-bold disabled:opacity-50 flex items-center justify-center gap-2 mt-4 rounded-full shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
               <span>{isSignUp ? "Create Free Account →" : "Sign In →"}</span>

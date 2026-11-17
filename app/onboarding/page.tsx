@@ -174,7 +174,7 @@ export default function OnboardingPage() {
           <button
             type="submit"
             disabled={!availability?.available || isSubmitting}
-            className="w-full py-3 btn-champagne text-xs uppercase tracking-wider font-bold disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2 rounded-full"
+            className="w-full py-3 btn-champagne text-xs uppercase tracking-wider font-bold disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2 rounded-full shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer"
           >
             {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
             Continue to Dashboard →

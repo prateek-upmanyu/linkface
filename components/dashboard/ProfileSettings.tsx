@@ -303,7 +303,7 @@ export function ProfileSettings({
                   setModalReason("general");
                   setModalOpen(true);
                 }}
-                className="btn-champagne font-bold text-xs uppercase tracking-wider px-5 py-2 rounded-full transition-all shrink-0 flex items-center gap-1.5 shadow-xs"
+                className="btn-champagne font-bold text-xs uppercase tracking-wider px-5 py-2 rounded-full transition-all shrink-0 flex items-center gap-1.5 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 cursor-pointer"
               >
                 <Lock className="w-3.5 h-3.5" />
                 <span>Upgrade to Pro →</span>
@@ -579,7 +579,7 @@ export function ProfileSettings({
             <button
               type="submit"
               disabled={isLoading}
-              className="btn-champagne text-xs uppercase tracking-wider mt-2 px-6 py-2.5 rounded-full font-bold"
+              className="btn-champagne text-xs uppercase tracking-wider mt-2 px-6 py-2.5 rounded-full font-bold shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
             >
               Save Profile →
             </button>

@@ -25,7 +25,7 @@ export function PublicLinkButton({ link, themeId, themeConfig }: PublicLinkButto
     link.url && !platform
       ? `https://www.google.com/s2/favicons?domain=${
           link.url.replace(/^https?:\/\//i, "").split("/")[0]
-        }&sz=64`
+        }&sz=128`
       : null;
 
   const isDemo = !link.url || link.url === "#" || link.url.startsWith("#") || link.id.startsWith("demo-");
@@ -66,24 +66,25 @@ export function PublicLinkButton({ link, themeId, themeConfig }: PublicLinkButto
         borderRadius: theme.radiusCard,
         color: theme.text,
       }}
-      className={`w-full h-14 min-h-[56px] px-4 flex items-center justify-between border transition-all duration-200 group text-decoration-none select-none relative z-10 ${
-        clicked ? "scale-[0.99]" : ""
+      className={`w-full h-14 min-h-[56px] px-4 flex items-center justify-between border transition-all duration-200 group text-decoration-none select-none relative z-10 cursor-pointer hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
+        clicked ? "scale-[0.98]" : ""
       }`}
     >
       <div className="flex items-center gap-3.5 min-w-0 flex-1 mr-3">
         {/* Platform or Custom Icon Container */}
         <div
-          className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 overflow-hidden"
+          className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 overflow-hidden bg-white/10"
           style={{
-            backgroundColor: theme.isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.04)",
+            backgroundColor: theme.isDark ? "rgba(255, 255, 255, 0.08)" : "#FFFFFF",
             color: iconStyle.color || theme.accent,
+            border: theme.isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.06)",
           }}
         >
           {link.custom_icon ? (
             <img
               src={link.custom_icon}
               alt=""
-              className="w-full h-full object-cover rounded-[8px]"
+              className={`w-full h-full ${link.custom_icon.startsWith("data:") ? "object-cover" : "object-contain p-1"} rounded-[8px]`}
             />
           ) : (
             <PlatformIcon
@@ -91,7 +92,7 @@ export function PublicLinkButton({ link, themeId, themeConfig }: PublicLinkButto
               platformId={link.platform}
               faviconUrl={favicon}
               brandColor={iconStyle.color || theme.accent}
-              className="w-4 h-4"
+              className="w-4 h-4 object-contain"
               size={18}
             />
           )}

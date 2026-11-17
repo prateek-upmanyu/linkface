@@ -417,7 +417,7 @@ export function ThemeSelector({
               type="button"
               disabled={isSavingTheme || isLoading}
               onClick={handleSaveTheme}
-              className="btn-champagne h-9 px-4 rounded-full font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+              className="btn-champagne h-9 px-4 rounded-full font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
             >
               {isSavingTheme || isLoading ? (
                 <>

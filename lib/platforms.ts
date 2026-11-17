@@ -578,7 +578,7 @@ export function detectPlatform(rawUrl: string): DetectedPlatform {
             icon: platform.icon,
             brandColor: platform.brandColor,
             textColor: platform.textColor,
-            faviconUrl: `https://www.google.com/s2/favicons?domain=${host}&sz=64`,
+            faviconUrl: `https://www.google.com/s2/favicons?domain=${host}&sz=128`,
             normalizedUrl: normalized,
             isValid: true,
             domain: host,
@@ -592,7 +592,7 @@ export function detectPlatform(rawUrl: string): DetectedPlatform {
             icon: platform.icon,
             brandColor: platform.brandColor,
             textColor: platform.textColor,
-            faviconUrl: `https://www.google.com/s2/favicons?domain=${host}&sz=64`,
+            faviconUrl: `https://www.google.com/s2/favicons?domain=${host}&sz=128`,
             normalizedUrl: normalized,
             isValid: true,
             domain: host,
@@ -602,14 +602,23 @@ export function detectPlatform(rawUrl: string): DetectedPlatform {
     }
   }
 
-  // Unknown link fallback: domain name formatted as title + Google Favicon
-  const prettyDomain = host ? host.charAt(0).toUpperCase() + host.slice(1) : "Website";
+  // Unknown link fallback: domain name formatted as title + Google 128px Retina Favicon
+  let prettyDomain = "Website";
+  if (host) {
+    const parts = host.split(".");
+    if (parts.length >= 2) {
+      prettyDomain = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+    } else {
+      prettyDomain = host.charAt(0).toUpperCase() + host.slice(1);
+    }
+  }
+
   return {
     platformId: null,
     name: prettyDomain,
     icon: "Globe",
     brandColor: "#1F2937",
-    faviconUrl: host ? `https://www.google.com/s2/favicons?domain=${host}&sz=64` : null,
+    faviconUrl: host ? `https://www.google.com/s2/favicons?domain=${host}&sz=128` : null,
     normalizedUrl: normalized,
     isValid: true,
     domain: host,

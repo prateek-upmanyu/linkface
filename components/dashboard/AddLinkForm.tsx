@@ -65,12 +65,13 @@ export function AddLinkForm({
 
     const info = detectPlatform(validation.sanitizedUrl);
     const finalTitle = customTitle.trim() || info.name || "My Link";
+    const autoIcon = customIcon || (!info.platformId && info.faviconUrl ? info.faviconUrl : null);
 
     onAdd({
       url: validation.sanitizedUrl,
       title: finalTitle,
       platform: info.platformId,
-      custom_icon: customIcon,
+      custom_icon: autoIcon,
     });
 
     setUrl("");
@@ -94,10 +95,10 @@ export function AddLinkForm({
             Add Link
           </h3>
         </div>
-        {detected?.platformId && (
+        {detected?.isValid && (detected.name || detected.domain) && (
           <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#F9E79F]/40 border border-[#F4D03F] text-[#B9770E] font-semibold flex items-center gap-1.5 font-body">
             <Check className="w-3 h-3 text-[#E67E22]" />
-            {detected.name}
+            {detected.name || detected.domain}
           </span>
         )}
       </div>
@@ -107,9 +108,9 @@ export function AddLinkForm({
         <div className="pl-2.5 flex items-center justify-center shrink-0">
           {detected && detected.isValid ? (
             <div
-              className="w-7 h-7 rounded-[6px] flex items-center justify-center"
+              className="w-7 h-7 rounded-[6px] flex items-center justify-center overflow-hidden bg-white"
               style={{
-                backgroundColor: detected.brandColor ? `${detected.brandColor}15` : "rgba(243,156,18,0.15)",
+                backgroundColor: detected.brandColor ? `${detected.brandColor}15` : "#FFFFFF",
                 color: detected.brandColor || "#18181B",
                 border: `1px solid ${detected.brandColor || "rgba(243,156,18,0.3)"}`,
               }}
@@ -117,8 +118,9 @@ export function AddLinkForm({
               <PlatformIcon
                 iconName={detected.icon}
                 platformId={detected.platformId}
+                faviconUrl={customIcon || detected.faviconUrl}
                 brandColor={detected.brandColor}
-                className="w-4 h-4"
+                className="w-4 h-4 object-contain"
                 size={16}
               />
             </div>
@@ -134,14 +136,14 @@ export function AddLinkForm({
             setUrl(e.target.value);
             if (error) setError("");
           }}
-          placeholder="Paste URL (e.g. youtube.com/@channel, instagram.com/name, or spotify.com)"
+          placeholder="Paste any link or app (e.g. youtube.com, instagram, figma, or your website)"
           className="flex-1 min-w-0 h-full py-1.5 px-1 bg-transparent border-none text-xs sm:text-sm text-[#18181B] font-semibold focus:outline-none placeholder:text-[#9CA3AF]"
         />
 
         <button
           type="submit"
           disabled={isLoading || (!isLimitReached && !url.trim())}
-          className="btn-champagne !min-h-0 !h-[38px] !py-0 px-4 rounded-full text-xs uppercase tracking-wider font-bold shrink-0 flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-40 disabled:cursor-not-allowed m-0"
+          className="btn-champagne !min-h-0 !h-[38px] !py-0 px-4 rounded-full text-xs uppercase tracking-wider font-bold shrink-0 flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed m-0 cursor-pointer"
         >
           {isLimitReached ? (
             <>

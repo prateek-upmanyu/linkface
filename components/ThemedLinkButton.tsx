@@ -48,23 +48,56 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
     }).catch(() => {});
   };
 
+  const effectiveIcon = link.custom_icon || favicon;
+  const isCustomOrWebsite = !platform || Boolean(link.custom_icon);
+
   // Dedicated Platform Chip: 44-50px Solid Contrasting Chip in Real Brand Colors (Strict Standard)
-  const renderLogoChip = (extraClass = "") => (
-    <div
-      className={`w-11 h-11 min-w-[44px] rounded-xl flex items-center justify-center shrink-0 shadow-sm relative z-10 transition-transform duration-200 group-hover:scale-105 ${extraClass}`}
-      style={{
-        backgroundColor: brandColor === "#000000" && theme.isDark ? "#ffffff" : brandColor,
-        color: brandColor === "#000000" && theme.isDark ? "#000000" : "#ffffff",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
-      }}
-    >
-      <PlatformIcon
-        platformId={link.platform}
-        faviconUrl={link.custom_icon || favicon}
-        className="w-5 h-5 text-current drop-shadow-xs"
-      />
-    </div>
-  );
+  const renderLogoChip = (extraClass = "") => {
+    if (isCustomOrWebsite && effectiveIcon) {
+      return (
+        <div
+          className={`w-11 h-11 min-w-[44px] rounded-xl flex items-center justify-center shrink-0 shadow-xs relative z-10 transition-transform duration-200 group-hover:scale-105 bg-[#FFFFFF] border border-[#E5E7EB] overflow-hidden ${extraClass}`}
+          style={{
+            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          {link.custom_icon && link.custom_icon.startsWith("data:") ? (
+            <img
+              src={link.custom_icon}
+              alt=""
+              className="w-full h-full object-cover rounded-xl"
+            />
+          ) : (
+            <PlatformIcon
+              platformId={link.platform}
+              faviconUrl={effectiveIcon}
+              className="w-6 h-6 object-contain"
+              size={24}
+            />
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className={`w-11 h-11 min-w-[44px] rounded-xl flex items-center justify-center shrink-0 shadow-sm relative z-10 transition-transform duration-200 group-hover:scale-105 ${extraClass}`}
+        style={{
+          backgroundColor: brandColor === "#000000" && theme.isDark ? "#ffffff" : brandColor,
+          color: brandColor === "#000000" && theme.isDark ? "#000000" : "#ffffff",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+        }}
+      >
+        <PlatformIcon
+          platformId={link.platform}
+          iconName={platform?.icon}
+          faviconUrl={effectiveIcon}
+          className="w-5 h-5 text-current drop-shadow-xs"
+          size={20}
+        />
+      </div>
+    );
+  };
 
   // ==========================================
   // FREE THEME 1: NOTEBOOK (Light)

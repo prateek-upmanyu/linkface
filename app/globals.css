@@ -366,14 +366,21 @@ body {
   scrollbar-width: none;
 }
 
-/* Container */
+/* Container with responsive padding across mobile (16px), tablet (24px), and desktop (48px) */
 .quiet-container {
   width: 100%;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 640px) {
+  .quiet-container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -381,6 +388,18 @@ body {
     padding-left: 48px;
     padding-right: 48px;
   }
+}
+
+/* Universal Button Tactile Hover & Feedback */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active:not(:disabled),
+[role="button"]:active:not([aria-disabled="true"]) {
+  transform: scale(0.98);
 }
 
 /* Motion Preferences (protect accessibility without completely freezing ticker) */

@@ -106,18 +106,18 @@ export default function LandingPage() {
             : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className="quiet-container h-full flex items-center justify-between">
+        <div className="quiet-container h-full flex items-center justify-between gap-3">
           {/* Logo Left */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <BrandLogo className="w-8 h-8" />
-            <span className="font-heading text-2xl font-bold tracking-tight text-[#18181B]">
+          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+            <BrandLogo className="w-7 h-7 sm:w-8 sm:h-8 shrink-0 transition-transform group-hover:scale-105" />
+            <span className="font-heading text-xl sm:text-2xl font-bold tracking-tight text-[#18181B] whitespace-nowrap">
               Link<span className="text-[#F39C12]">face</span>
             </span>
           </Link>
 
           {/* Simple Navigation Links & Action Button */}
-          <div className="flex items-center gap-6 sm:gap-8">
-            <nav className="hidden sm:flex items-center gap-6">
+          <div className="flex items-center gap-3 sm:gap-8 shrink-0">
+            <nav className="hidden md:flex items-center gap-6">
               <a
                 href="#how-it-works"
                 className="text-xs uppercase font-bold tracking-wider text-[#4B5563] hover:text-[#E67E22] transition-colors"
@@ -147,21 +147,21 @@ export default function LandingPage() {
             {isAuthenticated ? (
               <Link
                 href="/dashboard"
-                className="btn-champagne text-xs uppercase tracking-wider px-5 py-2.5 rounded-full flex items-center gap-1.5"
+                className="btn-champagne text-[11px] sm:text-xs uppercase tracking-wider px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full flex items-center gap-1.5 whitespace-nowrap shrink-0 hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all"
               >
                 Dashboard →
               </Link>
             ) : (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
                 <Link
                   href="/login"
-                  className="text-xs uppercase font-bold tracking-wider text-[#4B5563] hover:text-[#18181B] px-2 py-2"
+                  className="text-[11px] sm:text-xs uppercase font-bold tracking-wider text-[#4B5563] hover:text-[#E67E22] px-2 sm:px-3 py-1.5 rounded-full hover:bg-black/5 whitespace-nowrap transition-all"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/signup"
-                  className="btn-champagne text-xs uppercase tracking-wider px-5 py-2.5 rounded-full"
+                  className="btn-champagne text-[11px] sm:text-xs uppercase tracking-wider px-3 sm:px-5 py-2 sm:py-2.5 rounded-full whitespace-nowrap shrink-0 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all"
                 >
                   Claim Your Link
                 </Link>
@@ -229,7 +229,7 @@ export default function LandingPage() {
               onSubmit={handleClaim}
               className="w-full max-w-md h-[54px] p-1.5 rounded-full bg-[#FFFFFF] border-2 border-[#E5E7EB] shadow-md flex items-center gap-1.5 focus-within:border-[#F39C12] transition-all box-border"
             >
-              <div className="flex items-center pl-4 text-[#B9770E] font-mono font-bold text-xs sm:text-sm select-none shrink-0">
+              <div className="flex items-center pl-3 sm:pl-4 text-[#B9770E] font-mono font-bold text-xs sm:text-sm select-none shrink-0">
                 <span>linkface.in/</span>
               </div>
               <input
@@ -239,11 +239,11 @@ export default function LandingPage() {
                   setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
                 placeholder="yourname"
-                className="flex-1 min-w-0 h-full py-0 px-1.5 text-xs sm:text-sm bg-transparent text-[#18181B] font-body font-semibold focus:outline-none placeholder:text-[#9CA3AF]"
+                className="flex-1 min-w-0 h-full py-0 px-1 sm:px-1.5 text-xs sm:text-sm bg-transparent text-[#18181B] font-body font-semibold focus:outline-none placeholder:text-[#9CA3AF]"
               />
               <button
                 type="submit"
-                className="btn-champagne text-xs uppercase tracking-wider shrink-0 px-5 sm:px-6 h-[42px] min-h-[42px] rounded-full font-bold flex items-center justify-center gap-1 shadow-xs my-0"
+                className="btn-champagne text-[11px] sm:text-xs uppercase tracking-wider shrink-0 px-3.5 sm:px-6 h-[42px] min-h-[42px] rounded-full font-bold flex items-center justify-center gap-1 shadow-xs my-0 hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all whitespace-nowrap cursor-pointer"
               >
                 Claim Link →
               </button>
@@ -416,7 +416,7 @@ export default function LandingPage() {
 
         <div className="quiet-container text-center pt-8">
           <p className="text-xs font-body font-semibold text-[#6B7280]">
-            ⚡ Any other link or custom domain? Upload your own custom logo icon in 1-click.
+            ⚡ Any website or custom app link automatically displays its official logo and favicon instantly.
           </p>
         </div>
       </section>
@@ -436,7 +436,7 @@ export default function LandingPage() {
           <div className="pt-2 flex justify-center">
             <Link
               href="/signup"
-              className="btn-champagne text-xs uppercase tracking-wider px-8 py-3.5 text-sm rounded-full"
+              className="btn-champagne text-xs uppercase tracking-wider px-8 py-3.5 text-sm rounded-full shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer"
             >
               Get Started Free →
             </Link>

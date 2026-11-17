@@ -291,7 +291,7 @@ export default function PricingPage() {
                   type="button"
                   disabled={isLoadingCheckout}
                   onClick={handleUpgrade}
-                  className="w-full h-12 rounded-full btn-champagne font-bold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
+                  className="w-full h-12 rounded-full btn-champagne font-bold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 cursor-pointer disabled:opacity-50"
                 >
                   {isLoadingCheckout ? (
                     <>

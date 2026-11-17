@@ -293,7 +293,7 @@ export function DashboardClient({
             ) : (
               <Link
                 href="/pricing"
-                className="btn-champagne text-xs uppercase tracking-wider px-3.5 py-1.5 rounded-full font-bold flex items-center gap-1 shadow-xs"
+                className="btn-champagne text-xs uppercase tracking-wider px-3.5 py-1.5 rounded-full font-bold flex items-center gap-1 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer"
               >
                 <span>Upgrade to Pro →</span>
               </Link>
@@ -301,7 +301,7 @@ export function DashboardClient({
 
             <button
               onClick={handleCopyLink}
-              className="px-3.5 py-1.5 rounded-full border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#F39C12] hover:bg-[#FFFDF9] text-xs font-semibold flex items-center gap-1.5 text-[#18181B] transition-all shadow-xs"
+              className="px-3.5 py-1.5 rounded-full border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#F39C12] hover:bg-[#FFFDF9] text-xs font-semibold flex items-center gap-1.5 text-[#18181B] transition-all shadow-xs hover:shadow-sm hover:-translate-y-0.5 active:scale-95 cursor-pointer"
               title="Copy public link"
             >
               {copied ? (
@@ -319,7 +319,7 @@ export function DashboardClient({
 
             <button
               onClick={() => setIsQrOpen(true)}
-              className="p-2 rounded-full border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#F39C12] text-[#4B5563] hover:text-[#18181B] transition-colors shadow-xs"
+              className="p-2 rounded-full border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#F39C12] text-[#4B5563] hover:text-[#18181B] transition-all shadow-xs hover:shadow-sm hover:-translate-y-0.5 active:scale-95 cursor-pointer"
               title="QR Code"
             >
               <QrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -327,7 +327,7 @@ export function DashboardClient({
 
             <button
               onClick={handleSignOut}
-              className="p-2 rounded-full border border-rose-200 bg-white text-rose-500 hover:bg-rose-50 transition-colors shadow-xs"
+              className="p-2 rounded-full border border-rose-200 bg-white text-rose-500 hover:bg-rose-50 hover:border-rose-300 transition-all shadow-xs hover:shadow-sm hover:-translate-y-0.5 active:scale-95 cursor-pointer"
               title="Sign Out"
             >
               <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
