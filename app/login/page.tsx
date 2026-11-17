@@ -25,10 +25,22 @@ function LoginForm() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        router.replace("/dashboard");
+        window.location.href = "/dashboard";
       }
     });
-  }, [router, supabase]);
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session && (event === "SIGNED_IN" || event === "TOKEN_REFRESHED")) {
+        window.location.href = "/dashboard";
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +71,7 @@ function LoginForm() {
         }
 
         if (data.session) {
-          router.push("/onboarding");
+          window.location.href = "/dashboard";
         } else {
           setMagicLinkSent(true);
         }
@@ -75,7 +87,7 @@ function LoginForm() {
           return;
         }
 
-        router.push("/dashboard");
+        window.location.href = "/dashboard";
       }
     } catch {
       setError("An unexpected error occurred. Please try again.");

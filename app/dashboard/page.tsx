@@ -36,14 +36,59 @@ export default async function DashboardPage() {
   }
 
   // Fetch user profile
-  const { data: profile } = await supabase
+  let { data: profile } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
+
+  // If no profile exists yet, auto-create one seamlessly so user is NEVER bounced or stuck
+  if (!profile) {
+    const rawName = user.user_metadata?.full_name || user.user_metadata?.name || "";
+    let desiredUsername = user.email
+      ? user.email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "").toLowerCase().slice(0, 20)
+      : `user_${user.id.slice(0, 6)}`;
+
+    if (!desiredUsername || desiredUsername.length < 3) {
+      desiredUsername = `user_${user.id.slice(0, 6)}`;
+    }
+
+    // Check if username is taken, if so append random suffix
+    const { data: taken } = await supabase
+      .from("profiles")
+      .select("id")
+      .eq("username", desiredUsername)
+      .neq("id", user.id)
+      .maybeSingle();
+
+    if (taken) {
+      desiredUsername = `${desiredUsername}_${user.id.slice(0, 4)}`;
+    }
+
+    const { data: newProfile } = await supabase
+      .from("profiles")
+      .upsert(
+        {
+          id: user.id,
+          username: desiredUsername,
+          display_name: rawName || desiredUsername,
+          avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
+          theme: "notebook",
+          plan: "free",
+          page_views: 0,
+        },
+        { onConflict: "id" }
+      )
+      .select()
+      .maybeSingle();
+
+    if (newProfile) {
+      profile = newProfile;
+    }
+  }
 
   if (!profile || !profile.username) {
-    // Redirect to onboarding to pick unique username
+    // Fallback only if database could not be written
     redirect("/onboarding");
   }
 

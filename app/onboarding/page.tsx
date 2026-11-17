@@ -64,7 +64,8 @@ export default function OnboardingPage() {
         id: user.id,
         username: username.toLowerCase().trim(),
         display_name: displayName.trim() || username.toLowerCase().trim(),
-        theme: "apple",
+        theme: "notebook",
+        plan: "free",
         page_views: 0,
       });
 
@@ -74,7 +75,7 @@ export default function OnboardingPage() {
         return;
       }
 
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setSubmitError(err.message || "Failed to initialize account.");
       setIsSubmitting(false);

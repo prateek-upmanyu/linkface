@@ -23,7 +23,12 @@ export async function middleware(request: NextRequest) {
     if (origin) {
       try {
         const originUrl = new URL(origin);
-        if (host && originUrl.host !== host && !originUrl.host.endsWith(".vercel.app")) {
+        if (
+          host &&
+          originUrl.host !== host &&
+          !originUrl.host.endsWith(".vercel.app") &&
+          !originUrl.host.endsWith("linkface.in")
+        ) {
           return new NextResponse(JSON.stringify({ error: "CORS policy violation" }), {
             status: 403,
             headers: { "Content-Type": "application/json" },
@@ -73,7 +78,7 @@ export async function middleware(request: NextRequest) {
     url.pathname = "/dashboard";
     const redirectRes = NextResponse.redirect(url);
     supabaseResponse.cookies.getAll().forEach((c) => {
-      redirectRes.cookies.set(c.name, c.value);
+      redirectRes.cookies.set(c);
     });
     return redirectRes;
   }
@@ -84,7 +89,7 @@ export async function middleware(request: NextRequest) {
       url.pathname = "/login";
       const redirectRes = NextResponse.redirect(url);
       supabaseResponse.cookies.getAll().forEach((c) => {
-        redirectRes.cookies.set(c.name, c.value);
+        redirectRes.cookies.set(c);
       });
       return redirectRes;
     }
