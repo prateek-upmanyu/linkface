@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import { BrandLogo } from "@/components/BrandLogo";
 import { PhonePreview } from "@/components/PhonePreview";
 import { DEMO_PROFILE, DEMO_LINKS } from "@/lib/demo-data";
-import { Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, Check } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
@@ -21,8 +21,20 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [magicLinkSent, setMagicLinkSent] = useState(false);
+  const [resendingEmail, setResendingEmail] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
 
   useEffect(() => {
+    // Check if error parameter passed from auth callback
+    const errorParam = searchParams?.get("error");
+    if (errorParam) {
+      if (errorParam === "auth_failed") {
+        setError("Verification link expired or invalid. Please request a new link below.");
+      } else {
+        setError(decodeURIComponent(errorParam));
+      }
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         window.location.href = "/dashboard";
@@ -37,15 +49,53 @@ function LoginForm() {
       }
     });
 
+    // Check if access_token hash fragment in URL from email verification
+    if (typeof window !== "undefined" && window.location.hash.includes("access_token")) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+          window.location.href = "/dashboard";
+        }
+      });
+    }
+
     return () => {
       subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, [supabase, searchParams]);
+
+  const handleResendVerification = async () => {
+    if (!email.trim()) {
+      setError("Please enter your email address in the field below to resend verification.");
+      return;
+    }
+    setResendingEmail(true);
+    setResendSuccess(false);
+    try {
+      const { error: resendErr } = await supabase.auth.resend({
+        type: "signup",
+        email: email.trim().toLowerCase(),
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (resendErr) {
+        setError(resendErr.message);
+      } else {
+        setResendSuccess(true);
+        setError("");
+      }
+    } catch {
+      setError("Could not resend email. Please try again.");
+    } finally {
+      setResendingEmail(false);
+    }
+  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setResendSuccess(false);
 
     try {
       if (isSignUp) {
@@ -82,7 +132,12 @@ function LoginForm() {
         });
 
         if (signInError) {
-          setError("Invalid email or password.");
+          const msg = signInError.message.toLowerCase();
+          if (msg.includes("email not confirmed") || msg.includes("not verified")) {
+            setError("Your email is not verified yet. Please click the link sent to your inbox, or request a new verification link below.");
+          } else {
+            setError(signInError.message || "Invalid email or password.");
+          }
           setLoading(false);
           return;
         }
@@ -214,9 +269,40 @@ function LoginForm() {
           </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-[12px] bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
-              <span>{error}</span>
+            <div className="mb-4 p-3.5 rounded-[12px] bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold space-y-2">
+              <div className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-500 mt-0.5" />
+                <span className="leading-relaxed">{error}</span>
+              </div>
+              {(error.toLowerCase().includes("not verified") ||
+                error.toLowerCase().includes("not confirmed") ||
+                error.toLowerCase().includes("verification link") ||
+                error.toLowerCase().includes("confirm")) && (
+                <div className="pt-1 border-t border-rose-200/60">
+                  <button
+                    type="button"
+                    disabled={resendingEmail}
+                    onClick={handleResendVerification}
+                    className="inline-flex items-center gap-1.5 text-xs text-[#E67E22] hover:text-[#B9770E] font-bold underline cursor-pointer"
+                  >
+                    {resendingEmail ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        <span>Sending new link...</span>
+                      </>
+                    ) : (
+                      <span>Resend Verification Email →</span>
+                    )}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {resendSuccess && (
+            <div className="mb-4 p-3 rounded-[12px] bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-semibold flex items-center gap-2">
+              <Check className="w-4 h-4 shrink-0 text-emerald-600" />
+              <span>A fresh verification link has been sent to your email!</span>
             </div>
           )}
 
