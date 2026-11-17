@@ -85,6 +85,9 @@ export const metadata: Metadata = {
       { url: "/brand-logo-128.png?v=5", sizes: "128x128", type: "image/png" },
     ],
   },
+  verification: {
+    google: "google5cd57795125adb2b",
+  },
 };
 
 export const viewport: Viewport = {
