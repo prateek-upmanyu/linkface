@@ -129,51 +129,89 @@ BEGIN
 END;
 $func_increment_views$;
 
--- 8. Optional: Trigger to auto-create profile stub on Supabase Auth signup
+-- 8. Trigger to auto-create profile stub on Supabase Auth signup
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER 
 LANGUAGE plpgsql 
 SECURITY DEFINER
+SET search_path = public
 AS $func_handle_new_user$
 DECLARE
-  initial_username TEXT;
   clean_name TEXT;
+  base_username TEXT;
+  final_username TEXT;
+  user_full_name TEXT;
+  user_avatar TEXT;
 BEGIN
   -- Extract prefix from email or auth metadata
-  clean_name := split_part(new.email, '@', 1);
+  clean_name := split_part(coalesce(new.email, 'user'), '@', 1);
   -- Keep alphanumeric and underscore
-  initial_username := regexp_replace(lower(clean_name), '[^a-z0-9_]', '', 'g');
+  base_username := regexp_replace(lower(clean_name), '[^a-z0-9_]', '', 'g');
   
-  -- If empty or too short, fallback to user_ + first 6 chars of id
-  IF length(initial_username) < 3 THEN
-    initial_username := 'user_' || substr(new.id::text, 1, 6);
+  -- Truncate base to 14 chars so suffix fits safely within 30 chars
+  IF length(base_username) < 3 THEN
+    base_username := 'user_' || substr(replace(new.id::text, '-', ''), 1, 6);
+  ELSIF length(base_username) > 14 THEN
+    base_username := substr(base_username, 1, 14);
   END IF;
 
   -- Ensure not reserved
-  IF initial_username IN ('admin', 'login', 'api', 'dashboard', 'settings', 'auth', 'signup') THEN
-    initial_username := initial_username || '_' || substr(new.id::text, 1, 4);
+  IF base_username IN (
+    'admin', 'administrator', 'root', 'system', 'security', 'login', 'logout', 
+    'signup', 'signin', 'auth', 'callback', 'api', 'dashboard', 'settings', 
+    'account', 'profile', 'user', 'users', 'help', 'support', 'terms', 
+    'privacy', 'explore', 'about', 'contact', 'billing', 'pricing', 'alex', 'linkface', 'linklet'
+  ) THEN
+    base_username := substr(base_username, 1, 10) || '_' || substr(replace(new.id::text, '-', ''), 1, 4);
   END IF;
 
-  -- Attempt insert with fallback if unique constraint conflicts
+  final_username := base_username;
+
+  -- Extract display name and avatar
+  user_full_name := coalesce(
+    new.raw_user_meta_data->>'full_name',
+    new.raw_user_meta_data->>'name',
+    clean_name
+  );
+  user_avatar := coalesce(
+    new.raw_user_meta_data->>'avatar_url',
+    new.raw_user_meta_data->>'picture',
+    null
+  );
+
+  -- Safe insert with automatic collision resolution & catch-all
   BEGIN
-    INSERT INTO public.profiles (id, username, display_name, avatar_url, theme)
+    INSERT INTO public.profiles (id, username, display_name, avatar_url, theme, plan, page_views)
     VALUES (
       new.id,
-      initial_username,
-      coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', clean_name),
-      coalesce(new.raw_user_meta_data->>'avatar_url', new.raw_user_meta_data->>'picture', null),
-      'midnight'
-    );
-  EXCEPTION WHEN unique_violation THEN
-    -- Append unique suffix on collision
-    INSERT INTO public.profiles (id, username, display_name, avatar_url, theme)
-    VALUES (
-      new.id,
-      initial_username || '_' || substr(new.id::text, 1, 4),
-      clean_name,
-      null,
-      'midnight'
-    );
+      final_username,
+      user_full_name,
+      user_avatar,
+      'notebook',
+      'free',
+      0
+    )
+    ON CONFLICT (id) DO NOTHING;
+  EXCEPTION 
+    WHEN unique_violation THEN
+      BEGIN
+        final_username := substr(base_username, 1, 12) || '_' || substr(replace(new.id::text, '-', ''), 1, 6);
+        INSERT INTO public.profiles (id, username, display_name, avatar_url, theme, plan, page_views)
+        VALUES (
+          new.id,
+          final_username,
+          user_full_name,
+          user_avatar,
+          'notebook',
+          'free',
+          0
+        )
+        ON CONFLICT (id) DO NOTHING;
+      EXCEPTION WHEN OTHERS THEN
+        NULL;
+      END;
+    WHEN OTHERS THEN
+      NULL;
   END;
 
   RETURN new;
