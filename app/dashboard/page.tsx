@@ -74,8 +74,6 @@ export default async function DashboardPage() {
           display_name: rawName || desiredUsername,
           avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
           theme: "notebook",
-          plan: "free",
-          page_views: 0,
         },
         { onConflict: "id" }
       )

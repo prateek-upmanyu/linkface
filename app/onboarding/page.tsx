@@ -65,12 +65,10 @@ export default function OnboardingPage() {
         username: username.toLowerCase().trim(),
         display_name: displayName.trim() || username.toLowerCase().trim(),
         theme: "notebook",
-        plan: "free",
-        page_views: 0,
       });
 
       if (insertError) {
-        setSubmitError(insertError.message);
+        setSubmitError("Failed to save profile. Please choose another username.");
         setIsSubmitting(false);
         return;
       }

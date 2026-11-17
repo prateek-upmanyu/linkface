@@ -63,15 +63,13 @@ BEGIN
 
   -- Safe insert with automatic collision resolution & catch-all
   BEGIN
-    INSERT INTO public.profiles (id, username, display_name, avatar_url, theme, plan, page_views)
+    INSERT INTO public.profiles (id, username, display_name, avatar_url, theme)
     VALUES (
       new.id,
       final_username,
       user_full_name,
       user_avatar,
-      'notebook',
-      'free',
-      0
+      'notebook'
     )
     ON CONFLICT (id) DO NOTHING;
   EXCEPTION 
@@ -79,15 +77,13 @@ BEGIN
       -- On username collision, append unique short suffix
       BEGIN
         final_username := substr(base_username, 1, 12) || '_' || substr(replace(new.id::text, '-', ''), 1, 6);
-        INSERT INTO public.profiles (id, username, display_name, avatar_url, theme, plan, page_views)
+        INSERT INTO public.profiles (id, username, display_name, avatar_url, theme)
         VALUES (
           new.id,
           final_username,
           user_full_name,
           user_avatar,
-          'notebook',
-          'free',
-          0
+          'notebook'
         )
         ON CONFLICT (id) DO NOTHING;
       EXCEPTION WHEN OTHERS THEN
