@@ -20,6 +20,7 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const rawUsername = searchParams.get("username");
+  const currentUsername = searchParams.get("current")?.toLowerCase().trim();
 
   const validation = validateUsername(rawUsername);
   if (!validation.isValid) {
@@ -31,10 +32,23 @@ export async function GET(request: Request) {
 
   const username = validation.cleanUsername;
 
+  if (currentUsername && username === currentUsername) {
+    return NextResponse.json({
+      available: true,
+      message: "This is your current handle.",
+      isCurrent: true,
+    });
+  }
+
   // Check Supabase if configured
   try {
     const supabase = await createServerSupabaseClient();
     if (supabase) {
+      // Check if user is checking their own username
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const { data, error } = await supabase
         .from("profiles")
         .select("id")
@@ -44,6 +58,13 @@ export async function GET(request: Request) {
       if (error) {
         console.error("Supabase username check error:", error);
       } else if (data) {
+        if (user && data.id === user.id) {
+          return NextResponse.json({
+            available: true,
+            message: "This is your current handle.",
+            isCurrent: true,
+          });
+        }
         return NextResponse.json({
           available: false,
           message: "This username is already claimed.",

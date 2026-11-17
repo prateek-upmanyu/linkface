@@ -16,6 +16,10 @@ import {
   CreditCard,
   ShieldCheck,
   ExternalLink,
+  AtSign,
+  Globe,
+  AlertCircle,
+  Sparkles,
 } from "lucide-react";
 
 interface ProfileSettingsProps {
@@ -30,6 +34,21 @@ export function ProfileSettings({
   isLoading = false,
 }: ProfileSettingsProps) {
   const isPro = profile.plan === "pro";
+  const [username, setUsername] = useState(profile.username || "");
+  const [usernameAvailability, setUsernameAvailability] = useState<{
+    available: boolean;
+    message?: string;
+    isCurrent?: boolean;
+  } | null>({
+    available: true,
+    message: "Active handle",
+    isCurrent: true,
+  });
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
+  const [usernameError, setUsernameError] = useState("");
+  const [isSavingUsername, setIsSavingUsername] = useState(false);
+  const [isUsernameSaved, setIsUsernameSaved] = useState(false);
+
   const [displayName, setDisplayName] = useState(profile.display_name || "");
   const [bio, setBio] = useState(profile.bio || "");
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
@@ -42,6 +61,7 @@ export function ProfileSettings({
   const [portalLoading, setPortalLoading] = useState(false);
 
   useEffect(() => {
+    setUsername(profile.username || "");
     setDisplayName(profile.display_name || "");
     setBio(profile.bio || "");
     setAvatarUrl(profile.avatar_url || "");
@@ -49,6 +69,7 @@ export function ProfileSettings({
     setStatusStyle(profile.status_style || "cloud");
     setSpotlightEnabled(Boolean(profile.spotlight_enabled));
   }, [
+    profile.username,
     profile.display_name,
     profile.bio,
     profile.avatar_url,
@@ -57,6 +78,71 @@ export function ProfileSettings({
     profile.spotlight_enabled,
   ]);
 
+  // Debounced real-time availability check for username
+  useEffect(() => {
+    const clean = username.trim().toLowerCase();
+    if (!clean) {
+      setUsernameAvailability(null);
+      return;
+    }
+
+    if (clean === profile.username) {
+      setUsernameAvailability({
+        available: true,
+        message: "This is your active Linkface handle.",
+        isCurrent: true,
+      });
+      return;
+    }
+
+    if (!/^[a-z0-9_]{3,30}$/.test(clean)) {
+      setUsernameAvailability({
+        available: false,
+        message: "Must be 3-30 letters, numbers, or underscores.",
+      });
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setIsCheckingUsername(true);
+      try {
+        const res = await fetch(
+          `/api/check-username?username=${encodeURIComponent(clean)}&current=${encodeURIComponent(profile.username || "")}`
+        );
+        const data = await res.json();
+        setUsernameAvailability(data);
+      } catch {
+        setUsernameAvailability({
+          available: false,
+          message: "Error checking handle availability.",
+        });
+      } finally {
+        setIsCheckingUsername(false);
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [username, profile.username]);
+
+  const handleSaveUsername = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const clean = username.trim().toLowerCase();
+    if (clean === profile.username) return;
+    if (!usernameAvailability?.available) return;
+
+    setUsernameError("");
+    setIsSavingUsername(true);
+    try {
+      await onUpdateProfile({ username: clean });
+      setIsUsernameSaved(true);
+      setTimeout(() => setIsUsernameSaved(false), 2500);
+    } catch (err: any) {
+      setUsernameError(err?.message || "Failed to update handle.");
+    } finally {
+      setIsSavingUsername(false);
+    }
+  };
+
   const [isSaved, setIsSaved] = useState(false);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
   const [imageError, setImageError] = useState("");
@@ -64,14 +150,19 @@ export function ProfileSettings({
 
   const handleSaveInfo = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onUpdateProfile({
+    const cleanUsername = username.trim().toLowerCase();
+    const updates: Partial<Profile> = {
       display_name: displayName.trim() || null,
       bio: bio.trim() || null,
       avatar_url: avatarUrl.trim() || null,
       status_message: statusMessage.trim() || null,
       status_style: statusStyle,
       spotlight_enabled: isPro ? spotlightEnabled : false,
-    });
+    };
+    if (cleanUsername && cleanUsername !== profile.username && usernameAvailability?.available) {
+      updates.username = cleanUsername;
+    }
+    await onUpdateProfile(updates);
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 2000);
   };
@@ -219,6 +310,117 @@ export function ProfileSettings({
               </button>
             )}
           </div>
+        </div>
+
+        {/* Username & Custom Biolink Card */}
+        <div className="p-6 rounded-[16px] bg-[#FFFFFF] border border-[#E5E7EB] shadow-xs font-body">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#E5E7EB]">
+            <div>
+              <span className="text-[11px] font-mono tracking-wider uppercase font-bold text-[#F39C12] block">
+                Your Public Identity
+              </span>
+              <h3 className="font-heading text-xl font-bold text-[#18181B]">
+                Handle & Custom Link
+              </h3>
+            </div>
+            {isUsernameSaved && (
+              <span className="text-xs text-emerald-600 font-bold flex items-center gap-1 animate-pulse">
+                <Check className="w-3.5 h-3.5" /> Handle Updated!
+              </span>
+            )}
+          </div>
+
+          <form onSubmit={handleSaveUsername} className="space-y-4">
+            <div>
+              <label className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] block mb-1.5">
+                Linkface Username
+              </label>
+              <div className="relative flex rounded-[12px] shadow-2xs">
+                <span className="inline-flex items-center px-3.5 rounded-l-[12px] border-2 border-r-0 border-[#E5E7EB] bg-[#F9FAFB] text-xs font-mono font-bold text-[#6B7280]">
+                  linkface.in/
+                </span>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => {
+                    const val = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 30);
+                    setUsername(val);
+                  }}
+                  placeholder="yourname"
+                  className="flex-1 min-w-0 block w-full px-3.5 py-2.5 rounded-none rounded-r-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-semibold font-mono text-[#18181B] focus:outline-none focus:border-[#F39C12] transition-colors"
+                />
+              </div>
+
+              {/* Real-time status message */}
+              <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                <div className="flex items-center gap-1.5 font-medium">
+                  {isCheckingUsername ? (
+                    <span className="text-[#6B7280] flex items-center gap-1">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      Checking availability...
+                    </span>
+                  ) : usernameAvailability ? (
+                    usernameAvailability.available ? (
+                      <span className="text-emerald-600 flex items-center gap-1 font-semibold">
+                        <Check className="w-3.5 h-3.5" />
+                        {usernameAvailability.isCurrent
+                          ? "This is your active handle."
+                          : "Handle is available!"}
+                      </span>
+                    ) : (
+                      <span className="text-rose-600 flex items-center gap-1 font-semibold">
+                        <AlertCircle className="w-3.5 h-3.5" />
+                        {usernameAvailability.message || "Unavailable"}
+                      </span>
+                    )
+                  ) : (
+                    <span className="text-[#9CA3AF]">
+                      3-30 letters, numbers, or underscores.
+                    </span>
+                  )}
+                </div>
+
+                {username.trim().toLowerCase() !== profile.username && (
+                  <button
+                    type="submit"
+                    disabled={isSavingUsername || isCheckingUsername || !usernameAvailability?.available}
+                    className="px-4 py-1.5 rounded-full bg-[#18181B] text-white hover:bg-[#F39C12] disabled:opacity-50 text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
+                  >
+                    {isSavingUsername ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        <span>Saving...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Check className="w-3 h-3" />
+                        <span>Save Handle</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {usernameError && (
+              <p className="text-xs text-rose-500 font-medium">{usernameError}</p>
+            )}
+
+            <div className="pt-2 border-t border-[#F3F4F6] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-[#6B7280]">
+              <div className="flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5 text-[#F39C12] shrink-0" />
+                <span>
+                  Public link: <strong className="text-[#18181B] font-mono">linkface.in/{username || profile.username}</strong>
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <AtSign className="w-3.5 h-3.5 text-[#2f6fdb] shrink-0" />
+                <span>
+                  Public handle: <strong className="text-[#18181B] font-mono">@{username || profile.username}</strong>
+                </span>
+              </div>
+            </div>
+          </form>
         </div>
 
         {/* Profile Details Card */}

@@ -417,7 +417,7 @@ export function ThemedPublicProfileView({
     if (themeId === "notebook") {
       return (
         <div
-          className="mb-3 px-4 py-2 bg-[#fff8b8] text-[#26303b] text-xs sm:text-sm font-bold shadow-[2px_3px_8px_rgba(0,0,0,0.1)] border border-[#e6db74] max-w-[280px] text-center"
+          className="mb-4 px-4 py-2 bg-[#fff8b8] text-[#26303b] text-xs sm:text-sm font-bold shadow-[2px_3px_8px_rgba(0,0,0,0.12)] border border-[#e6db74] max-w-[280px] text-center relative z-20"
           style={{
             fontFamily: "'Patrick Hand', cursive",
             transform: "rotate(-1.5deg)",
@@ -741,81 +741,75 @@ export function ThemedPublicProfileView({
   const renderThemedFooter = () => {
     return (
       <footer className="w-full mt-10 pt-6 border-t border-dashed border-current/25 flex flex-col items-center gap-2 text-center select-none">
-        {themeId === "notebook" && (
-          <div className="text-xs text-[#5a6878] font-bold" style={{ fontFamily: "'Patrick Hand', cursive" }}>
-            Made with Linkface
-          </div>
-        )}
-
-        {themeId === "pastel" && (
-          <div className="text-xs font-bold text-[#635f69]" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            Made with Linkface
-          </div>
-        )}
-
-        {themeId === "console" && (
-          <div className="text-[11px] font-mono text-[#64748b]">
-            <span className="text-[#4ade80]">//</span> Made with Linkface
-          </div>
-        )}
-
+        {/* Vintage flavor slogans (displayed above canonical Made with Linkface link) */}
         {themeId === "cassette" && (
           <div className="px-3 py-1 rounded bg-[#f0e6cf] border border-[#1a1a1a] text-[10px] font-mono font-bold tracking-wider text-[#1a1a1a] uppercase shadow-2xs">
-            MADE WITH LINKFACE • STEREO MIXTAPE
+            STEREO MIXTAPE // SIDE A
           </div>
         )}
 
         {themeId === "comic" && (
           <div className="px-3 py-1 rounded-lg bg-[#ffd400] border-2 border-[#111111] shadow-[2px_2px_0_#111111] text-[11px] font-black uppercase text-[#111111]" style={{ fontFamily: "'Bangers', cursive" }}>
-            MADE WITH LINKFACE • END OF CHAPTER!
+            END OF CHAPTER!
           </div>
         )}
 
         {themeId === "bauhaus" && (
           <div className="text-[10px] font-mono font-black tracking-[0.2em] text-[#151515] uppercase border-t-2 border-[#151515] pt-2 w-full">
-            FORM FOLLOWS FUNCTION • MADE WITH LINKFACE
+            FORM FOLLOWS FUNCTION
           </div>
         )}
 
         {themeId === "herbarium" && (
           <div className="text-xs italic text-[#7a8f6b] tracking-wider" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-            Pressed Specimen Archive • Made with Linkface
+            Pressed Specimen Archive
           </div>
         )}
 
         {themeId === "papercut" && (
           <div className="px-4 py-1 rounded bg-[#fffdf7] text-[#1b1b2f] text-xs font-bold shadow-sm" style={{ fontFamily: "'Fredoka', cursive" }}>
-            Crafted with layers • Made with Linkface
+            Crafted with layers
           </div>
         )}
 
         {themeId === "press" && (
           <div className="text-[10px] font-mono tracking-wider uppercase text-[#3d3a36]">
-            VOL. CIV • NO. 42 • PUBLISHED DAILY IN LUXURY INK
+            VOL. CIV • NO. 42 • PUBLISHED DAILY
           </div>
         )}
 
         {themeId === "vinyl" && (
           <div className="text-[10px] font-mono tracking-wider uppercase text-[#111111]">
-            CATALOGUE #LF-33RPM • STEREO RECORDING • 2026
+            CATALOGUE #LF-33RPM • STEREO RECORDING
           </div>
         )}
 
         {themeId === "truck-art" && (
           <div className="text-xs font-bold text-[#f9a602] tracking-wider" style={{ fontFamily: "'Yatra One', cursive" }}>
-            बुरी नज़र वाले तेरा मुँह काला • LINKFACE
+            बुरी नज़र वाले तेरा मुँह काला
           </div>
         )}
 
         {themeId === "riso" && (
           <div className="text-[10px] font-mono font-bold tracking-widest text-[#1a1a1a] uppercase">
-            PRINTED IN 2 SPOT COLORS: CYAN & MAGENTA
+            PRINTED IN 2 SPOT COLORS
           </div>
         )}
 
+        {/* Canonical Single "Made with Linkface" Link */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs font-semibold hover:opacity-100 opacity-70 transition-opacity mt-2"
+          className="inline-flex items-center gap-2 text-xs font-semibold hover:opacity-100 opacity-70 transition-opacity mt-1"
+          style={{
+            fontFamily:
+              themeId === "notebook"
+                ? "'Patrick Hand', cursive"
+                : themeId === "console"
+                ? "monospace"
+                : themeId === "pastel"
+                ? "'Poppins', sans-serif"
+                : undefined,
+          }}
         >
           <BrandLogo className="w-4 h-4 shadow-none" />
           <span>Made with Linkface</span>
@@ -826,7 +820,7 @@ export function ThemedPublicProfileView({
 
   return (
     <div
-      className="min-h-full sm:min-h-screen w-full flex flex-col items-center justify-between py-6 sm:py-10 px-3 sm:px-6 relative overflow-x-hidden select-none"
+      className="min-h-screen min-h-[100dvh] w-full flex flex-col items-center justify-center py-8 sm:py-12 px-3 sm:px-6 relative overflow-x-hidden select-none"
       style={{
         backgroundColor: theme.bg,
         color: theme.text,
@@ -858,7 +852,7 @@ export function ThemedPublicProfileView({
         }
       `}</style>
 
-      {/* Notebook Ruled Lines & Red Left Margin (Behind content only) */}
+      {/* Notebook Ruled Lines Background (Behind content only, spans entire viewport) */}
       {themeId === "notebook" && (
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
           {/* Repeating horizontal ruled lines */}
@@ -868,11 +862,6 @@ export function ThemedPublicProfileView({
               backgroundImage: "linear-gradient(transparent 31px, #c9d8ee 31px, #c9d8ee 32px)",
               backgroundSize: "100% 32px",
             }}
-          />
-          {/* Vertical red margin line on the left */}
-          <div
-            className="absolute top-0 bottom-0 w-[2px] bg-[#e07a7a] opacity-80"
-            style={{ left: "max(24px, calc(50% - 216px))" }}
           />
         </div>
       )}
@@ -1000,7 +989,7 @@ export function ThemedPublicProfileView({
 
       {/* Main Container Card */}
       <main
-        className={`w-full max-w-[460px] mx-auto p-4 sm:p-8 relative z-10 transition-all duration-300 ${
+        className={`w-full max-w-[460px] mx-auto p-5 sm:p-8 relative z-10 transition-all duration-300 my-auto ${
           themeId === "press"
             ? "border-4 border-[#141414] shadow-[8px_8px_0_#141414]"
             : themeId === "comic"
@@ -1009,6 +998,8 @@ export function ThemedPublicProfileView({
             ? "border-[3px] border-[#151515] shadow-[8px_8px_0_#151515] rounded-none"
             : themeId === "herbarium"
             ? "border border-[#7a8f6b]/40 shadow-sm rounded-2xl relative overflow-hidden"
+            : themeId === "notebook"
+            ? "border border-[#c9d8ee] shadow-[0_8px_30px_rgba(47,111,219,0.08)] rounded-2xl relative overflow-hidden"
             : "rounded-3xl shadow-lg"
         }`}
         style={{
@@ -1016,6 +1007,23 @@ export function ThemedPublicProfileView({
           color: theme.text,
         }}
       >
+        {/* Notebook Card Interior Ruled Lines & Red Left Margin (Inside sheet) */}
+        {themeId === "notebook" && (
+          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
+            {/* Ruled lines inside the card */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: "linear-gradient(transparent 31px, #c9d8ee 31px, #c9d8ee 32px)",
+                backgroundSize: "100% 32px",
+              }}
+            />
+            {/* Red margin line on the left inside the sheet */}
+            <div
+              className="absolute top-0 bottom-0 w-[2px] bg-[#e07a7a] opacity-80 left-7 sm:left-10"
+            />
+          </div>
+        )}
         {/* Herbarium In-Card Pressed Botanical Corner Florals (Guaranteed visible in both full desktop and phone preview) */}
         {themeId === "herbarium" && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">

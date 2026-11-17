@@ -92,7 +92,12 @@ export function DashboardClient({
     // Persist to local storage for instant sync across tabs and live preview link
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem(`linkface_profile_${profile.username}`, JSON.stringify(updatedProfile));
+        localStorage.setItem(`linkface_profile_${updatedProfile.username}`, JSON.stringify(updatedProfile));
+        localStorage.setItem(`linkface_preview_${updatedProfile.username}`, JSON.stringify({ profile: updatedProfile, links }));
+        if (profile.username && profile.username !== updatedProfile.username) {
+          localStorage.removeItem(`linkface_profile_${profile.username}`);
+          localStorage.removeItem(`linkface_preview_${profile.username}`);
+        }
       } catch (err) {
         console.error("Local sync error:", err);
       }

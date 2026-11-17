@@ -104,7 +104,7 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSerif.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-body bg-[#FFFFFF] text-[#18181B]">
+      <body className="min-h-full min-h-[100dvh] flex flex-col font-body bg-[#FFFFFF] text-[#18181B]">
         <SmoothScroll>{children}</SmoothScroll>
         <CookieConsentBanner />
       </body>

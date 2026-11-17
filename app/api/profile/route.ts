@@ -74,6 +74,47 @@ export async function PATCH(req: NextRequest) {
       updated_at: new Date().toISOString(),
     };
 
+    // Username validation and update
+    if (body.username !== undefined) {
+      const cleanUsername = String(body.username).toLowerCase().trim();
+      if (cleanUsername !== currentProfile.username) {
+        if (!/^[a-z0-9_]{3,30}$/.test(cleanUsername)) {
+          return NextResponse.json(
+            { error: "Username must be 3-30 characters long and contain only lowercase letters, numbers, and underscores." },
+            { status: 400 }
+          );
+        }
+
+        const RESERVED = [
+          "admin", "api", "dashboard", "settings", "auth", "signup", "login",
+          "onboarding", "pricing", "terms", "privacy", "help", "explore", "app"
+        ];
+        if (RESERVED.includes(cleanUsername)) {
+          return NextResponse.json(
+            { error: "This username is reserved. Please pick another." },
+            { status: 400 }
+          );
+        }
+
+        // Check if username is taken by another user
+        const { data: existingUser } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("username", cleanUsername)
+          .neq("id", user.id)
+          .maybeSingle();
+
+        if (existingUser) {
+          return NextResponse.json(
+            { error: "This username is already taken. Please choose another." },
+            { status: 409 }
+          );
+        }
+
+        updatePayload.username = cleanUsername;
+      }
+    }
+
     // Strict input length validation
     if (body.display_name !== undefined) {
       updatePayload.display_name = String(body.display_name || "").trim().slice(0, 60);
