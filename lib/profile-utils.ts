@@ -205,14 +205,6 @@ export function packProfileUpdates(
   if (updates.display_name !== undefined) dbPayload.display_name = updates.display_name;
   if (updates.avatar_url !== undefined) dbPayload.avatar_url = updates.avatar_url;
   if (updates.theme !== undefined) dbPayload.theme = updates.theme;
-  if (updates.spotlight_enabled !== undefined) dbPayload.spotlight_enabled = updates.spotlight_enabled;
-  if (updates.spotlight_creators !== undefined) {
-    dbPayload.spotlight_creators = updates.spotlight_creators;
-    dbPayload.featured_creators = updates.spotlight_creators;
-  } else if (updates.featured_creators !== undefined) {
-    dbPayload.spotlight_creators = updates.featured_creators;
-    dbPayload.featured_creators = updates.featured_creators;
-  }
 
   return { dbPayload, updatedProfile };
 }

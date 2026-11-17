@@ -60,14 +60,14 @@ export function DashboardClient({
         if (cached) {
           const parsed = JSON.parse(cached);
           if (parsed && typeof parsed === "object") {
-            setProfile((prev) => {
-              const hasFeatured = Array.isArray(prev.featured_creators) && prev.featured_creators.length > 0;
-              const cachedFeatured = Array.isArray(parsed.featured_creators) && parsed.featured_creators.length > 0;
-              if (!hasFeatured && cachedFeatured) {
-                return { ...prev, featured_creators: parsed.featured_creators };
-              }
-              return prev;
-            });
+            setProfile((prev) => ({
+              ...prev,
+              display_name: parsed.display_name !== undefined ? parsed.display_name : prev.display_name,
+              bio: parsed.bio !== undefined ? parsed.bio : prev.bio,
+              avatar_url: parsed.avatar_url !== undefined ? parsed.avatar_url : prev.avatar_url,
+              status_message: parsed.status_message !== undefined ? parsed.status_message : prev.status_message,
+              featured_creators: Array.isArray(parsed.featured_creators) ? parsed.featured_creators : prev.featured_creators,
+            }));
           }
         }
       } catch (err) {
@@ -116,6 +116,8 @@ export function DashboardClient({
 
       if (error) {
         console.error("Error updating profile in Supabase:", error);
+      } else {
+        router.refresh();
       }
     } catch (err) {
       console.error("Unexpected profile update error:", err);
