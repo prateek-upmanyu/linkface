@@ -97,12 +97,18 @@ export default async function DashboardPage() {
     .eq("user_id", user.id)
     .order("position", { ascending: true });
 
+  const rawLinks = (links || []).map((l: any) => ({
+    ...l,
+    custom_icon: l.custom_icon || (l.platform?.startsWith("custom:") ? l.platform.slice(7) : null),
+    platform: l.platform?.startsWith("custom:") ? null : l.platform,
+  }));
+
   const hydratedProfile = unpackProfile(profile);
 
   return (
     <DashboardClient
       initialProfile={hydratedProfile}
-      initialLinks={(links as LinkItem[]) || []}
+      initialLinks={rawLinks as LinkItem[]}
       isDemoMode={false}
     />
   );

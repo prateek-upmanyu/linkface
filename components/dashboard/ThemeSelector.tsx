@@ -63,7 +63,7 @@ export function ThemeSelector({
       ? `${window.location.origin}/${profile.username}`
       : `/${profile.username}`;
 
-  const handleSelectTheme = (theme: ProfileThemeConfig) => {
+  const handleSelectTheme = async (theme: ProfileThemeConfig) => {
     // If it's a Pro theme and user is on Free plan, trigger upgrade modal
     if (theme.isPro && !isPro) {
       setTargetThemeName(theme.name);
@@ -77,6 +77,18 @@ export function ThemeSelector({
     // Update the live preview immediately so user sees their page in real-time
     if (onPreviewTheme) {
       onPreviewTheme(theme.id as ThemeId);
+    }
+
+    // Auto-save immediately to database
+    try {
+      setIsSavingTheme(true);
+      await onUpdateProfile({ theme: theme.id as ThemeId });
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (err) {
+      console.error("Failed to auto-save theme:", err);
+    } finally {
+      setIsSavingTheme(false);
     }
   };
 

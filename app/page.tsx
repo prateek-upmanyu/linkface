@@ -106,17 +106,17 @@ export default function LandingPage() {
             : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className="quiet-container h-full flex items-center justify-between gap-3">
+        <div className="quiet-container h-full flex items-center justify-between gap-2 sm:gap-6">
           {/* Logo Left */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+          <Link href="/" className="flex items-center gap-1.5 sm:gap-2.5 group shrink-0">
             <BrandLogo className="w-7 h-7 sm:w-8 sm:h-8 shrink-0 transition-transform group-hover:scale-105" />
-            <span className="font-heading text-xl sm:text-2xl font-bold tracking-tight text-[#18181B] whitespace-nowrap">
+            <span className="font-heading text-lg sm:text-2xl font-bold tracking-tight text-[#18181B] whitespace-nowrap">
               Link<span className="text-[#F39C12]">face</span>
             </span>
           </Link>
 
           {/* Simple Navigation Links & Action Button */}
-          <div className="flex items-center gap-3 sm:gap-8 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-6 shrink-0">
             <nav className="hidden md:flex items-center gap-6">
               <a
                 href="#how-it-works"
@@ -152,18 +152,19 @@ export default function LandingPage() {
                 Dashboard →
               </Link>
             ) : (
-              <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                 <Link
                   href="/login"
-                  className="text-[11px] sm:text-xs uppercase font-bold tracking-wider text-[#4B5563] hover:text-[#E67E22] px-2 sm:px-3 py-1.5 rounded-full hover:bg-black/5 whitespace-nowrap transition-all"
+                  className="text-[11px] sm:text-xs uppercase font-bold tracking-wider text-[#4B5563] hover:text-[#E67E22] px-2 sm:px-3 py-1.5 rounded-full hover:bg-black/5 whitespace-nowrap shrink-0 transition-all inline-block"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/signup"
-                  className="btn-champagne text-[11px] sm:text-xs uppercase tracking-wider px-3 sm:px-5 py-2 sm:py-2.5 rounded-full whitespace-nowrap shrink-0 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all"
+                  className="btn-champagne text-[11px] sm:text-xs uppercase tracking-wider px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full whitespace-nowrap shrink-0 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all inline-flex items-center justify-center"
                 >
-                  Claim Your Link
+                  <span className="hidden sm:inline">Claim Your Link</span>
+                  <span className="sm:hidden">Claim Link</span>
                 </Link>
               </div>
             )}

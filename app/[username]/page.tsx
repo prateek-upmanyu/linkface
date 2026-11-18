@@ -41,8 +41,12 @@ async function getProfileAndLinks(
 
         const unpacked = unpackProfile(profile);
         const isPro = unpacked.plan === "pro";
-        const visibleLinks = links || [];
-        const displayedLinks = isPro ? visibleLinks : visibleLinks.slice(0, 3);
+        const rawLinks = (links || []).map((l: any) => ({
+          ...l,
+          custom_icon: l.custom_icon || (l.platform?.startsWith("custom:") ? l.platform.slice(7) : null),
+          platform: l.platform?.startsWith("custom:") ? null : l.platform,
+        }));
+        const displayedLinks = isPro ? rawLinks : rawLinks.slice(0, 3);
         const safeProfile: Profile = {
           ...unpacked,
           theme: isPro

@@ -26,20 +26,14 @@ export function PublicProfileView({
   const [profile, setProfile] = useState<Profile>(initialProfile);
   const [links, setLinks] = useState<LinkItem[]>(initialLinks);
 
-  // Sync with local edits if previewing in same browser
+  // Keep state synchronized when server props revalidate
   useEffect(() => {
-    const key = `linkface_preview_${initialProfile.username}`;
-    const stored = localStorage.getItem(key);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (parsed.profile) setProfile(parsed.profile);
-        if (parsed.links) setLinks(parsed.links);
-      } catch (err) {
-        console.error("Local sync hydration error:", err);
-      }
-    }
-  }, [initialProfile.username]);
+    setProfile(initialProfile);
+  }, [initialProfile]);
+
+  useEffect(() => {
+    setLinks(initialLinks);
+  }, [initialLinks]);
 
   const isPro = profile.plan === "pro";
 

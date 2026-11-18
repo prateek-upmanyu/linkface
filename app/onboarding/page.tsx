@@ -51,24 +51,20 @@ export default function OnboardingPage() {
     setSubmitError("");
 
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        router.push("/dashboard");
-        return;
-      }
-
-      const { error: insertError } = await supabase.from("profiles").upsert({
-        id: user.id,
-        username: username.toLowerCase().trim(),
-        display_name: displayName.trim() || username.toLowerCase().trim(),
-        theme: "notebook",
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username.toLowerCase().trim(),
+          display_name: displayName.trim() || username.toLowerCase().trim(),
+          theme: "notebook",
+        }),
       });
 
-      if (insertError) {
-        setSubmitError("Failed to save profile. Please choose another username.");
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setSubmitError(data.error || "Failed to save profile. Please choose another username.");
         setIsSubmitting(false);
         return;
       }

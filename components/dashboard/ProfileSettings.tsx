@@ -506,6 +506,14 @@ export function ProfileSettings({
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
+                onBlur={() => {
+                  const clean = displayName.trim();
+                  if (clean !== (profile.display_name || "")) {
+                    onUpdateProfile({ display_name: clean || null });
+                    setIsSaved(true);
+                    setTimeout(() => setIsSaved(false), 2000);
+                  }
+                }}
                 placeholder="Alex Rivera"
                 className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-semibold text-[#18181B] focus:outline-none focus:border-[#F39C12]"
               />
@@ -518,6 +526,14 @@ export function ProfileSettings({
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
+                onBlur={() => {
+                  const clean = bio.trim();
+                  if (clean !== (profile.bio || "")) {
+                    onUpdateProfile({ bio: clean || null });
+                    setIsSaved(true);
+                    setTimeout(() => setIsSaved(false), 2000);
+                  }
+                }}
                 placeholder="Brief intro about your work or projects..."
                 rows={3}
                 className="w-full px-3.5 py-2 rounded-[12px] bg-[#FFFFFF] border-2 border-[#E5E7EB] text-xs sm:text-sm font-medium text-[#18181B] focus:outline-none focus:border-[#F39C12] resize-none"

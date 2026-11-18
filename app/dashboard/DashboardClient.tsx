@@ -52,29 +52,14 @@ export function DashboardClient({
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Hydrate from localStorage on client mount if available
+  // Synchronize state when server revalidates props
   useEffect(() => {
-    if (typeof window !== "undefined" && initialProfile?.username) {
-      try {
-        const cached = localStorage.getItem(`linkface_profile_${initialProfile.username}`);
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (parsed && typeof parsed === "object") {
-            setProfile((prev) => ({
-              ...prev,
-              display_name: parsed.display_name !== undefined ? parsed.display_name : prev.display_name,
-              bio: parsed.bio !== undefined ? parsed.bio : prev.bio,
-              avatar_url: parsed.avatar_url !== undefined ? parsed.avatar_url : prev.avatar_url,
-              status_message: parsed.status_message !== undefined ? parsed.status_message : prev.status_message,
-              featured_creators: Array.isArray(parsed.featured_creators) ? parsed.featured_creators : prev.featured_creators,
-            }));
-          }
-        }
-      } catch (err) {
-        console.error("Local profile hydration error:", err);
-      }
-    }
-  }, [initialProfile?.username]);
+    if (initialProfile) setProfile(initialProfile);
+  }, [initialProfile]);
+
+  useEffect(() => {
+    if (initialLinks) setLinks(initialLinks);
+  }, [initialLinks]);
 
   const publicUrl =
     typeof window !== "undefined"
@@ -86,22 +71,8 @@ export function DashboardClient({
     if (updates.theme) {
       setPreviewThemeOverride(undefined);
     }
-    const { dbPayload, updatedProfile } = packProfileUpdates(updates, profile);
+    const { updatedProfile } = packProfileUpdates(updates, profile);
     setProfile(updatedProfile);
-
-    // Persist to local storage for instant sync across tabs and live preview link
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem(`linkface_profile_${updatedProfile.username}`, JSON.stringify(updatedProfile));
-        localStorage.setItem(`linkface_preview_${updatedProfile.username}`, JSON.stringify({ profile: updatedProfile, links }));
-        if (profile.username && profile.username !== updatedProfile.username) {
-          localStorage.removeItem(`linkface_profile_${profile.username}`);
-          localStorage.removeItem(`linkface_preview_${profile.username}`);
-        }
-      } catch (err) {
-        console.error("Local sync error:", err);
-      }
-    }
 
     if (isDemoMode) {
       setTimeout(() => setIsSaving(false), 200);
@@ -109,18 +80,24 @@ export function DashboardClient({
     }
 
     try {
-      const { error } = await supabase
-        .from("profiles")
-        .update(dbPayload)
-        .eq("id", profile.id);
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
 
-      if (error) {
-        console.error("Error updating profile in Supabase:", error);
-      } else {
-        router.refresh();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to update profile.");
       }
-    } catch (err) {
+
+      if (data.profile) {
+        setProfile(data.profile);
+      }
+      router.refresh();
+    } catch (err: any) {
       console.error("Unexpected profile update error:", err);
+      alert(err.message || "Failed to save profile changes. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -129,96 +106,30 @@ export function DashboardClient({
   const handleSaveLinks = async (updatedLinks: LinkItem[]) => {
     setLinks(updatedLinks);
 
-    // Persist links to local storage for instant sync across tabs
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem(`linkface_links_${profile.username}`, JSON.stringify(updatedLinks));
-      } catch (err) {
-        console.error("Local links sync error:", err);
-      }
-    }
-
     if (isDemoMode) return;
 
     try {
-      // 1. Process deletions
-      const currentIds = updatedLinks.map((l) => l.id).filter((id) => !id.startsWith("temp-"));
-      const originalIds = links.map((l) => l.id).filter((id) => !id.startsWith("temp-"));
-      const deletedIds = originalIds.filter((id) => !currentIds.includes(id));
+      setIsSaving(true);
+      const res = await fetch("/api/links", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ links: updatedLinks }),
+      });
 
-      if (deletedIds.length > 0) {
-        await supabase
-          .from("links")
-          .delete()
-          .in("id", deletedIds)
-          .eq("user_id", profile.id);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to save links.");
       }
 
-      // 2. Process upserts
-      for (const item of updatedLinks) {
-        const urlValidation = sanitizeAndValidateUrl(item.url);
-        const safeUrl = urlValidation.isValid ? urlValidation.sanitizedUrl : item.url;
-        const safeTitle = (item.title || "My Link").trim().slice(0, 100);
-
-        const linkData: any = {
-          user_id: profile.id,
-          url: safeUrl,
-          title: safeTitle,
-          platform: item.platform,
-          position: item.position,
-          is_visible: item.is_visible,
-          badge: item.badge ? item.badge.trim().slice(0, 20) : null,
-          custom_icon: item.custom_icon || null,
-        };
-
-        if (item.id.startsWith("temp-")) {
-          let { data, error } = await supabase
-            .from("links")
-            .insert(linkData)
-            .select()
-            .single();
-
-          if (error && error.message?.toLowerCase().includes("custom_icon")) {
-            delete linkData.custom_icon;
-            const retry = await supabase.from("links").insert(linkData).select().single();
-            data = retry.data;
-            error = retry.error;
-          }
-
-          if (data && !error) {
-            setLinks((prev) =>
-              prev.map((l) => (l.id === item.id ? { ...l, id: data.id } : l))
-            );
-          }
-        } else {
-          const updateData: any = {
-            url: safeUrl,
-            title: safeTitle,
-            platform: item.platform,
-            position: item.position,
-            is_visible: item.is_visible,
-            badge: item.badge ? item.badge.trim().slice(0, 20) : null,
-            custom_icon: item.custom_icon || null,
-          };
-
-          const { error } = await supabase
-            .from("links")
-            .update(updateData)
-            .eq("id", item.id)
-            .eq("user_id", profile.id);
-
-          if (error && error.message?.toLowerCase().includes("custom_icon")) {
-            delete updateData.custom_icon;
-            await supabase
-              .from("links")
-              .update(updateData)
-              .eq("id", item.id)
-              .eq("user_id", profile.id);
-          }
-        }
+      if (data.links && Array.isArray(data.links)) {
+        setLinks(data.links);
       }
-    } catch (err) {
+      router.refresh();
+    } catch (err: any) {
       console.error("Error saving links:", err);
+      alert(err.message || "Failed to save links. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
