@@ -65,7 +65,10 @@ export default async function DashboardPage() {
       desiredUsername = `${desiredUsername}_${user.id.slice(0, 4)}`;
     }
 
-    const { data: newProfile } = await supabase
+    const { createAdminSupabaseClient } = await import("@/lib/supabase/server");
+    const dbClient = createAdminSupabaseClient() || supabase;
+
+    const { data: newProfile } = await dbClient
       .from("profiles")
       .upsert(
         {
