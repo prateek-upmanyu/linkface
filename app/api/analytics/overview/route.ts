@@ -159,27 +159,6 @@ export async function GET(req: NextRequest) {
       // link_clicks table may be migrating
     }
 
-    // If no individual click logs exist yet, generate baseline geo estimation from total clicks
-    if (recentClicks.length === 0 && totalLinkClicks > 0) {
-      // Provide realistic geo representation based on visitor origins
-      const baselineCountries = [
-        { name: "India", code: "IN", count: Math.ceil(totalLinkClicks * 0.72) },
-        { name: "United States", code: "US", count: Math.floor(totalLinkClicks * 0.18) },
-        { name: "United Kingdom", code: "GB", count: Math.max(0, totalLinkClicks - Math.ceil(totalLinkClicks * 0.72) - Math.floor(totalLinkClicks * 0.18)) },
-      ].filter((c) => c.count > 0);
-
-      for (const bc of baselineCountries) {
-        countryCounts[bc.name] = bc;
-      }
-
-      stateCounts["Maharashtra_India"] = { name: "Maharashtra", country: "India", count: Math.ceil(totalLinkClicks * 0.45) };
-      stateCounts["Delhi_India"] = { name: "Delhi", country: "India", count: Math.ceil(totalLinkClicks * 0.27) };
-
-      cityCounts["Mumbai_Maharashtra_India"] = { name: "Mumbai", state: "Maharashtra", country: "India", count: Math.ceil(totalLinkClicks * 0.38) };
-      cityCounts["New Delhi_Delhi_India"] = { name: "New Delhi", state: "Delhi", country: "India", count: Math.ceil(totalLinkClicks * 0.25) };
-      cityCounts["Pune_Maharashtra_India"] = { name: "Pune", state: "Maharashtra", country: "India", count: Math.max(1, Math.floor(totalLinkClicks * 0.12)) };
-    }
-
     // Format countries array sorted by count desc
     const totalGeoCount = Object.values(countryCounts).reduce((sum, c) => sum + c.count, 0);
     const sortedCountries = Object.values(countryCounts)

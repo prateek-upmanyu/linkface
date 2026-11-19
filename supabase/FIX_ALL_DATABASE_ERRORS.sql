@@ -128,5 +128,37 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
--- 6. Reload schema cache immediately
+-- 6. Create link_clicks table for accurate real-life location and timestamp analytics
+CREATE TABLE IF NOT EXISTS public.link_clicks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  link_id UUID REFERENCES public.links(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+  country_code VARCHAR(10) DEFAULT 'IN',
+  country_name VARCHAR(100) DEFAULT 'India',
+  region_state VARCHAR(100) DEFAULT 'Maharashtra',
+  city VARCHAR(100) DEFAULT NULL,
+  referrer TEXT DEFAULT NULL,
+  user_agent TEXT DEFAULT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_link_clicks_user_created ON public.link_clicks(user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_link_clicks_link_created ON public.link_clicks(link_id, created_at DESC);
+
+ALTER TABLE public.link_clicks ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public can record link clicks" ON public.link_clicks;
+CREATE POLICY "Public can record link clicks"
+  ON public.link_clicks FOR INSERT
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Users can view their own link click analytics" ON public.link_clicks;
+CREATE POLICY "Users can view their own link click analytics"
+  ON public.link_clicks FOR SELECT
+  TO authenticated
+  USING (auth.uid() = user_id);
+
+GRANT ALL ON public.link_clicks TO anon, authenticated, service_role;
+
+-- 7. Reload schema cache immediately
 NOTIFY pgrst, 'reload schema';
