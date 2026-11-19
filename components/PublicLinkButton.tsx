@@ -6,6 +6,7 @@ import { PLATFORMS, getPlatformBadgeStyle } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { playClickSound } from "@/lib/sound-fx";
 import { getTheme, ThemeConfig } from "@/lib/themes";
+import { recordClickWithGeo } from "@/lib/client-geo";
 import { ArrowRight } from "lucide-react";
 
 interface PublicLinkButtonProps {
@@ -41,12 +42,7 @@ export function PublicLinkButton({ link, themeId, themeConfig }: PublicLinkButto
       return;
     }
 
-    fetch("/api/click", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ linkId: link.id }),
-      keepalive: true,
-    }).catch((err) => console.error("Click track error:", err));
+    recordClickWithGeo({ linkId: link.id });
   };
 
   // Adaptive platform icon color ensuring WCAG AA contrast against theme surface

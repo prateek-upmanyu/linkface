@@ -3,6 +3,7 @@
 import React from "react";
 import { FeaturedCreator, ThemeId } from "@/types";
 import { getTheme } from "@/lib/themes";
+import { recordClickWithGeo } from "@/lib/client-geo";
 import { ArrowUpRight } from "lucide-react";
 
 interface FeaturedCreatorsProps {
@@ -152,12 +153,7 @@ export function FeaturedCreators({
 
           const handleSpotlightClick = () => {
             try {
-              fetch("/api/click", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ spotlightId: creator.id || creator.url }),
-                keepalive: true,
-              }).catch(() => {});
+              recordClickWithGeo({ spotlightId: creator.id || creator.url });
             } catch {}
           };
 

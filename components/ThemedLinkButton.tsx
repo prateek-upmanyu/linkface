@@ -6,6 +6,7 @@ import { PLATFORMS } from "@/lib/platforms";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { playClickSound } from "@/lib/sound-fx";
 import { ProfileThemeId, getProfileTheme } from "@/lib/profile-themes-config";
+import { recordClickWithGeo } from "@/lib/client-geo";
 import { ArrowRight, ArrowUpRight, Leaf } from "lucide-react";
 
 interface ThemedLinkButtonProps {
@@ -40,12 +41,7 @@ export function ThemedLinkButton({ link, themeId, index }: ThemedLinkButtonProps
       return;
     }
 
-    fetch("/api/click", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ linkId: link.id }),
-      keepalive: true,
-    }).catch(() => {});
+    recordClickWithGeo({ linkId: link.id });
   };
 
   const effectiveIcon = link.custom_icon || favicon;

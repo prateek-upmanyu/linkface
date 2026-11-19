@@ -5,6 +5,7 @@ import { Profile, LinkItem, FeaturedCreator } from "@/types";
 import { ProfileThemeId, getProfileTheme } from "@/lib/profile-themes-config";
 import { ThemedLinkButton } from "@/components/ThemedLinkButton";
 import { BrandLogo } from "@/components/BrandLogo";
+import { recordClickWithGeo } from "@/lib/client-geo";
 import Link from "next/link";
 import { ExternalLink, Star, Sparkles } from "lucide-react";
 
@@ -575,12 +576,7 @@ export function ThemedPublicProfileView({
                 rel="noopener noreferrer"
                 onClick={() => {
                   try {
-                    fetch("/api/click", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ spotlightId: c.id || c.url }),
-                      keepalive: true,
-                    }).catch(() => {});
+                    recordClickWithGeo({ spotlightId: c.id || c.url });
                   } catch {}
                 }}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[#26303b]/25 bg-white text-xs font-bold text-[#26303b] shadow-xs hover:border-[#2f6fdb] hover:shadow-sm transition-all"
@@ -619,12 +615,7 @@ export function ThemedPublicProfileView({
                 rel="noopener noreferrer"
                 onClick={() => {
                   try {
-                    fetch("/api/click", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ spotlightId: c.id || c.url }),
-                      keepalive: true,
-                    }).catch(() => {});
+                    recordClickWithGeo({ spotlightId: c.id || c.url });
                   } catch {}
                 }}
                 style={{ backgroundColor: PASTEL_PILLS[i % PASTEL_PILLS.length] }}
@@ -658,12 +649,7 @@ export function ThemedPublicProfileView({
                 rel="noopener noreferrer"
                 onClick={() => {
                   try {
-                    fetch("/api/click", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ spotlightId: c.id || c.url }),
-                      keepalive: true,
-                    }).catch(() => {});
+                    recordClickWithGeo({ spotlightId: c.id || c.url });
                   } catch {}
                 }}
                 className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#171a21] border border-[#20242d] hover:border-[#4ade80] text-xs font-mono text-[#e6e9ef] transition-colors"
@@ -707,12 +693,7 @@ export function ThemedPublicProfileView({
               rel="noopener noreferrer"
               onClick={() => {
                 try {
-                  fetch("/api/click", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ spotlightId: c.id || c.url }),
-                    keepalive: true,
-                  }).catch(() => {});
+                  recordClickWithGeo({ spotlightId: c.id || c.url });
                 } catch {}
               }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-current/30 hover:border-current bg-current/5 hover:bg-current/10 transition-all text-xs font-semibold select-none group"

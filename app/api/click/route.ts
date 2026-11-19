@@ -7,6 +7,37 @@ export const dynamic = "force-dynamic";
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+function sanitizeString(val: unknown, maxLen = 80): string {
+  if (typeof val !== "string") return "";
+  return val.replace(/[\u0000-\u001F\u007F-\u009F<>]/g, "").trim().slice(0, maxLen);
+}
+
+function resolveClickGeo(request: Request, clientGeo: any) {
+  const edgeGeo = extractGeoFromRequest(request);
+
+  const clientCity = sanitizeString(clientGeo?.city, 80);
+  const clientRegion = sanitizeString(clientGeo?.regionState, 80);
+  const clientCountryName = sanitizeString(clientGeo?.countryName, 80);
+  const clientCountryCode = sanitizeString(clientGeo?.countryCode, 4).toUpperCase();
+
+  // If client provided an accurate city (e.g. Ratnagiri, Kolhapur), prioritize it over edge ISP gateway IP
+  const isCityValid =
+    Boolean(clientCity) &&
+    clientCity.length >= 2 &&
+    clientCity !== "UNKNOWN" &&
+    clientCity !== "Direct";
+
+  return {
+    countryCode:
+      clientCountryCode && clientCountryCode.length === 2
+        ? clientCountryCode
+        : edgeGeo.countryCode,
+    countryName: clientCountryName || edgeGeo.countryName,
+    regionState: clientRegion || edgeGeo.regionState,
+    city: isCityValid ? clientCity : edgeGeo.city,
+  };
+}
+
 export async function POST(request: Request) {
   try {
     // Rate limit: max 60 clicks per minute per IP
@@ -20,7 +51,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json().catch(() => ({}));
-    const { linkId, spotlightId, profileUsername } = body;
+    const { linkId, spotlightId, profileUsername, clientGeo } = body;
 
     const adminSupabase = createAdminSupabaseClient();
     const supabase = adminSupabase || (await createServerSupabaseClient());
@@ -28,12 +59,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
+    // Resolve accurate city and geolocation
+    const geo = resolveClickGeo(request, clientGeo);
+    const clickedAt = new Date().toISOString();
+
     // 1. Handle Link clicks
     if (linkId && typeof linkId === "string" && UUID_REGEX.test(linkId)) {
-      // Extract exact geolocation and timestamp
-      const geo = extractGeoFromRequest(request);
-      const clickedAt = new Date().toISOString();
-
       // Look up link owner user_id to associate click for owner's analytics
       let linkOwnerId: string | null = null;
       try {
@@ -81,9 +112,6 @@ export async function POST(request: Request) {
 
     // 2. Handle Spotlight clicks
     if (spotlightId || profileUsername) {
-      const geo = extractGeoFromRequest(request);
-      const clickedAt = new Date().toISOString();
-
       try {
         await supabase.from("link_clicks").insert({
           link_id: null,
