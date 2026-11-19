@@ -12,6 +12,7 @@ import {
   Sparkles,
   Globe2,
   MapPin,
+  Building2,
   Clock,
   ExternalLink,
   Users2,
@@ -42,6 +43,13 @@ interface GeoCountry {
 
 interface GeoState {
   name: string;
+  country: string;
+  count: number;
+}
+
+interface GeoCity {
+  name: string;
+  state: string;
   country: string;
   count: number;
 }
@@ -115,6 +123,7 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
   });
   const [countries, setCountries] = useState<GeoCountry[]>([]);
   const [states, setStates] = useState<GeoState[]>([]);
+  const [cities, setCities] = useState<GeoCity[]>([]);
   const [recentClicks, setRecentClicks] = useState<RecentClickItem[]>([]);
 
   const fetchAnalyticsOverview = async () => {
@@ -129,6 +138,7 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
         if (data.geoBreakdown) {
           setCountries(data.geoBreakdown.countries || []);
           setStates(data.geoBreakdown.states || []);
+          setCities(data.geoBreakdown.cities || []);
         }
         if (data.recentClicks) {
           setRecentClicks(data.recentClicks);
@@ -294,8 +304,8 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
         )}
       </div>
 
-      {/* Geolocation Visitor Breakdown: Country & State */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Geolocation Visitor Breakdown: Country, State & City */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Country Breakdown */}
         <div className="p-5 sm:p-6 rounded-[16px] bg-[#FFFFFF] border border-[#E5E7EB] shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3">
@@ -304,7 +314,7 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
               Visitor Countries
             </h3>
             <span className="text-xs text-[#6B7280] font-semibold">
-              Real-world click origin
+              Real-world origin
             </span>
           </div>
 
@@ -349,10 +359,10 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
           <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3">
             <h3 className="font-heading text-lg font-bold text-[#18181B] flex items-center gap-2">
               <MapPin className="w-4 h-4 text-[#F39C12]" />
-              Visitor States & Regions
+              States & Regions
             </h3>
             <span className="text-xs text-[#6B7280] font-semibold">
-              Top locations
+              Top states
             </span>
           </div>
 
@@ -376,6 +386,45 @@ export function AnalyticsTab({ profile, links }: AnalyticsTabProps) {
                   </div>
                   <span className="font-heading font-bold text-xs text-[#18181B] font-mono shrink-0">
                     {s.count} clicks
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* City Breakdown */}
+        <div className="p-5 sm:p-6 rounded-[16px] bg-[#FFFFFF] border border-[#E5E7EB] shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3">
+            <h3 className="font-heading text-lg font-bold text-[#18181B] flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-[#E67E22]" />
+              Top Visitor Cities
+            </h3>
+            <span className="text-xs text-[#6B7280] font-semibold">
+              Cities & metros
+            </span>
+          </div>
+
+          {cities.length === 0 ? (
+            <p className="text-xs text-[#9CA3AF] py-8 text-center font-medium">
+              No city data recorded yet.
+            </p>
+          ) : (
+            <div className="space-y-3 pt-1">
+              {cities.map((city) => (
+                <div
+                  key={`${city.name}_${city.state}_${city.country}`}
+                  className="p-3 rounded-xl bg-[#FFFDF9] border border-[#E5E7EB] flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
+                    <Building2 className="w-3.5 h-3.5 text-[#F39C12] shrink-0" />
+                    <span className="text-xs font-bold text-[#18181B] truncate">
+                      {city.name}
+                    </span>
+                    <span className="text-[11px] text-[#9CA3AF] shrink-0">({city.state})</span>
+                  </div>
+                  <span className="font-heading font-bold text-xs text-[#18181B] font-mono shrink-0">
+                    {city.count} clicks
                   </span>
                 </div>
               ))}

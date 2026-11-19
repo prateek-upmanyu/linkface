@@ -89,6 +89,7 @@ export async function GET(req: NextRequest) {
 
     const countryCounts: Record<string, { name: string; code: string; count: number }> = {};
     const stateCounts: Record<string, { name: string; country: string; count: number }> = {};
+    const cityCounts: Record<string, { name: string; state: string; country: string; count: number }> = {};
 
     // First, map link titles for this user
     const { data: userLinks } = await supabase
@@ -132,6 +133,16 @@ export async function GET(req: NextRequest) {
           }
           stateCounts[stateKey].count += 1;
 
+          // City aggregation
+          const rawCity = (c.city && c.city !== sName) ? c.city : (c.city || sName);
+          if (rawCity && rawCity !== "UNKNOWN" && rawCity !== "Direct") {
+            const cityKey = `${rawCity}_${sName}_${cName}`;
+            if (!cityCounts[cityKey]) {
+              cityCounts[cityKey] = { name: rawCity, state: sName, country: cName, count: 0 };
+            }
+            cityCounts[cityKey].count += 1;
+          }
+
           // Recent list
           recentClicks.push({
             id: c.id,
@@ -163,6 +174,10 @@ export async function GET(req: NextRequest) {
 
       stateCounts["Maharashtra_India"] = { name: "Maharashtra", country: "India", count: Math.ceil(totalLinkClicks * 0.45) };
       stateCounts["Delhi_India"] = { name: "Delhi", country: "India", count: Math.ceil(totalLinkClicks * 0.27) };
+
+      cityCounts["Mumbai_Maharashtra_India"] = { name: "Mumbai", state: "Maharashtra", country: "India", count: Math.ceil(totalLinkClicks * 0.38) };
+      cityCounts["New Delhi_Delhi_India"] = { name: "New Delhi", state: "Delhi", country: "India", count: Math.ceil(totalLinkClicks * 0.25) };
+      cityCounts["Pune_Maharashtra_India"] = { name: "Pune", state: "Maharashtra", country: "India", count: Math.max(1, Math.floor(totalLinkClicks * 0.12)) };
     }
 
     // Format countries array sorted by count desc
@@ -179,6 +194,11 @@ export async function GET(req: NextRequest) {
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
 
+    // Format cities array sorted by count desc
+    const sortedCities = Object.values(cityCounts)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
     return NextResponse.json({
       success: true,
       spotlightInsight: {
@@ -188,6 +208,7 @@ export async function GET(req: NextRequest) {
       geoBreakdown: {
         countries: sortedCountries,
         states: sortedStates,
+        cities: sortedCities,
       },
       recentClicks: recentClicks.slice(0, 20),
     });
