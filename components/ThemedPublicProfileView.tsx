@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Profile, LinkItem, FeaturedCreator } from "@/types";
 import { ProfileThemeId, getProfileTheme } from "@/lib/profile-themes-config";
 import { ThemedLinkButton } from "@/components/ThemedLinkButton";
+import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { BrandLogo } from "@/components/BrandLogo";
 import { recordClickWithGeo } from "@/lib/client-geo";
 import Link from "next/link";
@@ -1137,6 +1138,9 @@ export function ThemedPublicProfileView({
               {profile.bio}
             </p>
           )}
+
+          {/* Quick Links Icon Bar under Username / Bio */}
+          <HeaderQuickLinks links={visibleLinks} />
         </div>
 
         {/* Links Stack or 2-Column Grid */}

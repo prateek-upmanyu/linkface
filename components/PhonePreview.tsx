@@ -5,6 +5,7 @@ import { Profile, LinkItem } from "@/types";
 import { SpeechBubble } from "@/components/SpeechBubble";
 import { FeaturedCreators } from "@/components/FeaturedCreators";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
+import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { SoundToggle } from "@/components/SoundToggle";
 import { ProfileSpotlight } from "@/components/ProfileSpotlight";
 import { getTheme } from "@/lib/themes";
@@ -169,6 +170,9 @@ export function PhonePreview({
               {profile.bio}
             </p>
           )}
+
+          {/* Quick Links Icon Bar under Username / Bio */}
+          <HeaderQuickLinks links={displayedLinks} className="mt-2.5" />
         </div>
 
         {/* Links List with Stagger */}

@@ -6,6 +6,7 @@ import { getTheme, isProTheme } from "@/lib/themes";
 import { isNewProfileTheme, ProfileThemeId } from "@/lib/profile-themes-config";
 import { ThemedPublicProfileView } from "@/components/ThemedPublicProfileView";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
+import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { SoundToggle } from "@/components/SoundToggle";
 import { SpeechBubble } from "@/components/SpeechBubble";
@@ -158,6 +159,9 @@ export function PublicProfileView({
             {profile.bio}
           </p>
         )}
+
+        {/* Quick Links Icon Bar under Username / Bio */}
+        <HeaderQuickLinks links={displayedLinks} className="mt-3.5" />
 
         {/* Links Stack */}
         <div className="w-full space-y-3 mt-7">
